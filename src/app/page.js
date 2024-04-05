@@ -8,17 +8,30 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [Selected, setSelected] = useState("Brand Appeal");
   const [currentPage, setcurrentPage] = useState(1);
+  const [smGrid, setsmGrid] = useState(false);
+
   const data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
   return (
     <main>
       <div className="flex">
         <Sidebar setSelected={setSelected} Selected={Selected} />
         <div className="flex flex-col w-full px-12 py-9 gap-10">
-          <TopBar currentState={Selected} />
+          <TopBar
+            currentState={Selected}
+            setsmGrid={setsmGrid}
+            smGrid={smGrid}
+          />
           <div className="w-full h-[12.5rem] bg-borderC rounded-[17px]"></div>
-          <div className="grid grid-cols-3 gap-5">
+          <div
+            className={`grid ${smGrid ? "grid-cols-4" : "grid-cols-3"} gap-5`}
+          >
             {data.map((it, index) => (
-              <ProductCard name={"Team Sports 1.0"} key={index} />
+              <ProductCard
+                name={"Team Sports 1.0"}
+                key={index}
+                smGrid={smGrid}
+              />
             ))}
           </div>
           <PagesAdder

@@ -127,18 +127,18 @@ const block4 = (
     width="25"
     height="25"
     viewBox="0 0 27 27"
-    fill="none"
+    fill="black"
   >
-    <rect x="14.7266" width="12.2727" height="12.2727" fill="black" />
-    <rect width="12.2727" height="12.2727" fill="black" />
+    <rect x="14.7266" width="12.2727" height="12.2727" fill="inherit" />
+    <rect width="12.2727" height="12.2727" fill="inherit" />
     <rect
       x="14.7266"
       y="14.7275"
       width="12.2727"
       height="12.2727"
-      fill="black"
+      fill="inherit"
     />
-    <rect y="14.7275" width="12.2727" height="12.2727" fill="black" />
+    <rect y="14.7275" width="12.2727" height="12.2727" fill="inherit" />
   </svg>
 );
 
@@ -148,52 +148,52 @@ const block6 = (
     width="25"
     height="25"
     viewBox="0 0 28 27"
-    fill="none"
+    fill="#F5F5F5"
   >
-    <rect x="19.7734" width="7.36364" height="7.36364" fill="#F5F5F5" />
+    <rect x="19.7734" width="7.36364" height="7.36364" fill="inherit" />
     <rect
       x="19.7734"
       y="9.81836"
       width="7.36364"
       height="7.36364"
-      fill="#F5F5F5"
+      fill="inherit"
     />
     <rect
       x="19.7734"
       y="19.6362"
       width="7.36364"
       height="7.36364"
-      fill="#F5F5F5"
+      fill="inherit"
     />
-    <rect x="9.95312" width="7.36364" height="7.36364" fill="#F5F5F5" />
+    <rect x="9.95312" width="7.36364" height="7.36364" fill="inherit" />
     <rect
       x="9.95312"
       y="9.81836"
       width="7.36364"
       height="7.36364"
-      fill="#F5F5F5"
+      fill="inherit"
     />
     <rect
       x="9.95312"
       y="19.6362"
       width="7.36364"
       height="7.36364"
-      fill="#F5F5F5"
+      fill="inherit"
     />
-    <rect x="0.136719" width="7.36364" height="7.36364" fill="#F5F5F5" />
+    <rect x="0.136719" width="7.36364" height="7.36364" fill="inherit" />
     <rect
       x="0.136719"
       y="9.81836"
       width="7.36364"
       height="7.36364"
-      fill="#F5F5F5"
+      fill="inherit"
     />
     <rect
       x="0.136719"
       y="19.6362"
       width="7.36364"
       height="7.36364"
-      fill="#F5F5F5"
+      fill="inherit"
     />
   </svg>
 );
@@ -205,10 +205,11 @@ const arrowDown = (
     height="9"
     viewBox="0 0 15 8"
     fill="none"
+    stroke="black"
   >
     <path
       d="M13.625 0.875L7.5 7L1.375 0.875"
-      stroke="black"
+      stroke="inherit"
       strokeWidth="1.75"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -240,7 +241,7 @@ const arrowLeft = (
     fill="none"
     stroke="black"
   >
-    <g clip-path="url(#clip0_763_1589)">
+    <g clipPath="url(#clip0_763_1589)">
       <path
         d="M13.5313 40.9707H67.5312"
         stroke="inherit"

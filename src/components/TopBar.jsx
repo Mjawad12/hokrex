@@ -1,7 +1,7 @@
 import { arrowDown, block4, block6 } from "@/Consonats";
 import React, { useState } from "react";
 
-function TopBar({ currentState }) {
+function TopBar({ currentState, setsmGrid, smGrid }) {
   const [selectedOption, setSelectedOption] = useState();
   const [show, setshow] = useState(false);
   function changeSelected(e) {
@@ -12,8 +12,26 @@ function TopBar({ currentState }) {
       <h1 className="font-[500] text-3xl text-pmRed ">{currentState}</h1>
       <div className="flex justify-between items-center gap-6">
         <div className="flex-center gap-4">
-          <div className="cursor-pointer">{block4}</div>
-          <div className="cursor-pointer">{block6}</div>
+          <div
+            onClick={() => setsmGrid(false)}
+            className={`cursor-pointer ${
+              smGrid
+                ? "[&_svg]:stroke-[#F5F5F5] [&_svg]:fill-[#F5F5F5]"
+                : "[&_svg]:stroke-black [&_svg]:fill-black"
+            }`}
+          >
+            {block4}
+          </div>
+          <div
+            onClick={() => setsmGrid(true)}
+            className={`cursor-pointer ${
+              smGrid
+                ? "[&_svg]:stroke-black [&_svg]:fill-black"
+                : "[&_svg]:stroke-[#F5F5F5] [&_svg]:fill-[#F5F5F5]"
+            }`}
+          >
+            {block6}
+          </div>
         </div>
         <div
           id="City"

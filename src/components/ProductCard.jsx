@@ -2,13 +2,13 @@ import React from "react";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 import { bag, heart } from "@/Consonats";
-const ProductCard = ({ name, width, dark = false }) => {
+const ProductCard = ({ name, width, dark = false, smGrid }) => {
   const [scope, animate] = useAnimate();
   return (
     <div
-      className={`${
-        width === "sm" ? "max-w-[18rem]" : "max-w-[25.3rem]"
-      }  w-full flex-center flex-col gap-3 cursor-pointer `}
+      className={`${width === "sm" ? "max-w-[18rem]" : "max-w-[25.3rem]"} ${
+        smGrid ? "!max-w-[18rem]" : ""
+      } w-full flex-center flex-col gap-3 cursor-pointer `}
     >
       <div
         ref={scope}
@@ -30,6 +30,8 @@ const ProductCard = ({ name, width, dark = false }) => {
         }}
         className={`bg-[#F5F5F5] w-full  ${
           width === "sm" ? "h-[15rem]" : "h-[20rem]"
+        } ${
+          smGrid ? "!h-[16rem]" : ""
         } relative flex-center overflow-hidden rounded-2xl`}
       >
         <span className="absolute top-5 right-5 z-20 [&>svg]:hover:fill-pmRed cursor-pointer">
