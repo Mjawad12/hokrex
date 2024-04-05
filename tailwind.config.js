@@ -14,6 +14,10 @@ module.exports = {
       },
       colors: {
         pmRed: "#EA0000",
+        borderP: "#E5E5E5",
+        borderC: "#F5F5F5",
+        darkP: "#1A1A1A",
+        grayP: "#707070",
       },
     },
   },
