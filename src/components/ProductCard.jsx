@@ -36,7 +36,7 @@ const ProductCard = ({ name, width, dark = false }) => {
           {heart}
         </span>
         <Image
-          src={"Ttestimg.jpg"}
+          src={"Testimg.jpg"}
           width={500}
           height={500}
           id="imgProduct"
