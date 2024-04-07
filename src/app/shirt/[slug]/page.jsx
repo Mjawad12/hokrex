@@ -4,6 +4,7 @@ import Image from "next/image";
 import { check, heart, share, star } from "@/Consonats";
 import LikeToPrint from "@/components/LikeToPrint";
 import BulkCalculator from "@/components/BulkCalculator";
+import SelectMaterial from "@/components/SelectMaterial";
 
 function page(slug) {
   const similarImages = [1, 2, 3, 4, 5, 6];
@@ -32,8 +33,8 @@ function page(slug) {
   return (
     <div>
       <TopNavigator />
-      <div className="flex justify-start px-10 py-20 ]">
-        <div className="flex-1 flex-grow-[0.5] flex items-start min-h-[calc(100vh-70px)]">
+      <div className="flex justify-center gap-20 px-10 py-20 relative">
+        <div className="flex-1 flex-grow-[0.5] flex items-start h-[520px]">
           <div className="flex flex-col gap-5">
             {similarImages.map((it) => (
               <div className="border border-borderP">
@@ -47,70 +48,76 @@ function page(slug) {
               </div>
             ))}
           </div>
-          <div className="w-full flex-center items-start">
+          <div className="w-full flex-center items-start ">
             <Image
               src="/Testimg2.jpg"
               alt="shirt image"
-              width={522}
-              height={522}
+              width={500}
+              height={500}
             />
           </div>
         </div>
-
-        <div className="flex-1 flex-grow-[0.5] flex flex-col gap-6 max-w-[26rem] w-full">
-          <div className="flex gap-2">
-            <div className="px-2 py-2 border border-borderP rounded-[12px] flex-center [&_svg]:scale-[0.9] cursor-pointer">
-              {heart}
+        <div className="w-full flex-1 flex-grow-[0.5]">
+          <div className="flex-1 flex-grow-[0.5] flex flex-col gap-5 max-w-[26rem] w-full">
+            <div className="flex gap-2">
+              <div className="px-2 py-2 border border-borderP rounded-[12px] flex-center [&_svg]:scale-[0.9] cursor-pointer">
+                {heart}
+              </div>
+              <div className="px-2 py-2 border border-borderP rounded-[12px] flex-center [&_svg]:scale-[0.9] cursor-pointer">
+                {share}
+              </div>
             </div>
-            <div className="px-2 py-2 border border-borderP rounded-[12px] flex-center [&_svg]:scale-[0.9] cursor-pointer">
-              {share}
+            <div className="flex gap-5">
+              <p className="text-pmRed text-[22px] font-[600]">
+                {product.rate}
+              </p>
+              <div className="flex-center gap-1 font-[600] text-[18px] px-3 border border-borderP rounded-2xl [&_svg]:relative [&_svg]:bottom-[1px]">
+                {star} 5.0
+              </div>
             </div>
-          </div>
-          <div className="flex gap-5">
-            <p className="text-pmRed text-[22px] font-[600]">{product.rate}</p>
-            <div className="flex-center gap-1 font-[600] text-[18px] px-3 border border-borderP rounded-2xl [&_svg]:relative [&_svg]:bottom-[1px]">
-              {star} 5.0
-            </div>
-          </div>
-          <h3 className="text-4xl font-[500]">{product.name}</h3>
-          <p className="max-w-[42ch] w-full leading-[22px]">{product.desc}</p>
-          <div className="flex flex-col gap-3">
-            <p className="text-[22px] font-[700]">Quick Colors</p>
-            <div className="flex flex-wrap max-w-[20rem] w-full gap-2 gap-y-3">
-              {colors?.map((it) => (
-                <div
-                  style={{
-                    background: it,
-                    boxShadow: "0px 0px 12px -5px black",
-                  }}
-                  className={`w-7 h-7 rounded-full flex-center [&_span]:hidden [&_span]:hover:flex cursor-pointer`}
-                >
-                  <span
-                    className={`transition-all duration-500 ${
-                      it === "#FFFFFF" ? "[&_svg]:stroke-black" : ""
-                    }`}
+            <h3 className="text-4xl font-[500]">{product.name}</h3>
+            <p className="max-w-[42ch] w-full leading-[22px]">{product.desc}</p>
+            <div className="flex flex-col gap-3">
+              <p className="text-[22px] font-[700]">Quick Colors</p>
+              <div className="flex flex-wrap max-w-[23rem] w-full gap-2 gap-y-3">
+                {colors?.map((it) => (
+                  <div
+                    style={{
+                      background: it,
+                      boxShadow: "0px 0px 12px -5px black",
+                    }}
+                    className={`w-7 h-7 rounded-full flex-center [&_span]:hidden [&_span]:hover:flex cursor-pointer`}
                   >
-                    {check}
-                  </span>
-                </div>
-              ))}
+                    <span
+                      className={`transition-all duration-500 ${
+                        it === "#FFFFFF" ? "[&_svg]:stroke-black" : ""
+                      }`}
+                    >
+                      {check}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col gap-3">
+              <p className="text-[22px] font-[700]">Sizes</p>
+              <div className="flex flex-wrap w-full gap-2 gap-y-3">
+                {sizes?.map((it) => (
+                  <div className="flex-center border border-borderP rounded-[12px] overflow-hidden">
+                    <p className="border-r border-borderP px-3 py-2 font-[700]">
+                      {it}
+                    </p>
+                    <input className="py-2 w-[45px] outline-none font-[500] text-[1.1rem] text-center text-pmRed" />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <LikeToPrint />
+            <div className="flex flex-col gap-4 mt-16">
+              <BulkCalculator />
+              <SelectMaterial />
             </div>
           </div>
-          <div className="flex flex-col gap-3">
-            <p className="text-[22px] font-[700]">Sizes</p>
-            <div className="flex flex-wrap w-full gap-2 gap-y-3">
-              {sizes?.map((it) => (
-                <div className="flex-center border border-borderP rounded-[12px] overflow-hidden">
-                  <p className="border-r border-borderP px-3 py-2 font-[700]">
-                    {it}
-                  </p>
-                  <input className="py-2 w-[45px] outline-none font-[500] text-[1.1rem] text-center text-pmRed" />
-                </div>
-              ))}
-            </div>
-          </div>
-          <LikeToPrint />
-          <BulkCalculator />
         </div>
       </div>
     </div>

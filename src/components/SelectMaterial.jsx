@@ -3,7 +3,7 @@ import { arrowDown } from "@/Consonats";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useAnimate } from "framer-motion";
 
-function BulkCalculator() {
+function SelectMaterial() {
   const [open, setopen] = useState(false);
   const [scope, animate] = useAnimate();
   const slider = useRef(null);
@@ -45,7 +45,7 @@ function BulkCalculator() {
         onClick={opener}
         className="flex justify-between items-center cursor-pointer"
       >
-        <p className="font-[600] text-[18px]">Bulk price Calculator</p>
+        <p className="font-[600] text-[18px]">Select Material</p>
         <div
           className={`[&_svg]:w-[16px] ${
             open ? "rotate-[180deg]" : "rotate-0"
@@ -54,32 +54,8 @@ function BulkCalculator() {
           {arrowDown}
         </div>
       </div>
-      <div className="flex flex-col gap-2 pt-5">
-        <p className="text-[0.8rem] font-[400] text-[#707070]">
-          All calculations made are for informational purposes only.
-        </p>
-        <div className="flex-center gap-3">
-          <input
-            type="range"
-            min={1}
-            max={500}
-            id="cs12-Sli"
-            ref={slider}
-            onInput={func}
-          />
-          <p className="font-[500] text-[17px] whitespace-nowrap">
-            {value} items
-          </p>
-        </div>
-        <div className="flex justify-between items-center">
-          <p className="text-[16px] font-[600]">
-            Disconted Price : <span className="font-[700]">$348</span>
-          </p>
-          <p className="text-[16px] font-[600]">9%OFF</p>
-        </div>
-      </div>
     </motion.div>
   );
 }
 
-export default BulkCalculator;
+export default SelectMaterial;

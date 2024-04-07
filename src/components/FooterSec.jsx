@@ -93,7 +93,7 @@ const NavBox = ({ text, desc, no, animate }) => {
         no === 1 &&
           animate(
             "#arrowLeft2",
-            { x: "-500%" },
+            { x: "-700%", opacity: 0 },
             { duration: 0.35, ease: "easeInOut" }
           );
         no === 1 &&

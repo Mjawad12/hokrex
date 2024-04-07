@@ -10,7 +10,7 @@ function Navbar() {
         </div>
         <h1 className="text-4xl font-[500]">Hokrex</h1>
       </div>
-      <div className="flex-1 flex-grow-[0.75] flex justify-between items-center ">
+      <div className="flex-1 flex-grow-[0.75] flex justify-between items-center h-[2.5rem] ">
         <SearchBar />
         <SmNav />
       </div>
