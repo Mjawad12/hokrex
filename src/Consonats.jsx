@@ -270,6 +270,112 @@ const arrowLeft = (
   </svg>
 );
 
+const bigArrowLeft = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="25"
+    height="25"
+    viewBox="0 0 27 27"
+    fill="none"
+    stroke="black"
+  >
+    <path
+      d="M11.25 20.25L4.5 13.5L11.25 6.75"
+      stroke="inherit"
+      strokeWidth="2.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4.5 13.5L22.5 13.5"
+      stroke="inherit"
+      strokeWidth="2.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const share = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <path
+      d="M7 9C8.65685 9 10 7.65685 10 6C10 4.34315 8.65685 3 7 3C5.34315 3 4 4.34315 4 6C4 7.65685 5.34315 9 7 9Z"
+      stroke="black"
+      strokeWidth="2"
+      strokeLlinecap="round"
+      strokeLlinejoin="round"
+    />
+    <path
+      d="M17 15.5C18.6569 15.5 20 14.1569 20 12.5C20 10.8431 18.6569 9.5 17 9.5C15.3431 9.5 14 10.8431 14 12.5C14 14.1569 15.3431 15.5 17 15.5Z"
+      stroke="black"
+      strokeWidth="2"
+      strokeLlinecap="round"
+      strokeLlinejoin="round"
+    />
+    <path
+      d="M7 21C8.65685 21 10 19.6569 10 18C10 16.3431 8.65685 15 7 15C5.34315 15 4 16.3431 4 18C4 19.6569 5.34315 21 7 21Z"
+      stroke="black"
+      strokeWidth="2"
+      strokeLlinecap="round"
+      strokeLlinejoin="round"
+    />
+    <path
+      d="M14.49 10.8699L9.5 7.62988"
+      stroke="black"
+      strokeWidth="2"
+      strokeLlinecap="round"
+      strokeLlinejoin="round"
+    />
+    <path
+      d="M14.3684 13.9502L9.64844 16.5402"
+      stroke="black"
+      strokeWidth="2"
+      strokeLlinecap="round"
+      strokeLlinejoin="round"
+    />
+  </svg>
+);
+
+const star = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="15"
+    height="15"
+    viewBox="0 0 14 14"
+    fill="none"
+  >
+    <path
+      d="M10.7904 13.3827C10.6811 13.3826 10.5736 13.3561 10.4768 13.3055L7.0425 11.5024L3.60817 13.3055C3.49688 13.3639 3.37144 13.39 3.24604 13.381C3.12064 13.3719 3.00028 13.328 2.89856 13.2542C2.79684 13.1804 2.71782 13.0797 2.67043 12.9634C2.62305 12.8471 2.60918 12.7199 2.63041 12.5961L3.28641 8.77711L0.508089 6.07288C0.418085 5.98521 0.354428 5.87415 0.324311 5.75226C0.294194 5.63036 0.298819 5.50248 0.337663 5.38306C0.376506 5.26365 0.44802 5.15747 0.544123 5.07652C0.640225 4.99557 0.757084 4.94307 0.881494 4.92497L4.72115 4.36775L6.43813 0.893314C6.50019 0.788382 6.58857 0.701422 6.69455 0.641011C6.80053 0.580601 6.92045 0.548828 7.04248 0.548828C7.16451 0.548828 7.28444 0.580601 7.39042 0.641011C7.4964 0.701422 7.58478 0.788382 7.64684 0.893314L9.36384 4.36769L13.2035 4.92491C13.3279 4.94301 13.4448 4.99551 13.5409 5.07646C13.637 5.15741 13.7085 5.26359 13.7473 5.383C13.7862 5.50242 13.7908 5.6303 13.7607 5.7522C13.7306 5.87409 13.6669 5.98515 13.5769 6.07281L10.7986 8.77705L11.4546 12.5961C11.4712 12.6927 11.4664 12.7917 11.4407 12.8863C11.4149 12.9808 11.3688 13.0687 11.3056 13.1436C11.2423 13.2185 11.1634 13.2787 11.0744 13.32C10.9854 13.3613 10.8885 13.3827 10.7904 13.3827Z"
+      fill="#FFB800"
+    />
+  </svg>
+);
+
+const check = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="14"
+    height="11"
+    viewBox="0 0 14 11"
+    fill="none"
+    stroke="white"
+  >
+    <path
+      d="M13 1L4.75 9.25L1 5.5"
+      stroke="inherit"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -281,4 +387,8 @@ export {
   arrowDown,
   heart,
   arrowLeft,
+  bigArrowLeft,
+  share,
+  star,
+  check,
 };

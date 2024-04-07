@@ -9,9 +9,7 @@ export default function Home() {
   const [Selected, setSelected] = useState("Brand Appeal");
   const [currentPage, setcurrentPage] = useState(1);
   const [smGrid, setsmGrid] = useState(false);
-
   const data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
   return (
     <main>
       <div className="flex">
