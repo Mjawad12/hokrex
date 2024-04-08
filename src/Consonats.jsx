@@ -376,6 +376,104 @@ const check = (
   </svg>
 );
 
+const calender = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <path
+      d="M8 13C8.55228 13 9 12.5523 9 12C9 11.4477 8.55228 11 8 11C7.44772 11 7 11.4477 7 12C7 12.5523 7.44772 13 8 13Z"
+      fill="black"
+      stroke="black"
+      strokeWidth="0.01"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+    />
+    <path
+      d="M16 13C16.5523 13 17 12.5523 17 12C17 11.4477 16.5523 11 16 11C15.4477 11 15 11.4477 15 12C15 12.5523 15.4477 13 16 13Z"
+      fill="black"
+      stroke="black"
+      strokeWidth="0.01"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+    />
+    <path
+      d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
+      fill="black"
+      stroke="black"
+      strokeWidth="0.01"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+    />
+    <path
+      d="M8 17C8.55228 17 9 16.5523 9 16C9 15.4477 8.55228 15 8 15C7.44772 15 7 15.4477 7 16C7 16.5523 7.44772 17 8 17Z"
+      fill="black"
+      stroke="black"
+      strokeWidth="0.01"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+    />
+    <path
+      d="M16 17C16.5523 17 17 16.5523 17 16C17 15.4477 16.5523 15 16 15C15.4477 15 15 15.4477 15 16C15 16.5523 15.4477 17 16 17Z"
+      fill="black"
+      stroke="black"
+      strokeWidth="0.01"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+    />
+    <path
+      d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
+      fill="black"
+      stroke="black"
+      strokeWidth="0.01"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+    />
+    <path
+      d="M8 3V7"
+      stroke="black"
+      strokeWidth="2"
+      strokeMinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16 3V7"
+      stroke="black"
+      strokeWidth="2"
+      strokeMinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16 5H8C5.23858 5 3 7.23858 3 10V16C3 18.7614 5.23858 21 8 21H16C18.7614 21 21 18.7614 21 16V10C21 7.23858 18.7614 5 16 5Z"
+      stroke="black"
+      strokeWidth="2"
+      strokeMinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+const left = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="22"
+    height="22"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="black"
+  >
+    <path
+      d="M16 19L9 12L16 5"
+      stroke="inherit"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -391,4 +489,6 @@ export {
   share,
   star,
   check,
+  calender,
+  left,
 };

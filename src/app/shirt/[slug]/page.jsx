@@ -1,10 +1,13 @@
 import TopNavigator from "@/components/TopNavigator";
 import React from "react";
 import Image from "next/image";
-import { check, heart, share, star } from "@/Consonats";
+import { bag, check, heart, share, star } from "@/Consonats";
 import LikeToPrint from "@/components/LikeToPrint";
 import BulkCalculator from "@/components/BulkCalculator";
 import SelectMaterial from "@/components/SelectMaterial";
+import FileCapturer from "@/components/FileCapturer";
+import DateSelector from "@/components/DateSelector";
+import D_R_R from "@/components/D_R_R";
 
 function page(slug) {
   const similarImages = [1, 2, 3, 4, 5, 6];
@@ -34,7 +37,7 @@ function page(slug) {
     <div>
       <TopNavigator />
       <div className="flex justify-center gap-20 px-10 py-20 relative">
-        <div className="flex-1 flex-grow-[0.5] flex items-start h-[520px]">
+        <div className="flex-1 flex-grow-[0.5] flex  items-start h-[520px] ">
           <div className="flex flex-col gap-5">
             {similarImages.map((it) => (
               <div className="border border-borderP">
@@ -58,7 +61,7 @@ function page(slug) {
           </div>
         </div>
         <div className="w-full flex-1 flex-grow-[0.5]">
-          <div className="flex-1 flex-grow-[0.5] flex flex-col gap-5 max-w-[26rem] w-full">
+          <div className="flex flex-col gap-5 max-w-[26rem] w-full">
             <div className="flex gap-2">
               <div className="px-2 py-2 border border-borderP rounded-[12px] flex-center [&_svg]:scale-[0.9] cursor-pointer">
                 {heart}
@@ -116,12 +119,53 @@ function page(slug) {
             <div className="flex flex-col gap-4 mt-16">
               <BulkCalculator />
               <SelectMaterial />
+              <input
+                type="text"
+                className="w-full px-5 py-3 border border-borderP font-[500] rounded-[0.8rem] text-[18px] outline-none hover:border-black"
+                placeholder="Write Instraction"
+              />
+              <FileCapturer />
+              <DateSelector />
+            </div>
+            <p className="text-[23px] font-[600] underline underline-offset-4 mt-8 ">
+              Total <span className="text-pmRed underline">$34.95</span>
+            </p>
+            <div className="flex-center gap-3 justify-start mt-8">
+              <CustomButton
+                svg={bag}
+                text={"Add to Cart"}
+                color="#ea0000bc"
+                hover="red"
+              />
+              <CustomButton
+                svg={bag}
+                text={"Check out"}
+                color="#000000B2"
+                hover="black"
+              />
             </div>
           </div>
+          <D_R_R />
         </div>
       </div>
     </div>
   );
 }
+
+const CustomButton = ({ text, svg, color, hover }) => {
+  return (
+    <button
+      className={`px-4 pr-12 py-3 flex-center gap-[1.6rem] ${
+        color && `bg-[${color}]`
+      } text-white ${
+        hover === "red" ? `hover:bg-[#EA0000]` : "hover:bg-[black]"
+      }
+    [&_svg]:stroke-white font-[500] text-[17px] rounded-[0.8rem] `}
+    >
+      {svg}
+      {text}
+    </button>
+  );
+};
 
 export default page;
