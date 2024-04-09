@@ -1,13 +1,15 @@
 import TopNavigator from "@/components/TopNavigator";
 import React from "react";
 import Image from "next/image";
-import { bag, check, heart, share, star } from "@/Consonats";
+import Link from "next/link";
+import { bag, check, customizeIcon, heart, share, star } from "@/Consonats";
 import LikeToPrint from "@/components/LikeToPrint";
 import BulkCalculator from "@/components/BulkCalculator";
 import SelectMaterial from "@/components/SelectMaterial";
 import FileCapturer from "@/components/FileCapturer";
 import DateSelector from "@/components/DateSelector";
 import D_R_R from "@/components/D_R_R";
+import ProductPageFooter from "@/components/ProductPageFooter";
 
 function page(slug) {
   const similarImages = [1, 2, 3, 4, 5, 6];
@@ -36,7 +38,7 @@ function page(slug) {
   return (
     <div>
       <TopNavigator />
-      <div className="flex justify-center gap-20 px-10 py-20 relative">
+      <div className="flex justify-center gap-10 px-10 pr-0 py-20 relative pb-0">
         <div className="flex-1 flex-grow-[0.5] flex  items-start h-[520px] ">
           <div className="flex flex-col gap-5">
             {similarImages.map((it) => (
@@ -51,17 +53,25 @@ function page(slug) {
               </div>
             ))}
           </div>
-          <div className="w-full flex-center items-start ">
+          <div className="w-full flex flex-col items-center justify-start ">
             <Image
               src="/Testimg2.jpg"
               alt="shirt image"
               width={500}
               height={500}
             />
+            <Link
+              href={"/customize/1"}
+              className={`flex-center rounded-[0.75rem] mt-6 w-[22rem] py-[0.9px] cust-btn hover:shadow-lg`}
+            >
+              <button className="w-[21.9rem] py-2 flex flex-center gap-2 bg-white text-[18px] font-[500] rounded-[0.7rem] ">
+                {customizeIcon} Customize
+              </button>
+            </Link>
           </div>
         </div>
-        <div className="w-full flex-1 flex-grow-[0.5]">
-          <div className="flex flex-col gap-5 max-w-[26rem] w-full">
+        <div className="w-full flex-1 flex-grow-[0.56]">
+          <div className="flex flex-col gap-5 max-w-[31rem] w-full px-10">
             <div className="flex gap-2">
               <div className="px-2 py-2 border border-borderP rounded-[12px] flex-center [&_svg]:scale-[0.9] cursor-pointer">
                 {heart}
@@ -131,34 +141,25 @@ function page(slug) {
               Total <span className="text-pmRed underline">$34.95</span>
             </p>
             <div className="flex-center gap-3 justify-start mt-8">
-              <CustomButton
-                svg={bag}
-                text={"Add to Cart"}
-                color="#ea0000bc"
-                hover="red"
-              />
-              <CustomButton
-                svg={bag}
-                text={"Check out"}
-                color="#000000B2"
-                hover="black"
-              />
+              <CustomButton svg={bag} text={"Add to Cart"} color="red" />
+              <CustomButton svg={bag} text={"Check out"} color="black" />
             </div>
           </div>
           <D_R_R />
+          <ProductPageFooter />
         </div>
       </div>
     </div>
   );
 }
 
-const CustomButton = ({ text, svg, color, hover }) => {
+const CustomButton = ({ text, svg, color }) => {
   return (
     <button
-      className={`px-4 pr-12 py-3 flex-center gap-[1.6rem] ${
-        color && `bg-[${color}]`
-      } text-white ${
-        hover === "red" ? `hover:bg-[#EA0000]` : "hover:bg-[black]"
+      className={`px-4 pr-12 py-3 flex-center gap-[1.6rem] text-white ${
+        color === "red"
+          ? `bg-[#ea0000bc] hover:bg-[#EA0000]`
+          : "bg-[#000000B2] hover:bg-[black]"
       }
     [&_svg]:stroke-white font-[500] text-[17px] rounded-[0.8rem] `}
     >

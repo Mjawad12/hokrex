@@ -79,3 +79,21 @@
 .calendar-dates li:hover::before {
   background-color: black;
 }
+.cust-btn {
+  background-image: linear-gradient(90deg, black 100%, black 100%);
+  transition: all 0.3s ease-in-out;
+}
+.cust-btn:hover {
+  background-image: linear-gradient(
+    90deg,
+    #ff0000 0%,
+    rgba(255, 138, 0, 0.845) 14.64%,
+    rgba(241, 231, 0, 0.725) 27.77%,
+    #10cb00 39.38%,
+    #00cde9 51.5%,
+    #0009e9 64.12%,
+    #ad00e9 77.24%,
+    #e90062 87.84%,
+    #e90000 99.46%
+  );
+}

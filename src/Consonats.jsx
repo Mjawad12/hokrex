@@ -308,36 +308,36 @@ const share = (
       d="M7 9C8.65685 9 10 7.65685 10 6C10 4.34315 8.65685 3 7 3C5.34315 3 4 4.34315 4 6C4 7.65685 5.34315 9 7 9Z"
       stroke="black"
       strokeWidth="2"
-      strokeLlinecap="round"
-      strokeLlinejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M17 15.5C18.6569 15.5 20 14.1569 20 12.5C20 10.8431 18.6569 9.5 17 9.5C15.3431 9.5 14 10.8431 14 12.5C14 14.1569 15.3431 15.5 17 15.5Z"
       stroke="black"
       strokeWidth="2"
-      strokeLlinecap="round"
-      strokeLlinejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M7 21C8.65685 21 10 19.6569 10 18C10 16.3431 8.65685 15 7 15C5.34315 15 4 16.3431 4 18C4 19.6569 5.34315 21 7 21Z"
       stroke="black"
       strokeWidth="2"
-      strokeLlinecap="round"
-      strokeLlinejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M14.49 10.8699L9.5 7.62988"
       stroke="black"
       strokeWidth="2"
-      strokeLlinecap="round"
-      strokeLlinejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M14.3684 13.9502L9.64844 16.5402"
       stroke="black"
       strokeWidth="2"
-      strokeLlinecap="round"
-      strokeLlinejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -436,21 +436,21 @@ const calender = (
       d="M8 3V7"
       stroke="black"
       strokeWidth="2"
-      strokeMinecap="round"
+      strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M16 3V7"
       stroke="black"
       strokeWidth="2"
-      strokeMinecap="round"
+      strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M16 5H8C5.23858 5 3 7.23858 3 10V16C3 18.7614 5.23858 21 8 21H16C18.7614 21 21 18.7614 21 16V10C21 7.23858 18.7614 5 16 5Z"
       stroke="black"
       strokeWidth="2"
-      strokeMinecap="round"
+      strokeLinecap="round"
       strokeLinejoin="round"
     />
   </svg>
@@ -467,6 +467,67 @@ const left = (
     <path
       d="M16 19L9 12L16 5"
       stroke="inherit"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const starBlack = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="23"
+    height="22"
+    viewBox="0 0 23 22"
+    fill="none"
+  >
+    <path
+      d="M11.5 17.6811L18.607 22L16.7267 13.86L23 8.38895L14.7315 7.67105L11.5 0L8.2685 7.67105L0 8.38895L6.27325 13.86L4.393 22L11.5 17.6811Z"
+      fill="black"
+    />
+  </svg>
+);
+
+const customizeIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="25"
+    viewBox="0 0 24 25"
+    fill="none"
+  >
+    <path
+      d="M18.3784 6.53161C18.1843 6.32956 17.9514 6.1688 17.6937 6.05899C17.4359 5.94918 17.1586 5.89258 16.8784 5.89258C16.5983 5.89258 16.321 5.94918 16.0632 6.05899C15.8055 6.1688 15.5725 6.32956 15.3784 6.53161L3.60844 18.3616C3.21884 18.7516 3 19.2803 3 19.8316C3 20.3829 3.21884 20.9116 3.60844 21.3016C3.99845 21.6912 4.52717 21.91 5.07844 21.91C5.6297 21.91 6.15842 21.6912 6.54844 21.3016L18.3784 9.50161C18.5805 9.30751 18.7412 9.07459 18.851 8.81683C18.9609 8.55907 19.0175 8.28178 19.0175 8.00161C19.0175 7.72143 18.9609 7.44414 18.851 7.18638C18.7412 6.92862 18.5805 6.69571 18.3784 6.50161V6.53161Z"
+      stroke="black"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M13.5195 8.43066L16.4995 11.4107"
+      stroke="black"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M9.5 3.91113L9 4.91113L8 5.41113L9 5.87113L9.5 6.91113L10 5.91113L11 5.41113L10 4.91113L9.5 3.91113Z"
+      stroke="black"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4.5 8.91113L4 9.91113L3 10.4111L4 10.8711L4.5 11.9111L5 10.9111L6 10.4111L5 9.91113L4.5 8.91113Z"
+      stroke="black"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M19.5 13.9111L19 14.9111L18 15.4111L19 15.8711L19.5 16.9111L20 15.9111L21 15.4111L20 14.9111L19.5 13.9111Z"
+      stroke="black"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -491,4 +552,6 @@ export {
   check,
   calender,
   left,
+  starBlack,
+  customizeIcon,
 };

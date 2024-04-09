@@ -57,8 +57,9 @@ const PagesAdder = ({ currentPage, setcurrentPage }) => {
         Previous
       </button>
       <div className="flex-center gap-3">
-        {pages.map((it) => (
+        {pages.map((it, index) => (
           <div
+            key={index}
             className={`flex-center w-[2.6rem] h-[2.6rem] border border-borderP bg-white rounded-[0.8rem]  cursor-pointer  ${
               currentPage === it ? "!bg-black text-white" : "hover:border-black"
             }`}

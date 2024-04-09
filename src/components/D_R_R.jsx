@@ -1,11 +1,12 @@
 "use client";
-import { arrowDown } from "@/Consonats";
-import React, { Children, useState } from "react";
+import { arrowDown, starBlack } from "@/Consonats";
+import React, { useState } from "react";
 import { motion, useAnimate } from "framer-motion";
+import Image from "next/image";
 
 function D_R_R() {
   return (
-    <div className="w-full flex flex-col gap-5 mt-20">
+    <div className="w-full flex flex-col gap-5 mt-14 px-10">
       <OpnerCompoent text={"Description"}>
         <p className="text-[16px] font-[400] text-[#707070]">
           Introducing Our Premium Stock E Sport Designs: Elevate Your
@@ -22,7 +23,22 @@ function D_R_R() {
           seamlessly blends functionality and style.
         </p>
       </OpnerCompoent>
-      <OpnerCompoent text={"Reviews(35)"}></OpnerCompoent>
+      <OpnerCompoent text={"Reviews(35)"}>
+        <div className="flex items-end gap-3">
+          <div className="flex-center gap-1">
+            {starBlack}
+            {starBlack}
+            {starBlack}
+            {starBlack}
+            {starBlack}
+          </div>
+          <span className="text-[20px] font-[500] leading-4">4.9 stars</span>
+        </div>
+        <div className="w-full flex flex-col mt-9 gap-10 ">
+          <Review />
+          <Review />
+        </div>
+      </OpnerCompoent>
       <OpnerCompoent text={"Shiping & Returns"}></OpnerCompoent>
     </div>
   );
@@ -75,5 +91,33 @@ const OpnerCompoent = ({ text, children }) => {
 };
 
 const Review = () => {
-  return <div></div>;
+  return (
+    <div className="w-full flex flex-col">
+      <div className="w-full flex justify-between items-start">
+        <div className="flex-center gap-3">
+          <div className="rounded-xl border border-borderP p-2">
+            <Image src={"/user.png"} width={40} height={40} alt="user" />
+          </div>
+          <div className="flex flex-col">
+            <p className="text-[18px] font-[600] leading-5">Faheem M.</p>
+            <p className="text-[15px] text-[#707070] font-[500]">19/03/2024</p>
+          </div>
+        </div>
+        <div className="flex-center gap-1 [&_svg]:w-[15px]">
+          {starBlack}
+          {starBlack}
+          {starBlack}
+          {starBlack}
+          {starBlack}
+        </div>
+      </div>
+      <p className="text-[17px] font-[400] mt-4">
+        I just picked up a pair in the fly "Dolphin" Colorway and I noticed
+        there were a number of girlfriends, wives and mothers who purchased 
+      </p>
+      <span className="text-[18px] font-[600] underline underline-offset-4 mt-3">
+        More
+      </span>
+    </div>
+  );
 };
