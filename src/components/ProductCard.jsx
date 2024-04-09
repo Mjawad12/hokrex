@@ -3,10 +3,12 @@ import React from "react";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 import { bag, heart } from "@/Consonats";
+import Link from "next/link";
 const ProductCard = ({ name, width, dark = false, smGrid, footerProduct }) => {
   const [scope, animate] = useAnimate();
   return (
-    <div
+    <Link
+      href={"/shirt/1"}
       className={`${width === "sm" ? "max-w-[18rem]" : "max-w-[25.3rem]"} ${
         smGrid ? "!max-w-[18rem]" : ""
       } ${
@@ -81,7 +83,7 @@ const ProductCard = ({ name, width, dark = false, smGrid, footerProduct }) => {
       >
         {name}
       </p>
-    </div>
+    </Link>
   );
 };
 

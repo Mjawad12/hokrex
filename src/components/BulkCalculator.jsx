@@ -1,6 +1,6 @@
 "use client";
 import { arrowDown } from "@/Consonats";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useAnimate } from "framer-motion";
 
 function BulkCalculator() {

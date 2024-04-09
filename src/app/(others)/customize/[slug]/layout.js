@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
-import "../globals.css";
-import Navbar from "@/components/Navbar";
+import "../../../globals.css";
+import Nav from "@/components/Tool/Nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,8 +12,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
+      <body className={inter.className + " overflow-hidden"}>
+        <Nav name={"Test Sports 1.0"} type={"Sports"} />
         {children}
       </body>
     </html>
