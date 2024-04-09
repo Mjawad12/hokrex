@@ -1,14 +1,5 @@
 "use client";
-import {
-  arrowLeft,
-  duplicate,
-  left,
-  left2,
-  logo,
-  redo,
-  trash,
-  undo,
-} from "@/Consonats";
+import { duplicate, left2, logo, redo, trash, undo } from "@/Consonats";
 import React, { useState } from "react";
 
 function Nav({ name, type }) {

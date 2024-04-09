@@ -55,7 +55,7 @@ function page(slug) {
           </div>
           <div className="w-full flex flex-col items-center justify-start ">
             <Image
-              src="/Testimg2.jpg"
+              src="/TestImg2.jpg"
               alt="shirt image"
               width={500}
               height={500}
