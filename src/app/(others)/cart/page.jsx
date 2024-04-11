@@ -140,7 +140,7 @@ const CartItem = ({ name, src, price, sizes }) => {
             <div className="relative">
               <div className="rounded-lg overflow-hidden">
                 <Image
-                  src={"/TestImg.jpg"}
+                  src={"/Testimg.jpg"}
                   alt="Cart item"
                   width={105}
                   height={105}
