@@ -36,6 +36,7 @@ module.exports = {
         textLight: "#BDC7D1",
         darkMid: "#323A44",
         darkBorder: "#4E5C6C",
+        pmGray: "#707070",
       },
     },
   },

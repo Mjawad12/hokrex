@@ -35,6 +35,7 @@ export function Shirt(props) {
           geometry={nodes.T_Shirt_male.geometry}
           material={materials.lambert1}
           userData={{ name: "T_Shirt_male" }}
+          material-color="white"
         />
       </group>
     </motion.group>

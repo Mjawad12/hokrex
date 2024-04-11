@@ -1,18 +1,26 @@
 import React from "react";
 import { bag, logo, searchIcon, user } from "../Consonats.jsx";
+import Link from "next/link.js";
 
-function Navbar() {
+function Navbar({ cart }) {
   return (
     <div className="w-full flex justify-between items-center px-6 pr-12 py-3 border-b border-[#E5E5E5] ">
-      <div className="flex-1 flex-grow-[0.1] flex justify-center items-center gap-2">
+      <Link
+        href={"/"}
+        className="flex-1 flex-grow-[0.1] flex justify-center items-center gap-2"
+      >
         <div className="w-10 h-10 flex justify-center items-center border-gray-500 border-[0.5px] rounded-[0.7rem]  ">
           {logo}
         </div>
         <h1 className="text-4xl font-[500]">Hokrex</h1>
-      </div>
-      <div className="flex-1 flex-grow-[0.75] flex justify-between items-center h-[2.5rem] ">
-        <SearchBar />
-        <SmNav />
+      </Link>
+      <div
+        className={`flex-1 flex-grow-[0.75] flex items-center h-[2.5rem] ${
+          cart ? "justify-end" : "justify-between"
+        } `}
+      >
+        {!cart && <SearchBar />}
+        <SmNav cart={cart} />
       </div>
     </div>
   );
@@ -34,19 +42,26 @@ const SearchBar = () => {
   );
 };
 
-const SmNav = () => {
+const SmNav = ({ cart }) => {
   return (
     <ul className="list-none [&_li]:font-[500] [&_li]:cursor-pointer [&_li]:text-[0.95rem]  gap-5 flex-center ">
-      <li>Services</li>
-      <li>About us</li>
-      <li>Contact us</li>
-      <li className={` w-[165px] flex-center !text-[1rem]`}>
-        <Dealerbtn />
-      </li>
+      {!cart && (
+        <>
+          <li>Services</li>
+          <li>About us</li>
+          <li>Contact us</li>
+          <li className={` w-[165px] flex-center !text-[1rem]`}>
+            <Dealerbtn />
+          </li>
+        </>
+      )}
       <li className="flex-center gap-2 ">
-        <div className="flex-center logoStyle w-[2.4rem] h-9 border-gray-300 ">
+        <Link
+          href="/cart"
+          className="flex-center logoStyle w-[2.4rem] h-9 border-gray-300 "
+        >
           {bag}
-        </div>
+        </Link>
         <div className="flex-center logoStyle w-[2.4rem] h-9 border-gray-300 ">
           {user}
         </div>

@@ -115,8 +115,11 @@ function page(slug) {
             <div className="flex flex-col gap-3">
               <p className="text-[22px] font-[700]">Sizes</p>
               <div className="flex flex-wrap w-full gap-2 gap-y-3">
-                {sizes?.map((it) => (
-                  <div className="flex-center border border-borderP rounded-[12px] overflow-hidden">
+                {sizes?.map((it, index) => (
+                  <div
+                    className="flex-center border border-borderP rounded-[12px] overflow-hidden"
+                    key={index}
+                  >
                     <p className="border-r border-borderP px-3 py-2 font-[700]">
                       {it}
                     </p>

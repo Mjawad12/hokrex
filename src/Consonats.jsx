@@ -982,6 +982,89 @@ const prods = [
   },
 ];
 
+const cross = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="21"
+    height="21"
+    viewBox="0 0 22 22"
+    fill="none"
+  >
+    <rect
+      x="0.125"
+      y="0.125"
+      width="20.75"
+      height="20.75"
+      rx="5.875"
+      fill="white"
+      stroke="#CCCCCC"
+      strokeWidth="0.25"
+    />
+    <path
+      d="M7 7L14 14"
+      stroke="black"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M14 7L7 14"
+      stroke="black"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const cart = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <path
+      d="M11.5 22C11.7761 22 12 21.7761 12 21.5C12 21.2239 11.7761 21 11.5 21C11.2239 21 11 21.2239 11 21.5C11 21.7761 11.2239 22 11.5 22Z"
+      fill="white"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx="11.5" cy="21.5" r="0.5" fill="white" />
+    <path
+      d="M18.5 22C18.7761 22 19 21.7761 19 21.5C19 21.2239 18.7761 21 18.5 21C18.2239 21 18 21.2239 18 21.5C18 21.7761 18.2239 22 18.5 22Z"
+      fill="white"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx="18.5" cy="21.5" r="0.5" fill="white" />
+    <path
+      d="M18.005 21.1C18.0078 21.1 18.01 21.0776 18.01 21.05C18.01 21.0224 18.0078 21 18.005 21C18.0022 21 18 21.0224 18 21.05C18 21.0776 18.0022 21.1 18.005 21.1Z"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M7.85938 6.99989H19.9994C20.3158 6.9937 20.6292 7.06269 20.9137 7.20118C21.1983 7.33968 21.4459 7.54372 21.6363 7.79655C21.8266 8.04938 21.9543 8.34377 22.0087 8.65553C22.0631 8.96729 22.0428 9.28752 21.9494 9.58989L21.2494 11.8799C21.061 12.4939 20.6804 13.0313 20.1638 13.4129C19.6472 13.7946 19.0217 14.0003 18.3794 13.9999H9.85938"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M19 18H13.26C12.6083 17.9987 11.9748 17.7853 11.4551 17.392C10.9355 16.9987 10.5581 16.4469 10.38 15.82L7.41 5.45C7.29064 5.03271 7.03878 4.66557 6.69242 4.404C6.34607 4.14243 5.92403 4.00063 5.49 4H4"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -1007,4 +1090,6 @@ export {
   duplicate,
   left2,
   prods,
+  cross,
+  cart,
 };
