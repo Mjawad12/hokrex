@@ -1,17 +1,28 @@
 "use client";
+import { set } from "mongoose";
 import Image from "next/image";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 function page() {
   return (
-    <div className="w-full bg-[#111827] min-h-screen flex flex-col px-2 py-10">
+    <div className="w-full bg-adminBlueLight min-h-screen flex flex-col px-2 py-10">
       <ProductFrom />
     </div>
   );
 }
 
 const ProductFrom = () => {
+  const form = useRef(null);
   const imgRef = useRef(null);
+  const name = useRef(null);
+  const heading = useRef(null);
+  const price = useRef(null);
+  const category = useRef(null);
+  const description = useRef(null);
+  const [currentfile, setcurrentfile] = useState(null);
+  const [error, seterror] = useState(null);
+  const [added, setadded] = useState(false);
+
   const liItems = [
     "Brand Appeal",
     "Work wear",
@@ -22,42 +33,151 @@ const ProductFrom = () => {
     "Gift items",
     "Print on demand",
   ];
-  return (
+  const Upload = async (file) => {
+    const form = new FormData();
+    form.append("file", file);
+    form.append("upload_preset", "hokrex");
+    form.append("cloud_name", "dsqtzewyx");
+
+    const data = await fetch(
+      "https://api.cloudinary.com/v1_1/dsqtzewyx/image/upload",
+      {
+        method: "POST",
+        body: form,
+      }
+    );
+    const parsedData = await data.json();
+    return parsedData.url;
+  };
+  const addProductApi = async (
+    name,
+    category,
+    desc,
+    heading,
+    imgUrl,
+    price
+  ) => {
+    const data = await fetch("http://localhost:3000/api/addproduct", {
+      method: "POST",
+      body: JSON.stringify({
+        productName: name,
+        productCategory: category,
+        productDescription: desc,
+        productHeading: heading,
+        productImg: imgUrl,
+        productPrice: price,
+      }),
+    });
+    const parsedData = await data.json();
+    console.log(parsedData);
+  };
+  const addProductFunc = async (e) => {
+    if (form.current.checkValidity()) {
+      form.current.lastChild.disabled = true;
+      e.preventDefault();
+      const url = await Upload(currentfile);
+      await addProductApi(
+        name.current.value,
+        category.current.value,
+        description.current.value,
+        heading.current.value,
+        url,
+        price.current.value
+      ).catch((err) => seterror("An error occured"));
+      setadded(true);
+      form.current.lastChild.disabled = false;
+    }
+  };
+
+  return added ? (
+    <div className="w-full flex-center min-h-screen">
+      <div className="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5 max-w-[25rem] w-full">
+        <button
+          type="button"
+          className="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          onClick={() => setadded(false)}
+        >
+          <svg
+            aria-hidden="true"
+            className="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+          <span className="sr-only">Close modal</span>
+        </button>
+        <div className="w-12 h-12 rounded-full bg-green-900 p-2 flex items-center justify-center mx-auto mb-3.5">
+          <svg
+            aria-hidden="true"
+            className="w-8 h-8 text-green-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+          <span className="sr-only">Success</span>
+        </div>
+        <p className="mb-4 text-lg font-semibold text-white">
+          Successfully added the product.
+        </p>
+        <button
+          onClick={() => setadded(false)}
+          type="button"
+          className="inline-flex items-center px-5 py-2.5 mt-4  text-sm font-medium text-center text-white bg-[#111827] disabled:bg-gray-500 disabled:cursor-not-allowed rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  ) : (
     <div className="py-8 px-4 mx-auto lg:py-16 w-full">
       <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
         Add a new product
       </h2>
-      <form action="#">
+      <form ref={form} action="#" onSubmit={addProductFunc}>
         <div className="grid gap-4 grid-cols-2 ">
-          <div className="col-span-2">
+          <div className="">
             <label
-              for="name"
+              htmlFor="name"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Product Name
             </label>
             <input
               type="text"
-              name="name"
+              ref={name}
               id="name"
-              className="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="outline-none bg-adminBlueDark border text-white text-sm rounded-[0.8rem] block w-full px-3 py-3 border-gray-600"
               placeholder="Type product name"
               required={true}
               maxLength={30}
             />
           </div>
+
           <div className="w-full">
             <label
-              for="brand"
+              htmlFor="heading"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Heading
             </label>
             <input
               type="text"
-              name="brand"
-              id="brand"
-              className="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              name="heading"
+              id="heading"
+              ref={heading}
+              className="outline-none bg-adminBlueDark border text-white text-sm rounded-[0.8rem] block w-full px-3 py-3 border-gray-600"
               placeholder="Product Heading"
               required={true}
               maxLength={70}
@@ -65,30 +185,31 @@ const ProductFrom = () => {
           </div>
           <div className="w-full">
             <label
-              for="price"
+              htmlFor="price"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Price
             </label>
             <input
               type="number"
-              name="price"
+              ref={price}
               id="price"
-              className="outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="outline-none bg-adminBlueDark border text-white text-sm rounded-[0.8rem] block w-full px-3 py-3 border-gray-600"
               placeholder="$2999"
               required={true}
             />
           </div>
           <div>
             <label
-              for="category"
+              htmlFor="category"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Category
             </label>
             <select
+              ref={category}
               id="category"
-              className="bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              className="outline-none bg-adminBlueDark border text-white text-sm rounded-[0.8rem] block w-full px-3 py-3 border-gray-600"
               required={true}
             >
               {liItems.map((it, index) => (
@@ -101,7 +222,7 @@ const ProductFrom = () => {
 
           <div className="col-span-2">
             <label
-              for="description"
+              htmlFor="description"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Description
@@ -109,15 +230,16 @@ const ProductFrom = () => {
             <textarea
               id="description"
               rows="8"
-              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              ref={description}
+              className="outline-none bg-adminBlueDark border text-white text-sm rounded-[0.8rem] block w-full px-3 py-3 border-gray-600"
               placeholder="Your description here"
             ></textarea>
           </div>
           <div className="col-span-2">
             <div className="flex items-center justify-center w-full">
               <label
-                for="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                htmlFor="dropzone-file"
+                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-600 border-dashed rounded-lg cursor-pointer bg-adminBlueDark "
               >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <svg
@@ -149,12 +271,14 @@ const ProductFrom = () => {
                   id="dropzone-file"
                   type="file"
                   className="hidden"
-                  required="true"
+                  required={true}
                   accept=".jpg , .jpeg"
                   onInput={(e) => {
                     if (e.target.files[0]) {
+                      setcurrentfile(e.target.files[0]);
                       const url = URL.createObjectURL(e.target.files[0]);
                       imgRef.current.src = url;
+                      imgRef.current.srcset = url;
                       imgRef.current.classList.remove("hidden");
                       e.target.parentElement.classList.add("hidden");
                     }
@@ -163,17 +287,19 @@ const ProductFrom = () => {
               </label>
               <Image
                 ref={imgRef}
-                src=""
+                src="/Testimg.jpg"
                 className="hidden w-max"
                 width="50"
                 height="50"
+                alt="upload"
               />
             </div>
           </div>
         </div>
+        {error && <p className="text-pmRed text-[15px]">{error}</p>}
         <button
           type="submit"
-          className="inline-flex items-center px-5 py-2.5 mt-4  text-sm font-medium text-center text-white bg-[#1F2937] rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+          className="inline-flex items-center px-5 py-2.5 mt-4  text-sm font-medium text-center text-white bg-adminBlueDark disabled:bg-gray-500 disabled:cursor-not-allowed rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
         >
           Add product
         </button>

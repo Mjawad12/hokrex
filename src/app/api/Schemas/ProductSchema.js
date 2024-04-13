@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 
 const Schema = new mongoose.Schema({
   productName: { type: String, require: true },
@@ -9,7 +9,4 @@ const Schema = new mongoose.Schema({
   productImg: { type: String, require: true },
 });
 
-const Productmodel = await mongoose.model("Product", Schema);
-await Productmodel.createIndexes();
-
-export default Productmodel;
+export default mongoose.models.Product || mongoose.model("Product", Schema);

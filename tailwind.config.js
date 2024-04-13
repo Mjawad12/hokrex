@@ -37,6 +37,8 @@ module.exports = {
         darkMid: "#323A44",
         darkBorder: "#4E5C6C",
         pmGray: "#707070",
+        adminBlueLight: "#00193C",
+        adminBlueDark: "#031123",
       },
     },
   },
