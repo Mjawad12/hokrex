@@ -2,6 +2,7 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import { calender, cart, cross } from "@/Consonats";
+import Link from "next/link";
 
 export default function page() {
   const cartItems = [
@@ -101,10 +102,13 @@ export default function page() {
                   $1200.67
                 </span>
               </div>
-              <button className="flex-center gap-1 w-full bg-black text-white font-[500] text-[18px] px-4 py-[0.8rem] rounded-2xl relative">
+              <Link
+                href="/checkout"
+                className="flex-center gap-1 w-full bg-black text-white font-[500] text-[18px] px-4 py-[0.8rem] rounded-2xl relative"
+              >
                 <span className="absolute left-5">{cart}</span>
                 Check out
-              </button>
+              </Link>
             </div>
             <div className="flex-center w-full max-w-[23rem] ">
               <p className="text-[13px] font-[400] mr-1">Payment method</p>

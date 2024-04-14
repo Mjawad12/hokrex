@@ -1,6 +1,7 @@
 "use client";
+import { Context } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 function page() {
   return (
@@ -14,18 +15,10 @@ function page() {
 }
 
 const Products = () => {
-  const [products, setproducts] = useState([]);
+  const { getproducts, products } = useContext(Context);
   useEffect(() => {
     getproducts();
   }, []);
-
-  const getproducts = async () => {
-    const data = await fetch("http://localhost:3000/api/getproducts", {
-      method: "Get",
-    });
-    const parseddata = await data.json();
-    setproducts(parseddata.products);
-  };
 
   return (
     <div className="flex flex-wrap py-10 gap-6 ">
@@ -49,7 +42,7 @@ const Products = () => {
 const ProductCard = ({ name, img, price, slug, category }) => {
   return (
     <Link
-      className="relative  flex w-full max-w-[20rem] flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md hover:shadow-xl"
+      className="relative flex w-full max-w-[22rem] h-max flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md hover:shadow-xl"
       href={"/orders/" + slug}
     >
       <div className="relative mx-1 mt-1 flex justify-center items-center  overflow-hidden rounded-xl">
@@ -72,7 +65,7 @@ const ProductCard = ({ name, img, price, slug, category }) => {
           </p>
           <div className="flex items-center gap-1">
             <p className="text-sm">Category : </p>
-            <span className=" rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">
+            <span className=" rounded bg-yellow-200 px-2.5 py-0.5 text-[0.7rem] font-semibold">
               {category}
             </span>
           </div>

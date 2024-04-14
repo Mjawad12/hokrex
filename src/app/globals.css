@@ -12,6 +12,9 @@
   .flex-row-between {
     @apply flex justify-between items-center;
   }
+  .checkoutInput {
+    @apply w-full py-[0.75rem] px-3 rounded-lg border focus:border-[#707072] border-[#E5E5E5] outline-none;
+  }
 }
 
 #cs12-Sli {
@@ -130,4 +133,41 @@ canvas {
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+}
+
+.PhoneInput {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.PhoneInputCountryIcon {
+  width: 35px;
+}
+.PhoneInputCountry {
+  display: flex;
+  flex-direction: row-reverse;
+  select {
+    width: 20px;
+  }
+  img {
+    border: 1px solid black;
+    border-radius: 3px;
+  }
+}
+
+.PhoneInputInput:focus .ph-in {
+  border: 1px solid #707072 !important;
+}
+
+.stdropdown-item:hover {
+  background: rgba(0, 0, 0, 0.233) !important;
+}
+
+.stdropdown-item.selected {
+  background: rgba(0, 0, 0, 0.623) !important;
+}
+
+.stdropdown-container {
+  padding: 0.2rem 0 !important;
+  border-radius: 8px !important;
+  border: 1px solid #e5e5e5 !important;
 }

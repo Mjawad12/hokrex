@@ -1,7 +1,7 @@
 "use client";
-import { set } from "mongoose";
+import { Context } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 function page() {
   return (
@@ -12,6 +12,7 @@ function page() {
 }
 
 const ProductFrom = () => {
+  const { addProductApi } = useContext(Context);
   const form = useRef(null);
   const imgRef = useRef(null);
   const name = useRef(null);
@@ -49,28 +50,7 @@ const ProductFrom = () => {
     const parsedData = await data.json();
     return parsedData.url;
   };
-  const addProductApi = async (
-    name,
-    category,
-    desc,
-    heading,
-    imgUrl,
-    price
-  ) => {
-    const data = await fetch("http://localhost:3000/api/addproduct", {
-      method: "POST",
-      body: JSON.stringify({
-        productName: name,
-        productCategory: category,
-        productDescription: desc,
-        productHeading: heading,
-        productImg: imgUrl,
-        productPrice: price,
-      }),
-    });
-    const parsedData = await data.json();
-    console.log(parsedData);
-  };
+
   const addProductFunc = async (e) => {
     if (form.current.checkValidity()) {
       form.current.lastChild.disabled = true;

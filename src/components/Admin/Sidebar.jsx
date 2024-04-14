@@ -43,9 +43,6 @@ function Sidebar() {
               </svg>
               <span className="text-sm ml-2">Products</span>
             </a>
-            <div className="py-1 px-3 bg-gray-600 rounded text-gray-300 flex items-center justify-center text-xs">
-              5
-            </div>
           </li>
           <li className="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
             <a
@@ -69,9 +66,6 @@ function Sidebar() {
               </svg>
               <span className="text-sm ml-2">Add Products</span>
             </a>
-            <div className="py-1 px-3 bg-gray-600 rounded text-gray-300 flex items-center justify-center text-xs">
-              8
-            </div>
           </li>
           <li className="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
             <a

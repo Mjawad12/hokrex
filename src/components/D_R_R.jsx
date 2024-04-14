@@ -121,3 +121,5 @@ const Review = () => {
     </div>
   );
 };
+
+export { OpnerCompoent };
