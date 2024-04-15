@@ -10,7 +10,7 @@ import { OpnerCompoent } from "@/components/D_R_R";
 import Image from "next/image";
 
 function page() {
-  const [pages, setpages] = useState(1);
+  const [pages, setpages] = useState(0);
   const [value, setValue] = useState();
   const [country, setcountry] = useState();
   const [states, setstates] = useState();
