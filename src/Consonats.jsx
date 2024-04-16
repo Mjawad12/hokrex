@@ -1094,6 +1094,38 @@ const google = (
   </svg>
 );
 
+const lock = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="20"
+    viewBox="0 0 18 20"
+    fill="none"
+  >
+    <path
+      d="M13 7H5C2.79086 7 1 8.79086 1 11V15C1 17.2091 2.79086 19 5 19H13C15.2091 19 17 17.2091 17 15V11C17 8.79086 15.2091 7 13 7Z"
+      stroke="black"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M5 7V5C5 3.93913 5.42143 2.92172 6.17157 2.17157C6.92172 1.42143 7.93913 1 9 1C10.0609 1 11.0783 1.42143 11.8284 2.17157C12.5786 2.92172 13 3.93913 13 5V7"
+      stroke="black"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M9 12V14"
+      stroke="black"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -1122,4 +1154,5 @@ export {
   cross,
   cart,
   google,
+  lock,
 };

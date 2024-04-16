@@ -1,5 +1,5 @@
 "use client";
-import { google, left2 } from "@/Consonats";
+import { google, left2, lock } from "@/Consonats";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import "react-country-state-city/dist/react-country-state-city.css";
@@ -19,6 +19,8 @@ function page() {
   const address = useRef(null);
   const email = useRef(null);
   const zipcode = useRef(null);
+  const [paytype, setpaytype] = useState("now");
+  const [payBank, setpayBank] = useState("paypal");
 
   const cartItems = [
     {
@@ -113,6 +115,8 @@ function page() {
             } `}
           >
             <Page2
+              paytype={paytype}
+              setpaytype={setpaytype}
               address={address.current?.value}
               country={country}
               email={email.current?.value}
@@ -121,6 +125,25 @@ function page() {
               zipcode={zipcode.current?.value}
               setpages={setpages}
               phoneno={value}
+            />
+          </div>
+          <div
+            className={`w-full flex flex-col gap-3 ${
+              pages === 2 ? "block" : "hidden"
+            } `}
+          >
+            <Page3
+              paytype={paytype}
+              address={address.current?.value}
+              country={country}
+              email={email.current?.value}
+              name={name.current?.value}
+              state={states}
+              zipcode={zipcode.current?.value}
+              setpages={setpages}
+              phoneno={value}
+              payBank={payBank}
+              setpayBank={setpayBank}
             />
           </div>
         </div>
@@ -340,6 +363,8 @@ const Page2 = ({
   zipcode,
   state,
   setpages,
+  paytype,
+  setpaytype,
 }) => {
   const total = "1200.95";
   return (
@@ -365,18 +390,29 @@ const Page2 = ({
       </div>
       <div className="w-full flex flex-col mt-4">
         <h2 className="text-[22px] font-[600]">Chose how to pay</h2>
-        <PayType text={"Pay in full now"} />
+        <PayType
+          text={"Pay in full now"}
+          paytype={paytype}
+          setpaytype={setpaytype}
+          type={"now"}
+        />
         <PayType
           total={(total / 2).toFixed(2)}
           text={"Pay Part now, part later"}
           subtext={`Pay (${(total / 2).toFixed(2)}) now. and the rest ($${(
             total / 2
           ).toFixed(2)}) will be pay after completed the order.`}
+          paytype={paytype}
+          setpaytype={setpaytype}
+          type={"half"}
         />
         <PayType
           total={"1.00"}
           text={"Pay later"}
           subtext="Pay later by same payment method."
+          paytype={paytype}
+          setpaytype={setpaytype}
+          type={"later"}
         />
       </div>
       <button
@@ -392,20 +428,157 @@ const Page2 = ({
   );
 };
 
+const Page3 = ({
+  name,
+  address,
+  email,
+  country,
+  phoneno,
+  zipcode,
+  state,
+  setpages,
+  paytype,
+  payBank,
+  setpayBank,
+}) => {
+  const total = "1200.95";
+  return (
+    <>
+      <h1 className="text-[22px] font-[600]">Shiping Address</h1>
+      <div className="flex flex-col mt-2 pb-8 border-b border-borderP">
+        <div className="flex w-full justify-between items-center pr-5">
+          <h2 className="text-black text-[15px]">Shiping Address</h2>
+          <button
+            onClick={() => setpages(0)}
+            className="border-none outline-none text-[14px] underline underline-offset-2 bg-transparent font-[500]"
+          >
+            Edit
+          </button>
+        </div>
+        <p className="text-[15px] font-[400] text-pmGray m1-1">{name}</p>
+        <p className="text-[15px] font-[400] text-pmGray">{address}</p>
+        <p className="text-[15px] font-[400] text-pmGray">
+          {state?.name}, {country?.name} {zipcode}
+        </p>
+        <p className="mt-5 text-[15px] font-[400] text-pmGray">{email}</p>
+        <p className="text-[15px] font-[400] text-pmGray">{phoneno}</p>
+        <div className="flex flex-col gap-1 mt-5">
+          <h2 className="text-[16px] font-[500]">Choose how to pay</h2>
+          <p className="text-[15px] font-[400] text-pmGray">
+            {(paytype === "now" && "Pay in full now") ||
+              (paytype === "half" && "Pay Part now, part later") ||
+              (paytype === "later" && "Pay later by same payment method.")}
+          </p>
+        </div>
+        <div className="flex justify-between items-center mt-4 ">
+          <p className="font-[700]">${total}</p>
+          <p className="text-[15px] font-[400] text-pmGray">Due amount $0.00</p>
+        </div>
+      </div>
+      <div className="flex flex-col gap-5 mt-4 pb-6 border-b border-borderP">
+        <div>
+          <h2 className="text-[22px] font-[600]">Payment</h2>
+          <div className="flex gap-2">
+            <p className="text-[15px] font-[400] text-pmGray">
+              {country?.name || "United State"}
+            </p>
+            <span className="underline underline-offset-2 text-[15px]">
+              Edit
+            </span>
+          </div>
+        </div>
+        <CustomCheckbox
+          text={"Do you have a Voucher or Promo code?"}
+          fontSize={"sm"}
+        />
+        <div className="flex flex-col gap-4 mt-5">
+          <h3 className="text-[15px] font-[500]">Select payment method</h3>
+          <div className="flex gap-8">
+            <PayBank payBank={payBank} setpayBank={setpayBank} type={"paypal"}>
+              <Image
+                src={"/paypal.png"}
+                width={100}
+                height={100}
+                alt="paypal"
+                className="ml-[0.2rem]"
+              />
+            </PayBank>
+            <PayBank payBank={payBank} setpayBank={setpayBank} type={"card"}>
+              <p className="text-[14px] font-[500] ml-2">
+                Credit or Debit Card
+              </p>
+            </PayBank>
+          </div>
+          <div>
+            <div className="w-full flex-center gap-[0.6rem] mt-5">
+              <div className="w-full max-w-[17.5rem] checkoutInput flex-center px-4">
+                <input
+                  type="passowrd"
+                  placeholder="Card Number"
+                  className="outline-none border-none w-full "
+                />
+                {lock}
+              </div>
+              <input
+                type="text"
+                placeholder="MM/YY"
+                className="checkoutInput !max-w-[8.6rem] px-4 pr-1"
+              />
+              <input
+                type="text"
+                placeholder="CVC"
+                className="checkoutInput !max-w-[8.6rem] pl-4 pr-0"
+              />
+            </div>
+            <div className="flex items-center mt-3">
+              <p className="text-[13px]">Card Accepted</p>
+              <Image src={"/visa.jpg"} width={35} height={35} alt="visa" />
+              <Image
+                src={"/master.jpg"}
+                width={28}
+                height={28}
+                alt="maxtercard"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col gap-2 mt-3">
+        <CustomCheckbox
+          text={"Billing address ame as shipping address"}
+          fontSize={"sm"}
+        />
+        <h3 className="text-black text-[15px] mt-3">Shiping Address</h3>
+        <p className="text-[15px] font-[400] text-pmGray m1-1">{name}</p>
+        <p className="text-[15px] font-[400] text-pmGray">{address}</p>
+        <p className="text-[15px] font-[400] text-pmGray">
+          {state?.name}, {country?.name} {zipcode}
+        </p>
+      </div>
+      <button
+        className={`px-5 py-3  text-white bg-[black] font-[500] text-[17px] rounded-[0.8rem] w-max mt-5`}
+      >
+        Submit Payment
+      </button>
+    </>
+  );
+};
+
 const PayType = ({
-  st = true,
-  setst,
   text,
   total = 1200.67,
   subtext = `Pay the total (${total}) now and you’re all set.`,
+  paytype,
+  setpaytype,
+  type,
 }) => {
   return (
     <div className="w-full flex justify-between py-6 border-b border-borderP">
       <div className="flex gap-3">
         <div
-          onClick={() => setst(true)}
+          onClick={() => setpaytype(type)}
           className={`w-[22px] h-[22px] rounded-full  border border-black hover:border-2 cursor-pointer ${
-            st ? "border-[7.5px] hover:border-[7.5px]" : ""
+            paytype === type ? "border-[7.5px] hover:border-[7.5px]" : ""
           } `}
         />
         <div className="flex flex-col">
@@ -415,7 +588,7 @@ const PayType = ({
           </p>
         </div>
       </div>
-      <span className="text-[15px] font-[700] ">(${total})</span>
+      <span className="text-[15px] font-[700] ">${total}</span>
     </div>
   );
 };
@@ -469,6 +642,20 @@ const CheckoutNav = () => {
       <Link href={"/contact"} className="text-white text-[13px]">
         Contact@hokrex.com
       </Link>
+    </div>
+  );
+};
+
+const PayBank = ({ children, payBank, type, setpayBank }) => {
+  return (
+    <div className="flex-center">
+      <div
+        onClick={() => setpayBank(type)}
+        className={`w-[22px] h-[22px] rounded-full  border border-black hover:border-2 cursor-pointer ${
+          payBank === type ? "border-[7.5px] hover:border-[7.5px]" : ""
+        } `}
+      />
+      {children}
     </div>
   );
 };
