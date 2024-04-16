@@ -4,9 +4,10 @@ import { useState } from "react";
 const Context = createContext();
 
 function MainstateAdmin({ children }) {
+  const url = process.env.NEXT_PUBLIC_URL;
   const [products, setproducts] = useState([]);
   const getproducts = async () => {
-    const data = await fetch("http://localhost:3000/api/getproducts", {
+    const data = await fetch(`${url}/api/getproducts`, {
       method: "Get",
     });
     const parseddata = await data.json();
@@ -20,7 +21,7 @@ function MainstateAdmin({ children }) {
     imgUrl,
     price
   ) => {
-    const data = await fetch("http://localhost:3000/api/addproduct", {
+    const data = await fetch(`${url}/api/addproduct`, {
       method: "POST",
       body: JSON.stringify({
         productName: name,
