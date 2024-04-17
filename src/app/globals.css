@@ -17,6 +17,15 @@
   }
 }
 
+::-webkit-scrollbar {
+  background-color: #d9d9d9;
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #888686;
+  border-radius: 7px;
+}
+
 #cs12-Sli {
   -webkit-appearance: none;
   width: 100%;

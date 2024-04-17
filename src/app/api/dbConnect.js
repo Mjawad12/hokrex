@@ -9,7 +9,7 @@ export default async function ConnectDb() {
       .then(console.log("Connected TO Database"))
       .catch((err) => console.log(err.message));
   } else {
-    return;
+    return console.log("Already connected");
   }
   console.log(mongoose.connection.readyState);
 }
