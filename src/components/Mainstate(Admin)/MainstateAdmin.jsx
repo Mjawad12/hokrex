@@ -9,6 +9,7 @@ function MainstateAdmin({ children }) {
   const getproducts = async () => {
     const data = await fetch(`${url}/api/getproducts`, {
       method: "Get",
+      cache: "no-store",
     });
     const parseddata = await data.json();
     setproducts(parseddata.products);
