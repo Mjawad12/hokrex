@@ -6,28 +6,28 @@ import React from "react";
 export default async function page() {
   const images = [0, 1, 2, 3];
   return (
-    <div className="flex max-w-[1200px] m-auto">
-      <div className="flex-1 flex-grow-[0.5]">
+    <div className="flex max-w-[1450px] m-auto px-5 min-h-[calc(100vh-65px)] ">
+      <div className="flex-1 flex-grow-[0.5] flex justify-center flex-col gap-[7rem]">
         <div className="flex flex-col gap-3">
           <p className="text-[22px] font-[700] tracking-[5px] ">UNLEASH YOUR</p>
           <h1 className="text-[75px] font-[700] leading-[55px]">
             Creative <span className="text-pmRed">Power</span>
           </h1>
-          <p className="text-[18px] font-[500] leading-[20px]">
+          <p className="text-[18px] font-[500] leading-[20px] max-w-[50ch] mt-6">
             From personalized apparel to unique home decor, Print on Demand
             empowers you to bring your creative visions to life and captivate
-            customers with one-of-a-kind products. 
+            customers with one-of-a-kind products.
           </p>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-6 mt-8">
             <Link
               href={"/products"}
-              className="px-5 py-2 border border-black text-pmRed rounded-3xl font-[500]"
+              className="px-6 py-[0.7rem] border border-black text-pmRed rounded-3xl font-[500] text-[17px]"
             >
               View Products
             </Link>
-            <Link href={"/"} className="flex gap-2 font-[500]">
+            <Link href={"/"} className="flex gap-1 font-[500]">
               Start Designing
-              <div className="[&_svg]:stroke-black [&_svg]:w-[20px] [&_svg]:h-[20px]  scale-x-[-1]">
+              <div className="[&_svg]:stroke-black [&_svg]:w-[21px] [&_svg]:h-[20px] scale-x-[-1] relative top-[2px] ">
                 {left2}
               </div>
             </Link>
