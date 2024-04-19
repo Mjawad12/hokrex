@@ -679,17 +679,18 @@ const left2 = (
     height="16"
     viewBox="0 0 18 18"
     fill="none"
+    stroke="#BDC7D1"
   >
     <path
       d="M7.5 13.5L3 9L7.5 4.5"
-      stroke="#BDC7D1"
+      stroke="inherit"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M3 9L15 9"
-      stroke="#BDC7D1"
+      stroke="inherit"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -1126,6 +1127,99 @@ const lock = (
   </svg>
 );
 
+const Icons = [
+  {
+    name: "Product",
+    slug: "/hokrex-shadow-eye-admin-56789",
+    svg: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="icon icon-tabler icon-tabler-grid"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z"></path>
+        <rect x="4" y="4" width="6" height="6" rx="1"></rect>
+        <rect x="14" y="4" width="6" height="6" rx="1"></rect>
+        <rect x="4" y="14" width="6" height="6" rx="1"></rect>
+        <rect x="14" y="14" width="6" height="6" rx="1"></rect>
+      </svg>
+    ),
+  },
+  {
+    name: "Add product",
+    slug: "/hokrex-shadow-eye-admin-56789/addproduct",
+    svg: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="icon icon-tabler icon-tabler-puzzle"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z"></path>
+        <path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"></path>
+      </svg>
+    ),
+  },
+  {
+    name: "Orders",
+    slug: "/hokrex-shadow-eye-admin-56789/orders",
+    svg: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="icon icon-tabler icon-tabler-compass"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z"></path>
+        <polyline points="8 16 10 10 16 8 14 14 8 16"></polyline>
+        <circle cx="12" cy="12" r="9"></circle>
+      </svg>
+    ),
+  },
+];
+
+const addicon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="33"
+    height="33"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <path
+      d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15"
+      stroke="#1C274C"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7"
+      stroke="#1C274C"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -1155,4 +1249,6 @@ export {
   cart,
   google,
   lock,
+  Icons,
+  addicon,
 };

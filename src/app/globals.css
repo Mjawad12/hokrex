@@ -180,3 +180,8 @@ canvas {
   border-radius: 8px !important;
   border: 1px solid #e5e5e5 !important;
 }
+
+input#size::-webkit-outer-spin-button,
+input#size::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

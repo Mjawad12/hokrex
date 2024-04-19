@@ -1,18 +1,19 @@
 import React from "react";
 import ProductCard from "./ProductCard";
 
-function ProductPageFooter() {
-  const data = [1, 2, 3, 4, 5, 6];
+function ProductPageFooter({ products }) {
   return (
     <div className="w-full bg-darkP px-9 py-10 pb-0">
       <h3 className="font-[500] text-5xl text-white">RELATED PRODUCTS</h3>
       <div className="grid grid-cols-3 mt-9 gap-5 gap-y-16">
-        {data.map((it, index) => (
+        {products?.slice(0, 6).map((it, index) => (
           <ProductCard
-            name={"Team Sports 1.0"}
+            name={it.productName}
             key={index}
             footerProduct={true}
             dark={true}
+            img={it.productImg}
+            slug={it.slug}
           />
         ))}
       </div>

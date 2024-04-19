@@ -6,6 +6,7 @@ const Context = createContext();
 function MainstateAdmin({ children }) {
   const url = process.env.NEXT_PUBLIC_URL;
   const [products, setproducts] = useState([]);
+
   const getproducts = async () => {
     const data = await fetch(`${url}/api/getproducts`, {
       method: "Get",
@@ -14,13 +15,16 @@ function MainstateAdmin({ children }) {
     const parseddata = await data.json();
     setproducts(parseddata.products);
   };
+
   const addProductApi = async (
     name,
     category,
     desc,
     heading,
     imgUrl,
-    price
+    price,
+    colors,
+    sizes
   ) => {
     const data = await fetch(`${url}/api/addproduct`, {
       method: "POST",
@@ -31,10 +35,13 @@ function MainstateAdmin({ children }) {
         productHeading: heading,
         productImg: imgUrl,
         productPrice: price,
+        productColors: colors,
+        productSizes: sizes,
       }),
     });
     const parsedData = await data.json();
   };
+
   return (
     <Context.Provider value={{ getproducts, products, addProductApi }}>
       {children}

@@ -47,6 +47,9 @@ const SmNav = ({ cart }) => {
     <ul className="list-none [&_li]:font-[500] [&_li]:cursor-pointer [&_li]:text-[0.95rem]  gap-5 flex-center ">
       {!cart && (
         <>
+          <Link href={"/products"}>
+            <li>Products</li>
+          </Link>
           <li>Services</li>
           <li>About us</li>
           <li>Contact us</li>

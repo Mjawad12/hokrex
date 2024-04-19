@@ -4,24 +4,11 @@ import React, { useState } from "react";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 
-function D_R_R() {
+function D_R_R({ description }) {
   return (
     <div className="w-full flex flex-col gap-5 mt-14 px-10">
       <OpnerCompoent text={"Description"}>
-        <p className="text-[16px] font-[400] text-[#707070]">
-          Introducing Our Premium Stock E Sport Designs: Elevate Your
-          Performance in Style! Unleash the power of unity and performance with
-          our cutting-edge E Sport Designs, meticulously crafted to propel your
-          team to victory while showcasing your unique style. With an array of
-          dynamic features and two distinct fabric options ? Performance Knit
-          Interlock and Performance Mesh Fabric ? we present the ultimate choice
-          for teams determined to dominate the field. 🔥 Key Features: 🏆
-          Unparalleled Performance: Our Stock E Sports Design is engineered to
-          optimize your performance, ensuring maximum comfort and flexibility
-          during intense play. Move with agility and confidence as you
-          outmaneuver opponents, all thanks to the thoughtful design that
-          seamlessly blends functionality and style.
-        </p>
+        <p className="text-[16px] font-[400] text-[#707070]">{description}</p>
       </OpnerCompoent>
       <OpnerCompoent text={"Reviews(35)"}>
         <div className="flex items-end gap-3">

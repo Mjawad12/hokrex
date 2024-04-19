@@ -4,22 +4,24 @@ import Link from "next/link";
 import React, { useContext, useEffect } from "react";
 
 function page() {
-  return (
-    <div className="w-full min-h-screen bg-adminBlueLight px-5">
-      <div className="w-full py-3 px-5 bg-adminBlueDark mt-5 rounded-xl">
-        <h1 className="text-4xl font-[700] text-white">Products</h1>
-      </div>
-      <Products />
-    </div>
-  );
-}
-
-const Products = () => {
   const { getproducts, products } = useContext(Context);
   useEffect(() => {
     getproducts();
   }, []);
+  return (
+    <div className="w-full min-h-screen bg-hoverC px-5">
+      <div className="w-full py-3 px-5 bg-Pn-dark-600 mt-5 rounded-xl flex-center justify-between">
+        <h1 className="text-4xl font-[700] text-white">Products</h1>
+        <span className="text-3xl font-[700] text-white">
+          ({products?.length})
+        </span>
+      </div>
+      <Products products={products} />
+    </div>
+  );
+}
 
+const Products = ({ products }) => {
   return (
     <div className="flex flex-wrap py-10 gap-6 ">
       {products && products.length > 0 ? (
@@ -33,7 +35,7 @@ const Products = () => {
           />
         ))
       ) : (
-        <h2 className="text-3xl font-[600] text-white">No Products</h2>
+        <h2 className="text-3xl font-[600] text-black pl-2">No Products</h2>
       )}
     </div>
   );
@@ -70,7 +72,7 @@ const ProductCard = ({ name, img, price, slug, category }) => {
             </span>
           </div>
         </div>
-        <div className="flex items-center justify-center rounded-md bg-adminBlueDark px-5 py-2.5 text-center text-sm font-bold text-white hover:bg-Pn-light-400 focus:outline-none">
+        <div className="flex items-center justify-center rounded-md bg-Pn-default-500 px-5 py-2.5 text-center text-sm font-bold text-white hover:bg-Pn-light-400 focus:outline-none">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="mr-2 h-6 w-6"

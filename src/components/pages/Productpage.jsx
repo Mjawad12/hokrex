@@ -1,17 +1,16 @@
 "use client";
+import React, { useState } from "react";
 import FooterSec from "@/components/FooterSec";
 import ProductCard from "@/components/ProductCard";
 import Sidebar from "@/components/Sidebar";
 import TopBar from "@/components/TopBar";
-import { useEffect, useState } from "react";
 
-export default function Home() {
+function Productpage({ products }) {
   const [Selected, setSelected] = useState("Brand Appeal");
   const [currentPage, setcurrentPage] = useState(1);
   const [smGrid, setsmGrid] = useState(false);
-  const data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   return (
-    <main>
+    <>
       <div className="flex">
         <Sidebar setSelected={setSelected} Selected={Selected} />
         <div className="flex flex-col w-full px-12 py-9 gap-10">
@@ -24,11 +23,13 @@ export default function Home() {
           <div
             className={`grid ${smGrid ? "grid-cols-4" : "grid-cols-3"} gap-5`}
           >
-            {data.map((it, index) => (
+            {products?.map((it, index) => (
               <ProductCard
-                name={"Team Sports 1.0"}
+                name={it.productName}
                 key={index}
                 smGrid={smGrid}
+                img={it.productImg}
+                slug={it.slug}
               />
             ))}
           </div>
@@ -38,15 +39,12 @@ export default function Home() {
           />
         </div>
       </div>
-      <FooterSec />
-    </main>
+      <FooterSec products={products} />{" "}
+    </>
   );
 }
 
 const PagesAdder = ({ currentPage, setcurrentPage }) => {
-  useEffect(() => {
-    console.log(currentPage);
-  }, [currentPage]);
   const pages = [1, 2, 3, 4, 5];
   return (
     <div className="w-full flex-center gap-5 border-t border-borderP pt-8">
@@ -80,3 +78,5 @@ const PagesAdder = ({ currentPage, setcurrentPage }) => {
     </div>
   );
 };
+
+export default Productpage;

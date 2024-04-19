@@ -4,12 +4,20 @@ import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 import { bag, heart } from "@/Consonats";
 import Link from "next/link";
-const ProductCard = ({ name, width, dark = false, smGrid, footerProduct }) => {
+const ProductCard = ({
+  name,
+  width,
+  dark = false,
+  smGrid,
+  footerProduct,
+  img = "/Testimg.jpg",
+  slug,
+}) => {
   const [scope, animate] = useAnimate();
   return (
     <Link
-      href={"/shirt/1"}
-      className={`${width === "sm" ? "max-w-[18rem]" : "max-w-[25.3rem]"} ${
+      href={"/product/" + slug}
+      className={`${width === "sm" ? "max-w-[20rem]" : "max-w-[25.3rem]"} ${
         smGrid ? "!max-w-[18rem]" : ""
       } ${
         footerProduct ? "!max-w-[14rem]" : ""
@@ -34,7 +42,7 @@ const ProductCard = ({ name, width, dark = false, smGrid, footerProduct }) => {
           animate("#imgProduct", { scale: 1 });
         }}
         className={`bg-[#F5F5F5] w-full relative flex-center overflow-hidden rounded-2xl  ${
-          width === "sm" ? "h-[15rem]" : "h-[20rem]"
+          width === "sm" ? "h-[14rem]" : "h-[20rem]"
         } ${smGrid ? "!h-[16rem]" : ""} ${
           footerProduct
             ? "!h-[12rem] [&_svg]:w-[18px] [&_span]:top-2 [&_span]:right-3 rounded-lg"
@@ -45,7 +53,7 @@ const ProductCard = ({ name, width, dark = false, smGrid, footerProduct }) => {
           {heart}
         </span>
         <Image
-          src={"/Testimg.jpg"}
+          src={img}
           width={500}
           height={500}
           id="imgProduct"
