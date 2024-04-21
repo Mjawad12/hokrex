@@ -1,11 +1,16 @@
 "use client";
-import { arrowLeft, left } from "@/Consonats";
+import { left } from "@/Consonats";
 import { motion, stagger, useAnimate, useInView } from "framer-motion";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Customization from "./Customization";
 
 function Howitworks() {
   const [scope, animate] = useAnimate();
   const isInview = useInView(scope, { once: true, amount: "80px" });
+  const check = useRef(null);
+  var isView = useInView(check, { amount: "some" });
+  const [viewClick, setviewClick] = useState(false);
+
   const content = [
     {
       heading: "Choose your product",
@@ -36,44 +41,59 @@ function Howitworks() {
   }, [isInview]);
 
   return (
-    <div className="max-w-[1220px] w-full flex-center flex-col gap-24 m-auto pt-28 pb-5">
-      <div className="flex-center flex-col gap-3">
-        <motion.p
-          initial={{ scale: 1.3, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ amount: "50px", once: true }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
-          className="text-[26px] font-[700] tracking-[3px]"
-        >
-          HOW IT WORK
-        </motion.p>
-        <motion.h2
-          initial={{ y: "90px", opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ amount: "50px", once: true }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
-          className="text-[74px] font-[700] text-center max-w-[25ch] leading-[72px]"
-        >
-          Get your Custom printed product in just 4 easy steps.
-        </motion.h2>
-      </div>
-      <div className="w-full flex justify-between items-center">
-        <motion.div
-          ref={scope}
-          className="flex-1 flex-grow-[0.8] flex flex-wrap gap-4 gap-y-8"
-        >
-          {content.map((it, index) => (
-            <Card des={it.des} heading={it.heading} key={index} />
-          ))}
-        </motion.div>
-        <div className="flex-1 flex-grow-[0.3] flex-center ">
-          <div className="flex-center scale-x-[-1] rounded-full border w-[7rem] h-[7rem] relative [&_svg]:w-[35px] [&_svg]:h-[35px] cursor-pointer">
-            <span className="absolute left-[1.9rem]">{left}</span>
-            {left}
+    <>
+      <div className="w-full overflow-hidden relative">
+        <div className="max-w-[1220px] w-full flex-center flex-col gap-24 m-auto pt-28 ">
+          <div className="flex-center flex-col gap-3">
+            <motion.p
+              initial={{ scale: 1.3, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ amount: "50px", once: true }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+              className="text-[26px] font-[700] tracking-[3px]"
+            >
+              HOW IT WORK
+            </motion.p>
+            <motion.h2
+              initial={{ y: "90px", opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ amount: "50px", once: true }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+              className="text-[74px] font-[700] text-center max-w-[25ch] leading-[72px]"
+            >
+              Get your Custom printed product in just 4 easy steps.
+            </motion.h2>
+          </div>
+          <div className="w-full flex justify-between items-center">
+            <motion.div
+              ref={scope}
+              className="flex-1 flex-grow-[0.8] flex flex-wrap gap-4 gap-y-8"
+            >
+              {content.map((it, index) => (
+                <Card des={it.des} heading={it.heading} key={index} />
+              ))}
+            </motion.div>
+            <div className="flex-1 flex-grow-[0.3] flex-center ">
+              <div
+                onClick={() =>
+                  check.current.scrollIntoView({
+                    behavior: "smooth",
+                    block: "end",
+                    inline: "nearest",
+                  })
+                }
+                className="flex-center scale-x-[-1] rounded-full border w-[7rem] h-[7rem] relative [&_svg]:w-[35px] [&_svg]:h-[35px] cursor-pointer"
+              >
+                <span className="absolute left-[1.9rem]">{left}</span>
+                {left}
+              </div>
+            </div>
+            <Customization isView={isView} />
           </div>
         </div>
+        <div ref={check} className="w-5 h-5 mt-16" />
       </div>
-    </div>
+    </>
   );
 }
 
