@@ -4,7 +4,7 @@ import Link from "next/link.js";
 
 function Navbar({ cart }) {
   return (
-    <div className="w-full flex justify-between items-center px-6 pr-20 py-3 border-b border-[#E5E5E5] ">
+    <div className="w-full flex justify-between items-center px-6 pr-12 py-3 border-b border-[#E5E5E5] ">
       <Link
         href={"/"}
         className="flex-1 flex-grow-[0.1] flex justify-center items-center gap-2"
@@ -47,9 +47,9 @@ const SmNav = ({ cart }) => {
     <ul className="list-none [&_li]:font-[500] [&_li]:cursor-pointer [&_li]:text-[0.95rem]  gap-5 flex-center [&_li]:whitespace-nowrap ">
       {!cart && (
         <>
-          <Link href={"/products"}>
+          <a href={"/products"}>
             <li>Products</li>
-          </Link>
+          </a>
           <li>Services</li>
           <li>About us</li>
           <li>Contact us</li>
