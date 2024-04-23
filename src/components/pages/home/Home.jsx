@@ -7,7 +7,7 @@ import { left2, prods, star } from "@/Consonats";
 function Home() {
   const images = [0, 1, 2, 3];
   return (
-    <div className="flex max-w-[1450px] m-auto px-5 min-h-[calc(100vh-65px)] ">
+    <section className="flex max-w-[1450px] m-auto px-5 min-h-[calc(100vh-65px)] ">
       <div className="flex-1 flex-grow-[0.43] flex justify-center flex-col gap-[7rem]">
         <motion.div
           initial={{ y: "60px", opacity: 0 }}
@@ -196,7 +196,7 @@ function Home() {
           </motion.div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

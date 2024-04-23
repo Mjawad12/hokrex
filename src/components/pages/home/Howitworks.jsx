@@ -3,13 +3,13 @@ import { left } from "@/Consonats";
 import { motion, stagger, useAnimate, useInView } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import Customization from "./Customization";
+import Image from "next/image";
 
 function Howitworks() {
   const [scope, animate] = useAnimate();
   const isInview = useInView(scope, { once: true, amount: "80px" });
   const check = useRef(null);
   var isView = useInView(check, { amount: "some" });
-  const [viewClick, setviewClick] = useState(false);
 
   const content = [
     {
@@ -42,7 +42,7 @@ function Howitworks() {
 
   return (
     <>
-      <div className="w-full overflow-hidden relative">
+      <section className="w-full overflow-hidden relative">
         <div className="max-w-[1220px] w-full flex-center flex-col gap-24 m-auto pt-28 ">
           <div className="flex-center flex-col gap-3">
             <motion.p
@@ -55,6 +55,7 @@ function Howitworks() {
               HOW IT WORK
             </motion.p>
             <motion.h2
+              id="v-c-h"
               initial={{ y: "90px", opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ amount: "50px", once: true }}
@@ -66,9 +67,12 @@ function Howitworks() {
           </div>
           <div className="w-full flex justify-between items-center">
             <motion.div
+              id="v-c-h"
               ref={scope}
-              className="flex-1 flex-grow-[0.8] flex flex-wrap gap-4 gap-y-8"
+              className="flex-1 flex-grow-[0.8] flex flex-wrap gap-4 gap-y-8 z-10 relative"
             >
+              <div id="v-c-h-1" className="opacity-0" />
+
               {content.map((it, index) => (
                 <Card des={it.des} heading={it.heading} key={index} />
               ))}
@@ -77,12 +81,12 @@ function Howitworks() {
               <div
                 onClick={() =>
                   check.current.scrollIntoView({
-                    behavior: "smooth",
+                    behavior: "instant",
                     block: "end",
                     inline: "nearest",
                   })
                 }
-                className="flex-center scale-x-[-1] rounded-full border w-[7rem] h-[7rem] relative [&_svg]:w-[35px] [&_svg]:h-[35px] cursor-pointer"
+                className="flex-center scale-x-[-1] rounded-full border w-[7rem] h-[7rem] relative [&_svg]:w-[35px] [&_svg]:h-[35px] cursor-pointer z-10"
               >
                 <span className="absolute left-[1.9rem]">{left}</span>
                 {left}
@@ -91,8 +95,8 @@ function Howitworks() {
             <Customization isView={isView} />
           </div>
         </div>
-        <div ref={check} className="w-5 h-5 mt-16" />
-      </div>
+        <div ref={check} className="w-5 h-5 mt-16 sticky top-0" />
+      </section>
     </>
   );
 }

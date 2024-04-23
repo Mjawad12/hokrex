@@ -17,6 +17,15 @@
   }
 }
 
+/* html {
+  scroll-snap-type: y mandatory;
+}
+
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+} */
+
 ::-webkit-scrollbar {
   background-color: #d9d9d9;
   width: 8px;
