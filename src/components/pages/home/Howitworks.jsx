@@ -1,37 +1,32 @@
 "use client";
-import { left } from "@/Consonats";
-import { motion, stagger, useAnimate, useInView } from "framer-motion";
+import { content, left } from "@/Consonats";
+import {
+  motion,
+  stagger,
+  useAnimate,
+  useInView,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import Customization from "./Customization";
-import Image from "next/image";
+import Representation from "./Representation";
 
 function Howitworks() {
   const [scope, animate] = useAnimate();
   const isInview = useInView(scope, { once: true, amount: "80px" });
   const check = useRef(null);
   var isView = useInView(check, { amount: "some" });
-
-  const content = [
-    {
-      heading: "Choose your product",
-      des: "Select a product our wide range of products.",
-    },
-    {
-      heading: "Customise it",
-      des: "Customise your product to your liking using our tool.",
-    },
-    {
-      heading: "Approve the sample",
-      des: "Work with our designer to create the perfect product.",
-    },
-    {
-      heading: "Get at your doorstep",
-      des: "Get your product delivered to your doorstep.",
-    },
-  ];
+  const imgRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: imgRef,
+    offset: ["start end", "start 0.1"],
+  });
+  const color = useTransform(scrollYProgress, [0, 1], ["#00000", "#ffffff"]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
   useEffect(() => {
-    console.log(isInview);
     isInview &&
       animate(
         "#card-anim",
@@ -42,7 +37,7 @@ function Howitworks() {
 
   return (
     <>
-      <section className="w-full overflow-hidden relative">
+      <section id="v-c-h" className="w-full relative">
         <div className="max-w-[1220px] w-full flex-center flex-col gap-24 m-auto pt-28 ">
           <div className="flex-center flex-col gap-3">
             <motion.p
@@ -67,12 +62,9 @@ function Howitworks() {
           </div>
           <div className="w-full flex justify-between items-center">
             <motion.div
-              id="v-c-h"
               ref={scope}
-              className="flex-1 flex-grow-[0.8] flex flex-wrap gap-4 gap-y-8 z-10 relative"
+              className="flex-1 flex-grow-[0.8] flex flex-wrap gap-4 gap-y-8 z-10 relative justify-start"
             >
-              <div id="v-c-h-1" className="opacity-0" />
-
               {content.map((it, index) => (
                 <Card des={it.des} heading={it.heading} key={index} />
               ))}
@@ -92,10 +84,11 @@ function Howitworks() {
                 {left}
               </div>
             </div>
-            <Customization isView={isView} />
+            <Customization isView={isView} color={color} opacity={opacity} />
           </div>
         </div>
-        <div ref={check} className="w-5 h-5 mt-16 sticky top-0" />
+        <div ref={check} className="h-5 mt-16 sticky top-0 w-full" />
+        <Representation imgRef={imgRef} />
       </section>
     </>
   );
@@ -106,7 +99,7 @@ const Card = ({ heading, des }) => {
     <motion.div
       initial={{ y: "150px", opacity: 0 }}
       id="card-anim"
-      className="max-w-[21.5rem] min-h-[20.5rem] px-7 py-6 flex flex-col justify-between hover:border-pmRed border"
+      className="max-w-[21.5rem] min-h-[20.5rem] w-full px-7 py-6 flex flex-col justify-between hover:border-pmRed border"
     >
       <span className="w-[4.3rem] h-[4.3rem] bg-[#FFF1F1] rounded-lg " />
       <div className="flex flex-col gap-3">

@@ -1,10 +1,9 @@
 "use client";
 import { left } from "@/Consonats";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import React from "react";
 
-function Customization({ isView }) {
+function Customization({ isView, color, opacity }) {
   return (
     <motion.section
       initial={{ x: "100%" }}
@@ -14,9 +13,16 @@ function Customization({ isView }) {
         ease: [0, 0, 0, 1],
         delay: isView ? 0 : 0.6,
       }}
-      className="flex flex-col fixed top-0 left-0 w-full z-20"
+      className="flex flex-col fixed top-0 left-0 w-full z-20 min-h-[500vh] bg-white "
     >
-      <motion.div className="w-full min-h-screen bg-black flex-center flex-col overflow-hidden relative">
+      <motion.div
+        transition={{
+          duration: 1.2,
+          ease: "easeInOut",
+        }}
+        style={{ background: color, opacity: opacity }}
+        className="w-full min-h-screen bg-black flex-center flex-col overflow-hidden relative"
+      >
         <motion.div
           animate={{ opacity: isView ? 1 : 0, x: isView ? 0 : 60 }}
           transition={{
@@ -25,7 +31,7 @@ function Customization({ isView }) {
             delay: !isView ? 0 : 1,
           }}
           onClick={() => {
-            window.scrollTo(0, window.scrollY - 30);
+            document.querySelector("#v-c-h").scrollIntoView();
           }}
           className="flex-center  rounded-full border w-[7rem] h-[7rem] relative [&_svg]:w-[35px] [&_svg]:h-[35px] cursor-pointer bg-white"
         >
