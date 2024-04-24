@@ -10,10 +10,12 @@ import {
   useAnimate,
 } from "framer-motion";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Our_products from "./Our_products";
+import { ContextAnimation } from "@/components/Mainstate(Animation)/MainStateAnimation";
 
 function Representation({ imgRef }) {
+  const { setanimating } = useContext(ContextAnimation);
   const [slide, setslide] = useState(true);
   const [view, setview] = useState(false);
   const [view1, setview1] = useState(false);
@@ -30,7 +32,7 @@ function Representation({ imgRef }) {
 
   const slide2 = useScroll({
     target: target,
-    offset: ["start start", "end start"],
+    offset: ["start -0.2", "end -0.2"],
   });
 
   const value = useTransform(scrollYProgress, [0, 1], [false, true]);
@@ -48,23 +50,29 @@ function Representation({ imgRef }) {
   });
 
   return (
-    <div className="w-full h-[200vh] z-20 relative mt-52">
-      <Slides view={view} view2={view1} imgRef={imgRef} slide={slide} />
-      <div ref={target} className="bg-purple-900 w-5 h-5"></div>
+    <div className="w-full min-h-[300vh] z-20 relative mt-52">
+      <Slides
+        view={view}
+        view2={view1}
+        imgRef={imgRef}
+        slide={slide}
+        setanimating={setanimating}
+      />
+      <div ref={target} className="bg-purple-900 w-2 h-2"></div>
     </div>
   );
 }
 
-const Slides = ({ view, view2, imgRef, slide }) => {
+const Slides = ({ view, view2, imgRef, slide, setanimating }) => {
   const [furtherAnimate, setfurtherAnimate] = useState(false);
   const [scope, animate] = useAnimate();
 
   useEffect(() => {
-    !slide && animateFunc();
-    slide && animateReverseFunc();
+    slide ? animateReverseFunc() : animateFunc();
   }, [slide]);
 
   const animateFunc = async () => {
+    setanimating(true);
     await animate(
       scope.current,
       { opacity: 0 },
@@ -72,10 +80,18 @@ const Slides = ({ view, view2, imgRef, slide }) => {
     );
     scope.current.style.display = "none";
     setfurtherAnimate(true);
+    setanimating(false);
   };
   const animateReverseFunc = async () => {
     setfurtherAnimate(false);
   };
+
+  // useEffect(() => {
+  //   setanimating(view);
+  // }, [view]);
+  // useEffect(() => {
+  //   setanimating(view2);
+  // }, [view2]);
 
   return (
     <div className="w-full overflow-hidden sticky top-0 ">
@@ -88,6 +104,12 @@ const Slides = ({ view, view2, imgRef, slide }) => {
             left: view ? 0 : "50%",
             x: view ? 0 : "-50%",
           }}
+          onAnimationComplete={() => {
+            setanimating(false);
+          }}
+          onAnimationStart={() => {
+            setanimating(true);
+          }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
           className={`flex-center flex-col flex-1 absolute left-[50%] translate-x-[-50%] top-0 min-h-screen`}
         >
@@ -99,6 +121,12 @@ const Slides = ({ view, view2, imgRef, slide }) => {
               x: view2 ? -40 : 0,
             }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
+            onAnimationComplete={() => {
+              setanimating(false);
+            }}
+            onAnimationStart={() => {
+              setanimating(true);
+            }}
             src={"/tool.png"}
             alt="tool"
             width={1200}
@@ -195,6 +223,7 @@ const Slides = ({ view, view2, imgRef, slide }) => {
             { opacity: 1 },
             { duration: 1.2, ease: "easeInOut" }
           );
+          setanimating(false);
         }}
       >
         {furtherAnimate && <Our_products />}
