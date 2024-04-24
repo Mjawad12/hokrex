@@ -37,7 +37,7 @@ function Representation({ imgRef }) {
   return (
     <div className="w-full min-h-[200vh] z-20 relative mt-52">
       <ImageSection view={view} view2={view1} imgRef={imgRef} />
-      <div ref={target} className="bg-purple-900 w-5 h-5"></div>
+      <div ref={target} className="w-5 h-5"></div>
     </div>
   );
 }
