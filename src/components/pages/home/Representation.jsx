@@ -7,25 +7,35 @@ import {
   useScroll,
   useMotionValueEvent,
   AnimatePresence,
+  useAnimate,
 } from "framer-motion";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import Our_products from "./Our_products";
 
 function Representation({ imgRef }) {
+  const [slide, setslide] = useState(true);
   const [view, setview] = useState(false);
   const [view1, setview1] = useState(false);
   const target = useRef(null);
   const { scrollYProgress } = useScroll({
     target: target,
-    offset: ["center 0.3", "start start"],
+    offset: ["center 0.2", "start start"],
   });
 
   const anim2 = useScroll({
     target: target,
     offset: ["start 0.7", "start start"],
   });
+
+  const slide2 = useScroll({
+    target: target,
+    offset: ["start start", "end start"],
+  });
+
   const value = useTransform(scrollYProgress, [0, 1], [false, true]);
   const val_anim2 = useTransform(anim2.scrollYProgress, [0, 1], [false, true]);
+  const slideVal = useTransform(slide2.scrollYProgress, [0, 1], [true, false]);
 
   useMotionValueEvent(value, "change", (e) => {
     setview(e);
@@ -33,19 +43,46 @@ function Representation({ imgRef }) {
   useMotionValueEvent(val_anim2, "change", (e) => {
     setview1(e);
   });
+  useMotionValueEvent(slideVal, "change", (e) => {
+    setslide(e);
+  });
 
   return (
-    <div className="w-full min-h-[200vh] z-20 relative mt-52">
-      <ImageSection view={view} view2={view1} imgRef={imgRef} />
-      <div ref={target} className="w-5 h-5"></div>
+    <div className="w-full h-[200vh] z-20 relative mt-52">
+      <Slides view={view} view2={view1} imgRef={imgRef} slide={slide} />
+      <div ref={target} className="bg-purple-900 w-5 h-5"></div>
     </div>
   );
 }
 
-const ImageSection = ({ view, view2, imgRef }) => {
+const Slides = ({ view, view2, imgRef, slide }) => {
+  const [furtherAnimate, setfurtherAnimate] = useState(false);
+  const [scope, animate] = useAnimate();
+
+  useEffect(() => {
+    !slide && animateFunc();
+    slide && animateReverseFunc();
+  }, [slide]);
+
+  const animateFunc = async () => {
+    await animate(
+      scope.current,
+      { opacity: 0 },
+      { duration: 1.2, ease: "easeInOut" }
+    );
+    scope.current.style.display = "none";
+    setfurtherAnimate(true);
+  };
+  const animateReverseFunc = async () => {
+    setfurtherAnimate(false);
+  };
+
   return (
     <div className="w-full overflow-hidden sticky top-0 ">
-      <div className="flex  justify-end max-w-[1300px] z-20 w-full min-h-screen mx-auto relative ">
+      <motion.div
+        ref={scope}
+        className="flex  justify-end max-w-[1300px] z-20 w-full min-h-screen mx-auto relative "
+      >
         <motion.div
           animate={{
             left: view ? 0 : "50%",
@@ -72,7 +109,10 @@ const ImageSection = ({ view, view2, imgRef }) => {
           <div className="flex flex-col gap-5 max-w-[640px] py-5">
             <motion.h3
               initial={{ y: 30, opacity: 0.5 }}
-              animate={{ y: view2 ? "0" : "50px", opacity: view2 ? 1 : 0.5 }}
+              animate={{
+                y: view2 ? "0" : "50px",
+                opacity: view2 ? 1 : 0.5,
+              }}
               transition={{ duration: 1.8, ease: "easeInOut" }}
               className="text-[75px] font-[700] leading-[75px]"
             >
@@ -80,7 +120,10 @@ const ImageSection = ({ view, view2, imgRef }) => {
             </motion.h3>
             <motion.p
               initial={{ y: 30 }}
-              animate={{ y: view2 ? "0" : "50px", opacity: view2 ? 1 : 0.5 }}
+              animate={{
+                y: view2 ? "0" : "50px",
+                opacity: view2 ? 1 : 0.5,
+              }}
               transition={{ duration: 1.8, ease: "easeInOut" }}
               className="text-[18px] font-[500] leading-[24px] "
             >
@@ -90,7 +133,10 @@ const ImageSection = ({ view, view2, imgRef }) => {
             </motion.p>
             <motion.div
               initial={{ y: 30 }}
-              animate={{ y: view2 ? "0" : "50px", opacity: view2 ? 1 : 0.5 }}
+              animate={{
+                y: view2 ? "0" : "50px",
+                opacity: view2 ? 1 : 0.5,
+              }}
               transition={{ duration: 1.8, ease: "easeInOut" }}
               className="mt-8"
             >
@@ -140,7 +186,19 @@ const ImageSection = ({ view, view2, imgRef }) => {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
+      <AnimatePresence
+        onExitComplete={async () => {
+          scope.current.style.display = "flex";
+          await animate(
+            scope.current,
+            { opacity: 1 },
+            { duration: 1.2, ease: "easeInOut" }
+          );
+        }}
+      >
+        {furtherAnimate && <Our_products />}
+      </AnimatePresence>
     </div>
   );
 };

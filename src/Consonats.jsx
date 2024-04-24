@@ -1387,6 +1387,18 @@ const brands = [
   </svg>,
 ];
 
+const ourproducts = [
+  "Brand appearl",
+  "Personal",
+  "Print on Demand",
+  "Stikers",
+  "Work wear",
+  "Team & Sports",
+  "Home & Leaving",
+  "Gift items",
+  "Pormotional items",
+];
+
 export {
   logo,
   searchIcon,
@@ -1420,4 +1432,5 @@ export {
   addicon,
   content,
   brands,
+  ourproducts,
 };
