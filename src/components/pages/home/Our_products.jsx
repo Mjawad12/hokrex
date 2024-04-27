@@ -72,7 +72,11 @@ function Our_products({ setanimating, contactPage, setcontactPage }) {
                   {contactPage && <ContactBox contactPage={contactPage} />}
                 </AnimatePresence>
                 <motion.div
-                  onClick={() => setcontactPage(!contactPage)}
+                  onClick={() => {
+                    contactPage
+                      ? window.scrollTo(0, window.scrollY - 300)
+                      : window.scrollTo(0, window.scrollY + 300);
+                  }}
                   initial={{ rotate: -90 }}
                   exit={{ rotate: -90 }}
                   animate={{
