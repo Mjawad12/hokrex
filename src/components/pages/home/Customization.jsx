@@ -1,9 +1,11 @@
 "use client";
 import { left } from "@/Consonats";
+import { ContextAnimation } from "@/components/Mainstate(Animation)/MainStateAnimation";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useContext } from "react";
 
 function Customization({ isView, color, opacity }) {
+  const { setanimating } = useContext(ContextAnimation);
   return (
     <motion.section
       initial={{ x: "100%" }}

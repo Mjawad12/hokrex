@@ -1,8 +1,7 @@
 "use client";
-import { brands, left, left2 } from "@/Consonats";
+import { brands, left } from "@/Consonats";
 import {
   motion,
-  useInView,
   useTransform,
   useScroll,
   useMotionValueEvent,
@@ -19,7 +18,9 @@ function Representation({ imgRef }) {
   const [slide, setslide] = useState(true);
   const [view, setview] = useState(false);
   const [view1, setview1] = useState(false);
+  const [contactPage, setcontactPage] = useState(false);
   const target = useRef(null);
+
   const { scrollYProgress } = useScroll({
     target: target,
     offset: ["center 0.2", "start start"],
@@ -35,9 +36,19 @@ function Representation({ imgRef }) {
     offset: ["start -0.2", "end -0.2"],
   });
 
+  const contactSlide = useScroll({
+    target: target,
+    offset: ["start -0.5", "end -0.7"],
+  });
+
   const value = useTransform(scrollYProgress, [0, 1], [false, true]);
   const val_anim2 = useTransform(anim2.scrollYProgress, [0, 1], [false, true]);
   const slideVal = useTransform(slide2.scrollYProgress, [0, 1], [true, false]);
+  const ContactVal = useTransform(
+    contactSlide.scrollYProgress,
+    [0, 1],
+    [false, true],
+  );
 
   useMotionValueEvent(value, "change", (e) => {
     setview(e);
@@ -48,22 +59,35 @@ function Representation({ imgRef }) {
   useMotionValueEvent(slideVal, "change", (e) => {
     setslide(e);
   });
+  useMotionValueEvent(ContactVal, "change", (e) => {
+    setcontactPage(e);
+  });
 
   return (
-    <div className="w-full min-h-[300vh] z-20 relative mt-52">
+    <div className="relative z-20 mt-52 min-h-[300vh] w-full">
       <Slides
         view={view}
         view2={view1}
         imgRef={imgRef}
         slide={slide}
         setanimating={setanimating}
+        setcontactPage={setcontactPage}
+        contactPage={contactPage}
       />
-      <div ref={target} className="bg-purple-900 w-2 h-2"></div>
+      <div ref={target} className="h-2 w-2 bg-purple-900"></div>
     </div>
   );
 }
 
-const Slides = ({ view, view2, imgRef, slide, setanimating }) => {
+const Slides = ({
+  view,
+  view2,
+  imgRef,
+  slide,
+  setanimating,
+  contactPage,
+  setcontactPage,
+}) => {
   const [furtherAnimate, setfurtherAnimate] = useState(false);
   const [scope, animate] = useAnimate();
 
@@ -76,28 +100,21 @@ const Slides = ({ view, view2, imgRef, slide, setanimating }) => {
     await animate(
       scope.current,
       { opacity: 0 },
-      { duration: 1.2, ease: "easeInOut" }
+      { duration: 1.2, ease: "easeInOut" },
     );
     scope.current.style.display = "none";
-    setfurtherAnimate(true);
     setanimating(false);
+    setfurtherAnimate(true);
   };
   const animateReverseFunc = async () => {
     setfurtherAnimate(false);
   };
 
-  // useEffect(() => {
-  //   setanimating(view);
-  // }, [view]);
-  // useEffect(() => {
-  //   setanimating(view2);
-  // }, [view2]);
-
   return (
-    <div className="w-full overflow-hidden sticky top-0 ">
+    <div className="sticky top-0 w-full overflow-hidden ">
       <motion.div
         ref={scope}
-        className="flex  justify-end max-w-[1300px] z-20 w-full min-h-screen mx-auto relative "
+        className="relative  z-20 mx-auto flex min-h-screen w-full max-w-[1300px] justify-end "
       >
         <motion.div
           animate={{
@@ -111,7 +128,7 @@ const Slides = ({ view, view2, imgRef, slide, setanimating }) => {
             setanimating(true);
           }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
-          className={`flex-center flex-col flex-1 absolute left-[50%] translate-x-[-50%] top-0 min-h-screen`}
+          className={`flex-center absolute left-[50%] top-0 min-h-screen flex-1 translate-x-[-50%] flex-col`}
         >
           <motion.img
             ref={imgRef}
@@ -134,7 +151,7 @@ const Slides = ({ view, view2, imgRef, slide, setanimating }) => {
             className="h-max"
           />
 
-          <div className="flex flex-col gap-5 max-w-[640px] py-5">
+          <div className="flex max-w-[640px] flex-col gap-5 py-5">
             <motion.h3
               initial={{ y: 30, opacity: 0.5 }}
               animate={{
@@ -170,7 +187,7 @@ const Slides = ({ view, view2, imgRef, slide, setanimating }) => {
             >
               <Link
                 href={"/products"}
-                className="px-6 py-[0.7rem] border border-black text-black rounded-3xl font-[500] text-[17px] w-max "
+                className="w-max rounded-3xl border border-black px-6 py-[0.7rem] text-[17px] font-[500] text-black "
               >
                 View Products
               </Link>
@@ -185,27 +202,27 @@ const Slides = ({ view, view2, imgRef, slide, setanimating }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="flex-center flex-col flex-1 flex-grow-[0.5] relative z-20"
+              className="flex-center relative z-20 flex-1 flex-grow-[0.5] flex-col"
             >
               <motion.div
                 initial={{ x: 10, y: -10, rotate: 270 }}
                 animate={{ x: 0, y: 0, rotate: 270 }}
                 exit={{ x: 10, y: -10, rotate: 270 }}
                 transition={{ duration: 1.2, ease: "easeInOut" }}
-                className="flex-center rotate-[270deg] rounded-full border w-[7rem] h-[7rem] relative [&_svg]:w-[35px] [&_svg]:h-[35px] cursor-pointer bg-white"
+                className="flex-center relative h-[7rem] w-[7rem] rotate-[270deg] cursor-pointer rounded-full border bg-white [&_svg]:h-[35px] [&_svg]:w-[35px]"
               >
                 <span className="absolute left-[1.9rem]">{left}</span>
                 {left}
               </motion.div>
 
-              <div className="flex w-max absolute rotate-[-20deg] gap-4 bottom-[82px] left-[-454px] ">
+              <div className="absolute bottom-[82px] left-[-454px] flex w-max rotate-[-20deg] gap-4 ">
                 {brands.map((it, index) => (
                   <span
                     style={{
                       filter: "contrast(0) brightness(1.7) grayscale(1)",
                     }}
                     key={index}
-                    className="flex-center border max-w-[10rem] w-full px-7 hover:!filter-none "
+                    className="flex-center w-full max-w-[10rem] border px-7 hover:!filter-none "
                   >
                     {it}
                   </span>
@@ -221,12 +238,17 @@ const Slides = ({ view, view2, imgRef, slide, setanimating }) => {
           await animate(
             scope.current,
             { opacity: 1 },
-            { duration: 1.2, ease: "easeInOut" }
+            { duration: 1.2, ease: "easeInOut" },
           );
-          setanimating(false);
         }}
       >
-        {furtherAnimate && <Our_products />}
+        {furtherAnimate && (
+          <Our_products
+            setanimating={setanimating}
+            contactPage={contactPage}
+            setcontactPage={setcontactPage}
+          />
+        )}
       </AnimatePresence>
     </div>
   );

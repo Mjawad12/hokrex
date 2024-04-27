@@ -5,11 +5,10 @@ import {
   stagger,
   useAnimate,
   useInView,
-  useMotionValueEvent,
   useScroll,
   useTransform,
 } from "framer-motion";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Customization from "./Customization";
 import Representation from "./Representation";
 
@@ -31,14 +30,14 @@ function Howitworks() {
       animate(
         "#card-anim",
         { y: 0, opacity: 1 },
-        { duration: 2, delay: stagger(0.3), ease: "easeInOut" }
+        { duration: 2, delay: stagger(0.3), ease: "easeInOut" },
       );
   }, [isInview]);
 
   return (
     <>
-      <section id="v-c-h" className="w-full relative">
-        <div className="max-w-[1220px] w-full flex-center flex-col gap-24 m-auto pt-28 ">
+      <section id="v-c-h" className="relative w-full">
+        <div className="flex-center m-auto w-full max-w-[1220px] flex-col gap-24 pt-28 ">
           <div className="flex-center flex-col gap-3">
             <motion.p
               initial={{ scale: 1.3, opacity: 0 }}
@@ -55,21 +54,21 @@ function Howitworks() {
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ amount: "50px", once: true }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="text-[74px] font-[700] text-center max-w-[25ch] leading-[72px]"
+              className="max-w-[25ch] text-center text-[74px] font-[700] leading-[72px]"
             >
               Get your Custom printed product in just 4 easy steps.
             </motion.h2>
           </div>
-          <div className="w-full flex justify-between items-center">
+          <div className="flex w-full items-center justify-between">
             <motion.div
               ref={scope}
-              className="flex-1 flex-grow-[0.8] flex flex-wrap gap-4 gap-y-8 z-10 relative justify-start"
+              className="relative z-10 flex flex-1 flex-grow-[0.8] flex-wrap justify-start gap-4 gap-y-8"
             >
               {content.map((it, index) => (
                 <Card des={it.des} heading={it.heading} key={index} />
               ))}
             </motion.div>
-            <div className="flex-1 flex-grow-[0.3] flex-center ">
+            <div className="flex-center flex-1 flex-grow-[0.3] ">
               <div
                 onClick={() =>
                   check.current.scrollIntoView({
@@ -78,7 +77,7 @@ function Howitworks() {
                     inline: "nearest",
                   })
                 }
-                className="flex-center scale-x-[-1] rounded-full border w-[7rem] h-[7rem] relative [&_svg]:w-[35px] [&_svg]:h-[35px] cursor-pointer z-10"
+                className="flex-center relative z-10 h-[7rem] w-[7rem] scale-x-[-1] cursor-pointer rounded-full border [&_svg]:h-[35px] [&_svg]:w-[35px]"
               >
                 <span className="absolute left-[1.9rem]">{left}</span>
                 {left}
@@ -87,7 +86,7 @@ function Howitworks() {
             <Customization isView={isView} color={color} opacity={opacity} />
           </div>
         </div>
-        <div ref={check} className="h-5 mt-16 sticky top-0 w-full" />
+        <div ref={check} className="sticky top-0 mt-16 h-5 w-full" />
         <Representation imgRef={imgRef} />
       </section>
     </>
@@ -99,9 +98,9 @@ const Card = ({ heading, des }) => {
     <motion.div
       initial={{ y: "150px", opacity: 0 }}
       id="card-anim"
-      className="max-w-[21.5rem] min-h-[20.5rem] w-full px-7 py-6 flex flex-col justify-between hover:border-pmRed border"
+      className="flex min-h-[20.5rem] w-full max-w-[21.5rem] flex-col justify-between border px-7 py-6 hover:border-pmRed"
     >
-      <span className="w-[4.3rem] h-[4.3rem] bg-[#FFF1F1] rounded-lg " />
+      <span className="h-[4.3rem] w-[4.3rem] rounded-lg bg-[#FFF1F1] " />
       <div className="flex flex-col gap-3">
         <h3 className="text-[27px] font-[700]">{heading}</h3>
         <p className="text-[20px] font-[500]">{des}</p>
