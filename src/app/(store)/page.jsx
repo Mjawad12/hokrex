@@ -1,5 +1,6 @@
+import Footer from "@/components/Footer";
 import MainStateAnimation from "@/components/Mainstate(Animation)/MainStateAnimation";
-import ContactBox from "@/components/pages/home/ContactBox";
+import FooterWrapper from "@/components/pages/home/FooterWrapper";
 import Home from "@/components/pages/home/Home";
 import Howitworks from "@/components/pages/home/Howitworks";
 
@@ -9,8 +10,11 @@ export default async function page() {
   return (
     <>
       <MainStateAnimation>
-        <Home />
-        <Howitworks />
+        <div className="relative ">
+          <Home />
+          <Howitworks />
+          {/* <FooterWrapper /> */}
+        </div>
       </MainStateAnimation>
     </>
   );

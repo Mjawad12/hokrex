@@ -3,11 +3,9 @@ import { left, ourproducts } from "@/Consonats";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import ContactBox from "./ContactBox";
+import FooterWrapper from "./FooterWrapper";
 
-function Our_products({ setanimating, contactPage, setcontactPage }) {
-  useEffect(() => {
-    console.log(contactPage);
-  }, [contactPage]);
+function Our_products({ setanimating, contactPage, footerPage }) {
   return (
     <>
       <motion.div
@@ -27,7 +25,7 @@ function Our_products({ setanimating, contactPage, setcontactPage }) {
           <div className="flex-center flex flex-col">
             <motion.h2
               initial={{ scale: 1.5, y: -15 }}
-              animate={{ scale: 1, y: 0 }}
+              animate={{ scale: 1, y: 0, opacity: contactPage ? 0 : 1 }}
               exit={{ scale: 1.5, y: -15 }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
               className="text-[25px] font-[700] tracking-[5px] "
@@ -37,7 +35,7 @@ function Our_products({ setanimating, contactPage, setcontactPage }) {
             <motion.h3
               initial={{ y: 55 }}
               exit={{ y: 55 }}
-              animate={{ y: 0 }}
+              animate={{ y: 0, opacity: contactPage ? 0 : 1 }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
               className="z-10 mt-3 text-center text-[75px] font-[700] leading-[70px]"
             >
@@ -53,8 +51,12 @@ function Our_products({ setanimating, contactPage, setcontactPage }) {
               <motion.div
                 initial={{ height: "7rem", width: "7rem", boxShadow: 0 }}
                 animate={{
-                  height: contactPage ? "1300px" : "7rem",
-                  width: contactPage ? "100%" : "7rem",
+                  height: contactPage
+                    ? footerPage
+                      ? "300vh"
+                      : "1300px"
+                    : "7rem",
+                  width: contactPage ? (footerPage ? "300vh" : "100%") : "7rem",
                   boxShadow: contactPage ? "0px 0px 23.7px 0px #0000001A" : 0,
 
                   borderRadius: "100%",
@@ -73,9 +75,15 @@ function Our_products({ setanimating, contactPage, setcontactPage }) {
                 </AnimatePresence>
                 <motion.div
                   onClick={() => {
-                    contactPage
-                      ? window.scrollTo(0, window.scrollY - 300)
-                      : window.scrollTo(0, window.scrollY + 300);
+                    if (contactPage) {
+                      window.scrollTo(
+                        0,
+                        window.scrollY +
+                          document.querySelector("body").scrollHeight,
+                      );
+                    } else {
+                      window.scrollTo(0, window.scrollY + 300);
+                    }
                   }}
                   initial={{ rotate: -90 }}
                   exit={{ rotate: -90 }}
@@ -92,7 +100,11 @@ function Our_products({ setanimating, contactPage, setcontactPage }) {
               </motion.div>
             </motion.div>
           </div>
-          <div className="flex w-full  flex-col flex-wrap gap-y-[6px] ">
+          <motion.div
+            animate={{ opacity: contactPage ? 0 : 1 }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+            className="flex w-full  flex-col flex-wrap gap-y-[6px] "
+          >
             {ourproducts.map((it, index) => {
               let margin = 0;
               switch (index) {
@@ -134,9 +146,10 @@ function Our_products({ setanimating, contactPage, setcontactPage }) {
                 </p>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </motion.div>
+      <FooterWrapper footerPage={footerPage} setanimating={setanimating} />
     </>
   );
 }

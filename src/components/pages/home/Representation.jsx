@@ -19,11 +19,12 @@ function Representation({ imgRef }) {
   const [view, setview] = useState(false);
   const [view1, setview1] = useState(false);
   const [contactPage, setcontactPage] = useState(false);
+  const [footerPage, setfooterPage] = useState(false);
   const target = useRef(null);
 
   const { scrollYProgress } = useScroll({
     target: target,
-    offset: ["center 0.2", "start start"],
+    offset: ["start 0.2", "end start"],
   });
 
   const anim2 = useScroll({
@@ -33,7 +34,7 @@ function Representation({ imgRef }) {
 
   const slide2 = useScroll({
     target: target,
-    offset: ["start -0.2", "end -0.2"],
+    offset: ["start -0.1", "end -0.2"],
   });
 
   const contactSlide = useScroll({
@@ -41,11 +42,21 @@ function Representation({ imgRef }) {
     offset: ["start -0.5", "end -0.7"],
   });
 
+  const footerSlide = useScroll({
+    target: target,
+    offset: ["start -0.95", "end -2"],
+  });
+
   const value = useTransform(scrollYProgress, [0, 1], [false, true]);
   const val_anim2 = useTransform(anim2.scrollYProgress, [0, 1], [false, true]);
   const slideVal = useTransform(slide2.scrollYProgress, [0, 1], [true, false]);
   const ContactVal = useTransform(
     contactSlide.scrollYProgress,
+    [0, 1],
+    [false, true],
+  );
+  const footerVal = useTransform(
+    footerSlide.scrollYProgress,
     [0, 1],
     [false, true],
   );
@@ -62,6 +73,9 @@ function Representation({ imgRef }) {
   useMotionValueEvent(ContactVal, "change", (e) => {
     setcontactPage(e);
   });
+  useMotionValueEvent(footerVal, "change", (e) => {
+    setfooterPage(e);
+  });
 
   return (
     <div className="relative z-20 mt-52 min-h-[300vh] w-full">
@@ -73,8 +87,9 @@ function Representation({ imgRef }) {
         setanimating={setanimating}
         setcontactPage={setcontactPage}
         contactPage={contactPage}
+        footerPage={footerPage}
       />
-      <div ref={target} className="h-2 w-2 bg-purple-900"></div>
+      <div ref={target} className="h-2 w-2 bg-purple-950"></div>
     </div>
   );
 }
@@ -87,6 +102,7 @@ const Slides = ({
   setanimating,
   contactPage,
   setcontactPage,
+  footerPage,
 }) => {
   const [furtherAnimate, setfurtherAnimate] = useState(false);
   const [scope, animate] = useAnimate();
@@ -156,7 +172,7 @@ const Slides = ({
               initial={{ y: 30, opacity: 0.5 }}
               animate={{
                 y: view2 ? "0" : "50px",
-                opacity: view2 ? 1 : 0.5,
+                opacity: view2 ? 1 : 0,
               }}
               transition={{ duration: 1.8, ease: "easeInOut" }}
               className="text-[75px] font-[700] leading-[75px]"
@@ -208,6 +224,7 @@ const Slides = ({
                 initial={{ x: 10, y: -10, rotate: 270 }}
                 animate={{ x: 0, y: 0, rotate: 270 }}
                 exit={{ x: 10, y: -10, rotate: 270 }}
+                onClick={() => window.scrollTo(0, window.scrollY + 250)}
                 transition={{ duration: 1.2, ease: "easeInOut" }}
                 className="flex-center relative h-[7rem] w-[7rem] rotate-[270deg] cursor-pointer rounded-full border bg-white [&_svg]:h-[35px] [&_svg]:w-[35px]"
               >
@@ -247,6 +264,7 @@ const Slides = ({
             setanimating={setanimating}
             contactPage={contactPage}
             setcontactPage={setcontactPage}
+            footerPage={footerPage}
           />
         )}
       </AnimatePresence>
