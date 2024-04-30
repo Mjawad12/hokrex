@@ -10,6 +10,17 @@ function MainStateAnimation({ children }) {
     window.onscroll = function (e) {
       animating && window.scrollTo(0, scrollTop);
     };
+    window.onkeydown = function (e) {
+      if (
+        e.key === "PageUp" ||
+        e.key === "PageDown" ||
+        e.key === "Home" ||
+        e.key === "End" ||
+        e.key === "Tab"
+      ) {
+        e.preventDefault();
+      }
+    };
   }, [animating]);
 
   return (

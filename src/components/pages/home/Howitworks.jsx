@@ -5,25 +5,46 @@ import {
   stagger,
   useAnimate,
   useInView,
+  useMotionValueEvent,
   useScroll,
   useTransform,
 } from "framer-motion";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Customization from "./Customization";
 import Representation from "./Representation";
 
 function Howitworks() {
+  const [slide1, setslide1] = useState(false);
   const [scope, animate] = useAnimate();
   const isInview = useInView(scope, { once: true, amount: "80px" });
   const check = useRef(null);
-  var isView = useInView(check, { amount: "some" });
   const imgRef = useRef(null);
+  var isView = useInView(check, { amount: "some" });
   const { scrollYProgress } = useScroll({
     target: imgRef,
-    offset: ["start end", "start 0.1"],
+    offset: ["start start", "end start"],
   });
-  const color = useTransform(scrollYProgress, [0, 1], ["#00000", "#ffffff"]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+
+  const slideSkip = useScroll({
+    target: imgRef,
+    offset: ["start 0.7", "end start"],
+  });
+
+  const slide1_Val = useTransform(scrollYProgress, [0, 1], [false, true]);
+  const slideSkip_Val = useTransform(
+    slideSkip.scrollYProgress,
+    [0, 1],
+    [false, true],
+  );
+
+  useMotionValueEvent(slide1_Val, "change", (e) => {
+    setslide1(e);
+  });
+
+  useMotionValueEvent(slideSkip_Val, "change", (e) => {
+    e && document.querySelector("#slide-1").scrollIntoView();
+    // !e && check.current.scrollIntoView();
+  });
 
   useEffect(() => {
     isInview &&
@@ -36,7 +57,7 @@ function Howitworks() {
 
   return (
     <>
-      <section id="v-c-h" className="relative w-full">
+      <section id="v-c-h" className="relative w-full ">
         <div className="flex-center m-auto w-full max-w-[1220px] flex-col gap-24 pt-28 ">
           <div className="flex-center flex-col gap-3">
             <motion.p
@@ -83,11 +104,11 @@ function Howitworks() {
                 {left}
               </div>
             </div>
-            <Customization isView={isView} color={color} opacity={opacity} />
+            <Customization isView={isView} slide1={slide1} />
           </div>
         </div>
         <div ref={check} className="sticky top-0 mt-16 h-5 w-full" />
-        <Representation imgRef={imgRef} />
+        <Representation imgRef={imgRef} slide1={slide1} />
       </section>
     </>
   );

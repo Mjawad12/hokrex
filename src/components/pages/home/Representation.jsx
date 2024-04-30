@@ -13,7 +13,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Our_products from "./Our_products";
 import { ContextAnimation } from "@/components/Mainstate(Animation)/MainStateAnimation";
 
-function Representation({ imgRef }) {
+function Representation({ imgRef, slide1 }) {
   const { setanimating } = useContext(ContextAnimation);
   const [slide, setslide] = useState(true);
   const [view, setview] = useState(false);
@@ -78,16 +78,21 @@ function Representation({ imgRef }) {
   });
 
   return (
-    <div className="relative z-20 mt-52 min-h-[300vh] w-full">
+    <div
+      ref={imgRef}
+      id="slide-1"
+      className="relative z-20 min-h-[300vh] w-full"
+    >
       <Slides
         view={view}
         view2={view1}
-        imgRef={imgRef}
+        // imgRef={imgRef}
         slide={slide}
         setanimating={setanimating}
         setcontactPage={setcontactPage}
         contactPage={contactPage}
         footerPage={footerPage}
+        slide1={slide1}
       />
       <div ref={target} className="h-2 w-2 bg-purple-950"></div>
     </div>
@@ -103,6 +108,7 @@ const Slides = ({
   contactPage,
   setcontactPage,
   footerPage,
+  slide1,
 }) => {
   const [furtherAnimate, setfurtherAnimate] = useState(false);
   const [scope, animate] = useAnimate();
@@ -130,7 +136,7 @@ const Slides = ({
     <div className="sticky top-0 w-full overflow-hidden ">
       <motion.div
         ref={scope}
-        className="relative  z-20 mx-auto flex min-h-screen w-full max-w-[1300px] justify-end "
+        className="relative z-20 mx-auto flex min-h-screen w-full max-w-[1300px] justify-end "
       >
         <motion.div
           animate={{
@@ -146,27 +152,33 @@ const Slides = ({
           transition={{ duration: 1.2, ease: "easeInOut" }}
           className={`flex-center absolute left-[50%] top-0 min-h-screen flex-1 translate-x-[-50%] flex-col`}
         >
-          <motion.img
-            ref={imgRef}
-            animate={{
-              minWidth: view2 ? "600px" : "1200px",
-              width: view2 ? "600px" : "1200px",
-              x: view2 ? -40 : 0,
-            }}
+          <motion.div
+            animate={{ height: view2 ? "375px" : "100vh" }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
-            onAnimationComplete={() => {
-              setanimating(false);
-            }}
-            onAnimationStart={() => {
-              setanimating(true);
-            }}
-            src={"/tool.png"}
-            alt="tool"
-            width={1200}
-            height={1200}
-            className="h-max"
-          />
-
+            className={`flex-center w-full`}
+          >
+            <motion.img
+              // ref={imgRef}
+              animate={{
+                minWidth: view2 ? "600px" : "1200px",
+                width: view2 ? "600px" : "1200px",
+                x: view2 ? -40 : 0,
+                y: slide1 ? "0" : "100%",
+              }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+              onAnimationComplete={() => {
+                setanimating(false);
+              }}
+              onAnimationStart={() => {
+                setanimating(true);
+              }}
+              src={"/tool.png"}
+              alt="tool"
+              width={1200}
+              height={1200}
+              className="h-max"
+            />
+          </motion.div>
           <div className="flex max-w-[640px] flex-col gap-5 py-5">
             <motion.h3
               initial={{ y: 30, opacity: 0.5 }}
