@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { animate, motion } from "framer-motion";
+import { whileInView, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { left2, prods, star } from "@/Consonats";
@@ -11,13 +11,13 @@ function Home() {
       <div className="flex flex-1 flex-grow-[0.43] flex-col justify-center gap-[7rem]">
         <motion.div
           initial={{ y: "60px", opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
           className="flex flex-col gap-3"
         >
           <motion.p
             initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
+            whileInView={{ scale: 1 }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
             className="text-[22px] font-[700] tracking-[5px] "
           >
@@ -40,7 +40,7 @@ function Home() {
             </Link>
             <motion.div
               initial={{ x: -60 }}
-              animate={{ x: 0 }}
+              whileInView={{ x: 0 }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
             >
               <Link href={"/"} className="flex gap-1 font-[500]">
@@ -54,13 +54,13 @@ function Home() {
         </motion.div>
         <motion.div
           initial={{ y: "30px", opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
           className="flex w-full items-center"
         >
           <motion.div
             initial={{ y: "40px", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
             className="relative flex h-[3.5rem] w-[6.5rem]"
           >
@@ -81,7 +81,7 @@ function Home() {
           <div className="">
             <motion.div
               initial={{ y: "-20px", x: "-50px", opacity: 0 }}
-              animate={{ y: 0, x: 0, opacity: 1 }}
+              whileInView={{ y: 0, x: 0, opacity: 1 }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
               className="flex gap-2"
             >
@@ -102,7 +102,7 @@ function Home() {
         <div className="flex-center relative w-full max-w-[48rem] flex-col">
           <motion.div
             initial={{ y: "50px", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
             className="absolute right-[5.9rem] top-[-16px] flex w-full justify-end "
           >
@@ -115,7 +115,7 @@ function Home() {
           </motion.div>
           <motion.div
             initial={{ y: "180px", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
             className="absolute bottom-0 left-[3rem] z-10 w-full"
           >
@@ -128,7 +128,7 @@ function Home() {
           </motion.div>
           <motion.div
             initial={{ y: "90px", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.1, ease: "easeInOut" }}
             className="absolute top-[4.2rem] z-20 translate-x-3"
           >
@@ -141,7 +141,7 @@ function Home() {
           </motion.div>
           <motion.div
             initial={{ y: "90px", x: "-52%", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.1, ease: "easeInOut" }}
             className=" absolute bottom-[5px] left-[50%] h-[25rem] w-[25rem] translate-x-[-52%] rounded-full bg-[#FFDBDB]"
           ></motion.div>
@@ -149,7 +149,7 @@ function Home() {
           <div className="absolute bottom-2 right-0 flex w-[9.8rem] flex-col gap-5 [&_svg]:stroke-black ">
             <motion.span
               initial={{ x: "40px", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
+              whileInView={{ x: 0, opacity: 1 }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
               className="flex-center relative right-[0.8rem] h-[3.5rem] w-[3.5rem] rounded-full bg-[#CFE2FF] [&_svg]:relative [&_svg]:right-[1px]  "
             >
@@ -157,7 +157,7 @@ function Home() {
             </motion.span>
             <motion.span
               initial={{ x: "80px", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
+              whileInView={{ x: 0, opacity: 1 }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
               className="flex-center relative right-1 h-[3.5rem] w-[3.5rem] rounded-full bg-[#CFFFF9] [&_svg]:relative "
             >
@@ -165,7 +165,7 @@ function Home() {
             </motion.span>
             <motion.span
               initial={{ x: "100px", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
+              whileInView={{ x: 0, opacity: 1 }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
               className="flex-center relative right-4 h-[3.5rem] w-[3.5rem] rounded-full bg-[#FECFFF] [&_svg]:relative [&_svg]:right-[1.5px] [&_svg]:top-[2px] [&_svg]:fill-black [&_svg]:stroke-none"
             >
@@ -173,7 +173,7 @@ function Home() {
             </motion.span>
             <motion.span
               initial={{ x: "50px", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
+              whileInView={{ x: 0, opacity: 1 }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
               className="flex-center relative bottom-2 right-[4rem] h-[3.5rem] w-[3.5rem] rounded-full bg-[#FFE9CF] [&_svg]:relative [&_svg]:top-[1px]"
             >
@@ -183,7 +183,7 @@ function Home() {
 
           <motion.div
             initial={{ y: "90px", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.1, ease: "easeInOut" }}
             className="z-10"
           >

@@ -86,7 +86,6 @@ function Representation({ imgRef, slide1 }) {
       <Slides
         view={view}
         view2={view1}
-        // imgRef={imgRef}
         slide={slide}
         setanimating={setanimating}
         setcontactPage={setcontactPage}
@@ -102,7 +101,6 @@ function Representation({ imgRef, slide1 }) {
 const Slides = ({
   view,
   view2,
-  imgRef,
   slide,
   setanimating,
   contactPage,
@@ -158,7 +156,6 @@ const Slides = ({
             className={`flex-center w-full`}
           >
             <motion.img
-              // ref={imgRef}
               animate={{
                 minWidth: view2 ? "600px" : "1200px",
                 width: view2 ? "600px" : "1200px",
@@ -243,24 +240,57 @@ const Slides = ({
                 <span className="absolute left-[1.9rem]">{left}</span>
                 {left}
               </motion.div>
-
-              <div className="absolute bottom-[82px] left-[-454px] flex w-max rotate-[-20deg] gap-4 ">
-                {brands.map((it, index) => (
-                  <span
-                    style={{
-                      filter: "contrast(0) brightness(1.7) grayscale(1)",
-                    }}
-                    key={index}
-                    className="flex-center w-full max-w-[10rem] border px-7 hover:!filter-none "
-                  >
-                    {it}
-                  </span>
-                ))}
+              <div className="absolute bottom-[352px] left-[-454px] flex rotate-[-20deg] gap-4 ">
+                <motion.div
+                  // animate={{ x: "100%" }}
+                  transition={{
+                    duration: 5,
+                    ease: "linear",
+                    // repeat: Infinity,
+                    // repeatType: "loop",
+                  }}
+                  className="flex w-max gap-4 "
+                >
+                  {brands.map((it, index) => (
+                    <span
+                      style={{
+                        filter: "contrast(0) brightness(1.7) grayscale(1)",
+                      }}
+                      key={index}
+                      className="flex-center w-full max-w-[11rem] border px-7 hover:!filter-none "
+                    >
+                      {it}
+                    </span>
+                  ))}
+                </motion.div>
+                <motion.div
+                  animate={{ x: "0%" }}
+                  transition={{
+                    duration: 5,
+                    ease: "linear",
+                    // repeat: Infinity,
+                    // repeatType: "loop",
+                  }}
+                  className="flex w-max gap-4"
+                >
+                  {brands.map((it, index) => (
+                    <span
+                      style={{
+                        filter: "contrast(0) brightness(1.7) grayscale(1)",
+                      }}
+                      key={index}
+                      className="flex-center w-full max-w-[11rem] border px-7 hover:!filter-none "
+                    >
+                      {it}
+                    </span>
+                  ))}
+                </motion.div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </motion.div>
+
       <AnimatePresence
         onExitComplete={async () => {
           scope.current.style.display = "flex";

@@ -15,8 +15,6 @@ import Representation from "./Representation";
 
 function Howitworks() {
   const [slide1, setslide1] = useState(false);
-  const [scope, animate] = useAnimate();
-  const isInview = useInView(scope, { once: true, amount: "80px" });
   const check = useRef(null);
   const imgRef = useRef(null);
   var isView = useInView(check, { amount: "some" });
@@ -46,15 +44,6 @@ function Howitworks() {
     // !e && check.current.scrollIntoView();
   });
 
-  useEffect(() => {
-    isInview &&
-      animate(
-        "#card-anim",
-        { y: 0, opacity: 1 },
-        { duration: 2, delay: stagger(0.3), ease: "easeInOut" },
-      );
-  }, [isInview]);
-
   return (
     <>
       <section id="v-c-h" className="relative w-full ">
@@ -63,7 +52,7 @@ function Howitworks() {
             <motion.p
               initial={{ scale: 1.3, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ amount: "50px", once: true }}
+              viewport={{ amount: "50px" }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
               className="text-[26px] font-[700] tracking-[3px]"
             >
@@ -73,7 +62,7 @@ function Howitworks() {
               id="v-c-h"
               initial={{ y: "90px", opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ amount: "50px", once: true }}
+              viewport={{ amount: "50px" }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
               className="max-w-[25ch] text-center text-[74px] font-[700] leading-[72px]"
             >
@@ -81,12 +70,14 @@ function Howitworks() {
             </motion.h2>
           </div>
           <div className="flex w-full items-center justify-between">
-            <motion.div
-              ref={scope}
-              className="relative z-10 flex flex-1 flex-grow-[0.8] flex-wrap justify-start gap-4 gap-y-8"
-            >
+            <motion.div className="relative z-10 flex flex-1 flex-grow-[0.8] flex-wrap justify-start gap-4 gap-y-8">
               {content.map((it, index) => (
-                <Card des={it.des} heading={it.heading} key={index} />
+                <Card
+                  des={it.des}
+                  heading={it.heading}
+                  key={index}
+                  tim={index}
+                />
               ))}
             </motion.div>
             <div className="flex-center flex-1 flex-grow-[0.3] ">
@@ -114,10 +105,12 @@ function Howitworks() {
   );
 }
 
-const Card = ({ heading, des }) => {
+const Card = ({ heading, des, tim }) => {
   return (
     <motion.div
       initial={{ y: "150px", opacity: 0 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      transition={{ duration: 1.2, delay: 0.1 * tim, ease: "easeInOut" }}
       id="card-anim"
       className="flex min-h-[20.5rem] w-full max-w-[21.5rem] flex-col justify-between border px-7 py-6 hover:border-pmRed"
     >
