@@ -240,14 +240,18 @@ const Slides = ({
                 <span className="absolute left-[1.9rem]">{left}</span>
                 {left}
               </motion.div>
-              <div className="absolute bottom-[352px] left-[-454px] flex rotate-[-20deg] gap-4 ">
+              <div
+                id="anim-headline-loop"
+                className="absolute bottom-[450px] left-[-500px] flex rotate-[-23deg] gap-5 "
+              >
                 <motion.div
-                  // animate={{ x: "100%" }}
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "100%" }}
                   transition={{
-                    duration: 5,
+                    duration: 20,
                     ease: "linear",
-                    // repeat: Infinity,
-                    // repeatType: "loop",
+                    repeat: Infinity,
+                    repeatType: "loop",
                   }}
                   className="flex w-max gap-4 "
                 >
@@ -257,19 +261,22 @@ const Slides = ({
                         filter: "contrast(0) brightness(1.7) grayscale(1)",
                       }}
                       key={index}
-                      className="flex-center w-full max-w-[11rem] border px-7 hover:!filter-none "
+                      className="flex-center w-full max-w-[12rem] border px-7 hover:!filter-none "
                     >
                       {it}
                     </span>
                   ))}
                 </motion.div>
+
                 <motion.div
+                  initial={{ x: "-200%" }}
                   animate={{ x: "0%" }}
                   transition={{
-                    duration: 5,
+                    duration: 20,
                     ease: "linear",
-                    // repeat: Infinity,
-                    // repeatType: "loop",
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    delay: 10,
                   }}
                   className="flex w-max gap-4"
                 >
@@ -279,7 +286,7 @@ const Slides = ({
                         filter: "contrast(0) brightness(1.7) grayscale(1)",
                       }}
                       key={index}
-                      className="flex-center w-full max-w-[11rem] border px-7 hover:!filter-none "
+                      className="flex-center w-full max-w-[12rem] border px-7 hover:!filter-none "
                     >
                       {it}
                     </span>
