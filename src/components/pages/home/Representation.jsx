@@ -93,7 +93,7 @@ function Representation({ imgRef, slide1 }) {
         footerPage={footerPage}
         slide1={slide1}
       />
-      <div ref={target} className="h-2 w-2 bg-purple-950"></div>
+      <div ref={target} className="h-2 w-2"></div>
     </div>
   );
 }
@@ -242,7 +242,7 @@ const Slides = ({
               </motion.div>
               <div
                 id="anim-headline-loop"
-                className="absolute bottom-[450px] left-[-500px] flex rotate-[-23deg] gap-5 "
+                className="absolute bottom-[450px] left-[-500px] flex rotate-[-23deg] gap-0"
               >
                 <motion.div
                   initial={{ x: "-100%" }}
@@ -253,7 +253,7 @@ const Slides = ({
                     repeat: Infinity,
                     repeatType: "loop",
                   }}
-                  className="flex w-max gap-4 "
+                  className="mr-4 flex w-max gap-4"
                 >
                   {brands.map((it, index) => (
                     <span
@@ -261,7 +261,7 @@ const Slides = ({
                         filter: "contrast(0) brightness(1.7) grayscale(1)",
                       }}
                       key={index}
-                      className="flex-center w-full max-w-[12rem] border px-7 hover:!filter-none "
+                      className="flex-center w-[12rem] border px-7 hover:!filter-none "
                     >
                       {it}
                     </span>
@@ -286,7 +286,7 @@ const Slides = ({
                         filter: "contrast(0) brightness(1.7) grayscale(1)",
                       }}
                       key={index}
-                      className="flex-center w-full max-w-[12rem] border px-7 hover:!filter-none "
+                      className="flex-center w-[12rem] border px-7 hover:!filter-none "
                     >
                       {it}
                     </span>
