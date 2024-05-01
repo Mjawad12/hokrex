@@ -253,12 +253,13 @@ const Slides = ({
                     repeat: Infinity,
                     repeatType: "loop",
                   }}
-                  className="mr-4 flex w-max gap-4"
+                  className="flex w-max gap-4"
                 >
                   {brands.map((it, index) => (
                     <span
                       style={{
                         filter: "contrast(0) brightness(1.7) grayscale(1)",
+                        marginRight: index == brands.length - 1 && "1rem",
                       }}
                       key={index}
                       className="flex-center w-[12rem] border px-7 hover:!filter-none "
@@ -284,6 +285,7 @@ const Slides = ({
                     <span
                       style={{
                         filter: "contrast(0) brightness(1.7) grayscale(1)",
+                        marginRight: index == brands.length - 1 && "1rem",
                       }}
                       key={index}
                       className="flex-center w-[12rem] border px-7 hover:!filter-none "
