@@ -104,6 +104,10 @@ function Color() {
           <div className="mt-2 flex flex-wrap gap-2 ">
             {documentColors.map((it, index) => (
               <div
+                onClick={() => {
+                  settestcolor(it);
+                  setcurrentColor(it);
+                }}
                 style={{ background: it }}
                 key={index}
                 className="h-7 w-7 rounded-full"
@@ -117,6 +121,10 @@ function Color() {
           <div className="mt-2 flex flex-wrap gap-2.5 ">
             {documentColors.map((it, index) => (
               <div
+                onClick={() => {
+                  settestcolor(it);
+                  setcurrentColor(it);
+                }}
                 style={{ background: it }}
                 key={index}
                 className="h-8 w-8 rounded-full"

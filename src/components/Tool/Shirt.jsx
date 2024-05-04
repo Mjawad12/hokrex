@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 import { motion } from "framer-motion-3d";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 
@@ -10,17 +9,15 @@ export function Shirt(props) {
   const [y, sety] = useState(0);
   const shirtRef = useRef(false);
   const { nodes, materials } = useGLTF("/shirt_baked.glb");
-  useEffect(() => {
-    console.log(alpha);
-  }, [alpha]);
+
   useEffect(() => {
     window.addEventListener("mousemove", trackMouseMovement);
     return () => window.removeEventListener("mousemove", trackMouseMovement);
   }, []);
 
   const trackMouseMovement = (e) => {
-    setx(e.clientX / window.innerWidth + 100);
-    sety(e.clientY / window.innerHeight + 100);
+    setx(e.clientX / window.innerWidth);
+    sety(e.clientY / window.innerHeight);
   };
 
   return (
@@ -29,7 +26,7 @@ export function Shirt(props) {
       dispose={null}
       ref={shirtRef}
       transition={{ duration: 0, ease: "easeInOut" }}
-      animate={{ rotateY: x * -0.5, rotateX: y * -0.5 }}
+      animate={{ rotateY: x * -0.1, rotateX: y * -0.1 }}
     >
       <group name="Scene">
         <mesh
@@ -42,8 +39,8 @@ export function Shirt(props) {
         >
           <meshStandardMaterial
             color={testcolor}
-            opacity={alpha}
-            transparent={false}
+            opacity={alpha > 0.5 ? alpha : "0.5"}
+            transparent={true}
           />
         </mesh>
       </group>

@@ -1485,6 +1485,31 @@ const dropper = (
   </svg>
 );
 
+const plus = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 16 17"
+    fill="none"
+  >
+    <path
+      d="M8.00391 3.33398V12.6673"
+      stroke="black"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M12.6693 8.00098H3.33594"
+      stroke="black"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -1523,4 +1548,5 @@ export {
   phone,
   ArrowTool,
   dropper,
+  plus,
 };

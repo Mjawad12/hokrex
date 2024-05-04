@@ -9,7 +9,7 @@ import { AnimatePresence } from "framer-motion";
 import React, { useState } from "react";
 
 function page() {
-  const [selected, setselected] = useState(false);
+  const [selected, setselected] = useState("Product");
   const [hidden, sethidden] = useState(true);
   return (
     <>

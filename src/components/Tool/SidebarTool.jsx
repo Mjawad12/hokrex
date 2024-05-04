@@ -4,12 +4,14 @@ import React from "react";
 import Prod from "./SidebarFeatures/Prod";
 import Layers from "./SidebarFeatures/Layers";
 import Color from "./SidebarFeatures/Color";
+import Text from "./SidebarFeatures/Text";
 
 function SidebarTool({ sethidden, selected }) {
   const SelectedProd = {
     Product: <Prod />,
     Layers: <Layers />,
     Color: <Color />,
+    Text: <Text />,
   };
   return (
     <motion.div
