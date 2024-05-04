@@ -1,14 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { motion } from "framer-motion-3d";
+import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 
 export function Shirt(props) {
+  const { testcolor, alpha } = useContext(ContextTool);
   const [x, setx] = useState(0);
   const [y, sety] = useState(0);
   const shirtRef = useRef(false);
   const { nodes, materials } = useGLTF("/shirt_baked.glb");
-
+  useEffect(() => {
+    console.log(alpha);
+  }, [alpha]);
   useEffect(() => {
     window.addEventListener("mousemove", trackMouseMovement);
     return () => window.removeEventListener("mousemove", trackMouseMovement);
@@ -35,8 +39,13 @@ export function Shirt(props) {
           geometry={nodes.T_Shirt_male.geometry}
           material={materials.lambert1}
           userData={{ name: "T_Shirt_male" }}
-          material-color="white"
-        />
+        >
+          <meshStandardMaterial
+            color={testcolor}
+            opacity={alpha}
+            transparent={false}
+          />
+        </mesh>
       </group>
     </motion.group>
   );

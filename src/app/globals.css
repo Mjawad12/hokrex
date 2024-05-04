@@ -194,3 +194,32 @@ input#size::-webkit-outer-spin-button,
 input#size::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
+.chrome-picker {
+  width: 100% !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-radius: 5px !important;
+  overflow: hidden;
+}
+
+.chrome-picker > div:nth-child(2) > .flexbox-fix:nth-child(2) {
+  @apply flex-center items-start;
+}
+.chrome-picker svg {
+  fill: white !important;
+  background-color: transparent !important;
+}
+.chrome-picker > div:nth-child(2) > .flexbox-fix:nth-child(2) {
+  display: none !important;
+}
+
+.chrome-picker {
+  font-size: 1rem;
+}
+.chrome-picker input {
+  outline: none;
+  background-color: #3f4a57;
+  color: white !important;
+  border: none;
+}

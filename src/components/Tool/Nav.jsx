@@ -5,17 +5,17 @@ import React, { useState } from "react";
 function Nav({ name, type }) {
   const [tselected, settselected] = useState("Front");
   return (
-    <div className="w-full flex-center flex-col gap-2  bg-darkMid z-20 relative">
-      <div className="w-full flex justify-between items-center bg-darkLight px-2 py-1 shadow-xl ">
-        <div className="flex-center gap-3  ">
-          <div className="w-10 h-10 flex justify-center items-center border-gray-500 border-[0.5px] rounded-[0.7rem] bg-white   ">
+    <div className="flex-center relative z-20 w-full flex-col gap-2 ">
+      <div className="flex w-full items-center justify-between bg-darkLight px-2 py-1 shadow-xl ">
+        <div className="flex-center gap-3 ">
+          <div className="flex h-10 w-10 items-center justify-center rounded-[0.7rem] border-[0.5px] border-gray-500 bg-white   ">
             {logo}
           </div>
           <div className="flex flex-col">
-            <h1 className="text-textLight text-[15px] font-[500] leading-4">
+            <h1 className="text-[15px] font-[500] leading-4 text-textLight">
               {name}
             </h1>
-            <p className="text-textLight text-[13px] font-[400] ">{type}</p>
+            <p className="text-[13px] font-[400] text-textLight ">{type}</p>
           </div>
         </div>
         <div className="flex-center gap-3">
@@ -41,11 +41,11 @@ const TopBar = ({ tselected, settselected }) => {
     "Coular",
   ];
   return (
-    <div className="max-w-[52rem] w-full px-3 py-2 flex-center gap-3 bg-darkLight rounded-xl border border-darkBorder  ">
+    <div className="flex-center w-full max-w-[50rem] gap-3 rounded-xl border border-darkBorder bg-darkLight px-3 py-2  ">
       {Items.map((it, index) => (
         <button
           key={index}
-          className={`text-white px-3 py-1 whitespace-nowrap text-[16px] rounded-lg ${
+          className={`whitespace-nowrap rounded-lg px-3 py-1 text-[16px] text-white ${
             tselected === it ? "bg-darkMid text-white" : ""
           }`}
           onClick={() => settselected(it)}
@@ -69,10 +69,10 @@ const UndoRedo = () => {
 const BtnGroups = () => {
   return (
     <div className="flex-center gap-2">
-      <button className="flex-center gap-1 border border-textLight px-3 py-[0.45rem] rounded-md text-textLight text-[14px]">
+      <button className="flex-center gap-1 rounded-md border border-textLight px-3 py-[0.45rem] text-[14px] text-textLight">
         {left2}Back To catelog
       </button>
-      <button className="flex-center gap-1 px-7 py-[0.45rem] rounded-md text-black text-[14px] bg-white">
+      <button className="flex-center gap-1 rounded-md bg-white px-7 py-[0.45rem] text-[14px] text-black">
         Add to Cart
       </button>
     </div>

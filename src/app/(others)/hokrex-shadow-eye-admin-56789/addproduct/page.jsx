@@ -8,7 +8,7 @@ import { SketchPicker } from "react-color";
 
 function page() {
   return (
-    <div className="w-full bg-hoverC min-h-screen px-5">
+    <div className="min-h-screen w-full bg-hoverC px-5">
       <ProductFrom />
     </div>
   );
@@ -50,7 +50,7 @@ const ProductFrom = () => {
       {
         method: "POST",
         body: form,
-      }
+      },
     );
     const parsedData = await data.json();
     return parsedData.url;
@@ -78,7 +78,7 @@ const ProductFrom = () => {
           url,
           price.current.value,
           colors,
-          selectedsizes
+          selectedsizes,
         ).catch((err) => seterror("An error occured"));
         setadded(true);
         form.current.lastChild.disabled = false;
@@ -89,16 +89,16 @@ const ProductFrom = () => {
   const sizes = ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"];
 
   return added ? (
-    <div className="w-full flex-center min-h-screen">
-      <div className="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5 max-w-[25rem] w-full">
+    <div className="flex-center min-h-screen w-full">
+      <div className="sm:p-5 relative w-full max-w-[25rem] rounded-lg bg-white p-4 text-center shadow dark:bg-gray-800">
         <button
           type="button"
-          className="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          className="absolute right-2.5 top-2.5 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
           onClick={() => setadded(false)}
         >
           <svg
             aria-hidden="true"
-            className="w-5 h-5"
+            className="h-5 w-5"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -111,10 +111,10 @@ const ProductFrom = () => {
           </svg>
           <span className="sr-only">Close modal</span>
         </button>
-        <div className="w-12 h-12 rounded-full bg-green-900 p-2 flex items-center justify-center mx-auto mb-3.5">
+        <div className="mx-auto mb-3.5 flex h-12 w-12 items-center justify-center rounded-full bg-green-900 p-2">
           <svg
             aria-hidden="true"
-            className="w-8 h-8 text-green-400"
+            className="h-8 w-8 text-green-400"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +133,7 @@ const ProductFrom = () => {
         <button
           onClick={() => setadded(false)}
           type="button"
-          className="inline-flex items-center px-5 py-2.5 mt-4  text-sm font-medium text-center text-white bg-[#111827] disabled:bg-gray-500 disabled:cursor-not-allowed rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+          className="focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 mt-4 inline-flex  items-center rounded-lg bg-[#111827] px-5 py-2.5 text-center text-sm font-medium text-white focus:ring-4 disabled:cursor-not-allowed disabled:bg-gray-500"
         >
           Continue
         </button>
@@ -141,15 +141,15 @@ const ProductFrom = () => {
     </div>
   ) : (
     <div className="mx-auto w-full pb-10">
-      <div className="w-full py-3 px-5 bg-Pn-dark-600  rounded-xl flex-center justify-between mt-5">
+      <div className="flex-center mt-5 w-full justify-between rounded-xl bg-Pn-dark-600 px-5 py-3">
         <h1 className="text-4xl font-[700] text-white">Add new Product</h1>
       </div>
       <form ref={form} action="#" onSubmit={addProductFunc}>
-        <div className="grid gap-4 grid-cols-2 mt-10">
+        <div className="mt-10 grid grid-cols-2 gap-4">
           <div>
             <label
               htmlFor="name"
-              className="block mb-2 text-lg font-medium text-gray-900 "
+              className="mb-2 block text-lg font-medium text-gray-900 "
             >
               Product Name
             </label>
@@ -167,7 +167,7 @@ const ProductFrom = () => {
           <div className="w-full">
             <label
               htmlFor="heading"
-              className="block mb-2 text-lg font-medium text-gray-900 "
+              className="mb-2 block text-lg font-medium text-gray-900 "
             >
               Heading
             </label>
@@ -185,7 +185,7 @@ const ProductFrom = () => {
           <div className="w-full">
             <label
               htmlFor="price"
-              className="block mb-2 text-lg font-medium text-gray-900 "
+              className="mb-2 block text-lg font-medium text-gray-900 "
             >
               Price
             </label>
@@ -201,7 +201,7 @@ const ProductFrom = () => {
           <div>
             <label
               htmlFor="category"
-              className="block mb-2 text-lg font-medium text-gray-900 "
+              className="mb-2 block text-lg font-medium text-gray-900 "
             >
               Category
             </label>
@@ -218,14 +218,14 @@ const ProductFrom = () => {
               ))}
             </select>
           </div>
-          <div className="flex flex-col w-full ">
+          <div className="flex w-full flex-col ">
             <p
               htmlFor="price"
               className="mb-2 text-lg font-medium text-gray-900 "
             >
               Sizes
             </p>
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex flex-wrap gap-3">
               {sizes.map((it, index) => (
                 <div
                   key={index}
@@ -249,7 +249,7 @@ const ProductFrom = () => {
           <div className="col-span-2">
             <label
               htmlFor="description"
-              className="block mb-2 text-lg font-medium text-gray-900 "
+              className="mb-2 block text-lg font-medium text-gray-900 "
             >
               Description
             </label>
@@ -257,19 +257,19 @@ const ProductFrom = () => {
               id="description"
               rows="8"
               ref={description}
-              className="checkoutInput px-3 py-3  hover:shadow-xl"
+              className="checkoutInput px-3 py-3 hover:shadow-xl"
               placeholder="Your description here"
             ></textarea>
           </div>
           <div className="col-span-2">
-            <div className="flex items-center justify-center w-full">
+            <div className="flex w-full items-center justify-center">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col itlgs-center justify-center w-full h-64 border-2 border-gray-600 border-dashed rounded-lg cursor-pointer bg-Pn-default-500 hover:shadow-xl"
+                className="itlgs-center flex h-64 w-full cursor-pointer flex-col justify-center rounded-lg border-2 border-dashed border-gray-600 bg-Pn-default-500 hover:shadow-xl"
               >
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                <div className="flex flex-col items-center justify-center pb-6 pt-5">
                   <svg
-                    className="w-8 h-8 mb-4 text-white"
+                    className="mb-4 h-8 w-8 text-white"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -320,7 +320,7 @@ const ProductFrom = () => {
         {error && <p className="text-pmRed">{error}</p>}
         <button
           type="submit"
-          className=" mt-5 rounded-md bg-Pn-default-500 px-5 py-2.5 text-center text-sm font-bold text-white hover:bg-Pn-light-400 focus:outline-none disabled:bg-Pn-light-300 disabled:cursor-not-allowed"
+          className=" mt-5 rounded-md bg-Pn-default-500 px-5 py-2.5 text-center text-sm font-bold text-white hover:bg-Pn-light-400 focus:outline-none disabled:cursor-not-allowed disabled:bg-Pn-light-300"
         >
           Add product
         </button>
@@ -338,7 +338,7 @@ const ColorsPalet = () => {
       <p htmlFor="price" className="mb-2 text-lg font-medium text-gray-900 ">
         Colors
       </p>
-      <div className="flex gap-9 w-full">
+      <div className="flex w-full gap-9">
         <SketchPicker
           color={currentColor}
           onChange={(e) => {
@@ -346,20 +346,20 @@ const ColorsPalet = () => {
             document.querySelectorAll("#clr-d-s")[sC].style.background = e.hex;
           }}
         />
-        <div className="flex flex-wrap gap-4 max-w-[17rem] w-full justify-start items-start h-[4rem]">
+        <div className="flex h-[4rem] w-full max-w-[17rem] flex-wrap items-start justify-start gap-4">
           {selectedColors.map((it, index) => (
             <span
               id="clr-d-s"
               onClick={() => setsC(index)}
               key={index}
-              className={`w-7 h-7 border border-black bg-transparent  rounded-full cursor-pointer ${
-                sC == index ? `border-4 !border-Pn-default-500 scale-[1.2]` : ""
+              className={`h-7 w-7 cursor-pointer rounded-full border  border-black bg-transparent ${
+                sC == index ? `scale-[1.2] border-4 !border-Pn-default-500` : ""
               } `}
             />
           ))}
           {selectedColors.length < 12 && (
             <span
-              className="rounded-full cursor-pointer -translate-x-[0.2rem] -translate-y-[0.1rem]"
+              className="-translate-x-[0.2rem] -translate-y-[0.1rem] cursor-pointer rounded-full"
               onClick={() => {
                 setselectedColors([...selectedColors, ""]);
               }}
