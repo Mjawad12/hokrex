@@ -223,3 +223,8 @@ input#size::-webkit-inner-spin-button {
   color: white !important;
   border: none;
 }
+
+canvas:not(canvas#styleCanvas) {
+  width: 100vw !important;
+  height: 100vh !important;
+}

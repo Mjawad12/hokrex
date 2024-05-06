@@ -1,17 +1,19 @@
 import { ArrowTool, arrowDown } from "@/Consonats";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useContext } from "react";
 import Prod from "./SidebarFeatures/Prod";
 import Layers from "./SidebarFeatures/Layers";
 import Color from "./SidebarFeatures/Color";
 import Text from "./SidebarFeatures/Text";
+import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 
 function SidebarTool({ sethidden, selected }) {
+  const { addText } = useContext(ContextTool);
   const SelectedProd = {
     Product: <Prod />,
     Layers: <Layers />,
     Color: <Color />,
-    Text: <Text />,
+    Text: <Text addText={addText} />,
   };
   return (
     <motion.div

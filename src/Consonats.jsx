@@ -1510,6 +1510,367 @@ const plus = (
   </svg>
 );
 
+const textPositions = [
+  {
+    name: "Left",
+    svg: (
+      <svg
+        width="22"
+        height="20"
+        viewBox="0 0 22 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <mask id="path-1-inside-1_0_1" fill="white">
+          <rect
+            x="4.14062"
+            y="4.05957"
+            width="17.3037"
+            height="5.40741"
+            rx="1.08148"
+          />
+        </mask>
+        <rect
+          x="4.14062"
+          y="4.05957"
+          width="17.3037"
+          height="5.40741"
+          rx="1.08148"
+          stroke="#BDC7D1"
+          stroke-width="4.32593"
+          mask="url(#path-1-inside-1_0_1)"
+        />
+        <mask id="path-2-inside-2_0_1" fill="white">
+          <rect
+            x="4.14062"
+            y="10.5488"
+            width="11.8963"
+            height="5.40741"
+            rx="1.08148"
+          />
+        </mask>
+        <rect
+          x="4.14062"
+          y="10.5488"
+          width="11.8963"
+          height="5.40741"
+          rx="1.08148"
+          stroke="#BDC7D1"
+          stroke-width="4.32593"
+          mask="url(#path-2-inside-2_0_1)"
+        />
+        <path
+          d="M1.97656 1.89648L1.97656 18.1187"
+          stroke="#BDC7D1"
+          stroke-width="2.16296"
+          stroke-linecap="round"
+        />
+      </svg>
+    ),
+  },
+  {
+    name: "Center",
+    svg: (
+      <svg
+        width="18"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <mask id="path-1-inside-1_450_10263" fill="white">
+          <rect
+            x="0.640625"
+            y="3.0095703"
+            width="17.3037"
+            height="5.40741"
+            rx="1.08148"
+          />
+        </mask>
+        <rect
+          x="0.640625"
+          y="3.0095703"
+          width="17.3037"
+          height="5.40741"
+          rx="1.08148"
+          stroke="#BDC7D1"
+          stroke-width="4.32593"
+          mask="url(#path-1-inside-1_450_10263)"
+        />
+
+        <rect
+          x="3.89062"
+          y="10.5488"
+          width="10.8148"
+          height="5.40741"
+          rx="1.08148"
+          stroke="#BDC7D1"
+          stroke-width="4.32593"
+          mask="url(#path-2-inside-2_0_1)"
+        />
+        <path
+          d="M9.29688 14.874V18.1185"
+          stroke="#BDC7D1"
+          stroke-width="2.16296"
+          stroke-linecap="round"
+        />
+        <path
+          d="M9.29688 8.38477V11.6292"
+          stroke="#BDC7D1"
+          stroke-width="2.16296"
+          stroke-linecap="round"
+        />
+        <path
+          d="M9.29688 1.89648V5.14093"
+          stroke="#BDC7D1"
+          stroke-width="2.16296"
+          stroke-linecap="round"
+        />
+      </svg>
+    ),
+  },
+  {
+    name: "Right",
+    svg: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="17"
+        viewBox="0 0 18 17"
+        fill="none"
+      >
+        <mask id="path-1-inside-1_627_55093" fill="white">
+          <rect x="0.5" y="3.07129" width="14" height="5" rx="1.08148" />
+        </mask>
+        <rect
+          x="0.5"
+          y="3.07129"
+          width="14"
+          height="5"
+          rx="1.08148"
+          stroke="#BDC7D1"
+          strokeWidth="3.6"
+          mask="url(#path-1-inside-1_627_55093)"
+        />
+        <mask id="path-2-inside-2_627_55093" fill="white">
+          <rect x="4.5" y="9.07129" width="10" height="5" rx="1.08148" />
+        </mask>
+        <rect
+          x="4.5"
+          y="9.07129"
+          width="10"
+          height="5"
+          rx="1.08148"
+          stroke="#BDC7D1"
+          strokeWidth="3.6"
+          mask="url(#path-2-inside-2_627_55093)"
+        />
+        <path
+          d="M16.5 1.07129L16.5 16.0713"
+          stroke="#BDC7D1"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
+      </svg>
+    ),
+  },
+  {
+    name: "Top",
+    svg: (
+      <svg
+        width="20"
+        height="21"
+        viewBox="0 0 20 21"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <mask id="path-1-inside-1_0_1" fill="white">
+          <rect
+            x="4.17188"
+            y="17.5781"
+            width="17.3037"
+            height="5.40741"
+            rx="1.08148"
+            transform="rotate(-90 4.17188 17.5781)"
+          />
+        </mask>
+        <rect
+          x="4.17188"
+          y="17.5781"
+          width="17.3037"
+          height="5.40741"
+          rx="1.08148"
+          transform="rotate(-90 4.17188 17.5781)"
+          stroke="#BDC7D1"
+          stroke-width="4.32593"
+          mask="url(#path-1-inside-1_0_1)"
+        />
+        <mask id="path-2-inside-2_0_1" fill="white">
+          <rect
+            x="10.6562"
+            y="17.5781"
+            width="11.8963"
+            height="5.40741"
+            rx="1.08148"
+            transform="rotate(-90 10.6562 17.5781)"
+          />
+        </mask>
+        <rect
+          x="10.6562"
+          y="17.5781"
+          width="11.8963"
+          height="5.40741"
+          rx="1.08148"
+          transform="rotate(-90 10.6562 17.5781)"
+          stroke="#BDC7D1"
+          stroke-width="4.32593"
+          mask="url(#path-2-inside-2_0_1)"
+        />
+        <path
+          d="M2.00781 19.7402L18.23 19.7402"
+          stroke="#BDC7D1"
+          stroke-width="2.16296"
+          stroke-linecap="round"
+        />
+      </svg>
+    ),
+  },
+  {
+    name: "Middle",
+    svg: (
+      <svg
+        width="19"
+        height="18"
+        viewBox="0 0 19 18"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <mask id="path-1-inside-1_0_1" fill="white">
+          <rect
+            x="15.6562"
+            y="0.355469"
+            width="17.3037"
+            height="5.40741"
+            rx="1.08148"
+            transform="rotate(90 15.6562 0.355469)"
+          />
+        </mask>
+        <rect
+          x="15.6562"
+          y="0.355469"
+          width="17.3037"
+          height="5.40741"
+          rx="1.08148"
+          transform="rotate(90 15.6562 0.355469)"
+          stroke="#BDC7D1"
+          stroke-width="4"
+          mask="url(#path-1-inside-1_0_1)"
+        />
+        <mask id="path-2-inside-2_0_1" fill="white">
+          <rect
+            x="9.16406"
+            y="3.59961"
+            width="10.8148"
+            height="5.40741"
+            rx="1.08148"
+            transform="rotate(90 9.16406 3.59961)"
+          />
+        </mask>
+        <rect
+          x="9.16406"
+          y="3.59961"
+          width="10.8148"
+          height="5.40741"
+          rx="1.08148"
+          transform="rotate(90 9.16406 3.59961)"
+          stroke="#BDC7D1"
+          stroke-width="4"
+          mask="url(#path-2-inside-2_0_1)"
+        />
+        <path
+          d="M4.84375 9.00781L1.59931 9.00781"
+          stroke="#BDC7D1"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+        <path
+          d="M11.3281 9.00781L8.08368 9.00781"
+          stroke="#BDC7D1"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+        <path
+          d="M17.8125 9.00781L14.5681 9.00781"
+          stroke="#BDC7D1"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    ),
+  },
+  {
+    name: "Bottom",
+    svg: (
+      <svg
+        width="19"
+        height="21"
+        viewBox="0 0 19 21"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <mask id="path-1-inside-1_0_1" fill="white">
+          <rect
+            x="15.2344"
+            y="3.4375"
+            width="17.3037"
+            height="5.40741"
+            rx="1.08148"
+            transform="rotate(90 15.2344 3.4375)"
+          />
+        </mask>
+        <rect
+          x="15.2344"
+          y="3.4375"
+          width="17.3037"
+          height="5.40741"
+          rx="1.08148"
+          transform="rotate(90 15.2344 3.4375)"
+          stroke="#BDC7D1"
+          stroke-width="4.32593"
+          mask="url(#path-1-inside-1_0_1)"
+        />
+        <mask id="path-2-inside-2_0_1" fill="white">
+          <rect
+            x="8.75"
+            y="3.4375"
+            width="11.8963"
+            height="5.40741"
+            rx="1.08148"
+            transform="rotate(90 8.75 3.4375)"
+          />
+        </mask>
+        <rect
+          x="8.75"
+          y="3.4375"
+          width="11.8963"
+          height="5.40741"
+          rx="1.08148"
+          transform="rotate(90 8.75 3.4375)"
+          stroke="#BDC7D1"
+          stroke-width="4.32593"
+          mask="url(#path-2-inside-2_0_1)"
+        />
+        <path
+          d="M17.3984 1.27441L1.17622 1.27442"
+          stroke="#BDC7D1"
+          stroke-width="2.16296"
+          stroke-linecap="round"
+        />
+      </svg>
+    ),
+  },
+];
+
 export {
   logo,
   searchIcon,
@@ -1549,4 +1910,5 @@ export {
   ArrowTool,
   dropper,
   plus,
+  textPositions,
 };

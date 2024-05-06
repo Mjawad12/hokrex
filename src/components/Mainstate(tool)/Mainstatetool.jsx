@@ -1,6 +1,13 @@
 "use client";
 import { useTexture } from "@react-three/drei";
-import React, { createContext, useReducer, useState } from "react";
+import React, {
+  createContext,
+  memo,
+  useMemo,
+  useReducer,
+  useState,
+} from "react";
+import * as THREE from "three";
 
 const ContextTool = createContext();
 
@@ -15,16 +22,30 @@ function Mainstatetool({ children }) {
     { name: "Right", items: [] },
     { name: "Coular", items: [] },
   ]);
+  const [texture, settexture] = useState(null);
 
-  const Addtext = (text = "React js") => {
-    const ctx = document.querySelector("canvas#styleCanvas").getContext("2d");
-    ctx.font = "bold 30px Arial";
-    ctx.fillStyle = "purple";
-    ctx.scale(1, 0.9);
-    ctx.fillText("React js", 50, 50);
-    const url = document.querySelector("canvas#styleCanvas").toDataURL();
-    return useTexture(url);
-  };
+  const addText = useMemo(
+    () =>
+      (text = "React js") => {
+        const canvas = document.querySelector("canvas#styleCanvas");
+        const ctx = canvas.getContext("2d");
+        ctx.reset();
+        ctx.font = "bold 50px Arial";
+        ctx.fillStyle = "red";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.scale(1, 0.9);
+        ctx.fillText(text.toString(), canvas.width / 2, canvas.height / 2);
+        console.log(canvas.width);
+        const url = document.querySelector("canvas#styleCanvas").toDataURL();
+        const textu = new THREE.TextureLoader().load(url);
+        textu.center = new THREE.Vector2(0.5, 0.5);
+        textu.rotation = Math.PI;
+        textu.flipY = false;
+        settexture(textu);
+      },
+    [],
+  );
 
   return (
     <ContextTool.Provider
@@ -35,6 +56,9 @@ function Mainstatetool({ children }) {
         settestcolor,
         alpha,
         setalpha,
+        addText,
+        texture,
+        settexture,
       }}
     >
       {children}
