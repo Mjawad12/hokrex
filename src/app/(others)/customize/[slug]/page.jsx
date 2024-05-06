@@ -6,17 +6,19 @@ import SidebarTool from "@/components/Tool/SidebarTool";
 import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { AnimatePresence } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 function page() {
   const [selected, setselected] = useState("Product");
   const [hidden, sethidden] = useState(true);
+
   return (
     <>
       <div className="absolute top-0 min-h-screen w-full bg-canvasColor ">
         <Canvas shadows camera={{ position: [0, 0, 2], fov: 30 }}>
           <OrbitControls enablePan={false} />
           <Environment preset="city" />
+
           <ModelViewer />
         </Canvas>
       </div>
@@ -56,6 +58,11 @@ function page() {
         </AnimatePresence>
       </div>
       <Controls />
+      <canvas
+        id="styleCanvas"
+        className="absolute  right-0 z-30 h-[200px] w-[200px] border border-black"
+      ></canvas>
+      <img src="" width={100} height={100} className="textImg z-50" />
     </>
   );
 }

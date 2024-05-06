@@ -1,7 +1,7 @@
 "use client";
 import { google, left2, lock } from "@/Consonats";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "react-country-state-city/dist/react-country-state-city.css";
 import { CountrySelect, StateSelect } from "react-country-state-city";
 import PhoneInput from "react-phone-number-input";
@@ -84,13 +84,14 @@ function page() {
       date: "23 March,2024",
     },
   ];
+
   return (
-    <div className="w-full min-h-screen">
+    <div className="min-h-screen w-full">
       <CheckoutNav />
-      <div className="max-w-[1080px] min-h-screen m-auto px-3 flex gap-12">
-        <div className="w-full py-16 flex-1 flex-grow-[0.6]">
+      <div className="m-auto flex min-h-screen max-w-[1080px] gap-12 px-3">
+        <div className="w-full flex-1 flex-grow-[0.6] py-16">
           <div
-            className={`w-full flex flex-col gap-3 ${
+            className={`flex w-full flex-col gap-3 ${
               pages === 0 ? "block" : "hidden"
             } `}
           >
@@ -110,7 +111,7 @@ function page() {
             />
           </div>
           <div
-            className={`w-full flex flex-col gap-3 ${
+            className={`flex w-full flex-col gap-3 ${
               pages === 1 ? "block" : "hidden"
             } `}
           >
@@ -128,7 +129,7 @@ function page() {
             />
           </div>
           <div
-            className={`w-full flex flex-col gap-3 ${
+            className={`flex w-full flex-col gap-3 ${
               pages === 2 ? "block" : "hidden"
             } `}
           >
@@ -149,39 +150,39 @@ function page() {
         </div>
 
         <div className="w-full flex-1 flex-grow-[0.45] border-l border-borderP">
-          <div className="flex flex-col px-14 py-16 gap-5">
-            <div className="flex justify-between items-center">
+          <div className="flex flex-col gap-5 px-14 py-16">
+            <div className="flex items-center justify-between">
               <h2 className="text-[22px] font-[500]  ">In your Cart</h2>
               <Link
                 href={"/cart"}
-                className="underline underline-offset-2 text-[13px] font-[500]"
+                className="text-[13px] font-[500] underline underline-offset-2"
               >
                 Edit
               </Link>
             </div>
-            <div className="flex flex-col gap-[0.6rem] w-full">
-              <div className="w-full flex justify-between items-center">
+            <div className="flex w-full flex-col gap-[0.6rem]">
+              <div className="flex w-full items-center justify-between">
                 <p className="text-[14px] font-[600]">Total unit</p>
                 <span className="text-[14px] font-[400] text-black ">67</span>
               </div>
-              <div className="w-full flex justify-between items-center">
+              <div className="flex w-full items-center justify-between">
                 <p className="text-[14px] font-[600]">Sub Total</p>
                 <span className="text-[14px] font-[400] text-pmGray ">
                   $600.90
                 </span>
               </div>
-              <div className="w-full flex justify-between items-center">
+              <div className="flex w-full items-center justify-between">
                 <p className="text-[14px] font-[600]">Shipping</p>
                 <span className="text-[14px] font-[400] text-pmGray ">
                   Calculated at checkout
                 </span>
               </div>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <p className="text-[14px] font-[700]">Total</p>
               <span className="text-[17px] font-[600]">$1200.67</span>
             </div>
-            <div className="w-full py-6 border-t border-borderP gap-6 flex flex-col ">
+            <div className="flex w-full flex-col gap-6 border-t border-borderP py-6 ">
               {cartItems.map((it, index) => (
                 <Smcard
                   key={index}
@@ -216,16 +217,16 @@ const Page1 = ({
 }) => {
   return (
     <>
-      <button className="w-full py-3 border border-[#E5E5E5] flex-center rounded-lg ">
+      <button className="flex-center w-full rounded-lg border border-[#E5E5E5] py-3 ">
         {google}
-        <p className="font-[400] text-[18px]">Continue with google</p>
+        <p className="text-[18px] font-[400]">Continue with google</p>
       </button>
-      <div className="flex-center [&>hr]:w-full w-full">
+      <div className="flex-center w-full [&>hr]:w-full">
         <hr />
         <span className="px-3 text-[#707072]">or</span>
         <hr />
       </div>
-      <div className="w-full flex flex-col gap-5">
+      <div className="flex w-full flex-col gap-5">
         <h2 className="text-[26px] font-[700]">Shiping & Details</h2>
         <div className="flex flex-col gap-4 ">
           <div className="flex-center gap-4">
@@ -235,7 +236,7 @@ const Page1 = ({
               placeholder="Email"
               ref={email}
             />
-            <div className="ph-in w-full py-[0.75rem] px-3 rounded-lg border border-[#E5E5E5] outline-none [&_input]:outline-none [&_input]:w-full">
+            <div className="ph-in w-full rounded-lg border border-[#E5E5E5] px-3 py-[0.75rem] outline-none [&_input]:w-full [&_input]:outline-none">
               <PhoneInput
                 defaultCountry="PK"
                 placeholder="Phone"
@@ -244,7 +245,7 @@ const Page1 = ({
               />
             </div>
           </div>
-          <div className="w-full  [&_input]:!outline-none [&_input]:!border-none ">
+          <div className="w-full  [&_input]:!border-none [&_input]:!outline-none ">
             <CountrySelect
               onChange={(val) => setcountry(val)}
               placeHolder="Select Country"
@@ -276,7 +277,7 @@ const Page1 = ({
           </div>
           <div className="flex gap-4">
             <input type="text" className="checkoutInput" placeholder="City" />
-            <div className="w-full [&_select]:checkoutInput [&_input]:!outline-none [&_input]:!border-none ">
+            <div className="[&_select]:checkoutInput w-full [&_input]:!border-none [&_input]:!outline-none ">
               <StateSelect
                 countryid={country?.id}
                 value={states}
@@ -304,7 +305,7 @@ const Page1 = ({
               placeholder="File Link (optional)"
               className="checkoutInput"
             />
-            <div className="flex-center justify-start gap-3 mt-1 ">
+            <div className="flex-center mt-1 justify-start gap-3 ">
               <input
                 ref={fileRef}
                 type="file"
@@ -341,7 +342,7 @@ const Page1 = ({
           </div>
           <button
             onClick={() => setpages((val) => val + 1)}
-            className={`px-5 py-3  text-white bg-[black] font-[500] text-[17px] rounded-[0.8rem] w-max mt-5`}
+            className={`mt-5 w-max  rounded-[0.8rem] bg-[black] px-5 py-3 text-[17px] font-[500] text-white`}
           >
             Continue to pay
           </button>
@@ -370,17 +371,17 @@ const Page2 = ({
   return (
     <>
       <h1 className="text-[22px] font-[600]">Shiping Address</h1>
-      <div className="flex flex-col mt-2 pb-8 border-b border-borderP">
-        <div className="flex w-full justify-between items-center pr-5">
-          <h2 className="text-black text-[15px]">Shiping Address</h2>
+      <div className="mt-2 flex flex-col border-b border-borderP pb-8">
+        <div className="flex w-full items-center justify-between pr-5">
+          <h2 className="text-[15px] text-black">Shiping Address</h2>
           <button
             onClick={() => setpages(0)}
-            className="border-none outline-none text-[14px] underline underline-offset-2 bg-transparent font-[500]"
+            className="border-none bg-transparent text-[14px] font-[500] underline underline-offset-2 outline-none"
           >
             Edit
           </button>
         </div>
-        <p className="text-[14px] font-[400] text-pmGray m1-1">{name}</p>
+        <p className="m1-1 text-[14px] font-[400] text-pmGray">{name}</p>
         <p className="text-[14px] font-[400] text-pmGray">{address}</p>
         <p className="text-[14px] font-[400] text-pmGray">
           {state?.name}, {country?.name} {zipcode}
@@ -388,7 +389,7 @@ const Page2 = ({
         <p className="mt-4 text-[14px] font-[400] text-pmGray">{email}</p>
         <p className="text-[14px] font-[400] text-pmGray">{phoneno}</p>
       </div>
-      <div className="w-full flex flex-col mt-4">
+      <div className="mt-4 flex w-full flex-col">
         <h2 className="text-[22px] font-[600]">Chose how to pay</h2>
         <PayType
           text={"Pay in full now"}
@@ -417,7 +418,7 @@ const Page2 = ({
       </div>
       <button
         onClick={() => setpages((val) => val + 1)}
-        className={`px-5 py-3  text-white bg-[black] font-[500] text-[17px] rounded-[0.8rem] w-max mt-5`}
+        className={`mt-5 w-max  rounded-[0.8rem] bg-[black] px-5 py-3 text-[17px] font-[500] text-white`}
       >
         Continue to pay
       </button>
@@ -445,24 +446,24 @@ const Page3 = ({
   return (
     <>
       <h1 className="text-[22px] font-[600]">Shiping Address</h1>
-      <div className="flex flex-col mt-2 pb-8 border-b border-borderP">
-        <div className="flex w-full justify-between items-center pr-5">
-          <h2 className="text-black text-[15px]">Shiping Address</h2>
+      <div className="mt-2 flex flex-col border-b border-borderP pb-8">
+        <div className="flex w-full items-center justify-between pr-5">
+          <h2 className="text-[15px] text-black">Shiping Address</h2>
           <button
             onClick={() => setpages(0)}
-            className="border-none outline-none text-[14px] underline underline-offset-2 bg-transparent font-[500]"
+            className="border-none bg-transparent text-[14px] font-[500] underline underline-offset-2 outline-none"
           >
             Edit
           </button>
         </div>
-        <p className="text-[15px] font-[400] text-pmGray m1-1">{name}</p>
+        <p className="m1-1 text-[15px] font-[400] text-pmGray">{name}</p>
         <p className="text-[15px] font-[400] text-pmGray">{address}</p>
         <p className="text-[15px] font-[400] text-pmGray">
           {state?.name}, {country?.name} {zipcode}
         </p>
         <p className="mt-5 text-[15px] font-[400] text-pmGray">{email}</p>
         <p className="text-[15px] font-[400] text-pmGray">{phoneno}</p>
-        <div className="flex flex-col gap-1 mt-5">
+        <div className="mt-5 flex flex-col gap-1">
           <h2 className="text-[16px] font-[500]">Choose how to pay</h2>
           <p className="text-[15px] font-[400] text-pmGray">
             {(paytype === "now" && "Pay in full now") ||
@@ -470,19 +471,19 @@ const Page3 = ({
               (paytype === "later" && "Pay later by same payment method.")}
           </p>
         </div>
-        <div className="flex justify-between items-center mt-4 ">
+        <div className="mt-4 flex items-center justify-between ">
           <p className="font-[700]">${total}</p>
           <p className="text-[15px] font-[400] text-pmGray">Due amount $0.00</p>
         </div>
       </div>
-      <div className="flex flex-col gap-5 mt-4 pb-6 border-b border-borderP">
+      <div className="mt-4 flex flex-col gap-5 border-b border-borderP pb-6">
         <div>
           <h2 className="text-[22px] font-[600]">Payment</h2>
           <div className="flex gap-2">
             <p className="text-[15px] font-[400] text-pmGray">
               {country?.name || "United State"}
             </p>
-            <span className="underline underline-offset-2 text-[15px]">
+            <span className="text-[15px] underline underline-offset-2">
               Edit
             </span>
           </div>
@@ -491,7 +492,7 @@ const Page3 = ({
           text={"Do you have a Voucher or Promo code?"}
           fontSize={"sm"}
         />
-        <div className="flex flex-col gap-4 mt-5">
+        <div className="mt-5 flex flex-col gap-4">
           <h3 className="text-[15px] font-[500]">Select payment method</h3>
           <div className="flex gap-8">
             <PayBank payBank={payBank} setpayBank={setpayBank} type={"paypal"}>
@@ -504,18 +505,18 @@ const Page3 = ({
               />
             </PayBank>
             <PayBank payBank={payBank} setpayBank={setpayBank} type={"card"}>
-              <p className="text-[14px] font-[500] ml-2">
+              <p className="ml-2 text-[14px] font-[500]">
                 Credit or Debit Card
               </p>
             </PayBank>
           </div>
           <div>
-            <div className="w-full flex-center gap-[0.6rem] mt-5">
-              <div className="w-full max-w-[17.5rem] checkoutInput flex-center px-4">
+            <div className="flex-center mt-5 w-full gap-[0.6rem]">
+              <div className="checkoutInput flex-center w-full max-w-[17.5rem] px-4">
                 <input
                   type="passowrd"
                   placeholder="Card Number"
-                  className="outline-none border-none w-full "
+                  className="w-full border-none outline-none "
                 />
                 {lock}
               </div>
@@ -530,7 +531,7 @@ const Page3 = ({
                 className="checkoutInput !max-w-[8.6rem] pl-4 pr-0"
               />
             </div>
-            <div className="flex items-center mt-3">
+            <div className="mt-3 flex items-center">
               <p className="text-[13px]">Card Accepted</p>
               <Image src={"/visa.jpg"} width={35} height={35} alt="visa" />
               <Image
@@ -543,20 +544,20 @@ const Page3 = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-2 mt-3">
+      <div className="mt-3 flex flex-col gap-2">
         <CustomCheckbox
           text={"Billing address ame as shipping address"}
           fontSize={"sm"}
         />
-        <h3 className="text-black text-[15px] mt-3">Shiping Address</h3>
-        <p className="text-[15px] font-[400] text-pmGray m1-1">{name}</p>
+        <h3 className="mt-3 text-[15px] text-black">Shiping Address</h3>
+        <p className="m1-1 text-[15px] font-[400] text-pmGray">{name}</p>
         <p className="text-[15px] font-[400] text-pmGray">{address}</p>
         <p className="text-[15px] font-[400] text-pmGray">
           {state?.name}, {country?.name} {zipcode}
         </p>
       </div>
       <button
-        className={`px-5 py-3  text-white bg-[black] font-[500] text-[17px] rounded-[0.8rem] w-max mt-5`}
+        className={`mt-5 w-max  rounded-[0.8rem] bg-[black] px-5 py-3 text-[17px] font-[500] text-white`}
       >
         Submit Payment
       </button>
@@ -573,17 +574,17 @@ const PayType = ({
   type,
 }) => {
   return (
-    <div className="w-full flex justify-between py-6 border-b border-borderP">
+    <div className="flex w-full justify-between border-b border-borderP py-6">
       <div className="flex gap-3">
         <div
           onClick={() => setpaytype(type)}
-          className={`w-[22px] h-[22px] rounded-full  border border-black hover:border-2 cursor-pointer ${
+          className={`h-[22px] w-[22px] cursor-pointer  rounded-full border border-black hover:border-2 ${
             paytype === type ? "border-[7.5px] hover:border-[7.5px]" : ""
           } `}
         />
         <div className="flex flex-col">
           <p className="text-[15px] font-[500]">{text}</p>
-          <p className="text-[14px] text-pmGray max-w-[50ch] whitespace-nowrap">
+          <p className="max-w-[50ch] whitespace-nowrap text-[14px] text-pmGray">
             {subtext}
           </p>
         </div>
@@ -595,13 +596,13 @@ const PayType = ({
 
 const Smcard = ({ name, sizes, qty, date, price }) => {
   return (
-    <div className="w-full flex gap-3 ">
+    <div className="flex w-full gap-3 ">
       <Image
         src={"/Testimg.jpg"}
         alt="cart item"
         width={100}
         height={90}
-        className="rounded-xl w-[100px] h-[95px]"
+        className="h-[95px] w-[100px] rounded-xl"
       />
       <div className="flex flex-col gap-2">
         <h3 className="text-[17px] font-[600]">{name}</h3>
@@ -634,12 +635,12 @@ const Smcard = ({ name, sizes, qty, date, price }) => {
 
 const CheckoutNav = () => {
   return (
-    <div className="w-full bg-black flex justify-between items-center py-2 px-4">
+    <div className="flex w-full items-center justify-between bg-black px-4 py-2">
       <Link href={"/cart"} className="flex-center gap-1">
-        {left2} <p className="text-white text-[13px]">Back to shopping cart</p>
+        {left2} <p className="text-[13px] text-white">Back to shopping cart</p>
       </Link>
-      <h1 className="font-[500] text-white text-[20px]">Checkout</h1>
-      <Link href={"/contact"} className="text-white text-[13px]">
+      <h1 className="text-[20px] font-[500] text-white">Checkout</h1>
+      <Link href={"/contact"} className="text-[13px] text-white">
         Contact@hokrex.com
       </Link>
     </div>
@@ -651,7 +652,7 @@ const PayBank = ({ children, payBank, type, setpayBank }) => {
     <div className="flex-center">
       <div
         onClick={() => setpayBank(type)}
-        className={`w-[22px] h-[22px] rounded-full  border border-black hover:border-2 cursor-pointer ${
+        className={`h-[22px] w-[22px] cursor-pointer  rounded-full border border-black hover:border-2 ${
           payBank === type ? "border-[7.5px] hover:border-[7.5px]" : ""
         } `}
       />

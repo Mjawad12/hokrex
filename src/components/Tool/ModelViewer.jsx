@@ -1,6 +1,5 @@
 import React from "react";
 import Shirt from "./Shirt";
-import { Shadow } from "@react-three/drei";
 
 function ModelViewer() {
   return (
