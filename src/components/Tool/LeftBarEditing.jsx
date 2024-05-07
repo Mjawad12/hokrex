@@ -4,8 +4,17 @@ import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 import TextEdit from "./LeftBarEditing/TextEdit";
 
 function LeftBarEditing({ selected }) {
-  const { addText } = useContext(ContextTool);
-  const editers = { Text: ["Text Edit", <TextEdit addText={addText} />] };
+  const { addText, selectedText, setselectedText } = useContext(ContextTool);
+  const editers = {
+    Text: [
+      "Text Edit",
+      <TextEdit
+        addText={addText}
+        selectedText={selectedText}
+        setselectedText={setselectedText}
+      />,
+    ],
+  };
   return (
     <div className="absolute right-0 top-[3.05rem] z-50 flex min-h-screen w-full max-w-[320px] flex-col bg-darkMid p-3 px-3.5">
       <div className="flex items-center justify-between">

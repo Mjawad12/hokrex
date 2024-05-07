@@ -50,6 +50,7 @@ module.exports = {
         "Pn-light-200": "#BAC8FF",
         "Pn-light-100": "#DCE4FF",
         canvasColor: "#252A30",
+        fullDark: "#252A30",
       },
     },
   },

@@ -1678,56 +1678,53 @@ const textPositions = [
     name: "Top",
     svg: (
       <svg
-        width="20"
-        height="21"
-        viewBox="0 0 20 21"
+        width="22"
+        height="20"
+        viewBox="0 0 22 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        style={{ rotate: "-90deg" }}
       >
         <mask id="path-1-inside-1_0_1" fill="white">
           <rect
-            x="4.17188"
-            y="17.5781"
+            x="4.14062"
+            y="4.05957"
             width="17.3037"
             height="5.40741"
             rx="1.08148"
-            transform="rotate(-90 4.17188 17.5781)"
           />
         </mask>
         <rect
-          x="4.17188"
-          y="17.5781"
+          x="4.14062"
+          y="4.05957"
           width="17.3037"
           height="5.40741"
           rx="1.08148"
-          transform="rotate(-90 4.17188 17.5781)"
           stroke="#BDC7D1"
           stroke-width="4.32593"
           mask="url(#path-1-inside-1_0_1)"
         />
         <mask id="path-2-inside-2_0_1" fill="white">
           <rect
-            x="10.6562"
-            y="17.5781"
+            x="4.14062"
+            y="10.5488"
             width="11.8963"
             height="5.40741"
             rx="1.08148"
-            transform="rotate(-90 10.6562 17.5781)"
           />
         </mask>
         <rect
-          x="10.6562"
-          y="17.5781"
+          x="4.14062"
+          y="10.5488"
           width="11.8963"
           height="5.40741"
           rx="1.08148"
-          transform="rotate(-90 10.6562 17.5781)"
           stroke="#BDC7D1"
           stroke-width="4.32593"
           mask="url(#path-2-inside-2_0_1)"
         />
         <path
-          d="M2.00781 19.7402L18.23 19.7402"
+          d="M1.97656 1.89648L1.97656 18.1187"
           stroke="#BDC7D1"
           stroke-width="2.16296"
           stroke-linecap="round"
@@ -1739,70 +1736,70 @@ const textPositions = [
     name: "Middle",
     svg: (
       <svg
-        width="19"
-        height="18"
-        viewBox="0 0 19 18"
+        width="15"
+        height="15"
+        viewBox="0 0 15 15"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <mask id="path-1-inside-1_0_1" fill="white">
+        <mask id="path-1-inside-1_635_15699" fill="white">
           <rect
-            x="15.6562"
-            y="0.355469"
-            width="17.3037"
-            height="5.40741"
+            x="13"
+            y="0.571289"
+            width="14"
+            height="5"
             rx="1.08148"
-            transform="rotate(90 15.6562 0.355469)"
+            transform="rotate(90 13 0.571289)"
           />
         </mask>
         <rect
-          x="15.6562"
-          y="0.355469"
-          width="17.3037"
-          height="5.40741"
+          x="13"
+          y="0.571289"
+          width="14"
+          height="5"
           rx="1.08148"
-          transform="rotate(90 15.6562 0.355469)"
-          stroke="#BDC7D1"
-          stroke-width="4"
-          mask="url(#path-1-inside-1_0_1)"
+          transform="rotate(90 13 0.571289)"
+          stroke="#79838C"
+          stroke-width="3.6"
+          mask="url(#path-1-inside-1_635_15699)"
         />
-        <mask id="path-2-inside-2_0_1" fill="white">
+        <mask id="path-2-inside-2_635_15699" fill="white">
           <rect
-            x="9.16406"
-            y="3.59961"
-            width="10.8148"
-            height="5.40741"
+            x="7"
+            y="1.57129"
+            width="12"
+            height="5"
             rx="1.08148"
-            transform="rotate(90 9.16406 3.59961)"
+            transform="rotate(90 7 1.57129)"
           />
         </mask>
         <rect
-          x="9.16406"
-          y="3.59961"
-          width="10.8148"
-          height="5.40741"
+          x="7"
+          y="1.57129"
+          width="12"
+          height="5"
           rx="1.08148"
-          transform="rotate(90 9.16406 3.59961)"
-          stroke="#BDC7D1"
-          stroke-width="4"
-          mask="url(#path-2-inside-2_0_1)"
+          transform="rotate(90 7 1.57129)"
+          stroke="#79838C"
+          stroke-width="3.6"
+          mask="url(#path-2-inside-2_635_15699)"
         />
         <path
-          d="M4.84375 9.00781L1.59931 9.00781"
-          stroke="#BDC7D1"
-          stroke-width="2"
+          d="M3 7.57129H1"
+          stroke="#79838C"
+          stroke-width="1.8"
           stroke-linecap="round"
         />
         <path
-          d="M11.3281 9.00781L8.08368 9.00781"
-          stroke="#BDC7D1"
-          stroke-width="2"
+          d="M9 7.57129H7"
+          stroke="#79838C"
+          stroke-width="1.8"
           stroke-linecap="round"
         />
         <path
-          d="M17.8125 9.00781L14.5681 9.00781"
-          stroke="#BDC7D1"
-          stroke-width="2"
+          d="M14 7.57129H12"
+          stroke="#79838C"
+          stroke-width="1.8"
           stroke-linecap="round"
         />
       </svg>
@@ -1812,56 +1809,53 @@ const textPositions = [
     name: "Bottom",
     svg: (
       <svg
-        width="19"
-        height="21"
-        viewBox="0 0 19 21"
+        width="22"
+        height="20"
+        viewBox="0 0 22 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        style={{ rotate: "90deg" }}
       >
         <mask id="path-1-inside-1_0_1" fill="white">
           <rect
-            x="15.2344"
-            y="3.4375"
+            x="4.14062"
+            y="4.05957"
             width="17.3037"
             height="5.40741"
             rx="1.08148"
-            transform="rotate(90 15.2344 3.4375)"
           />
         </mask>
         <rect
-          x="15.2344"
-          y="3.4375"
+          x="4.14062"
+          y="4.05957"
           width="17.3037"
           height="5.40741"
           rx="1.08148"
-          transform="rotate(90 15.2344 3.4375)"
           stroke="#BDC7D1"
           stroke-width="4.32593"
           mask="url(#path-1-inside-1_0_1)"
         />
         <mask id="path-2-inside-2_0_1" fill="white">
           <rect
-            x="8.75"
-            y="3.4375"
+            x="4.14062"
+            y="10.5488"
             width="11.8963"
             height="5.40741"
             rx="1.08148"
-            transform="rotate(90 8.75 3.4375)"
           />
         </mask>
         <rect
-          x="8.75"
-          y="3.4375"
+          x="4.14062"
+          y="10.5488"
           width="11.8963"
           height="5.40741"
           rx="1.08148"
-          transform="rotate(90 8.75 3.4375)"
           stroke="#BDC7D1"
           stroke-width="4.32593"
           mask="url(#path-2-inside-2_0_1)"
         />
         <path
-          d="M17.3984 1.27441L1.17622 1.27442"
+          d="M1.97656 1.89648L1.97656 18.1187"
           stroke="#BDC7D1"
           stroke-width="2.16296"
           stroke-linecap="round"
@@ -1870,6 +1864,21 @@ const textPositions = [
     ),
   },
 ];
+
+const order = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="17"
+    height="12"
+    viewBox="0 0 16 11"
+    fill="none"
+  >
+    <path
+      d="M0.400006 6.26551L7.6 10.4631C7.72162 10.534 7.85957 10.5713 8 10.5713C8.14043 10.5713 8.27838 10.534 8.4 10.4631L15.6 6.26551C15.7209 6.19508 15.8214 6.09394 15.8916 5.97215C15.9618 5.85036 15.9992 5.71216 16 5.57129C16.0006 5.42905 15.9639 5.28918 15.8936 5.16585C15.8234 5.04252 15.7221 4.94011 15.6 4.86899L8.4 0.679438C8.27838 0.608588 8.14043 0.571289 8 0.571289C7.85957 0.571289 7.72162 0.608588 7.6 0.679438L0.400006 4.86899C0.277923 4.94011 0.176631 5.04252 0.106389 5.16585C0.0361462 5.28918 -0.000553347 5.42905 6.3063e-06 5.57129C0.000849002 5.71216 0.0382134 5.85036 0.108386 5.97215C0.178559 6.09394 0.279096 6.19508 0.400006 6.26551ZM8 2.34234L13.6 5.57129L8 8.80023L2.4 5.57129L8 2.34234Z"
+      fill="#BDC7D1"
+    />
+  </svg>
+);
 
 export {
   logo,
@@ -1911,4 +1920,5 @@ export {
   dropper,
   plus,
   textPositions,
+  order,
 };
