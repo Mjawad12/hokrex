@@ -1,4 +1,11 @@
-import { arrowDown, order, plus, textPositions } from "@/Consonats";
+import {
+  align,
+  arrowDown,
+  order,
+  plus,
+  textPositions,
+  uppercase,
+} from "@/Consonats";
 import React, { useState } from "react";
 
 const TextEdit = ({ addText, selectedText, setselectedText }) => {
@@ -121,7 +128,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
       clickfunc: function () {
         setselectedText({
           ...selectedText,
-          scale: selectedText.scale + 0.1,
+          scale: selectedText.scale + 0.05,
         });
       },
     },
@@ -147,7 +154,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
       clickfunc: function () {
         setselectedText({
           ...selectedText,
-          scale: selectedText.scale - 0.1,
+          scale: selectedText.scale - 0.05,
         });
       },
     },
@@ -180,9 +187,9 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
       clickfunc: function () {
         setselectedText({
           ...selectedText,
-          rotation: selectedText.rotation + 10,
+          rotation: selectedText.rotation + 5,
         });
-        addText(undefined, selectedText.rotation + 10);
+        addText(undefined, selectedText.rotation + 5);
       },
     },
     {
@@ -214,9 +221,9 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
       clickfunc: function () {
         setselectedText({
           ...selectedText,
-          rotation: selectedText.rotation - 10,
+          rotation: selectedText.rotation - 5,
         });
-        addText(undefined, selectedText.rotation - 10);
+        addText(undefined, selectedText.rotation - 5);
       },
     },
   ];
@@ -283,7 +290,36 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
         <p className="text-[15px] font-[700] text-textDark">Fonts</p>
         <div className="flex gap-2">
           <DropDown
-            data={["Arial", "Sans-serif", "Verdana", "Courier"]}
+            data={[
+              "Arial",
+              "Verdana",
+              "Tahoma",
+              "Calibri",
+              "Trebuchet MS",
+              "Times New Roman",
+              "Georgia",
+              "Garamond",
+              "Courier New",
+              "Brush Script MT",
+              "Roboto",
+              "Hammersmith One",
+              "Ultra",
+              "Droid Sans",
+              "Droid Serif",
+              "Anton",
+              "Ubuntu",
+              "Hanalei",
+              "Lobster",
+              "Noto Sans JP",
+              "Stalinist One",
+              "Bad Script",
+              "IM Fell Double Pica",
+              "Merriweather",
+              "Pangolin",
+              "Open Sans",
+              "Catamaran",
+              "Shadows Into Light",
+            ]}
             selectedOption={selectedText.fontFamily}
             setselectedOption={setselectedText}
             overflow={true}
@@ -304,6 +340,58 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
             weight={true}
             addText={addText}
           />
+        </div>
+      </div>
+
+      <div className="flex gap-2.5">
+        <div className="flex-center w-full flex-col gap-1">
+          <input
+            type="number"
+            className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
+            defaultValue={20}
+            onInput={(e) => {
+              setselectedText({ ...selectedText, fontSize: e.target.value });
+              addText(
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                e.target.value,
+              );
+            }}
+          />
+          <span className="text-[11px] font-[600] text-textDark">
+            Font Size
+          </span>
+        </div>
+
+        <div className="flex-center w-full flex-col gap-1">
+          <input
+            type="number"
+            className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
+            defaultValue={20}
+            onInput={() => {}}
+          />
+          <span className="text-[11px] font-[600] text-textDark">
+            Line Height
+          </span>
+        </div>
+
+        <div className="flex-center w-full flex-col gap-1">
+          <span className="flex-center w-full rounded-md bg-darkLight px-3 py-[0.8rem]">
+            {align}
+          </span>
+          <span className="text-[11px] font-[600] text-textDark">
+            Alignment
+          </span>
+        </div>
+        <div className="flex-center w-full flex-col gap-1">
+          <span className="flex-center w-full rounded-md bg-darkLight px-3 py-[0.8rem]">
+            {uppercase}
+          </span>
+          <span className="text-[11px] font-[600] text-textDark">
+            Alignment
+          </span>
         </div>
       </div>
     </div>
@@ -346,11 +434,11 @@ const DropDown = ({
   const [show, setshow] = useState(false);
   const weightData = {
     Light: "0",
-    Regular: "3",
-    Medium: "4",
-    Semibold: "5",
-    Bold: "6",
-    Extrabold: "7",
+    Regular: "2",
+    Medium: "3",
+    Semibold: "4",
+    Bold: "5",
+    Extrabold: "6",
   };
   const changeSelected = (val) => {
     if (weight) {
@@ -373,7 +461,7 @@ const DropDown = ({
   return (
     <div
       onClick={() => setshow(!show)}
-      className="bg-fullDark relative flex h-[3rem] w-full cursor-pointer items-center justify-between rounded-md px-3 pr-4 transition duration-[100ms] hover:shadow-xl [&_svg]:w-[13px] [&_svg]:stroke-white"
+      className="relative flex h-[3rem] w-full cursor-pointer items-center justify-between rounded-md bg-fullDark px-3 pr-4 transition duration-[100ms] hover:shadow-xl [&_svg]:w-[13px] [&_svg]:stroke-white"
     >
       <p className="font-med text-[15px] text-[#D3D4D6]">
         {weight
@@ -386,7 +474,7 @@ const DropDown = ({
       <div
         className={`absolute ${
           show ? "flex" : "hidden"
-        } border-borderColorP left-0 top-[45px] z-20 flex max-h-[10rem] w-full flex-col items-start justify-start rounded-md border  bg-white py-3 ${
+        } border-borderColorP left-0 top-[45px] z-20 flex max-h-[10rem] w-full flex-col items-start justify-start rounded-md border  bg-white py-3  ${
           overflow ? "overflow-y-scroll" : ""
         }`}
       >
@@ -394,7 +482,7 @@ const DropDown = ({
           <span
             key={index}
             onClick={changeSelected}
-            className="flex h-7 w-full cursor-pointer items-center justify-start px-5 py-2 text-gray-400 hover:bg-gray-200 "
+            className="flex h-max min-h-7 w-full cursor-pointer items-center justify-start whitespace-nowrap px-5 py-2 text-gray-400 hover:bg-gray-200 "
             value={it}
           >
             {it}

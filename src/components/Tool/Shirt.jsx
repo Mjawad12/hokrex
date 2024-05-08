@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Decal, useGLTF, useTexture } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
+import * as Three from "three";
 
 export function Shirt(props) {
+  const decalTextMesh = useRef();
   const { testcolor, alpha, Addtext, texture, selectedText } =
     useContext(ContextTool);
   const [x, setx] = useState(0);
@@ -46,11 +48,15 @@ export function Shirt(props) {
           ></meshStandardMaterial>
 
           {texture && (
-            <Decal position={selectedText.position} scale={selectedText.scale}>
+            <Decal
+              position={selectedText.position}
+              scale={selectedText.scale}
+              renderOrder={1}
+            >
               <meshPhysicalMaterial
                 transparent
                 polygonOffset
-                polygonOffsetFactor={-10}
+                polygonOffsetFactor={-40}
                 map={texture}
                 map-flipY={false}
                 map-anisotropy={16}

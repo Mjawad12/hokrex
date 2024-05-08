@@ -1880,6 +1880,60 @@ const order = (
   </svg>
 );
 
+const align = (
+  <svg
+    width="16"
+    height="15"
+    viewBox="0 0 16 15"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M5 13.5713H12"
+      stroke="white"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M1 9.57129H15"
+      stroke="white"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M12 5.57129H5"
+      stroke="white"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M1 1.57129H15"
+      stroke="white"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
+const uppercase = (
+  <svg
+    width="24"
+    height="13"
+    viewBox="0 0 24 13"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1.296 12.4993C0.816 12.3133 0.672 11.9833 0.864 11.5093L5.148 0.961288C5.328 0.565288 5.61 0.367288 5.994 0.367288H6.03C6.42 0.385289 6.684 0.583289 6.822 0.961288L11.178 11.5093C11.37 11.9833 11.232 12.3133 10.764 12.4993C10.29 12.6853 9.96 12.5473 9.774 12.0853L8.802 9.72729H3.195L2.268 12.0853C2.082 12.5533 1.758 12.6913 1.296 12.4993ZM3.789 8.21529H8.181L5.94 2.76129L3.789 8.21529ZM13.2843 12.4993C12.8043 12.3133 12.6603 11.9833 12.8523 11.5093L17.1363 0.961288C17.3163 0.565288 17.5983 0.367288 17.9823 0.367288H18.0183C18.4083 0.385289 18.6723 0.583289 18.8103 0.961288L23.1663 11.5093C23.3583 11.9833 23.2203 12.3133 22.7523 12.4993C22.2783 12.6853 21.9483 12.5473 21.7623 12.0853L20.7903 9.72729H15.1833L14.2563 12.0853C14.0703 12.5533 13.7463 12.6913 13.2843 12.4993ZM15.7773 8.21529H20.1693L17.9283 2.76129L15.7773 8.21529Z"
+      fill="#BDC7D1"
+    />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -1921,4 +1975,6 @@ export {
   plus,
   textPositions,
   order,
+  align,
+  uppercase,
 };

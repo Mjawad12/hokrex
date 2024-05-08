@@ -22,9 +22,9 @@ function Mainstatetool({ children }) {
     rotation: 0,
     fontFamily: "Verdana",
     fontStyle: "italic",
-    fontSize: "50px",
+    fontSize: "30",
     lineHeight: "1",
-    fontWeight: "400",
+    fontWeight: "0",
     uppercase: false,
     underline: false,
   };
@@ -48,11 +48,12 @@ function Mainstatetool({ children }) {
         rotation = selectedText.rotation,
         fontFamily = selectedText.fontFamily,
         fontWeight = selectedText.fontWeight,
+        fontSize = selectedText.fontSize,
       ) => {
         const canvas = document.querySelector("canvas#styleCanvas");
         const ctx = canvas.getContext("2d");
         ctx.reset();
-        ctx.font = `${selectedText.fontStyle} ${"400"} ${selectedText.fontSize} ${fontFamily}`;
+        ctx.font = `${selectedText.fontStyle} ${"100"} ${fontSize}px ${fontFamily}`;
         ctx.fillStyle = selectedText.color;
         ctx.strokeStyle = selectedText.color;
         ctx.textAlign = "center";
@@ -64,7 +65,8 @@ function Mainstatetool({ children }) {
         ctx.rotate((rotation * Math.PI) / 180);
         ctx.fillText(text.toString(), 0, 0);
         ctx.strokeText(text.toString(), 0, 0);
-        const url = document.querySelector("canvas#styleCanvas").toDataURL();
+
+        const url = canvas.toDataURL();
         const textu = new THREE.TextureLoader().load(url);
         textu.center = new THREE.Vector2(0.5, 0.5);
         textu.rotation = Math.PI;

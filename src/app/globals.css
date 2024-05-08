@@ -228,3 +228,14 @@ canvas:not(canvas#styleCanvas) {
   width: 100vw !important;
   height: 100vh !important;
 }
+
+/* Remove buttons of a input type number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
