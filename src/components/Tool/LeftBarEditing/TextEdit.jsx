@@ -187,9 +187,8 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
       clickfunc: function () {
         setselectedText({
           ...selectedText,
-          rotation: selectedText.rotation + 5,
+          rotation: selectedText.rotation + 20,
         });
-        addText(undefined, selectedText.rotation + 5);
       },
     },
     {
@@ -221,9 +220,8 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
       clickfunc: function () {
         setselectedText({
           ...selectedText,
-          rotation: selectedText.rotation - 5,
+          rotation: selectedText.rotation - 20,
         });
-        addText(undefined, selectedText.rotation - 5);
       },
     },
   ];
@@ -239,6 +237,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
         className="flex-center w-full rounded-md border border-darkLight bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
         placeholder="Text here"
         maxLength={30}
+        value={selectedText.text}
       />
 
       <div className="flex flex-col gap-2.5">
@@ -348,7 +347,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
           <input
             type="number"
             className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-            defaultValue={20}
+            defaultValue={40}
             onInput={(e) => {
               setselectedText({ ...selectedText, fontSize: e.target.value });
               addText(
@@ -369,7 +368,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
           <input
             type="number"
             className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-            defaultValue={20}
+            defaultValue={1.2}
             onInput={() => {}}
           />
           <span className="text-[11px] font-[600] text-textDark">
@@ -378,7 +377,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
         </div>
 
         <div className="flex-center w-full flex-col gap-1">
-          <span className="flex-center w-full rounded-md bg-darkLight px-3 py-[0.8rem]">
+          <span className="flex-center w-full cursor-pointer rounded-md bg-darkLight px-3 py-[0.8rem]">
             {align}
           </span>
           <span className="text-[11px] font-[600] text-textDark">
@@ -386,11 +385,20 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
           </span>
         </div>
         <div className="flex-center w-full flex-col gap-1">
-          <span className="flex-center w-full rounded-md bg-darkLight px-3 py-[0.8rem]">
+          <span
+            onClick={() => {
+              setselectedText({
+                ...selectedText,
+                text: selectedText.text.toUpperCase(),
+              });
+              addText(selectedText.text.toUpperCase());
+            }}
+            className="flex-center w-full cursor-pointer rounded-md bg-darkLight px-3 py-[0.8rem]"
+          >
             {uppercase}
           </span>
           <span className="text-[11px] font-[600] text-textDark">
-            Alignment
+            Upper Case
           </span>
         </div>
       </div>

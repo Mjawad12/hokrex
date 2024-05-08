@@ -22,7 +22,7 @@ function Mainstatetool({ children }) {
     rotation: 0,
     fontFamily: "Verdana",
     fontStyle: "italic",
-    fontSize: "30",
+    fontSize: "40",
     lineHeight: "1",
     fontWeight: "0",
     uppercase: false,
@@ -62,9 +62,9 @@ function Mainstatetool({ children }) {
         ctx.lineWidth = fontWeight;
         ctx.scale(1, 0.9);
         ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.rotate((rotation * Math.PI) / 180);
-        ctx.fillText(text.toString(), 0, 0);
-        ctx.strokeText(text.toString(), 0, 0);
+        // ctx.rotate((rotation * Math.PI) / 180);
+        ctx.fillText(text, 0, 0);
+        ctx.strokeText(text, 0, 0);
 
         const url = canvas.toDataURL();
         const textu = new THREE.TextureLoader().load(url);

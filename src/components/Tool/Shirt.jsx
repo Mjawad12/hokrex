@@ -52,6 +52,12 @@ export function Shirt(props) {
               position={selectedText.position}
               scale={selectedText.scale}
               renderOrder={1}
+              // rotateOnAxis={(new Three.Vector3(1, 0, 0), Math.PI / 2)}
+              rotation={[
+                Math.PI,
+                0,
+                (selectedText.rotation + 180 * Math.PI) / 180,
+              ]}
             >
               <meshPhysicalMaterial
                 transparent
