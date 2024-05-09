@@ -16,7 +16,10 @@ function LeftBarEditing({ selected }) {
     ],
   };
   return (
-    <div className="absolute right-0 top-[3.05rem] z-50 flex min-h-screen w-full max-w-[320px] flex-col bg-darkMid p-3 px-3.5">
+    <div
+      id="smSCroll"
+      className="absolute right-0 top-[3.05rem] z-50 flex h-screen w-full max-w-[320px] flex-col overflow-y-scroll bg-darkMid p-3 px-3.5"
+    >
       <div className="flex items-center justify-between">
         <h3 className="text-[18px] text-[500] text-textLight">
           {editers[selected] && editers[selected][0]}

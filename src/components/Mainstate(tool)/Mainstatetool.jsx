@@ -27,6 +27,7 @@ function Mainstatetool({ children }) {
     fontWeight: "0",
     uppercase: false,
     underline: false,
+    spacing: "0",
   };
   const [selectedText, setselectedText] = useState(textLayer);
   const [testcolor, settestcolor] = useState("black");
@@ -45,12 +46,13 @@ function Mainstatetool({ children }) {
     () =>
       (
         text = selectedText.text,
-        rotation = selectedText.rotation,
         fontFamily = selectedText.fontFamily,
         fontWeight = selectedText.fontWeight,
         fontSize = selectedText.fontSize,
+        spacing = selectedText.spacing,
       ) => {
         const canvas = document.querySelector("canvas#styleCanvas");
+        canvas.style.letterSpacing = spacing + "px";
         const ctx = canvas.getContext("2d");
         ctx.reset();
         ctx.font = `${selectedText.fontStyle} ${"100"} ${fontSize}px ${fontFamily}`;

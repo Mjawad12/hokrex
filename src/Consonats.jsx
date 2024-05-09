@@ -1934,6 +1934,31 @@ const uppercase = (
   </svg>
 );
 
+const underline = (
+  <svg
+    width="24"
+    height="25"
+    viewBox="0 0 24 25"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M5 21.5713H19"
+      stroke="#BDC7D1"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M5 3.57129V10.5713C5 12.4278 5.7375 14.2083 7.05025 15.521C8.36301 16.8338 10.1435 17.5713 12 17.5713C13.8565 17.5713 15.637 16.8338 16.9497 15.521C18.2625 14.2083 19 12.4278 19 10.5713V3.57129"
+      stroke="#BDC7D1"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -1977,4 +2002,5 @@ export {
   order,
   align,
   uppercase,
+  underline,
 };

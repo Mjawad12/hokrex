@@ -4,11 +4,18 @@ import {
   order,
   plus,
   textPositions,
+  underline as underlineSvg,
   uppercase,
 } from "@/Consonats";
+import { motion, useAnimate } from "framer-motion";
 import React, { useState } from "react";
 
 const TextEdit = ({ addText, selectedText, setselectedText }) => {
+  const [scope, animate] = useAnimate();
+  const [upperCase, setupperCase] = useState(false);
+  const [underline, setunderline] = useState(false);
+  const [moreOpts, setmoreOpts] = useState(false);
+
   const ordeAndMove = ["Forward", "Backward", "To Front", "To Back"];
   const movement = [
     {
@@ -120,7 +127,6 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
       },
     },
   ];
-
   const sEdit = [
     {
       name: "Scale Up",
@@ -227,7 +233,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
   ];
 
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full flex-col gap-4 pb-10">
       <input
         onInput={(e) => {
           setselectedText({ ...selectedText, text: e.target.value });
@@ -350,13 +356,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
             defaultValue={40}
             onInput={(e) => {
               setselectedText({ ...selectedText, fontSize: e.target.value });
-              addText(
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                e.target.value,
-              );
+              addText(undefined, undefined, undefined, e.target.value);
             }}
           />
           <span className="text-[11px] font-[600] text-textDark">
@@ -384,16 +384,26 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
             Alignment
           </span>
         </div>
+
         <div className="flex-center w-full flex-col gap-1">
           <span
             onClick={() => {
-              setselectedText({
-                ...selectedText,
-                text: selectedText.text.toUpperCase(),
-              });
-              addText(selectedText.text.toUpperCase());
+              setupperCase(!upperCase);
+              if (!upperCase) {
+                setselectedText({
+                  ...selectedText,
+                  text: selectedText.text.toUpperCase(),
+                });
+                addText(selectedText.text.toUpperCase());
+              } else {
+                setselectedText({
+                  ...selectedText,
+                  text: selectedText.text.toLowerCase(),
+                });
+                addText(selectedText.text.toLowerCase());
+              }
             }}
-            className="flex-center w-full cursor-pointer rounded-md bg-darkLight px-3 py-[0.8rem]"
+            className={`flex-center w-full cursor-pointer rounded-md ${upperCase ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.8rem]  `}
           >
             {uppercase}
           </span>
@@ -402,6 +412,85 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
           </span>
         </div>
       </div>
+
+      <motion.div
+        ref={scope}
+        initial={{ height: 25 }}
+        className="flex flex-col gap-2.5 overflow-hidden"
+      >
+        <div
+          onClick={() => {
+            setmoreOpts(!moreOpts);
+            if (moreOpts) {
+              animate(scope.current, { height: 25 });
+            } else {
+              animate(scope.current, { height: scope.current.scrollHeight });
+            }
+          }}
+          className="flex cursor-pointer items-center gap-1.5 [&_svg]:w-[10px] [&_svg]:stroke-textLight"
+        >
+          <p className="text-[14px] text-textDark">More Options </p>
+          <motion.span
+            animate={{ rotate: moreOpts ? "180deg" : "0deg" }}
+            className="mt-0.5 "
+          >
+            {arrowDown}
+          </motion.span>
+        </div>
+
+        <div className="flex gap-2.5">
+          <div className="flex-center w-full flex-col gap-1">
+            <input
+              type="number"
+              className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
+              defaultValue={0}
+              onInput={(e) => {
+                setselectedText({ ...selectedText, spacing: e.target.value });
+                addText(
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  e.target.value,
+                );
+              }}
+            />
+            <span className="text-[11px] font-[600] text-textDark">
+              Spacing
+            </span>
+          </div>
+
+          <div className="flex-center w-full flex-col gap-1">
+            <input
+              type="number"
+              className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
+              defaultValue={0}
+              onInput={(e) => {
+                setselectedText({
+                  ...selectedText,
+                  rotation: e.target.value * 3.15,
+                });
+              }}
+            />
+            <span className="text-[11px] font-[600] text-textDark">
+              Rotation
+            </span>
+          </div>
+
+          <div className="flex-center w-full flex-col gap-1">
+            <span
+              className={`flex-center w-full cursor-pointer rounded-md ${underline ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.55rem]  `}
+            >
+              {underlineSvg}
+            </span>
+            <span className="text-[11px] font-[600] text-textDark">
+              Alignment
+            </span>
+          </div>
+
+          <div className="w-full"></div>
+        </div>
+      </motion.div>
     </div>
   );
 };
@@ -426,7 +515,7 @@ const TextBtn = ({ name, svg, clickfunc }) => {
       >
         {svg}
       </span>
-      <p className="text-[12px] text-textLight">{name}</p>
+      <p className="whitespace-nowrap text-[12px] text-textLight">{name}</p>
     </div>
   );
 };
@@ -453,17 +542,12 @@ const DropDown = ({
       setselectedOption((e) => {
         return { ...e, fontWeight: weightData[val.target.innerText] };
       });
-      addText(
-        undefined,
-        undefined,
-        undefined,
-        weightData[val.target.innerText],
-      );
+      addText(undefined, undefined, weightData[val.target.innerText]);
     } else {
       setselectedOption((e) => {
         return { ...e, fontFamily: val.target.innerText };
       });
-      addText(undefined, undefined, val.target.innerText);
+      addText(undefined, val.target.innerText);
     }
   };
   return (
