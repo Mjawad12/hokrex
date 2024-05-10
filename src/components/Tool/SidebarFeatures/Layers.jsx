@@ -5,6 +5,7 @@ import React, { useContext, useState } from "react";
 function Layers() {
   const { layerState } = useContext(ContextTool);
   const [selectedOption, setselectedOption] = useState("ALL LAYERS");
+
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-[18px] text-[500] text-textLight ">Product</h1>
@@ -23,8 +24,8 @@ function Layers() {
         setselectedOption={setselectedOption}
       />
       <div className="flex flex-col gap-2">
-        {layerState.map((it) => (
-          <LayerItem name={it.name} />
+        {Object.keys(layerState)?.map((it, index) => (
+          <LayerItem name={it} key={index} />
         ))}
       </div>
     </div>

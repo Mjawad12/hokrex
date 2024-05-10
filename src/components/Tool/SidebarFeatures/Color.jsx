@@ -1,16 +1,16 @@
 import { dropper } from "@/Consonats";
-import { ColorsPalet } from "@/app/(others)/hokrex-shadow-eye-admin-56789/addproduct/page";
 import DropDown from "@/components/DropDown";
 import { ContextTool } from "@/components/Mainstate(tool)/Mainstatetool";
 import React, { useContext, useState } from "react";
-import { SketchPicker, ChromePicker } from "react-color";
+import { ChromePicker } from "react-color";
 import rgbHex from "rgb-hex";
 
 function Color() {
-  const { settestcolor, setalpha } = useContext(ContextTool);
+  const { setcurrentModelColor, setalpha, currentModelColor } =
+    useContext(ContextTool);
   const [selectedOption, setselectedOption] = useState("ALL LAYERS");
   const [colorSelect, setcolorSelect] = useState("Solid");
-  const [currentColor, setcurrentColor] = useState("#ffffff");
+  const [currentColor, setcurrentColor] = useState(currentModelColor);
   const [colorMode, setcolorMode] = useState("hex");
 
   const documentColors = [
@@ -61,7 +61,7 @@ function Color() {
           <ChromePicker
             color={currentColor}
             onChange={(e) => {
-              settestcolor(e.hex);
+              setcurrentModelColor(e.hex);
               setalpha(e.rgb.a);
               setcurrentColor("#" + rgbHex(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb.a));
             }}
@@ -91,7 +91,7 @@ function Color() {
               className="max-w-[5.2rem] border border-darkMid bg-darkP px-2 py-1.5 text-center text-[13px] text-white outline-none"
               value={currentColor.slice(1)}
               onChange={(e) => {
-                settestcolor("#" + e.target.value);
+                setcurrentModelColor("#" + e.target.value);
                 setcurrentColor("#" + e.target.value);
               }}
             />
@@ -105,7 +105,7 @@ function Color() {
             {documentColors.map((it, index) => (
               <div
                 onClick={() => {
-                  settestcolor(it);
+                  setcurrentModelColor(it);
                   setcurrentColor(it);
                 }}
                 style={{ background: it }}
@@ -122,7 +122,7 @@ function Color() {
             {documentColors.map((it, index) => (
               <div
                 onClick={() => {
-                  settestcolor(it);
+                  setcurrentModelColor(it);
                   setcurrentColor(it);
                 }}
                 style={{ background: it }}

@@ -2,6 +2,7 @@
 import { prods } from "@/Consonats";
 import Controls from "@/components/Controls";
 import LeftBarEditing from "@/components/Tool/LeftBarEditing";
+import ColorSmall from "@/components/Tool/LeftBarEditing/ColorSmall";
 import ModelViewer from "@/components/Tool/ModelViewer";
 import SidebarTool from "@/components/Tool/SidebarTool";
 import { Environment, OrbitControls } from "@react-three/drei";
@@ -12,6 +13,7 @@ import React, { useEffect, useRef, useState } from "react";
 function page() {
   const [selected, setselected] = useState("Text");
   const [hidden, sethidden] = useState(true);
+  const [smColor, setsmColor] = useState(false);
 
   return (
     <>
@@ -59,7 +61,12 @@ function page() {
         </AnimatePresence>
       </div>
 
-      <LeftBarEditing selected={selected} />
+      <LeftBarEditing
+        selected={selected}
+        setsmColor={setsmColor}
+        smColor={smColor}
+      />
+      <AnimatePresence>{smColor && <ColorSmall />}</AnimatePresence>
       <Controls />
       <canvas
         id="styleCanvas"

@@ -1959,6 +1959,19 @@ const underline = (
   </svg>
 );
 
+const nullColor = (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="10" cy="10" r="9.5" fill="#323A44" stroke="white" />
+    <line x1="2.70432" y1="15.5968" x2="17.7043" y2="4.5968" stroke="white" />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -2003,4 +2016,5 @@ export {
   align,
   uppercase,
   underline,
+  nullColor,
 };

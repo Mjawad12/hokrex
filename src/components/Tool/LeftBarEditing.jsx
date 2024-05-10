@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 import TextEdit from "./LeftBarEditing/TextEdit";
 
-function LeftBarEditing({ selected }) {
+function LeftBarEditing({ selected, smColor, setsmColor }) {
   const { addText, selectedText, setselectedText } = useContext(ContextTool);
   const editers = {
     Text: [
@@ -12,6 +12,8 @@ function LeftBarEditing({ selected }) {
         addText={addText}
         selectedText={selectedText}
         setselectedText={setselectedText}
+        smColor={smColor}
+        setsmColor={setsmColor}
       />,
     ],
   };

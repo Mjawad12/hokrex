@@ -10,7 +10,13 @@ import {
 import { motion, useAnimate } from "framer-motion";
 import React, { useState } from "react";
 
-const TextEdit = ({ addText, selectedText, setselectedText }) => {
+const TextEdit = ({
+  addText,
+  selectedText,
+  setselectedText,
+  setsmColor,
+  smColor,
+}) => {
   const [scope, animate] = useAnimate();
   const [upperCase, setupperCase] = useState(false);
   const [moreOpts, setmoreOpts] = useState(false);
@@ -240,7 +246,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
   };
 
   return (
-    <div className="flex w-full flex-col gap-4 pb-10">
+    <div className="flex w-full flex-col gap-4 pb-12">
       <input
         onInput={(e) => {
           setselectedText({ ...selectedText, text: e.target.value });
@@ -412,7 +418,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
         </div>
 
         <div className="flex-center w-full flex-col gap-1">
-          <span className="flex-center w-full cursor-pointer rounded-md bg-darkLight px-3 py-[0.8rem]">
+          <span className="flex-center w-full cursor-pointer rounded-md bg-darkLight px-3 py-[0.8rem] hover:bg-darkHover">
             {align}
           </span>
           <span className="text-[11px] font-[600] text-textDark">
@@ -438,7 +444,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
                 addText(selectedText.text.toLowerCase());
               }
             }}
-            className={`flex-center w-full cursor-pointer rounded-md ${upperCase ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.8rem]  `}
+            className={`flex-center w-full cursor-pointer rounded-md ${upperCase ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.8rem] hover:bg-darkHover`}
           >
             {uppercase}
           </span>
@@ -514,7 +520,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
 
           <div className="flex-center w-full flex-col gap-1">
             <span
-              className={`flex-center w-full cursor-pointer rounded-md ${selectedText.underline ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.55rem]  `}
+              className={`flex-center w-full cursor-pointer rounded-md hover:bg-darkHover ${selectedText.underline ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.55rem]  `}
               onClick={() => {
                 setselectedText({
                   ...selectedText,
@@ -543,8 +549,11 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
 
       <div className="flex w-full flex-col gap-2.5 ">
         <p className="text-[15px] font-[700] text-textDark">Color</p>
-
-        {/* <ColorSmall selectedText={selectedText} /> */}
+        <div
+          style={{ background: selectedText.color }}
+          onClick={() => setsmColor(!smColor)}
+          className={`relative z-50 h-9  w-9 cursor-pointer rounded-full border-[2px] border-textDark`}
+        ></div>
       </div>
     </div>
   );
@@ -555,7 +564,7 @@ const TextAlign = ({ svg, name, func }) => {
     <div className="flex-center flex-col gap-2 border border-darkMid ">
       <span
         onClick={func}
-        className="flex-center h-8 cursor-pointer bg-darkLight px-3 "
+        className="flex-center h-8 cursor-pointer bg-darkLight px-3 hover:bg-darkHover "
       >
         {svg}
       </span>
@@ -569,7 +578,7 @@ const TextBtn = ({ name, svg, clickfunc }) => {
     <div className="flex-center w-full flex-col gap-2 border border-darkMid ">
       <span
         onClick={clickfunc}
-        className="flex-center h-8 w-full cursor-pointer bg-darkLight px-3 [&_*]:stroke-textLight"
+        className="flex-center h-8 w-full cursor-pointer bg-darkLight px-3 hover:bg-darkHover [&_*]:stroke-textLight"
       >
         {svg}
       </span>
@@ -638,34 +647,6 @@ const DropDown = ({
             {it}
           </span>
         ))}
-      </div>
-    </div>
-  );
-};
-
-const ColorSmall = ({ selectedText }) => {
-  const [colorSelect, setcolorSelect] = useState("Solid");
-  return (
-    <div
-      style={{ background: selectedText.color }}
-      className={`h-9 w-9 rounded-full bg-[${selectedText.color}] relative z-50 cursor-pointer border-[2px] border-textDark`}
-    >
-      <div className="absolute bottom-0 right-[-5rem] flex w-full min-w-[15rem] flex-col gap-1 bg-darkMid ">
-        <div className="flex w-full gap-1">
-          <button
-            onClick={() => setcolorSelect("Solid")}
-            className={`w-full text-[15px]  font-[500] text-white hover:bg-[#505D6C] ${colorSelect === "Solid" ? "bg-[#505D6C]" : "bg-transparent"} rounded-md py-1.5 `}
-          >
-            Solid
-          </button>
-
-          <button
-            onClick={() => setcolorSelect("Gradient")}
-            className={`w-full text-[15px] font-[500] text-white hover:bg-[#505D6C] ${colorSelect === "Gradient" ? "bg-[#505D6C]" : "bg-transparent"} rounded-md py-1.5 `}
-          >
-            Gradient
-          </button>
-        </div>
       </div>
     </div>
   );
