@@ -50,6 +50,7 @@ function Mainstatetool({ children }) {
         fontWeight = selectedText.fontWeight,
         fontSize = selectedText.fontSize,
         spacing = selectedText.spacing,
+        underline = selectedText.underline,
       ) => {
         const canvas = document.querySelector("canvas#styleCanvas");
         canvas.style.letterSpacing = spacing + "px";
@@ -64,10 +65,9 @@ function Mainstatetool({ children }) {
         ctx.lineWidth = fontWeight;
         ctx.scale(1, 0.9);
         ctx.translate(canvas.width / 2, canvas.height / 2);
-        // ctx.rotate((rotation * Math.PI) / 180);
         ctx.fillText(text, 0, 0);
         ctx.strokeText(text, 0, 0);
-
+        underline && underlineFunc(ctx, text, fontWeight);
         const url = canvas.toDataURL();
         const textu = new THREE.TextureLoader().load(url);
         textu.center = new THREE.Vector2(0.5, 0.5);
@@ -77,6 +77,19 @@ function Mainstatetool({ children }) {
       },
     [selectedText],
   );
+
+  const underlineFunc = (ctx, text, fontWeight) => {
+    const sizes = ctx.measureText(text);
+    const width = sizes.width;
+    const height = sizes.actualBoundingBoxDescent + 5;
+    const posX = -width / 2;
+    ctx.beginPath();
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = parseInt(fontWeight);
+    ctx.moveTo(posX, height);
+    ctx.lineTo(posX + width, height);
+    ctx.stroke();
+  };
 
   useEffect(() => {
     console.log(selectedText);

@@ -63,7 +63,7 @@ function page() {
       <Controls />
       <canvas
         id="styleCanvas"
-        className="absolute  right-0 z-30 h-[200px] w-[200px] border border-black"
+        className="absolute  right-0 z-30 h-[250px] w-[250px] border border-black"
       ></canvas>
     </>
   );

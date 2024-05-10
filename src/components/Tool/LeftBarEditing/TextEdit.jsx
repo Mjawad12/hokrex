@@ -13,7 +13,6 @@ import React, { useState } from "react";
 const TextEdit = ({ addText, selectedText, setselectedText }) => {
   const [scope, animate] = useAnimate();
   const [upperCase, setupperCase] = useState(false);
-  const [underline, setunderline] = useState(false);
   const [moreOpts, setmoreOpts] = useState(false);
 
   const ordeAndMove = ["Forward", "Backward", "To Front", "To Back"];
@@ -231,6 +230,14 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
       },
     },
   ];
+  const endLineShirt = {
+    Left: -0.05,
+    Center: 0,
+    Right: 0.06,
+    Top: 0.152,
+    Middle: 0,
+    Bottom: -0.32,
+  };
 
   return (
     <div className="flex w-full flex-col gap-4 pb-10">
@@ -251,12 +258,40 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
         <div className="flex gap-3">
           <div className="flex w-full">
             {textPositions.slice(0, 3).map((it, index) => (
-              <TextAlign key={index} name={it.name} svg={it.svg} />
+              <TextAlign
+                key={index}
+                name={it.name}
+                svg={it.svg}
+                func={() => {
+                  setselectedText({
+                    ...selectedText,
+                    position: [
+                      endLineShirt[it.name],
+                      selectedText.position[1],
+                      0.1,
+                    ],
+                  });
+                }}
+              />
             ))}
           </div>
           <div className="flex w-full">
             {textPositions.slice(3, 6).map((it, index) => (
-              <TextAlign key={index} name={it.name} svg={it.svg} />
+              <TextAlign
+                key={index}
+                name={it.name}
+                svg={it.svg}
+                func={() => {
+                  setselectedText({
+                    ...selectedText,
+                    position: [
+                      selectedText.position[0],
+                      endLineShirt[it.name],
+                      0.1,
+                    ],
+                  });
+                }}
+              />
             ))}
           </div>
         </div>
@@ -443,7 +478,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
             <input
               type="number"
               className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-              defaultValue={0}
+              value={selectedText.spacing}
               onInput={(e) => {
                 setselectedText({ ...selectedText, spacing: e.target.value });
                 addText(
@@ -464,7 +499,7 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
             <input
               type="number"
               className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-              defaultValue={0}
+              value={(selectedText.rotation / 3.15).toFixed(0)}
               onInput={(e) => {
                 setselectedText({
                   ...selectedText,
@@ -479,7 +514,21 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
 
           <div className="flex-center w-full flex-col gap-1">
             <span
-              className={`flex-center w-full cursor-pointer rounded-md ${underline ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.55rem]  `}
+              className={`flex-center w-full cursor-pointer rounded-md ${selectedText.underline ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.55rem]  `}
+              onClick={() => {
+                setselectedText({
+                  ...selectedText,
+                  underline: !selectedText.underline,
+                });
+                addText(
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  !selectedText.underline,
+                );
+              }}
             >
               {underlineSvg}
             </span>
@@ -491,14 +540,23 @@ const TextEdit = ({ addText, selectedText, setselectedText }) => {
           <div className="w-full"></div>
         </div>
       </motion.div>
+
+      <div className="flex w-full flex-col gap-2.5 ">
+        <p className="text-[15px] font-[700] text-textDark">Color</p>
+
+        {/* <ColorSmall selectedText={selectedText} /> */}
+      </div>
     </div>
   );
 };
 
-const TextAlign = ({ svg, name }) => {
+const TextAlign = ({ svg, name, func }) => {
   return (
     <div className="flex-center flex-col gap-2 border border-darkMid ">
-      <span className="flex-center h-8 cursor-pointer bg-darkLight px-3 ">
+      <span
+        onClick={func}
+        className="flex-center h-8 cursor-pointer bg-darkLight px-3 "
+      >
         {svg}
       </span>
       <p className="text-[12px] text-textLight">{name}</p>
@@ -584,4 +642,33 @@ const DropDown = ({
     </div>
   );
 };
+
+const ColorSmall = ({ selectedText }) => {
+  const [colorSelect, setcolorSelect] = useState("Solid");
+  return (
+    <div
+      style={{ background: selectedText.color }}
+      className={`h-9 w-9 rounded-full bg-[${selectedText.color}] relative z-50 cursor-pointer border-[2px] border-textDark`}
+    >
+      <div className="absolute bottom-0 right-[-5rem] flex w-full min-w-[15rem] flex-col gap-1 bg-darkMid ">
+        <div className="flex w-full gap-1">
+          <button
+            onClick={() => setcolorSelect("Solid")}
+            className={`w-full text-[15px]  font-[500] text-white hover:bg-[#505D6C] ${colorSelect === "Solid" ? "bg-[#505D6C]" : "bg-transparent"} rounded-md py-1.5 `}
+          >
+            Solid
+          </button>
+
+          <button
+            onClick={() => setcolorSelect("Gradient")}
+            className={`w-full text-[15px] font-[500] text-white hover:bg-[#505D6C] ${colorSelect === "Gradient" ? "bg-[#505D6C]" : "bg-transparent"} rounded-md py-1.5 `}
+          >
+            Gradient
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default TextEdit;
