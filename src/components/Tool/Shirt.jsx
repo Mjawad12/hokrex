@@ -59,7 +59,7 @@ export function Shirt(props) {
               <meshPhysicalMaterial
                 transparent
                 polygonOffset
-                polygonOffsetFactor={-40}
+                polygonOffsetFactor={-1}
                 map={texture}
                 map-flipY={false}
                 map-anisotropy={16}
@@ -76,19 +76,15 @@ export function Shirt(props) {
 
           {shapeTexture && (
             <Decal
-              position={selectedText.position}
-              scale={selectedText.scale}
-              renderOrder={1}
-              rotation={[
-                Math.PI,
-                0,
-                (selectedText.rotation + 180 * Math.PI) / 180,
-              ]}
+              position={[0, 0, 0.1]}
+              scale={0.25}
+              renderOrder={2}
+              rotation={[Math.PI, 0, (0 + 180 * Math.PI) / 180]}
             >
               <meshPhysicalMaterial
                 transparent
                 polygonOffset
-                polygonOffsetFactor={-40}
+                polygonOffsetFactor={-2}
                 map={shapeTexture}
                 map-flipY={false}
                 map-anisotropy={16}
