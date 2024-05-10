@@ -1,13 +1,5 @@
 "use client";
-import { useTexture } from "@react-three/drei";
-import React, {
-  createContext,
-  memo,
-  useEffect,
-  useMemo,
-  useReducer,
-  useState,
-} from "react";
+import React, { createContext, useMemo, useReducer, useState } from "react";
 import * as THREE from "three";
 
 const ContextTool = createContext();
@@ -35,7 +27,17 @@ function Mainstatetool({ children }) {
     spacing: "0",
   };
 
+  const shapeLayer = {
+    type: "square",
+    color: "red",
+    border: false,
+    borderColor: "white",
+    width: 100,
+    height: 100,
+  };
+
   const [selectedText, setselectedText] = useState(textLayer);
+  const [selectedShape, setselectedShape] = useState(shapeLayer);
   const [currentModelColor, setcurrentModelColor] = useState("black");
   const [alpha, setalpha] = useState("1");
   const [layerState, layerChange] = useReducer(reducer, {
@@ -51,6 +53,8 @@ function Mainstatetool({ children }) {
   });
 
   const [texture, settexture] = useState(null);
+  const [shapeTexture, setshapeTexture] = useState(null);
+
   const addText = useMemo(
     () =>
       (
@@ -88,6 +92,46 @@ function Mainstatetool({ children }) {
     [selectedText],
   );
 
+  const addShape = (
+    type = selectedShape.type,
+    width = selectedShape.width,
+    height = selectedShape.height,
+    color = selectedShape.color,
+  ) => {
+    const canvas = document.querySelector("canvas#shapeCanvas");
+    const ctx = canvas.getContext("2d");
+
+    ctx.reset();
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.fillStyle = color;
+    switch (type) {
+      case "Square":
+        square(ctx, width, height);
+      case "Circle":
+        circle(ctx, color);
+      case "Triganle":
+        triangle(ctx, color);
+    }
+    const url = canvas.toDataURL();
+    const textu = new THREE.TextureLoader().load(url);
+    textu.center = new THREE.Vector2(0.5, 0.5);
+    textu.rotation = Math.PI;
+    textu.flipY = false;
+    setshapeTexture(textu);
+  };
+
+  const square = (ctx, width, height) => {
+    ctx.fillRect(-width / 2, -height / 2, width, height);
+  };
+  const circle = (ctx, color) => {
+    ctx.beginPath();
+    ctx.arc(0, 0, 50, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+  };
+
+  const triangle = () => {};
+
   const underlineFunc = (ctx, text, fontWeight, color) => {
     const sizes = ctx.measureText(text);
     const width = sizes.width;
@@ -119,6 +163,8 @@ function Mainstatetool({ children }) {
         settexture,
         setselectedText,
         selectedText,
+        addShape,
+        shapeTexture,
       }}
     >
       {children}

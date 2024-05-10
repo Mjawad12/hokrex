@@ -6,14 +6,16 @@ import Layers from "./SidebarFeatures/Layers";
 import Color from "./SidebarFeatures/Color";
 import Text from "./SidebarFeatures/Text";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
+import Shapes from "./SidebarFeatures/Shapes";
 
 function SidebarTool({ sethidden, selected }) {
-  const { addText } = useContext(ContextTool);
+  const { addText, addShape } = useContext(ContextTool);
   const SelectedProd = {
     Product: <Prod />,
     Layers: <Layers />,
     Color: <Color />,
     Text: <Text addText={addText} />,
+    Shapes: <Shapes addShape={addShape} />,
   };
   return (
     <motion.div

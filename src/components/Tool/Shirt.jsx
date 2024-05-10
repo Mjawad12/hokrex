@@ -4,7 +4,7 @@ import { motion } from "framer-motion-3d";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 
 export function Shirt(props) {
-  const { currentModelColor, alpha, texture, selectedText } =
+  const { currentModelColor, alpha, texture, selectedText, shapeTexture } =
     useContext(ContextTool);
   const [x, setx] = useState(0);
   const [y, sety] = useState(0);
@@ -61,6 +61,35 @@ export function Shirt(props) {
                 polygonOffset
                 polygonOffsetFactor={-40}
                 map={texture}
+                map-flipY={false}
+                map-anisotropy={16}
+                iridescence={1}
+                iridescenceIOR={1}
+                iridescenceThicknessRange={[0, 1400]}
+                roughness={1}
+                clearcoat={0.5}
+                metalness={0.75}
+                toneMapped={false}
+              />
+            </Decal>
+          )}
+
+          {shapeTexture && (
+            <Decal
+              position={selectedText.position}
+              scale={selectedText.scale}
+              renderOrder={1}
+              rotation={[
+                Math.PI,
+                0,
+                (selectedText.rotation + 180 * Math.PI) / 180,
+              ]}
+            >
+              <meshPhysicalMaterial
+                transparent
+                polygonOffset
+                polygonOffsetFactor={-40}
+                map={shapeTexture}
                 map-flipY={false}
                 map-anisotropy={16}
                 iridescence={1}

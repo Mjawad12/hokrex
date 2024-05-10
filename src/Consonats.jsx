@@ -1972,6 +1972,51 @@ const nullColor = (
   </svg>
 );
 
+const shapes = [
+  {
+    name: "Circle",
+    svg: (
+      <svg
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="48" height="48" rx="24" fill="#D9D9D9" />
+      </svg>
+    ),
+  },
+  {
+    name: "Square",
+    svg: (
+      <svg
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="48" height="48" fill="#D9D9D9" />
+      </svg>
+    ),
+  },
+  {
+    name: "Triangle",
+    svg: (
+      <svg
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M23.5 0V0.5L48 48H0L23.5 0Z" fill="#D9D9D9" />
+      </svg>
+    ),
+  },
+];
+
 export {
   logo,
   searchIcon,
@@ -2016,5 +2061,6 @@ export {
   align,
   uppercase,
   underline,
+  shapes,
   nullColor,
 };

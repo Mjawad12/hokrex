@@ -224,7 +224,7 @@ input#size::-webkit-inner-spin-button {
   border: none;
 }
 
-canvas:not(canvas#styleCanvas) {
+canvas:not(canvas#styleCanvas, canvas#shapeCanvas) {
   width: 100vw !important;
   height: 100vh !important;
 }

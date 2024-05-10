@@ -72,6 +72,12 @@ function page() {
         id="styleCanvas"
         className="absolute  right-0 z-30 h-[250px] w-[250px] border border-black"
       ></canvas>
+      <canvas
+        id="shapeCanvas"
+        height={250}
+        width={250}
+        className="absolute right-0 z-50 h-[250px] w-[250px] border border-black"
+      ></canvas>
     </>
   );
 }
