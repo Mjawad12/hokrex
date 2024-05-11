@@ -1,34 +1,34 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Decal, useGLTF } from "@react-three/drei";
+import { Decal, useGLTF, useTexture } from "@react-three/drei";
 import { motion } from "framer-motion-3d";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
+import * as THREE from "three";
 
 export function Shirt(props) {
   const { currentModelColor, alpha, texture, selectedText, shapeTexture } =
     useContext(ContextTool);
-  const [x, setx] = useState(0);
-  const [y, sety] = useState(0);
-
   const shirtRef = useRef(false);
   const { nodes, materials } = useGLTF("/shirt_baked.glb");
 
-  useEffect(() => {
-    window.addEventListener("mousemove", trackMouseMovement);
-    return () => window.removeEventListener("mousemove", trackMouseMovement);
-  }, []);
+  // const [x, setx] = useState(0);
+  // const [y, sety] = useState(0);
+  // useEffect(() => {
+  //   window.addEventListener("mousemove", trackMouseMovement);
+  //   return () => window.removeEventListener("mousemove", trackMouseMovement);
+  // }, []);
 
-  const trackMouseMovement = (e) => {
-    setx(e.clientX / window.innerWidth);
-    sety(e.clientY / window.innerHeight);
-  };
+  // const trackMouseMovement = (e) => {
+  //   setx(e.clientX / window.innerWidth);
+  //   sety(e.clientY / window.innerHeight);
+  // };
 
   return (
     <motion.group
       {...props}
       dispose={null}
       ref={shirtRef}
-      transition={{ duration: 0, ease: "easeInOut" }}
-      animate={{ rotateY: x * -0.1, rotateX: y * -0.1 }}
+      // transition={{ duration: 0, ease: "easeInOut" }}
+      // animate={{ rotateY: x * -0.1, rotateX: y * -0.1 }}
     >
       <group name="Scene">
         <mesh

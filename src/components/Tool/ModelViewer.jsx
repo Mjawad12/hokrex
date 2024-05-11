@@ -23,7 +23,7 @@ function ModelViewer() {
           castShadow
         />
 
-        <mesh position={[0, -0.06, 0]} castShadow>
+        <mesh position={[0, -0.1, 0]} castShadow>
           <Shirt />
         </mesh>
       </Center>

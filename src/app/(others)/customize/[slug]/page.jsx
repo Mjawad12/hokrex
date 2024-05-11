@@ -7,10 +7,13 @@ import ModelViewer from "@/components/Tool/ModelViewer";
 import SidebarTool from "@/components/Tool/SidebarTool";
 import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+// import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import { AnimatePresence } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 
 function page() {
+  // const { editor, onReady } = useFabricJSEditor();
+  const orbit = useRef(null);
   const [selected, setselected] = useState("Text");
   const [hidden, sethidden] = useState(true);
   const [smColor, setsmColor] = useState(false);
@@ -18,8 +21,16 @@ function page() {
   return (
     <>
       <div className="absolute top-0 min-h-screen w-full bg-canvasColor ">
-        <Canvas shadows camera={{ position: [0, 0, 1.9], fov: 29 }}>
-          <OrbitControls enablePan={false} />
+        <Canvas shadows camera={{ position: [0, 0, 1.95], fov: 28 }}>
+          <OrbitControls
+            ref={orbit}
+            enablePan={false}
+            enableRotate={true}
+            minPolarAngle={1.47079}
+            maxPolarAngle={1.47079}
+            maxDistance={3}
+            minDistance={0.7}
+          />
           <Environment preset="city" />
           <ModelViewer />
         </Canvas>
@@ -68,6 +79,8 @@ function page() {
       />
       <AnimatePresence>{smColor && <ColorSmall />}</AnimatePresence>
       <Controls />
+      {/* <FabricJSCanvas onReady={onReady} /> */}
+
       <canvas
         id="styleCanvas"
         className="absolute  right-0 z-30 h-[250px] w-[250px] border border-black"

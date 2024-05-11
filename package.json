@@ -11,9 +11,11 @@
   "dependencies": {
     "@react-three/drei": "^9.105.2",
     "@react-three/fiber": "^8.16.1",
-    "aws4": "^1.12.0",
+    "fabric": "5.3.0-browser",
+    "fabricjs-react": "^1.2.2",
     "framer-motion": "^11.0.24",
     "framer-motion-3d": "^11.0.25",
+    "jsdom": "^24.0.0",
     "mongoose": "^8.3.1",
     "next": "14.1.4",
     "react": "^18",
