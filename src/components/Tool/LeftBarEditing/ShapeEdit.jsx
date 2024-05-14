@@ -1,7 +1,6 @@
 import {
   align,
   arrowDown,
-  left,
   order,
   plus,
   textPositions,
@@ -11,10 +10,10 @@ import {
 import { motion, useAnimate } from "framer-motion";
 import React, { useState } from "react";
 
-const TextEdit = ({
-  UpdateText,
-  selectedText,
-  setselectedText,
+const ShapeEdit = ({
+  addShape,
+  selectedShape,
+  setselectedShape,
   setsmColor,
   smColor,
 }) => {
@@ -41,22 +40,14 @@ const TextEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedText({
-          ...selectedText,
-          top: selectedText.top - 5,
+        setselectedShape({
+          ...selectedShape,
+          position: [
+            selectedShape.position[0],
+            selectedShape.position[1] + 0.05,
+            selectedShape.position[2],
+          ],
         });
-        UpdateText(
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          selectedText.top - 5,
-        );
       },
     },
     {
@@ -76,22 +67,14 @@ const TextEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedText({
-          ...selectedText,
-          top: selectedText.top + 5,
+        setselectedShape({
+          ...selectedShape,
+          position: [
+            selectedShape.position[0],
+            selectedShape.position[1] - 0.05,
+            selectedShape.position[2],
+          ],
         });
-        UpdateText(
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          selectedText.top + 5,
-        );
       },
     },
     {
@@ -111,23 +94,14 @@ const TextEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedText({
-          ...selectedText,
-          left: selectedText.left - 5,
+        setselectedShape({
+          ...selectedShape,
+          position: [
+            selectedShape.position[0] - 0.05,
+            selectedShape.position[1],
+            selectedShape.position[2],
+          ],
         });
-        UpdateText(
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          selectedText.left - 5,
-        );
       },
     },
     {
@@ -147,23 +121,14 @@ const TextEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedText({
-          ...selectedText,
-          left: selectedText.left + 5,
+        setselectedShape({
+          ...selectedShape,
+          position: [
+            selectedShape.position[0] + 0.05,
+            selectedShape.position[1],
+            selectedShape.position[2],
+          ],
         });
-        UpdateText(
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          selectedText.left + 5,
-        );
       },
     },
   ];
@@ -172,20 +137,10 @@ const TextEdit = ({
       name: "Scale Up",
       svg: plus,
       clickfunc: function () {
-        setselectedText({
-          ...selectedText,
-          scale: selectedText.scale + 0.1,
+        setselectedShape({
+          ...selectedShape,
+          scale: selectedShape.scale + 0.05,
         });
-        UpdateText(
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          selectedText.scale + 0.1,
-        );
       },
     },
     {
@@ -208,20 +163,10 @@ const TextEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedText({
-          ...selectedText,
-          scale: selectedText.scale - 0.1,
+        setselectedShape({
+          ...selectedShape,
+          scale: selectedShape.scale - 0.05,
         });
-        UpdateText(
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          selectedText.scale - 0.1,
-        );
       },
     },
     {
@@ -251,21 +196,10 @@ const TextEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedText({
-          ...selectedText,
-          rotation: selectedText.rotation + 5,
+        setselectedShape({
+          ...selectedShape,
+          rotation: selectedShape.rotation + 20,
         });
-        UpdateText(
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          selectedText.rotation + 5,
-        );
       },
     },
     {
@@ -295,21 +229,10 @@ const TextEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedText({
-          ...selectedText,
-          rotation: selectedText.rotation - 5,
+        setselectedShape({
+          ...selectedShape,
+          rotation: selectedShape.rotation - 20,
         });
-        UpdateText(
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          selectedText.rotation - 5,
-        );
       },
     },
   ];
@@ -324,17 +247,17 @@ const TextEdit = ({
 
   return (
     <div className="flex w-full flex-col gap-4 pb-12">
-      <input
+      {/* <input
         onInput={(e) => {
-          setselectedText({ ...selectedText, text: e.target.value });
-          UpdateText(e.target.value);
+          setselectedShape({ ...selectedShape, text: e.target.value });
+          // addText(e.target.value);
         }}
         type="text"
         className="flex-center w-full rounded-md border border-darkLight bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
         placeholder="Text here"
         maxLength={30}
-        value={selectedText.text}
-      />
+        value={selectedShape.text}
+      /> */}
 
       <div className="flex flex-col gap-2.5">
         <p className="text-[14px] font-[700] text-textDark">POSITION</p>
@@ -346,11 +269,11 @@ const TextEdit = ({
                 name={it.name}
                 svg={it.svg}
                 func={() => {
-                  setselectedText({
-                    ...selectedText,
+                  setselectedShape({
+                    ...selectedShape,
                     position: [
                       endLineShirt[it.name],
-                      selectedText.position[1],
+                      selectedShape.position[1],
                       0.1,
                     ],
                   });
@@ -365,10 +288,10 @@ const TextEdit = ({
                 name={it.name}
                 svg={it.svg}
                 func={() => {
-                  setselectedText({
-                    ...selectedText,
+                  setselectedShape({
+                    ...selectedShape,
                     position: [
-                      selectedText.position[0],
+                      selectedShape.position[0],
                       endLineShirt[it.name],
                       0.1,
                     ],
@@ -411,7 +334,7 @@ const TextEdit = ({
 
       <div className="flex flex-col gap-2.5">
         <p className="text-[15px] font-[700] text-textDark">Fonts</p>
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           <DropDown
             data={[
               "Arial",
@@ -443,10 +366,10 @@ const TextEdit = ({
               "Catamaran",
               "Shadows Into Light",
             ]}
-            selectedOption={selectedText.fontFamily}
-            setselectedOption={setselectedText}
+            selectedOption={selectedShape.fontFamily}
+            setselectedOption={setselectedShape}
             overflow={true}
-            UpdateText={UpdateText}
+            // // addText={addText}
           />
           <DropDown
             data={[
@@ -457,13 +380,13 @@ const TextEdit = ({
               "Bold",
               "Extrabold",
             ]}
-            selectedOption={selectedText.fontWeight}
-            setselectedOption={setselectedText}
+            selectedOption={selectedShape.fontWeight}
+            setselectedOption={setselectedShape}
             overflow={true}
             weight={true}
-            UpdateText={UpdateText}
+            // // addText={addText}
           />
-        </div>
+        </div> */}
       </div>
 
       <div className="flex gap-2.5">
@@ -473,8 +396,8 @@ const TextEdit = ({
             className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
             defaultValue={40}
             onInput={(e) => {
-              setselectedText({ ...selectedText, fontSize: e.target.value });
-              UpdateText(undefined, undefined, undefined, e.target.value);
+              setselectedShape({ ...selectedShape, fontSize: e.target.value });
+              // addText(undefined, undefined, undefined, e.target.value);
             }}
           />
           <span className="text-[11px] font-[600] text-textDark">
@@ -508,17 +431,17 @@ const TextEdit = ({
             onClick={() => {
               setupperCase(!upperCase);
               if (!upperCase) {
-                setselectedText({
-                  ...selectedText,
-                  text: selectedText.text.toUpperCase(),
+                setselectedShape({
+                  ...selectedShape,
+                  text: selectedShape.text.toUpperCase(),
                 });
-                UpdateText(selectedText.text.toUpperCase());
+                // addText(selectedShape.text.toUpperCase());
               } else {
-                setselectedText({
-                  ...selectedText,
-                  text: selectedText.text.toLowerCase(),
+                setselectedShape({
+                  ...selectedShape,
+                  text: selectedShape.text.toLowerCase(),
                 });
-                UpdateText(selectedText.text.toLowerCase());
+                // addText(selectedShape.text.toLowerCase());
               }
             }}
             className={`flex-center w-full cursor-pointer rounded-md ${upperCase ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.8rem] hover:bg-darkHover`}
@@ -561,16 +484,9 @@ const TextEdit = ({
             <input
               type="number"
               className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-              value={selectedText.spacing}
+              value={selectedShape.spacing}
               onInput={(e) => {
-                setselectedText({ ...selectedText, spacing: e.target.value });
-                UpdateText(
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  e.target.value,
-                );
+                setselectedShape({ ...selectedShape, spacing: e.target.value });
               }}
             />
             <span className="text-[11px] font-[600] text-textDark">
@@ -582,23 +498,12 @@ const TextEdit = ({
             <input
               type="number"
               className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-              value={parseInt(selectedText.rotation).toFixed(0)}
+              value={(selectedShape.rotation / 3.15).toFixed(0)}
               onInput={(e) => {
-                setselectedText({
-                  ...selectedText,
-                  rotation: e.target.value,
+                setselectedShape({
+                  ...selectedShape,
+                  rotation: e.target.value * 3.15,
                 });
-                UpdateText(
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  +e.target.value,
-                );
               }}
             />
             <span className="text-[11px] font-[600] text-textDark">
@@ -608,20 +513,12 @@ const TextEdit = ({
 
           <div className="flex-center w-full flex-col gap-1">
             <span
-              className={`flex-center w-full cursor-pointer rounded-md hover:bg-darkHover ${selectedText.underline ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.55rem]  `}
+              className={`flex-center w-full cursor-pointer rounded-md hover:bg-darkHover ${selectedShape.underline ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.55rem]  `}
               onClick={() => {
-                setselectedText({
-                  ...selectedText,
-                  underline: !selectedText.underline,
+                setselectedShape({
+                  ...selectedShape,
+                  underline: !selectedShape.underline,
                 });
-                UpdateText(
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  !selectedText.underline,
-                );
               }}
             >
               {underlineSvg}
@@ -638,7 +535,7 @@ const TextEdit = ({
       <div className="flex w-full flex-col gap-2.5 ">
         <p className="text-[15px] font-[700] text-textDark">Color</p>
         <div
-          style={{ background: selectedText.color }}
+          style={{ background: selectedShape.color }}
           onClick={() => setsmColor(!smColor)}
           className={`relative z-50 h-9  w-9 cursor-pointer rounded-full border-[2px] border-textDark`}
         ></div>
@@ -681,28 +578,28 @@ const DropDown = ({
   setselectedOption,
   overflow,
   weight,
-  UpdateText,
+  // addText,
 }) => {
   const [show, setshow] = useState(false);
   const weightData = {
-    Light: 0,
-    Regular: "1",
-    Medium: "2",
-    Semibold: "3",
-    Bold: "4",
-    Extrabold: "5",
+    Light: "0",
+    Regular: "2",
+    Medium: "3",
+    Semibold: "4",
+    Bold: "5",
+    Extrabold: "6",
   };
   const changeSelected = (val) => {
     if (weight) {
       setselectedOption((e) => {
         return { ...e, fontWeight: weightData[val.target.innerText] };
       });
-      UpdateText(undefined, undefined, weightData[val.target.innerText]);
+      // addText(undefined, undefined, weightData[val.target.innerText]);
     } else {
       setselectedOption((e) => {
         return { ...e, fontFamily: val.target.innerText };
       });
-      UpdateText(undefined, val.target.innerText);
+      // addText(undefined, val.target.innerText);
     }
   };
   return (
@@ -740,4 +637,4 @@ const DropDown = ({
   );
 };
 
-export default TextEdit;
+export default ShapeEdit;

@@ -1,7 +1,7 @@
 import { plus } from "@/Consonats";
 import React from "react";
 
-function Text({ addText }) {
+function Text({ addTextLayer }) {
   // const exampleText = [{ category: "Holiday", text: [0, 1, 2] }];
 
   return (
@@ -10,7 +10,7 @@ function Text({ addText }) {
       <div className="flex flex-col gap-1">
         <button
           onClick={() => {
-            addText();
+            addTextLayer();
           }}
           className="flex-center w-full gap-1 rounded-sm bg-white py-2.5 text-[14px] font-[600] text-black "
         >

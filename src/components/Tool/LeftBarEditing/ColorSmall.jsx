@@ -5,7 +5,7 @@ import { ChromePicker } from "react-color";
 import rgbHex from "rgb-hex";
 
 function ColorSmall() {
-  const { selectedText, setselectedText, addText } = useContext(ContextTool);
+  const { selectedText, setselectedText, UpdateText } = useContext(ContextTool);
   const [colorSelect, setcolorSelect] = useState("Solid");
   const [colorMode, setcolorMode] = useState("hex");
   const [currentColor, setcurrentColor] = useState(selectedText.color);
@@ -49,7 +49,7 @@ function ColorSmall() {
               color: clr,
             });
             setcurrentColor(clr);
-            addText(
+            UpdateText(
               undefined,
               undefined,
               undefined,
@@ -83,7 +83,7 @@ function ColorSmall() {
           <input
             type="text"
             className="max-w-[5.2rem] border border-darkMid bg-darkP px-2 py-1.5 text-center text-[13px] text-white outline-none"
-            value={currentColor.slice(1)}
+            value={currentColor?.slice(1)}
             onChange={(e) => {
               const clr = "#" + e.target.value;
               setselectedText({
@@ -91,7 +91,7 @@ function ColorSmall() {
                 color: clr,
               });
               setcurrentColor(clr);
-              addText(
+              UpdateText(
                 undefined,
                 undefined,
                 undefined,
@@ -121,7 +121,7 @@ function ColorSmall() {
                   color: it,
                 });
                 setcurrentColor(it);
-                addText(
+                UpdateText(
                   undefined,
                   undefined,
                   undefined,

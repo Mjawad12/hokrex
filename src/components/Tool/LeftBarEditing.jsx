@@ -2,16 +2,34 @@ import { cross } from "@/Consonats";
 import React, { useContext } from "react";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 import TextEdit from "./LeftBarEditing/TextEdit";
+import ShapeEdit from "./LeftBarEditing/ShapeEdit";
 
 function LeftBarEditing({ selected, smColor, setsmColor }) {
-  const { addText, selectedText, setselectedText } = useContext(ContextTool);
+  const {
+    UpdateText,
+    selectedText,
+    setselectedText,
+    addShape,
+    selectedShape,
+    setselectedShape,
+  } = useContext(ContextTool);
   const editers = {
     Text: [
       "Text Edit",
       <TextEdit
-        addText={addText}
+        UpdateText={UpdateText}
         selectedText={selectedText}
         setselectedText={setselectedText}
+        smColor={smColor}
+        setsmColor={setsmColor}
+      />,
+    ],
+    Shapes: [
+      "Shape Edit",
+      <ShapeEdit
+        addShape={addShape}
+        selectedShape={selectedShape}
+        setselectedShape={setselectedShape}
         smColor={smColor}
         setsmColor={setsmColor}
       />,
