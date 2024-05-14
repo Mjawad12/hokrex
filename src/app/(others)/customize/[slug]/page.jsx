@@ -25,7 +25,7 @@ function page() {
         >
           <Canvas
             shadows
-            camera={{ position: [0, 0, 1.95], fov: 28 }}
+            camera={{ position: [0, 0, 1.95], fov: 32 }}
             className="main-canvas"
           >
             <OrbitControls

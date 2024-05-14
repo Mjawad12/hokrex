@@ -9,7 +9,7 @@ import { fabric } from "fabric";
 export function Shirt(props) {
   const { canvas, canvasOffset } = useContext(ContextTool);
   const shirtRef = useRef(false);
-  const { nodes, materials } = useGLTF("/shirt_baked.glb");
+  const { nodes, materials } = useGLTF("/test.glb");
   const { camera, scene } = useThree();
   const [texture, settexture] = useState(null);
 
@@ -72,8 +72,8 @@ export function Shirt(props) {
       }
 
       return {
-        x: pointer.x - cssScale.width + 2,
-        y: pointer.y - cssScale.height + 2,
+        x: pointer.x - cssScale.width,
+        y: pointer.y - cssScale.height,
       };
     };
 
@@ -127,7 +127,7 @@ export function Shirt(props) {
   return (
     <motion.group {...props} dispose={null} ref={shirtRef}>
       <group name="Scene">
-        <mesh
+        {/* <mesh
           name="T_Shirt_male"
           castShadow
           receiveShadow
@@ -153,20 +153,17 @@ export function Shirt(props) {
               // toneMapped={false}
             ></meshStandardMaterial>
           )}
-
-          {/* {texture && (
-            <Decal
-              position={selectedText.position}
-              scale={selectedText.scale}
-              renderOrder={1}
-              rotation={[
-                Math.PI,
-                0,
-                (selectedText.rotation + 180 * Math.PI) / 180,
-              ]}
-              name="text-decal"
-            >
-              <meshPhysicalMaterial
+        </mesh> */}
+        <group name="model1" rotation={[Math.PI / 2, 0, 0]}>
+          <mesh
+            name="model1_1"
+            castShadow
+            receiveShadow
+            geometry={nodes.model1_1.geometry}
+            material={materials.collar_FRONT_3447}
+          >
+            {texture && (
+              <meshStandardMaterial
                 transparent
                 polygonOffset
                 polygonOffsetFactor={-1}
@@ -178,24 +175,22 @@ export function Shirt(props) {
                 iridescenceThicknessRange={[0, 1400]}
                 roughness={1}
                 clearcoat={0.5}
-                metalness={0.75}
-                toneMapped={false}
-              />
-            </Decal>
-          )}
-
-          {shapeTexture && (
-            <Decal
-              position={[0, 0, 0.1]}
-              scale={0.25}
-              renderOrder={2}
-              rotation={[Math.PI, 0, (0 + 180 * Math.PI) / 180]}
-            >
-              <meshPhysicalMaterial
+              ></meshStandardMaterial>
+            )}
+          </mesh>
+          <mesh
+            name="model1_2"
+            castShadow
+            receiveShadow
+            geometry={nodes.model1_2.geometry}
+            material={materials.fab1_FRONT_19607}
+          >
+            {texture && (
+              <meshStandardMaterial
                 transparent
                 polygonOffset
-                polygonOffsetFactor={-2}
-                map={shapeTexture}
+                polygonOffsetFactor={-1}
+                map={texture}
                 map-flipY={false}
                 map-anisotropy={16}
                 iridescence={1}
@@ -203,17 +198,39 @@ export function Shirt(props) {
                 iridescenceThicknessRange={[0, 1400]}
                 roughness={1}
                 clearcoat={0.5}
-                metalness={0.75}
                 toneMapped={false}
-              />
-            </Decal>
-          )} */}
-        </mesh>
+              ></meshStandardMaterial>
+            )}
+          </mesh>
+          <mesh
+            name="model1_3"
+            castShadow
+            receiveShadow
+            geometry={nodes.model1_3.geometry}
+            material={materials.fab1_BACK_19607}
+          >
+            {texture && (
+              <meshStandardMaterial
+                transparent
+                polygonOffset
+                polygonOffsetFactor={-1}
+                map={texture}
+                map-flipY={false}
+                map-anisotropy={16}
+                iridescence={1}
+                iridescenceIOR={1}
+                iridescenceThicknessRange={[0, 1400]}
+                roughness={1}
+                clearcoat={0.5}
+              ></meshStandardMaterial>
+            )}
+          </mesh>
+        </group>
       </group>
     </motion.group>
   );
 }
 
-useGLTF.preload("/shirt_baked.glb");
+useGLTF.preload("/test.glb");
 
 export default Shirt;

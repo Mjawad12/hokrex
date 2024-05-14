@@ -29,8 +29,8 @@ function Mainstatetool({ children }) {
   };
 
   const [selectedText, setselectedText] = useState({
-    text: "React js",
-    color: "black",
+    text: "Text",
+    color: "red",
     scale: 0.78,
     rotation: 0,
     fontFamily: "Verdana",
@@ -41,8 +41,8 @@ function Mainstatetool({ children }) {
     uppercase: false,
     underline: false,
     spacing: "0",
-    top: 100,
-    left: 85,
+    top: 310,
+    left: 250,
   });
   const [selectedShape, setselectedShape] = useState(shapeLayer);
   const [currentModelColor, setcurrentModelColor] = useState("black");
@@ -68,8 +68,8 @@ function Mainstatetool({ children }) {
     canvas.current?.add(
       new fabric.Text("React js", {
         fontFamily: selectedText.fontFamily,
-        top: 100,
-        left: 85,
+        top: 310,
+        left: 250,
         fontWeight: 100,
         stroke: "black",
         strokeWidth: 0,
@@ -156,9 +156,11 @@ function Mainstatetool({ children }) {
 
   const initCanvas = () => {
     const rotationIcon = document.createElement("img");
-    rotationIcon.src = process.env.NEXT_PUBLIC_URL + "/rotaticon.svg";
+    rotationIcon.src = process.env.NEXT_PUBLIC_URL + "/rotationicon.png";
     const movementIcon = document.createElement("img");
-    movementIcon.src = process.env.NEXT_PUBLIC_URL + "/movementicon.svg";
+    movementIcon.src = process.env.NEXT_PUBLIC_URL + "/movementicon.png";
+    const mtbIcons = document.createElement("img");
+    mtbIcons.src = process.env.NEXT_PUBLIC_URL + "/mtb.png";
     function renderIcon(ctx, left, top, styleOverride, fabricObject) {
       var size = this.cornerSize;
       ctx.save();
@@ -175,6 +177,15 @@ function Mainstatetool({ children }) {
       ctx.drawImage(movementIcon, -size / 2, -size / 2, size, size);
       ctx.restore();
     }
+    // function rendermtb(ctx, left, top, styleOverride, fabricObject) {
+    //   var size = this.cornerSize;
+    //   ctx.save();
+    //   ctx.translate(left, top);
+    //   ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+    //   ctx.drawImage(mtbIcons, -size / 2, -size / 2, size, size);
+    //   ctx.restore();
+    // }
+
     const mtr = new fabric.Control({
       x: 0,
       y: -0.5,
@@ -194,11 +205,24 @@ function Mainstatetool({ children }) {
       actionHandler: fabric.controlsUtils.dragHandler,
       actionName: "rotate",
       render: renderIcon2,
-      cornerSize: 17,
+      cornerSize: 15,
       withConnection: false,
     });
+    // const mt = new fabric.Control({
+    //   x: 0,
+    //   y: -0.5,
+    //   offsetY: 0,
+    //   cursorStyle: "crosshair",
+    //   actionHandler: fabric.controlsUtils.,
+    //   actionName: "mt",
+    //   render: rendermtb,
+    //   cornerSize: 5,
+    //   withConnection: false,
+    // });
 
+    console.log(fabric.controlsUtils);
     fabric.Object.prototype.controls.mtr = mtr;
+    // fabric.Object.prototype.controls.mt = mt;
     fabric.Object.prototype.controls.movement = movement;
     fabric.Object.prototype.transparentCorners = false;
     fabric.Object.prototype.cornerColor = "white";
@@ -283,17 +307,17 @@ function Mainstatetool({ children }) {
       });
     });
 
-    // canva.on("mouse:down", (evt) => {
-    //   // var circle = new fabric.Circle({
-    //   //   radius: 2,
-    //   //   originX: "center",
-    //   //   originY: "center",
-    //   //   left: evt.pointer.x,
-    //   //   top: evt.pointer.y,
-    //   //   fill: "yellow",
-    //   // });
-    //   // canvas.current.add(circle);
-    // });
+    canva.on("mouse:down", (evt) => {
+      // var circle = new fabric.Circle({
+      //   radius: 2,
+      //   originX: "center",
+      //   originY: "center",
+      //   left: evt.pointer.x,
+      //   top: evt.pointer.y,
+      //   fill: "yellow",
+      // });
+      // canvas.current.add(circle);
+    });
 
     return canva;
   };
