@@ -31,18 +31,18 @@ function Mainstatetool({ children }) {
   const [selectedText, setselectedText] = useState({
     text: "Text",
     color: "red",
-    scale: 0.78,
+    scale: 1,
     rotation: 0,
     fontFamily: "Verdana",
     fontStyle: "italic",
-    fontSize: 30,
+    fontSize: 40,
     lineHeight: "1",
     fontWeight: 0,
     uppercase: false,
     underline: false,
     spacing: "0",
-    top: 310,
-    left: 250,
+    top: 600,
+    left: 905,
   });
   const [selectedShape, setselectedShape] = useState(shapeLayer);
   const [currentModelColor, setcurrentModelColor] = useState("black");
@@ -66,16 +66,16 @@ function Mainstatetool({ children }) {
 
   const addTextLayer = () => {
     canvas.current?.add(
-      new fabric.Text("React js", {
+      new fabric.Text("Text", {
         fontFamily: selectedText.fontFamily,
-        top: 310,
-        left: 250,
+        top: 600,
+        left: 495,
         fontWeight: 100,
         stroke: "black",
         strokeWidth: 0,
-        fontSize: 30,
-        scaleX: 0.78,
-        scaleY: 0.78,
+        fontSize: 40,
+        scaleX: 1,
+        scaleY: 1,
       }),
     );
   };
@@ -189,12 +189,12 @@ function Mainstatetool({ children }) {
     const mtr = new fabric.Control({
       x: 0,
       y: -0.5,
-      offsetY: -20,
+      offsetY: -30,
       cursorStyle: "crosshair",
       actionHandler: fabric.controlsUtils.rotationWithSnapping,
       actionName: "rotate",
       render: renderIcon,
-      cornerSize: 17,
+      cornerSize: 30,
       withConnection: false,
     });
     const movement = new fabric.Control({
@@ -205,7 +205,7 @@ function Mainstatetool({ children }) {
       actionHandler: fabric.controlsUtils.dragHandler,
       actionName: "rotate",
       render: renderIcon2,
-      cornerSize: 15,
+      cornerSize: 28,
       withConnection: false,
     });
     // const mt = new fabric.Control({
@@ -219,8 +219,6 @@ function Mainstatetool({ children }) {
     //   cornerSize: 5,
     //   withConnection: false,
     // });
-
-    console.log(fabric.controlsUtils);
     fabric.Object.prototype.controls.mtr = mtr;
     // fabric.Object.prototype.controls.mt = mt;
     fabric.Object.prototype.controls.movement = movement;
@@ -235,8 +233,8 @@ function Mainstatetool({ children }) {
 
     const canva = new fabric.Canvas("can-text", {
       backgroundColor: "red",
-      width: 500,
-      height: 500,
+      width: 900,
+      height: 900,
     });
 
     // canva.on("object:moving", (e) => {

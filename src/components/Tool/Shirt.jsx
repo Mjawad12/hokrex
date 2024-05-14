@@ -72,8 +72,8 @@ export function Shirt(props) {
       }
 
       return {
-        x: pointer.x - cssScale.width,
-        y: pointer.y - cssScale.height,
+        x: pointer.x - cssScale.width - 1.5,
+        y: pointer.y - cssScale.height + 2,
       };
     };
 
@@ -109,7 +109,7 @@ export function Shirt(props) {
     function getRealPosition(axis, value) {
       let CORRECTION_VALUE = axis === "x" ? 4.5 : 5.5;
 
-      return Math.round(value * 512) - CORRECTION_VALUE;
+      return Math.round(value * 900);
     }
 
     var getMousePosition = function (dom, x, y) {

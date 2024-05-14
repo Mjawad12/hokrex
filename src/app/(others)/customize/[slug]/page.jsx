@@ -100,7 +100,7 @@ function page() {
       </div>
       <div className="fabricContainer">
         <canvas
-          className="absolute top-0 z-50 !h-[500px] !w-[500px]"
+          className="absolute top-0 z-50 !h-[900px] !w-[900px]"
           id="can-text"
         />
       </div>
