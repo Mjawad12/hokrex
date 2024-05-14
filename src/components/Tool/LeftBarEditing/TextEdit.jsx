@@ -569,7 +569,7 @@ const TextEdit = ({
                   undefined,
                   undefined,
                   undefined,
-                  e.target.value,
+                  e.target.value * 10,
                 );
               }}
             />

@@ -102,7 +102,7 @@ function Mainstatetool({ children }) {
           canvas.current.getActiveObject().set("strokeWidth", fontWeight);
           canvas.current.getActiveObject().set("stroke", color);
           canvas.current.getActiveObject().set("fontSize", fontSize);
-          canvas.current.getActiveObject().set("charSpacing", +spacing * 10);
+          canvas.current.getActiveObject().set("charSpacing", +spacing);
           canvas.current.getActiveObject().set("fill", color);
           canvas.current.getActiveObject().set("underline", underline);
           canvas.current.getActiveObject().set("scaleX", scale);
@@ -189,7 +189,7 @@ function Mainstatetool({ children }) {
     const movement = new fabric.Control({
       x: 0,
       y: 1,
-      offsetY: 5,
+      offsetY: 3,
       cursorStyle: "crosshair",
       actionHandler: fabric.controlsUtils.dragHandler,
       actionName: "rotate",
@@ -277,7 +277,7 @@ function Mainstatetool({ children }) {
         fontWeight: e.target.strokeWidth,
         uppercase: e.target.uppercase,
         underline: e.target.underline,
-        spacing: e.target.charSpacing,
+        spacing: parseInt(e.target.charSpacing / 10),
         top: e.target.top,
         left: e.target.left,
       });
