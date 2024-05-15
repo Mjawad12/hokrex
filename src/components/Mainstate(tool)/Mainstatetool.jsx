@@ -31,7 +31,8 @@ function Mainstatetool({ children }) {
   const [selectedText, setselectedText] = useState({
     text: "Text",
     color: "red",
-    scale: 1,
+    scaleX: 1,
+    scaleY: 1,
     rotation: 0,
     fontFamily: "Verdana",
     fontStyle: "italic",
@@ -90,7 +91,7 @@ function Mainstatetool({ children }) {
         spacing = selectedText.spacing,
         underline = selectedText.underline,
         color = selectedText.color,
-        scale = selectedText.scale,
+        scale = { scaleX: selectedText.scaleX, scaleY: selectedText.scaleY },
         rotation = selectedText.rotation,
         top = selectedText.top,
         left = selectedText.left,
@@ -105,8 +106,8 @@ function Mainstatetool({ children }) {
           canvas.current.getActiveObject().set("charSpacing", +spacing);
           canvas.current.getActiveObject().set("fill", color);
           canvas.current.getActiveObject().set("underline", underline);
-          canvas.current.getActiveObject().set("scaleX", scale);
-          canvas.current.getActiveObject().set("scaleY", scale);
+          canvas.current.getActiveObject().set("scaleX", scale.scaleX);
+          canvas.current.getActiveObject().set("scaleY", scale.scaleY);
           canvas.current.getActiveObject().set("angle", rotation);
           canvas.current.getActiveObject().set("top", top);
           canvas.current.getActiveObject().set("left", left);
@@ -161,6 +162,9 @@ function Mainstatetool({ children }) {
     movementIcon.src = process.env.NEXT_PUBLIC_URL + "/movementicon.png";
     const mtbIcons = document.createElement("img");
     mtbIcons.src = process.env.NEXT_PUBLIC_URL + "/mtb.png";
+    const mlrIcons = document.createElement("img");
+    mlrIcons.src = process.env.NEXT_PUBLIC_URL + "/mlr.png";
+
     function renderIcon(ctx, left, top, styleOverride, fabricObject) {
       var size = this.cornerSize;
       ctx.save();
@@ -177,14 +181,22 @@ function Mainstatetool({ children }) {
       ctx.drawImage(movementIcon, -size / 2, -size / 2, size, size);
       ctx.restore();
     }
-    // function rendermtb(ctx, left, top, styleOverride, fabricObject) {
-    //   var size = this.cornerSize;
-    //   ctx.save();
-    //   ctx.translate(left, top);
-    //   ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
-    //   ctx.drawImage(mtbIcons, -size / 2, -size / 2, size, size);
-    //   ctx.restore();
-    // }
+    function rendermtb(ctx, left, top, styleOverride, fabricObject) {
+      var size = this.cornerSize;
+      ctx.save();
+      ctx.translate(left, top);
+      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+      ctx.drawImage(mtbIcons, -size / 2, -size / 2, size + 7, size - 2);
+      ctx.restore();
+    }
+    function rendermlr(ctx, left, top, styleOverride, fabricObject) {
+      var size = this.cornerSize;
+      ctx.save();
+      ctx.translate(left, top);
+      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+      ctx.drawImage(mlrIcons, -size / 2, -size / 2, size - 2, size + 7);
+      ctx.restore();
+    }
 
     const mtr = new fabric.Control({
       x: 0,
@@ -197,6 +209,7 @@ function Mainstatetool({ children }) {
       cornerSize: 30,
       withConnection: false,
     });
+
     const movement = new fabric.Control({
       x: 0,
       y: 1,
@@ -208,89 +221,80 @@ function Mainstatetool({ children }) {
       cornerSize: 28,
       withConnection: false,
     });
-    // const mt = new fabric.Control({
-    //   x: 0,
-    //   y: -0.5,
-    //   offsetY: 0,
-    //   cursorStyle: "crosshair",
-    //   actionHandler: fabric.controlsUtils.,
-    //   actionName: "mt",
-    //   render: rendermtb,
-    //   cornerSize: 5,
-    //   withConnection: false,
-    // });
+
+    const mt = new fabric.Control({
+      x: 0,
+      y: -0.5,
+      offsetY: 0,
+      cursorStyle: "crosshair",
+      actionHandler: fabric.controlsUtils.scalingY,
+      actionName: "mt",
+      render: rendermtb,
+      cornerSize: 10,
+      withConnection: false,
+    });
+    const mb = new fabric.Control({
+      x: 0,
+      y: 0.52,
+      offsetY: 0,
+      cursorStyle: "crosshair",
+      actionHandler: fabric.controlsUtils.scalingY,
+      actionName: "mb",
+      render: rendermtb,
+      cornerSize: 10,
+      withConnection: false,
+    });
+    const ml = new fabric.Control({
+      x: -0.5,
+      y: -0.04,
+      offsetY: 0,
+      cursorStyle: "crosshair",
+      actionHandler: fabric.controlsUtils.scalingXOrSkewingY,
+      actionName: "mb",
+      render: rendermlr,
+      cornerSize: 10,
+      withConnection: false,
+    });
+    const mr = new fabric.Control({
+      x: 0.515,
+      y: -0.04,
+      offsetY: 0,
+      cursorStyle: "crosshair",
+      actionHandler: fabric.controlsUtils.scalingXOrSkewingY,
+      actionName: "mb",
+      render: rendermlr,
+      cornerSize: 10,
+      withConnection: false,
+    });
+
     fabric.Object.prototype.controls.mtr = mtr;
-    // fabric.Object.prototype.controls.mt = mt;
+    fabric.Object.prototype.controls.mt = mt;
+    fabric.Object.prototype.controls.mb = mb;
+    fabric.Object.prototype.controls.ml = ml;
+    fabric.Object.prototype.controls.mr = mr;
     fabric.Object.prototype.controls.movement = movement;
     fabric.Object.prototype.transparentCorners = false;
     fabric.Object.prototype.cornerColor = "white";
-    fabric.Object.prototype.cornerStrokeColor = "black";
+    fabric.Object.prototype.cornerStrokeColor = "red";
     fabric.Object.prototype.cornerStyle = "circle";
-    fabric.Object.prototype.cornerSize = "8";
-    fabric.Object.prototype.borderColor = "black";
-    fabric.Object.prototype.padding = "5";
+    fabric.Object.prototype.cornerSize = "10";
+    fabric.Object.prototype.borderColor = "red";
+    fabric.Object.prototype.padding = "6";
     fabric.Object.prototype.rotatingPointOffset = 1;
 
     const canva = new fabric.Canvas("can-text", {
-      backgroundColor: "red",
+      backgroundColor: "white",
       width: 900,
       height: 900,
     });
 
-    // canva.on("object:moving", (e) => {
-    //   setselectedText({
-    //     ...selectedText,
-    //     scale: e.target.scaleX,
-    //     top: e.target.top,
-    //     left: e.target.left,
-    //     rotation: e.target.angle,
-    //   });
-    // });
-
-    // canva.on("object:scaling", (e) => {
-    //   console.log(e.target.scaleX);
-    //   setselectedText({
-    //     ...selectedText,
-    //     scale: e.target.scaleX,
-    //     top: e.target.top,
-    //     left: e.target.left,
-    //     rotation: e.target.angle,
-    //   });
-    // });
-
-    // canva.on("object:rotating", (e) => {
-    //   setselectedText({
-    //     ...selectedText,
-    //     rotation: e.target.angle,
-    //     scale: e.target.scaleX,
-    //     top: e.target.top,
-    //     left: e.target.left,
-    //   });
-    // });
-    // canva.on("object:selected", (e) => {
-    //   setselectedText({
-    //     text: e.target.text,
-    //     color: e.target.color,
-    //     scale: e.target.scaleX,
-    //     rotation: e.target.angle,
-    //     fontFamily: e.target.fontFamily,
-    //     fontStyle: e.target.fontStyle,
-    //     fontSize: e.target.fontSize,
-    //     lineHeight: e.target.lineHeight,
-    //     fontWeight: e.target.strokeWidth,
-    //     uppercase: e.target.uppercase,
-    //     underline: e.target.underline,
-    //     spacing: e.target.spacing,
-    //     top: e.target.top,
-    //     left: e.target.left,
-    //   });
-    // });
     canva.on("object:modified", (e) => {
       console.log(e.target);
       setselectedText({
         text: e.target.text,
         color: e.target.fill,
-        scale: e.target.scaleX,
+        scaleX: e.target.scaleX,
+        scaleY: e.target.scaleY,
         rotation: e.target.angle,
         fontFamily: e.target.fontFamily,
         fontStyle: e.target.fontStyle,
@@ -307,12 +311,12 @@ function Mainstatetool({ children }) {
 
     canva.on("mouse:down", (evt) => {
       // var circle = new fabric.Circle({
-      //   radius: 2,
+      //   radius: 1,
       //   originX: "center",
       //   originY: "center",
       //   left: evt.pointer.x,
       //   top: evt.pointer.y,
-      //   fill: "yellow",
+      //   fill: "black",
       // });
       // canvas.current.add(circle);
     });

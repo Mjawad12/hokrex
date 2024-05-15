@@ -72,8 +72,8 @@ export function Shirt(props) {
       }
 
       return {
-        x: pointer.x - cssScale.width - 1.5,
-        y: pointer.y - cssScale.height + 2,
+        x: pointer.x - cssScale.width - 1,
+        y: pointer.y - cssScale.height + 0.8,
       };
     };
 

@@ -174,7 +174,8 @@ const TextEdit = ({
       clickfunc: function () {
         setselectedText({
           ...selectedText,
-          scale: selectedText.scale + 0.1,
+          scaleX: selectedText.scaleX + 0.1,
+          scaleY: selectedText.scaleY + 0.1,
         });
         UpdateText(
           undefined,
@@ -184,7 +185,10 @@ const TextEdit = ({
           undefined,
           undefined,
           undefined,
-          selectedText.scale + 0.1,
+          {
+            scaleX: selectedText.scaleX + 0.1,
+            scaleY: selectedText.scaleY + 0.1,
+          },
         );
       },
     },
@@ -210,7 +214,8 @@ const TextEdit = ({
       clickfunc: function () {
         setselectedText({
           ...selectedText,
-          scale: selectedText.scale - 0.1,
+          scaleX: selectedText.scaleX - 0.1,
+          scaleY: selectedText.scaleY - 0.1,
         });
         UpdateText(
           undefined,
@@ -220,7 +225,10 @@ const TextEdit = ({
           undefined,
           undefined,
           undefined,
-          selectedText.scale - 0.1,
+          {
+            scaleX: selectedText.scaleX - 0.1,
+            scaleY: selectedText.scaleY - 0.1,
+          },
         );
       },
     },
