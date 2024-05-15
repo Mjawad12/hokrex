@@ -43,7 +43,7 @@ function Mainstatetool({ children }) {
     underline: false,
     spacing: "0",
     top: 600,
-    left: 905,
+    left: 496,
   });
   const [selectedShape, setselectedShape] = useState(shapeLayer);
   const [currentModelColor, setcurrentModelColor] = useState("black");
@@ -72,13 +72,15 @@ function Mainstatetool({ children }) {
         top: 600,
         left: 495,
         fontWeight: 100,
-        stroke: "black",
+        stroke: "red",
         strokeWidth: 0,
         fontSize: 40,
         scaleX: 1,
         scaleY: 1,
+        fill: "red",
       }),
     );
+    console.log(canvas.current.getActiveObject());
   };
 
   const UpdateText = useMemo(
@@ -307,6 +309,9 @@ function Mainstatetool({ children }) {
         top: e.target.top,
         left: e.target.left,
       });
+    });
+    canva.on("object:selected", (e) => {
+      console.log(e.target);
     });
 
     canva.on("mouse:down", (evt) => {

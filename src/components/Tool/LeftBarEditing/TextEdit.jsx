@@ -43,7 +43,7 @@ const TextEdit = ({
       clickfunc: function () {
         setselectedText({
           ...selectedText,
-          top: selectedText.top - 5,
+          top: selectedText.top - 5.1,
         });
         UpdateText(
           undefined,
@@ -55,7 +55,7 @@ const TextEdit = ({
           undefined,
           undefined,
           undefined,
-          selectedText.top - 5,
+          selectedText.top - 5.1,
         );
       },
     },
@@ -78,7 +78,7 @@ const TextEdit = ({
       clickfunc: function () {
         setselectedText({
           ...selectedText,
-          top: selectedText.top + 5,
+          top: selectedText.top + 5.1,
         });
         UpdateText(
           undefined,
@@ -90,7 +90,7 @@ const TextEdit = ({
           undefined,
           undefined,
           undefined,
-          selectedText.top + 5,
+          selectedText.top + 5.1,
         );
       },
     },
