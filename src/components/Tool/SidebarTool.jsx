@@ -9,13 +9,13 @@ import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 import Shapes from "./SidebarFeatures/Shapes";
 
 function SidebarTool({ sethidden, selected }) {
-  const { addText, addShape, addTextLayer } = useContext(ContextTool);
+  const { addText, addShapeLayer, addTextLayer } = useContext(ContextTool);
   const SelectedProd = {
     Product: <Prod />,
     Layers: <Layers />,
     Color: <Color />,
     Text: <Text addText={addText} addTextLayer={addTextLayer} />,
-    Shapes: <Shapes addShape={addShape} />,
+    Shapes: <Shapes addShapeLayer={addShapeLayer} />,
   };
   return (
     <motion.div

@@ -20,12 +20,15 @@ function reducer(state, action) {
 
 function Mainstatetool({ children }) {
   const shapeLayer = {
-    type: "square",
-    color: "red",
-    border: false,
-    borderColor: "white",
+    fill: "red",
+    stroke: "red",
+    strokeWidth: "1",
     width: 100,
     height: 100,
+    top: 637,
+    left: 542,
+    scaleX: 1,
+    scaleY: 1,
   };
 
   const [selectedText, setselectedText] = useState({
@@ -61,9 +64,17 @@ function Mainstatetool({ children }) {
   });
   const [texture, settexture] = useState(null);
   const [shapeTexture, setshapeTexture] = useState(null);
+  const [canvasOffset, setcanvasOffset] = useState(false);
+  const [selectedObject, setselectedObject] = useState(null);
+
   let canvas = useRef(null);
 
-  const [canvasOffset, setcanvasOffset] = useState(false);
+  const printTexture = () => {
+    const url = document.querySelector("#can-text").toDataURL();
+    const textu = new THREE.TextureLoader().load(url);
+    textu.flipY = false;
+    settexture(textu);
+  };
 
   const addTextLayer = () => {
     canvas.current?.add(
@@ -78,9 +89,29 @@ function Mainstatetool({ children }) {
         scaleX: 1,
         scaleY: 1,
         fill: "red",
+        type: "text",
       }),
     );
-    console.log(canvas.current.getActiveObject());
+    setTimeout(() => {
+      printTexture();
+    }, 100);
+  };
+  const addShapeLayer = ({ type } = { type: "Circle" }) => {
+    canvas.current.add(
+      new fabric[type]({
+        radius: 40,
+        originX: "center",
+        originY: "center",
+        top: 652,
+        left: 527,
+        stroke: "black",
+        strokeWidth: 1,
+        type: "shape",
+      }),
+    );
+    setTimeout(() => {
+      printTexture();
+    }, 100);
   };
 
   const UpdateText = useMemo(
@@ -118,7 +149,25 @@ function Mainstatetool({ children }) {
       },
     [selectedText],
   );
-
+  const updateShape = (
+    fill = selectedShape.fill,
+    scale = { scaleX: selectedShape.scaleX, scaleY: selectedShape.scaleY },
+    top = selectedShape.top,
+    left = selectedShape.left,
+  ) => {
+    console.log(canvas.current.getActiveObject());
+    if (canvas.current.getActiveObject()) {
+      canvas.current.getActiveObject().set("strokeWidth", strokeWidth);
+      canvas.current.getActiveObject().set("stroke", fill);
+      canvas.current.getActiveObject().set("fill", fill);
+      canvas.current.getActiveObject().set("scaleX", scale.scaleX);
+      canvas.current.getActiveObject().set("scaleY", scale.scaleY);
+      canvas.current.getActiveObject().set("angle", rotation);
+      canvas.current.getActiveObject().set("top", top);
+      canvas.current.getActiveObject().set("left", left);
+      canvas.current.renderAll();
+    }
+  };
   const addShape = (
     type = selectedShape.type,
     width = selectedShape.width,
@@ -145,16 +194,6 @@ function Mainstatetool({ children }) {
     textu.rotation = Math.PI;
     textu.flipY = false;
     setshapeTexture(textu);
-  };
-
-  const square = (ctx, width, height) => {
-    ctx.fillRect(-width / 2, -height / 2, width, height);
-  };
-  const circle = (ctx, color) => {
-    ctx.beginPath();
-    ctx.arc(0, 0, 50, 0, 2 * Math.PI);
-    ctx.fillStyle = color;
-    ctx.fill();
   };
 
   const initCanvas = () => {
@@ -225,7 +264,7 @@ function Mainstatetool({ children }) {
     });
 
     const mt = new fabric.Control({
-      x: 0,
+      x: -0.045,
       y: -0.5,
       offsetY: 0,
       cursorStyle: "crosshair",
@@ -236,7 +275,7 @@ function Mainstatetool({ children }) {
       withConnection: false,
     });
     const mb = new fabric.Control({
-      x: 0,
+      x: -0.045,
       y: 0.52,
       offsetY: 0,
       cursorStyle: "crosshair",
@@ -291,27 +330,51 @@ function Mainstatetool({ children }) {
     });
 
     canva.on("object:modified", (e) => {
-      console.log(e.target);
-      setselectedText({
-        text: e.target.text,
-        color: e.target.fill,
-        scaleX: e.target.scaleX,
-        scaleY: e.target.scaleY,
-        rotation: e.target.angle,
-        fontFamily: e.target.fontFamily,
-        fontStyle: e.target.fontStyle,
-        fontSize: e.target.fontSize,
-        lineHeight: e.target.lineHeight,
-        fontWeight: e.target.strokeWidth,
-        uppercase: e.target.uppercase,
-        underline: e.target.underline,
-        spacing: parseInt(e.target.charSpacing / 10),
-        top: e.target.top,
-        left: e.target.left,
-      });
+      switch (e.target.type) {
+        case "text":
+          setselectedText({
+            text: e.target.text,
+            color: e.target.fill,
+            scaleX: e.target.scaleX,
+            scaleY: e.target.scaleY,
+            rotation: e.target.angle,
+            fontFamily: e.target.fontFamily,
+            fontStyle: e.target.fontStyle,
+            fontSize: e.target.fontSize,
+            lineHeight: e.target.lineHeight,
+            fontWeight: e.target.strokeWidth,
+            uppercase: e.target.uppercase,
+            underline: e.target.underline,
+            spacing: e.target.charSpacing,
+            top: e.target.top,
+            left: e.target.left,
+          });
+        case "shape":
+          setselectedShape({
+            fill: e.target.fill,
+            scaleX: e.target.scaleX,
+            scaleY: e.target.scaleY,
+            top: e.target.top,
+            left: e.target.left,
+            rotation: e.target.angle,
+            strokeWidth: e.target.strokeWidth,
+            height: e.target.height,
+            width: e.target.width,
+            stroke: e.target.stroke,
+          });
+      }
     });
-    canva.on("object:selected", (e) => {
-      console.log(e.target);
+    canva.on("selection:created", () => {
+      setselectedObject(true);
+      setTimeout(() => {
+        printTexture();
+      }, 200);
+    });
+    canva.on("selection:cleared", () => {
+      setselectedObject(false);
+      setTimeout(() => {
+        printTexture();
+      }, 200);
     });
 
     canva.on("mouse:down", (evt) => {
@@ -363,6 +426,11 @@ function Mainstatetool({ children }) {
         canvas: canvas.current,
         addTextLayer,
         canvasOffset,
+        addShapeLayer,
+        updateShape,
+        selectedObject,
+        texture,
+        printTexture,
       }}
     >
       {children}

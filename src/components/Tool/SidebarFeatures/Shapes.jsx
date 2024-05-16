@@ -1,7 +1,7 @@
 import { shapes } from "@/Consonats";
 import React from "react";
 
-function Shapes({ addShape }) {
+function Shapes({ addShapeLayer }) {
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-[18px] text-[500] text-textLight ">Shapes</h1>
@@ -9,7 +9,7 @@ function Shapes({ addShape }) {
         {shapes.map((it) => (
           <span
             id={it.name}
-            onClick={() => addShape(it.name)}
+            onClick={() => addShapeLayer({ type: it.shapeName })}
             className="[&_svg]:w-[45px]"
           >
             {it.svg}

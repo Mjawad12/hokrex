@@ -1,6 +1,8 @@
 "use client";
 import { prods } from "@/Consonats";
 import Controls from "@/components/Controls";
+import { Context } from "@/components/Mainstate(Admin)/MainstateAdmin";
+import { ContextTool } from "@/components/Mainstate(tool)/Mainstatetool";
 import LeftBarEditing from "@/components/Tool/LeftBarEditing";
 import ColorSmall from "@/components/Tool/LeftBarEditing/ColorSmall";
 import ModelViewer from "@/components/Tool/ModelViewer";
@@ -9,10 +11,12 @@ import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 // import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import { AnimatePresence } from "framer-motion";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 function page() {
-  const [selected, setselected] = useState("Text");
+  const { selectedObject } = useContext(ContextTool);
+  const [selected, setselected] = useState("Shapes");
+
   const [hidden, sethidden] = useState(true);
   const [smColor, setsmColor] = useState(false);
 
@@ -27,10 +31,11 @@ function page() {
             shadows
             camera={{ position: [0, 0, 1.95], fov: 32 }}
             className="main-canvas"
+            frameloop="demand"
           >
             <OrbitControls
               enablePan={false}
-              enableRotate={false}
+              enableRotate={!selectedObject}
               minPolarAngle={1.47079}
               maxPolarAngle={1.47079}
               maxDistance={3}

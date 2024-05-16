@@ -577,7 +577,7 @@ const TextEdit = ({
                   undefined,
                   undefined,
                   undefined,
-                  e.target.value * 10,
+                  e.target.value,
                 );
               }}
             />

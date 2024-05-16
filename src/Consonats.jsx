@@ -1975,6 +1975,8 @@ const nullColor = (
 const shapes = [
   {
     name: "Circle",
+    shapeName: "Circle",
+
     svg: (
       <svg
         width="48"
@@ -1989,6 +1991,7 @@ const shapes = [
   },
   {
     name: "Square",
+    shapeName: "Rect",
     svg: (
       <svg
         width="48"
@@ -2003,6 +2006,7 @@ const shapes = [
   },
   {
     name: "Triangle",
+    shapeName: "Triangle",
     svg: (
       <svg
         width="48"

@@ -40,13 +40,10 @@ const ShapeEdit = ({
         </svg>
       ),
       clickfunc: function () {
+        upda;
         setselectedShape({
           ...selectedShape,
-          position: [
-            selectedShape.position[0],
-            selectedShape.position[1] + 0.05,
-            selectedShape.position[2],
-          ],
+          top: selectedShape.top - 1,
         });
       },
     },
@@ -69,11 +66,7 @@ const ShapeEdit = ({
       clickfunc: function () {
         setselectedShape({
           ...selectedShape,
-          position: [
-            selectedShape.position[0],
-            selectedShape.position[1] - 0.05,
-            selectedShape.position[2],
-          ],
+          top: selectedShape.top + 1,
         });
       },
     },
