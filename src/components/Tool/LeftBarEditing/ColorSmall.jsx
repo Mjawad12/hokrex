@@ -5,10 +5,20 @@ import { ChromePicker } from "react-color";
 import rgbHex from "rgb-hex";
 
 function ColorSmall() {
-  const { selectedText, setselectedText, UpdateText } = useContext(ContextTool);
+  const {
+    selectedText,
+    setselectedText,
+    UpdateText,
+    updateShape,
+    setselectedShape,
+    selectedShape,
+    selectedObject,
+  } = useContext(ContextTool);
   const [colorSelect, setcolorSelect] = useState("Solid");
   const [colorMode, setcolorMode] = useState("hex");
-  const [currentColor, setcurrentColor] = useState(selectedText.color);
+  const [currentColor, setcurrentColor] = useState(
+    selectedObject.type === "text" ? selectedText.color : selectedShape.fill,
+  );
 
   const docColors = [
     "#C73838",
@@ -20,6 +30,31 @@ function ColorSmall() {
     "#00CDE9",
     "#0009E9",
   ];
+
+  const changeColor = (clr) => {
+    console.log(selectedObject);
+    if (selectedObject.type === "text") {
+      setselectedText({
+        ...selectedText,
+        color: clr,
+      });
+      UpdateText(
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        clr,
+      );
+    } else if (selectedObject.type === "shape") {
+      setselectedShape({
+        ...selectedShape,
+        fill: clr,
+      });
+      updateShape(clr);
+    }
+  };
 
   return (
     <div className="absolute bottom-5 right-[328px] z-30 flex h-[23.8rem] w-full max-w-[14rem] flex-col  gap-2 rounded-md bg-darkMid p-2">
@@ -44,20 +79,8 @@ function ColorSmall() {
           color={currentColor}
           onChange={(e) => {
             const clr = "#" + rgbHex(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb.a);
-            setselectedText({
-              ...selectedText,
-              color: clr,
-            });
             setcurrentColor(clr);
-            UpdateText(
-              undefined,
-              undefined,
-              undefined,
-              undefined,
-              undefined,
-              undefined,
-              clr,
-            );
+            changeColor(clr);
           }}
           disableAlpha={false}
         />
@@ -86,21 +109,8 @@ function ColorSmall() {
             value={currentColor?.slice(1)}
             onChange={(e) => {
               const clr = "#" + e.target.value;
-              setselectedText({
-                ...selectedText,
-                color: clr,
-              });
               setcurrentColor(clr);
-              UpdateText(
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                clr,
-              );
-              setcurrentColor(clr);
+              changeColor(clr);
             }}
           />
           {dropper}
@@ -116,20 +126,8 @@ function ColorSmall() {
           {docColors.map((it, index) => (
             <span
               onClick={() => {
-                setselectedText({
-                  ...selectedText,
-                  color: it,
-                });
                 setcurrentColor(it);
-                UpdateText(
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  it,
-                );
+                changeColor(it);
               }}
               key={index}
               style={{ backgroundColor: it }}

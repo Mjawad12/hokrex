@@ -1,7 +1,6 @@
 "use client";
 import { prods } from "@/Consonats";
 import Controls from "@/components/Controls";
-import { Context } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import { ContextTool } from "@/components/Mainstate(tool)/Mainstatetool";
 import LeftBarEditing from "@/components/Tool/LeftBarEditing";
 import ColorSmall from "@/components/Tool/LeftBarEditing/ColorSmall";
@@ -9,7 +8,6 @@ import ModelViewer from "@/components/Tool/ModelViewer";
 import SidebarTool from "@/components/Tool/SidebarTool";
 import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-// import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import { AnimatePresence } from "framer-motion";
 import React, { useContext, useState } from "react";
 
@@ -91,17 +89,6 @@ function page() {
         />
         <AnimatePresence>{smColor && <ColorSmall />}</AnimatePresence>
         <Controls />
-
-        <canvas
-          id="styleCanvas"
-          className="absolute  right-0 z-30 h-[250px] w-[250px] border border-black"
-        ></canvas>
-        <canvas
-          id="shapeCanvas"
-          height={250}
-          width={250}
-          className="absolute right-0 z-20 h-[250px] w-[250px] border border-black"
-        ></canvas>
       </div>
       <div className="fabricContainer">
         <canvas

@@ -7,9 +7,9 @@ import ShapeEdit from "./LeftBarEditing/ShapeEdit";
 function LeftBarEditing({ selected, smColor, setsmColor }) {
   const {
     UpdateText,
+    updateShape,
     selectedText,
     setselectedText,
-    addShape,
     selectedShape,
     setselectedShape,
   } = useContext(ContextTool);
@@ -27,7 +27,7 @@ function LeftBarEditing({ selected, smColor, setsmColor }) {
     Shapes: [
       "Shape Edit",
       <ShapeEdit
-        addShape={addShape}
+        updateShape={updateShape}
         selectedShape={selectedShape}
         setselectedShape={setselectedShape}
         smColor={smColor}

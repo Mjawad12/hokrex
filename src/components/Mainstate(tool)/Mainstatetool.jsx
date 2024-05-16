@@ -19,18 +19,6 @@ function reducer(state, action) {
 }
 
 function Mainstatetool({ children }) {
-  const shapeLayer = {
-    fill: "red",
-    stroke: "red",
-    strokeWidth: "1",
-    width: 100,
-    height: 100,
-    top: 637,
-    left: 542,
-    scaleX: 1,
-    scaleY: 1,
-  };
-
   const [selectedText, setselectedText] = useState({
     text: "Text",
     color: "red",
@@ -48,8 +36,20 @@ function Mainstatetool({ children }) {
     top: 600,
     left: 496,
   });
-  const [selectedShape, setselectedShape] = useState(shapeLayer);
-  const [currentModelColor, setcurrentModelColor] = useState("black");
+  const [selectedShape, setselectedShape] = useState({
+    fill: "red",
+    stroke: "red",
+    strokeWidth: "1",
+    width: 100,
+    height: 100,
+    top: 637,
+    left: 542,
+    scaleX: 1,
+    scaleY: 1,
+    rotation: 0,
+    strokeWidth: 1,
+  });
+  const [currentModelColor, setcurrentModelColor] = useState("#fffff");
   const [alpha, setalpha] = useState("1");
   const [layerState, layerChange] = useReducer(reducer, {
     Front: {
@@ -104,9 +104,10 @@ function Mainstatetool({ children }) {
         originY: "center",
         top: 652,
         left: 527,
-        stroke: "black",
+        stroke: "red",
         strokeWidth: 1,
         type: "shape",
+        fill: "red",
       }),
     );
     setTimeout(() => {
@@ -149,11 +150,14 @@ function Mainstatetool({ children }) {
       },
     [selectedText],
   );
+
   const updateShape = (
     fill = selectedShape.fill,
     scale = { scaleX: selectedShape.scaleX, scaleY: selectedShape.scaleY },
     top = selectedShape.top,
     left = selectedShape.left,
+    rotation = selectedShape.rotation,
+    strokeWidth = selectedShape.strokeWidth,
   ) => {
     console.log(canvas.current.getActiveObject());
     if (canvas.current.getActiveObject()) {
@@ -167,33 +171,6 @@ function Mainstatetool({ children }) {
       canvas.current.getActiveObject().set("left", left);
       canvas.current.renderAll();
     }
-  };
-  const addShape = (
-    type = selectedShape.type,
-    width = selectedShape.width,
-    height = selectedShape.height,
-    color = selectedShape.color,
-  ) => {
-    const canvas = document.querySelector("canvas#shapeCanvas");
-    const ctx = canvas.getContext("2d");
-
-    ctx.reset();
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.fillStyle = color;
-    switch (type) {
-      case "Square":
-        square(ctx, width, height);
-      case "Circle":
-        circle(ctx, color);
-      case "Triganle":
-        triangle(ctx, color);
-    }
-    const url = canvas.toDataURL();
-    const textu = new THREE.TextureLoader().load(url);
-    textu.center = new THREE.Vector2(0.5, 0.5);
-    textu.rotation = Math.PI;
-    textu.flipY = false;
-    setshapeTexture(textu);
   };
 
   const initCanvas = () => {
@@ -253,7 +230,7 @@ function Mainstatetool({ children }) {
 
     const movement = new fabric.Control({
       x: 0,
-      y: 1,
+      y: 0.9,
       offsetY: 3,
       cursorStyle: "crosshair",
       actionHandler: fabric.controlsUtils.dragHandler,
@@ -364,8 +341,9 @@ function Mainstatetool({ children }) {
           });
       }
     });
-    canva.on("selection:created", () => {
-      setselectedObject(true);
+
+    canva.on("selection:created", (e) => {
+      setselectedObject(e.selected[0]);
       setTimeout(() => {
         printTexture();
       }, 200);
@@ -392,6 +370,15 @@ function Mainstatetool({ children }) {
     return canva;
   };
 
+  const changeColor = (clr) => {
+    canvas.current.backgroundColor = clr;
+    canvas.current.renderAll();
+
+    setTimeout(() => {
+      printTexture();
+    }, 100);
+  };
+
   useEffect(() => {
     canvas.current = initCanvas();
   }, []);
@@ -402,8 +389,9 @@ function Mainstatetool({ children }) {
   }, [canvas.current]);
 
   useEffect(() => {
-    console.log(selectedText);
-  }, [selectedText]);
+    changeColor(currentModelColor);
+    console.log(currentModelColor);
+  }, [currentModelColor]);
 
   return (
     <ContextTool.Provider
@@ -419,7 +407,6 @@ function Mainstatetool({ children }) {
         settexture,
         setselectedText,
         selectedText,
-        addShape,
         shapeTexture,
         selectedShape,
         setselectedShape,
@@ -431,6 +418,7 @@ function Mainstatetool({ children }) {
         selectedObject,
         texture,
         printTexture,
+        changeColor,
       }}
     >
       {children}

@@ -11,11 +11,11 @@ import { motion, useAnimate } from "framer-motion";
 import React, { useState } from "react";
 
 const ShapeEdit = ({
-  addShape,
   selectedShape,
   setselectedShape,
   setsmColor,
   smColor,
+  updateShape,
 }) => {
   const [scope, animate] = useAnimate();
   const [upperCase, setupperCase] = useState(false);
@@ -40,11 +40,11 @@ const ShapeEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        upda;
         setselectedShape({
           ...selectedShape,
-          top: selectedShape.top - 1,
+          top: selectedShape.top - 5,
         });
+        updateShape(undefined, undefined, selectedShape.top - 5);
       },
     },
     {
@@ -66,8 +66,9 @@ const ShapeEdit = ({
       clickfunc: function () {
         setselectedShape({
           ...selectedShape,
-          top: selectedShape.top + 1,
+          top: selectedShape.top + 5,
         });
+        updateShape(undefined, undefined, selectedShape.top + 5);
       },
     },
     {
@@ -89,12 +90,9 @@ const ShapeEdit = ({
       clickfunc: function () {
         setselectedShape({
           ...selectedShape,
-          position: [
-            selectedShape.position[0] - 0.05,
-            selectedShape.position[1],
-            selectedShape.position[2],
-          ],
+          left: selectedShape.left - 5,
         });
+        updateShape(undefined, undefined, undefined, selectedShape.left - 5);
       },
     },
     {
@@ -116,12 +114,9 @@ const ShapeEdit = ({
       clickfunc: function () {
         setselectedShape({
           ...selectedShape,
-          position: [
-            selectedShape.position[0] + 0.05,
-            selectedShape.position[1],
-            selectedShape.position[2],
-          ],
+          left: selectedShape.left + 5,
         });
+        updateShape(undefined, undefined, undefined, selectedShape.left + 5);
       },
     },
   ];
@@ -132,7 +127,12 @@ const ShapeEdit = ({
       clickfunc: function () {
         setselectedShape({
           ...selectedShape,
-          scale: selectedShape.scale + 0.05,
+          scaleX: selectedShape.scaleX + 0.1,
+          scaleY: selectedShape.scaleY + 0.1,
+        });
+        updateShape(undefined, {
+          scaleX: selectedShape.scaleX + 0.1,
+          scaleY: selectedShape.scaleY + 0.1,
         });
       },
     },
@@ -158,7 +158,12 @@ const ShapeEdit = ({
       clickfunc: function () {
         setselectedShape({
           ...selectedShape,
-          scale: selectedShape.scale - 0.05,
+          scaleX: selectedShape.scaleX - 0.1,
+          scaleY: selectedShape.scaleY - 0.1,
+        });
+        updateShape(undefined, {
+          scaleX: selectedShape.scaleX - 0.1,
+          scaleY: selectedShape.scaleY - 0.1,
         });
       },
     },
@@ -191,8 +196,16 @@ const ShapeEdit = ({
       clickfunc: function () {
         setselectedShape({
           ...selectedShape,
-          rotation: selectedShape.rotation + 20,
+          rotation: selectedShape.rotation + 5,
         });
+        updateShape(
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+
+          selectedShape.rotation + 5,
+        );
       },
     },
     {
@@ -224,8 +237,15 @@ const ShapeEdit = ({
       clickfunc: function () {
         setselectedShape({
           ...selectedShape,
-          rotation: selectedShape.rotation - 20,
+          rotation: selectedShape.rotation - 5,
         });
+        updateShape(
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          selectedShape.rotation - 5,
+        );
       },
     },
   ];
@@ -528,7 +548,7 @@ const ShapeEdit = ({
       <div className="flex w-full flex-col gap-2.5 ">
         <p className="text-[15px] font-[700] text-textDark">Color</p>
         <div
-          style={{ background: selectedShape.color }}
+          style={{ background: selectedShape.fill }}
           onClick={() => setsmColor(!smColor)}
           className={`relative z-50 h-9  w-9 cursor-pointer rounded-full border-[2px] border-textDark`}
         ></div>
