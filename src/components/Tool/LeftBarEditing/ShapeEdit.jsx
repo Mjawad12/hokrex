@@ -1,14 +1,6 @@
-import {
-  align,
-  arrowDown,
-  order,
-  plus,
-  textPositions,
-  underline as underlineSvg,
-  uppercase,
-} from "@/Consonats";
-import { motion, useAnimate } from "framer-motion";
-import React, { useState } from "react";
+import { arrowDown, order, plus, textPositions } from "@/Consonats";
+
+import React, { useRef, useState } from "react";
 
 const ShapeEdit = ({
   selectedShape,
@@ -16,10 +8,121 @@ const ShapeEdit = ({
   setsmColor,
   smColor,
   updateShape,
+  borderColor,
+  setborderColor,
 }) => {
-  const [scope, animate] = useAnimate();
-  const [upperCase, setupperCase] = useState(false);
-  const [moreOpts, setmoreOpts] = useState(false);
+  const [borderWeight, setborderWeight] = useState(10);
+  const [borderType, setborderType] = useState("simple");
+  const slider = useRef(null);
+
+  const func = () => {
+    const val = slider.current?.value;
+    setborderWeight(val);
+    const percent = (val / slider.current?.max) * 100;
+    slider.current.style.background = `linear-gradient(to right , white ${
+      percent.toFixed(0) + "%"
+    } , #3F4A57 0%)`;
+    setselectedShape({
+      ...selectedShape,
+      strokeWidth: parseInt(slider.current.value / 10),
+    });
+    updateShape(
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      parseInt(slider.current.value / 10),
+    );
+  };
+  const borderTypes = [
+    {
+      name: "none",
+      svg: (
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z"
+            stroke="#BDC7D1"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M15.3148 4.71582L4.71484 15.3242"
+            stroke="#BDC7D1"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ),
+    },
+    {
+      name: "simple",
+      svg: (
+        <svg
+          width="32"
+          height="4"
+          viewBox="0 0 32 4"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2 2H30"
+            stroke="white"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+        </svg>
+      ),
+    },
+    {
+      name: "dashed",
+      svg: (
+        <svg
+          width="32"
+          height="4"
+          viewBox="0 0 32 4"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2 2H30"
+            stroke="#BDC7D1"
+            strokeWidth="3"
+            strokeLinecap="round"
+            stroke-dasharray="13 5"
+          />
+        </svg>
+      ),
+    },
+    {
+      name: "dotted",
+      svg: (
+        <svg
+          width="32"
+          height="4"
+          viewBox="0 0 32 4"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2 2H30"
+            stroke="#BDC7D1"
+            strokeWidth="3"
+            strokeLinecap="round"
+            stroke-dasharray="1 6"
+          />
+        </svg>
+      ),
+    },
+  ];
 
   const ordeAndMove = ["Forward", "Backward", "To Front", "To Back"];
   const movement = [
@@ -149,9 +252,9 @@ const ShapeEdit = ({
           <path
             d="M15.8346 10.5713H4.16797"
             stroke="#BDC7D1"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       ),
@@ -180,16 +283,16 @@ const ShapeEdit = ({
           <path
             d="M14 6.57129C14 6.57129 13.1331 5.33129 12.7196 4.87129C12.1415 4.17434 11.4213 3.60868 10.6072 3.21206C9.79304 2.81545 8.90363 2.597 7.99832 2.57129C6.86866 2.57192 5.76211 2.89127 4.80591 3.49263C3.84972 4.09398 3.0827 4.95292 2.59306 5.97067C2.10343 6.98842 1.91105 8.12366 2.03805 9.24584C2.16506 10.368 2.60628 11.4316 3.311 12.3143C4.01572 13.1969 4.9553 13.8628 6.02173 14.2354C7.08815 14.608 8.2381 14.6721 9.33934 14.4204C10.4406 14.1687 11.4484 13.6113 12.2469 12.8125C13.0455 12.0137 13.6023 11.0057 13.8533 9.90462"
             stroke="#BDC7D1"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M14.0022 3.23828V6.57161H10.668"
             stroke="#BDC7D1"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       ),
@@ -221,16 +324,16 @@ const ShapeEdit = ({
           <path
             d="M2 6.57129C2 6.57129 2.86691 5.33129 3.28036 4.87129C3.85848 4.17434 4.57865 3.60868 5.39281 3.21206C6.20696 2.81545 7.09637 2.597 8.00168 2.57129C9.13134 2.57192 10.2379 2.89127 11.1941 3.49263C12.1503 4.09398 12.9173 4.95292 13.4069 5.97067C13.8966 6.98842 14.089 8.12366 13.9619 9.24584C13.8349 10.368 13.3937 11.4316 12.689 12.3143C11.9843 13.1969 11.0447 13.8628 9.97827 14.2354C8.91185 14.608 7.7619 14.6721 6.66066 14.4204C5.55941 14.1687 4.55158 13.6113 3.75306 12.8125C2.95454 12.0137 2.39774 11.0057 2.14671 9.90462"
             stroke="#BDC7D1"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M1.99777 3.23828V6.57161H5.33203"
             stroke="#BDC7D1"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       ),
@@ -259,7 +362,7 @@ const ShapeEdit = ({
   };
 
   return (
-    <div className="flex w-full flex-col gap-4 pb-12">
+    <div className="flex flex-col w-full gap-4 pb-12">
       {/* <input
         onInput={(e) => {
           setselectedShape({ ...selectedShape, text: e.target.value });
@@ -345,213 +448,110 @@ const ShapeEdit = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-2.5">
-        <p className="text-[15px] font-[700] text-textDark">Fonts</p>
-        {/* <div className="flex gap-2">
-          <DropDown
-            data={[
-              "Arial",
-              "Verdana",
-              "Tahoma",
-              "Calibri",
-              "Trebuchet MS",
-              "Times New Roman",
-              "Georgia",
-              "Garamond",
-              "Courier New",
-              "Brush Script MT",
-              "Roboto",
-              "Hammersmith One",
-              "Ultra",
-              "Droid Sans",
-              "Droid Serif",
-              "Anton",
-              "Ubuntu",
-              "Hanalei",
-              "Lobster",
-              "Noto Sans JP",
-              "Stalinist One",
-              "Bad Script",
-              "IM Fell Double Pica",
-              "Merriweather",
-              "Pangolin",
-              "Open Sans",
-              "Catamaran",
-              "Shadows Into Light",
-            ]}
-            selectedOption={selectedShape.fontFamily}
-            setselectedOption={setselectedShape}
-            overflow={true}
-            // // addText={addText}
-          />
-          <DropDown
-            data={[
-              "Light",
-              "Regular",
-              "Medium",
-              "Semibold",
-              "Bold",
-              "Extrabold",
-            ]}
-            selectedOption={selectedShape.fontWeight}
-            setselectedOption={setselectedShape}
-            overflow={true}
-            weight={true}
-            // // addText={addText}
-          />
-        </div> */}
-      </div>
-
-      <div className="flex gap-2.5">
-        <div className="flex-center w-full flex-col gap-1">
-          <input
-            type="number"
-            className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-            defaultValue={40}
-            onInput={(e) => {
-              setselectedShape({ ...selectedShape, fontSize: e.target.value });
-              // addText(undefined, undefined, undefined, e.target.value);
-            }}
-          />
-          <span className="text-[11px] font-[600] text-textDark">
-            Font Size
-          </span>
-        </div>
-
-        <div className="flex-center w-full flex-col gap-1">
-          <input
-            type="number"
-            className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-            defaultValue={1.2}
-            onInput={() => {}}
-          />
-          <span className="text-[11px] font-[600] text-textDark">
-            Line Height
-          </span>
-        </div>
-
-        <div className="flex-center w-full flex-col gap-1">
-          <span className="flex-center w-full cursor-pointer rounded-md bg-darkLight px-3 py-[0.8rem] hover:bg-darkHover">
-            {align}
-          </span>
-          <span className="text-[11px] font-[600] text-textDark">
-            Alignment
-          </span>
-        </div>
-
-        <div className="flex-center w-full flex-col gap-1">
-          <span
-            onClick={() => {
-              setupperCase(!upperCase);
-              if (!upperCase) {
-                setselectedShape({
-                  ...selectedShape,
-                  text: selectedShape.text.toUpperCase(),
-                });
-                // addText(selectedShape.text.toUpperCase());
-              } else {
-                setselectedShape({
-                  ...selectedShape,
-                  text: selectedShape.text.toLowerCase(),
-                });
-                // addText(selectedShape.text.toLowerCase());
-              }
-            }}
-            className={`flex-center w-full cursor-pointer rounded-md ${upperCase ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.8rem] hover:bg-darkHover`}
-          >
-            {uppercase}
-          </span>
-          <span className="text-[11px] font-[600] text-textDark">
-            Upper Case
-          </span>
-        </div>
-      </div>
-
-      <motion.div
-        ref={scope}
-        initial={{ height: 25 }}
-        className="flex flex-col gap-2.5 overflow-hidden"
-      >
-        <div
-          onClick={() => {
-            setmoreOpts(!moreOpts);
-            if (moreOpts) {
-              animate(scope.current, { height: 25 });
-            } else {
-              animate(scope.current, { height: scope.current.scrollHeight });
-            }
-          }}
-          className="flex cursor-pointer items-center gap-1.5 [&_svg]:w-[10px] [&_svg]:stroke-textLight"
-        >
-          <p className="text-[14px] text-textDark">More Options </p>
-          <motion.span
-            animate={{ rotate: moreOpts ? "180deg" : "0deg" }}
-            className="mt-0.5 "
-          >
-            {arrowDown}
-          </motion.span>
-        </div>
-
-        <div className="flex gap-2.5">
-          <div className="flex-center w-full flex-col gap-1">
-            <input
-              type="number"
-              className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-              value={selectedShape.spacing}
-              onInput={(e) => {
-                setselectedShape({ ...selectedShape, spacing: e.target.value });
-              }}
-            />
-            <span className="text-[11px] font-[600] text-textDark">
-              Spacing
-            </span>
-          </div>
-
-          <div className="flex-center w-full flex-col gap-1">
-            <input
-              type="number"
-              className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-              value={(selectedShape.rotation / 3.15).toFixed(0)}
-              onInput={(e) => {
-                setselectedShape({
-                  ...selectedShape,
-                  rotation: e.target.value * 3.15,
-                });
-              }}
-            />
-            <span className="text-[11px] font-[600] text-textDark">
-              Rotation
-            </span>
-          </div>
-
-          <div className="flex-center w-full flex-col gap-1">
-            <span
-              className={`flex-center w-full cursor-pointer rounded-md hover:bg-darkHover ${selectedShape.underline ? "bg-darkHover" : "bg-darkLight"} px-3 py-[0.55rem]  `}
-              onClick={() => {
-                setselectedShape({
-                  ...selectedShape,
-                  underline: !selectedShape.underline,
-                });
-              }}
-            >
-              {underlineSvg}
-            </span>
-            <span className="text-[11px] font-[600] text-textDark">
-              Alignment
-            </span>
-          </div>
-
-          <div className="w-full"></div>
-        </div>
-      </motion.div>
-
       <div className="flex w-full flex-col gap-2.5 ">
         <p className="text-[15px] font-[700] text-textDark">Color</p>
         <div
           style={{ background: selectedShape.fill }}
           onClick={() => setsmColor(!smColor)}
-          className={`relative z-50 h-9  w-9 cursor-pointer rounded-full border-[2px] border-textDark`}
+          className={`relative z-50 h-9  w-9 cursor-pointer rounded-full  border border-textDark `}
         ></div>
+      </div>
+      <div className="flex w-full flex-col gap-2.5 ">
+        <p className="text-[15px] font-[700] text-textDark">Border</p>
+        <div className="flex items-center justify-start gap-4">
+          <div
+            style={{ background: selectedShape.stroke }}
+            onClick={() => setborderColor(!borderColor)}
+            className={`relative z-50 h-9  w-9 cursor-pointer rounded-full border border-textDark`}
+          ></div>
+          <div className="flex w-[65%] flex-col  gap-1">
+            <p className="text-[12px] text-textLight">Border weight</p>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              defaultValue={10}
+              id="cs12-Sli-tool"
+              ref={slider}
+              onInput={func}
+            />
+          </div>
+          <span className="mt-5 text-[13px] font-[600] text-[#D9DBDD]">
+            {borderWeight}%
+          </span>
+        </div>
+        <div className="flex mt-1 overflow-hidden rounded-lg">
+          {borderTypes.map((it) => {
+            return (
+              <div className="flex-col w-full gap-2 border flex-center border-darkMid">
+                <span
+                  onClick={() => {
+                    setborderType(it.name);
+                    switch (it.name) {
+                      case "none":
+                        updateShape(
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          false,
+                          false,
+                          true,
+                        );
+                        break;
+                      case "simple":
+                        updateShape(
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          false,
+                          false,
+                        );
+                        break;
+
+                      case "dashed":
+                        updateShape(
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          true,
+                        );
+                        break;
+
+                      case "dotted":
+                        updateShape(
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          true,
+                        );
+                        break;
+                    }
+                  }}
+                  className={`flex-center h-8 w-full cursor-pointer ${borderType === it.name ? "bg-darkHover" : "bg-darkLight"} px-3 hover:bg-darkHover [&_*]:stroke-textLight`}
+                >
+                  {it.svg}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -559,10 +559,10 @@ const ShapeEdit = ({
 
 const TextAlign = ({ svg, name, func }) => {
   return (
-    <div className="flex-center flex-col gap-2 border border-darkMid ">
+    <div className="flex-col gap-2 border flex-center border-darkMid ">
       <span
         onClick={func}
-        className="flex-center h-8 cursor-pointer bg-darkLight px-3 hover:bg-darkHover "
+        className="h-8 px-3 cursor-pointer flex-center bg-darkLight hover:bg-darkHover "
       >
         {svg}
       </span>
@@ -573,7 +573,7 @@ const TextAlign = ({ svg, name, func }) => {
 
 const TextBtn = ({ name, svg, clickfunc }) => {
   return (
-    <div className="flex-center w-full flex-col gap-2 border border-darkMid ">
+    <div className="flex-col w-full gap-2 border flex-center border-darkMid ">
       <span
         onClick={clickfunc}
         className="flex-center h-8 w-full cursor-pointer bg-darkLight px-3 hover:bg-darkHover [&_*]:stroke-textLight"
@@ -618,7 +618,7 @@ const DropDown = ({
   return (
     <div
       onClick={() => setshow(!show)}
-      className="relative flex h-[3rem] w-full cursor-pointer items-center justify-between rounded-md bg-fullDark px-3 pr-4 transition duration-[100ms] hover:shadow-xl [&_svg]:w-[13px] [&_svg]:stroke-white"
+      className="[&_svg]:strokeWhite relative flex h-[3rem] w-full cursor-pointer items-center justify-between rounded-md bg-fullDark px-3 pr-4 transition duration-[100ms] hover:shadow-xl [&_svg]:w-[13px]"
     >
       <p className="font-med text-[15px] text-[#D3D4D6]">
         {weight
@@ -639,7 +639,7 @@ const DropDown = ({
           <span
             key={index}
             onClick={changeSelected}
-            className="flex h-max min-h-7 w-full cursor-pointer items-center justify-start whitespace-nowrap px-5 py-2 text-gray-400 hover:bg-gray-200 "
+            className="flex items-center justify-start w-full px-5 py-2 text-gray-400 cursor-pointer h-max min-h-7 whitespace-nowrap hover:bg-gray-200 "
             value={it}
           >
             {it}

@@ -61,7 +61,9 @@ function Color() {
           <ChromePicker
             color={currentColor}
             onChange={(e) => {
-              setcurrentModelColor(e.hex);
+              setcurrentModelColor(
+                "#" + rgbHex(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb.a),
+              );
               setalpha(e.rgb.a);
               setcurrentColor("#" + rgbHex(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb.a));
             }}

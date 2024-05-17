@@ -48,6 +48,9 @@ function Mainstatetool({ children }) {
     scaleY: 1,
     rotation: 0,
     strokeWidth: 1,
+    dashed: false,
+    dotted: false,
+    noneStroke: false,
   });
   const [currentModelColor, setcurrentModelColor] = useState("#fffff");
   const [alpha, setalpha] = useState("1");
@@ -96,6 +99,7 @@ function Mainstatetool({ children }) {
       printTexture();
     }, 100);
   };
+
   const addShapeLayer = ({ type } = { type: "Circle" }) => {
     canvas.current.add(
       new fabric[type]({
@@ -158,17 +162,29 @@ function Mainstatetool({ children }) {
     left = selectedShape.left,
     rotation = selectedShape.rotation,
     strokeWidth = selectedShape.strokeWidth,
+    stroke = selectedShape.stroke,
+    dashed = selectedShape.dashed,
+    dotted = selectedShape.dotted,
+    noneStroke = selectedShape.noneStroke,
   ) => {
     console.log(canvas.current.getActiveObject());
     if (canvas.current.getActiveObject()) {
       canvas.current.getActiveObject().set("strokeWidth", strokeWidth);
-      canvas.current.getActiveObject().set("stroke", fill);
+      !noneStroke
+        ? canvas.current.getActiveObject().set("stroke", stroke)
+        : canvas.current.getActiveObject().set("stroke", 0);
       canvas.current.getActiveObject().set("fill", fill);
       canvas.current.getActiveObject().set("scaleX", scale.scaleX);
       canvas.current.getActiveObject().set("scaleY", scale.scaleY);
       canvas.current.getActiveObject().set("angle", rotation);
       canvas.current.getActiveObject().set("top", top);
       canvas.current.getActiveObject().set("left", left);
+      dashed && canvas.current.getActiveObject().set("strokeDashArray", [9, 3]);
+      dotted && canvas.current.getActiveObject().set("strokeDashArray", [3, 2]);
+      !dotted &&
+        !dashed &&
+        canvas.current.getActiveObject().set("strokeDashArray", [10, 0]);
+
       canvas.current.renderAll();
     }
   };
@@ -326,6 +342,7 @@ function Mainstatetool({ children }) {
             top: e.target.top,
             left: e.target.left,
           });
+          break;
         case "shape":
           setselectedShape({
             fill: e.target.fill,
@@ -339,6 +356,7 @@ function Mainstatetool({ children }) {
             width: e.target.width,
             stroke: e.target.stroke,
           });
+          break;
       }
     });
 
@@ -390,7 +408,6 @@ function Mainstatetool({ children }) {
 
   useEffect(() => {
     changeColor(currentModelColor);
-    console.log(currentModelColor);
   }, [currentModelColor]);
 
   return (

@@ -7,20 +7,19 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { fabric } from "fabric";
 
 export function Shirt(props) {
-  const {
-    canvas,
-    canvasOffset,
-    texture,
-    settexture,
-    printTexture,
-    selectedObject,
-  } = useContext(ContextTool);
+  const { canvas, canvasOffset, texture, settexture, selectedObject } =
+    useContext(ContextTool);
   const shirtRef = useRef(false);
   const { nodes, materials } = useGLTF("/test.glb");
   const { camera, scene } = useThree();
 
   useFrame(() => {
-    selectedObject && printTexture();
+    if (selectedObject) {
+      const url = document.querySelector("#can-text").toDataURL();
+      const textu = new THREE.TextureLoader().load(url);
+      textu.flipY = false;
+      settexture(textu);
+    }
   });
 
   useEffect(() => {

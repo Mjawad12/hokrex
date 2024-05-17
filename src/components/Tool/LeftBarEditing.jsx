@@ -4,7 +4,13 @@ import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 import TextEdit from "./LeftBarEditing/TextEdit";
 import ShapeEdit from "./LeftBarEditing/ShapeEdit";
 
-function LeftBarEditing({ selected, smColor, setsmColor }) {
+function LeftBarEditing({
+  selected,
+  smColor,
+  setsmColor,
+  borderColor,
+  setborderColor,
+}) {
   const {
     UpdateText,
     updateShape,
@@ -32,6 +38,8 @@ function LeftBarEditing({ selected, smColor, setsmColor }) {
         setselectedShape={setselectedShape}
         smColor={smColor}
         setsmColor={setsmColor}
+        setborderColor={setborderColor}
+        borderColor={borderColor}
       />,
     ],
   };

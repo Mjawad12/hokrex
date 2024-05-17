@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import { ChromePicker } from "react-color";
 import rgbHex from "rgb-hex";
 
-function ColorSmall() {
+function ColorSmall({ border }) {
   const {
     selectedText,
     setselectedText,
@@ -17,7 +17,7 @@ function ColorSmall() {
   const [colorSelect, setcolorSelect] = useState("Solid");
   const [colorMode, setcolorMode] = useState("hex");
   const [currentColor, setcurrentColor] = useState(
-    selectedObject.type === "text" ? selectedText.color : selectedShape.fill,
+    selectedObject?.type === "text" ? selectedText.color : selectedShape.fill,
   );
 
   const docColors = [
@@ -33,7 +33,7 @@ function ColorSmall() {
 
   const changeColor = (clr) => {
     console.log(selectedObject);
-    if (selectedObject.type === "text") {
+    if (selectedObject?.type === "text") {
       setselectedText({
         ...selectedText,
         color: clr,
@@ -47,12 +47,25 @@ function ColorSmall() {
         undefined,
         clr,
       );
-    } else if (selectedObject.type === "shape") {
-      setselectedShape({
-        ...selectedShape,
-        fill: clr,
-      });
-      updateShape(clr);
+    } else if (selectedObject?.type === "shape") {
+      if (border) {
+        setselectedShape({ ...selectedShape, stroke: clr });
+        updateShape(
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          clr,
+        );
+      } else {
+        setselectedShape({
+          ...selectedShape,
+          fill: clr,
+        });
+        updateShape(clr);
+      }
     }
   };
 

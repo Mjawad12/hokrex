@@ -9,7 +9,7 @@ import SidebarTool from "@/components/Tool/SidebarTool";
 import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { AnimatePresence } from "framer-motion";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 function page() {
   const { selectedObject } = useContext(ContextTool);
@@ -17,6 +17,18 @@ function page() {
 
   const [hidden, sethidden] = useState(true);
   const [smColor, setsmColor] = useState(false);
+  const [borderColor, setborderColor] = useState(false);
+
+  // useEffect(() => {
+  //   console.log("easd");
+  //   if (smColor) {
+  //     setborderColor(false);
+  //   } else if (borderColor) {
+  //     setsmColor(false);
+  //   } else if(!smColor){
+
+  //   }
+  // }, [borderColor, smColor]);
 
   return (
     <>
@@ -86,8 +98,13 @@ function page() {
           selected={selected}
           setsmColor={setsmColor}
           smColor={smColor}
+          setborderColor={setborderColor}
+          borderColor={borderColor}
         />
         <AnimatePresence>{smColor && <ColorSmall />}</AnimatePresence>
+        <AnimatePresence>
+          {borderColor && <ColorSmall border={true} />}
+        </AnimatePresence>
         <Controls />
       </div>
       <div className="fabricContainer">
