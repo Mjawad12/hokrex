@@ -362,7 +362,7 @@ const ShapeEdit = ({
   };
 
   return (
-    <div className="flex w-full flex-col gap-4 pb-12">
+    <div className="flex w-full flex-col gap-4 ">
       {/* <input
         onInput={(e) => {
           setselectedShape({ ...selectedShape, text: e.target.value });

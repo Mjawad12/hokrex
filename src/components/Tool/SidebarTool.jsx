@@ -7,6 +7,7 @@ import Color from "./SidebarFeatures/Color";
 import Text from "./SidebarFeatures/Text";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 import Shapes from "./SidebarFeatures/Shapes";
+import Graphics from "./SidebarFeatures/Graphics";
 
 function SidebarTool({ sethidden, selected }) {
   const { addText, addShapeLayer, addTextLayer } = useContext(ContextTool);
@@ -16,6 +17,7 @@ function SidebarTool({ sethidden, selected }) {
     Color: <Color />,
     Text: <Text addText={addText} addTextLayer={addTextLayer} />,
     Shapes: <Shapes addShapeLayer={addShapeLayer} />,
+    Graphics: <Graphics />,
   };
   return (
     <motion.div
@@ -23,7 +25,7 @@ function SidebarTool({ sethidden, selected }) {
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: "-120%", opacity: 0.2 }}
       transition={{ duration: 1.1, ease: [0, 0, 0, 1] }}
-      className=" relative flex min-h-screen w-full max-w-[300px]  flex-col bg-darkMid p-3 px-3.5"
+      className={`relative flex h-[calc(100vh-50px)] w-full max-w-[300px]  flex-col bg-darkMid ${selected !== "Graphics" ? "p-3 px-3.5" : "p-0"}`}
     >
       <SideBtn sethidden={sethidden} />
       {SelectedProd[selected]}
