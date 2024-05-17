@@ -87,7 +87,7 @@ function ColorSmall({ border }) {
         </button>
       </div>
 
-      <div className="flex flex-col border-b border-darkLight pb-3">
+      <div className="flex flex-col pb-3 border-b border-darkLight">
         <ChromePicker
           color={currentColor}
           onChange={(e) => {

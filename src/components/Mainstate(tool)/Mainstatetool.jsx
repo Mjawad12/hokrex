@@ -40,8 +40,8 @@ function Mainstatetool({ children }) {
     fill: "red",
     stroke: "red",
     strokeWidth: "1",
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     top: 637,
     left: 542,
     scaleX: 1,
@@ -69,6 +69,7 @@ function Mainstatetool({ children }) {
   const [shapeTexture, setshapeTexture] = useState(null);
   const [canvasOffset, setcanvasOffset] = useState(false);
   const [selectedObject, setselectedObject] = useState(null);
+  const [enableRotate, setenableRotate] = useState(false);
 
   let canvas = useRef(null);
 
@@ -112,6 +113,8 @@ function Mainstatetool({ children }) {
         strokeWidth: 1,
         type: "shape",
         fill: "red",
+        width: 80,
+        height: 80,
       }),
     );
     setTimeout(() => {
@@ -169,18 +172,24 @@ function Mainstatetool({ children }) {
   ) => {
     console.log(canvas.current.getActiveObject());
     if (canvas.current.getActiveObject()) {
-      canvas.current.getActiveObject().set("strokeWidth", strokeWidth);
       !noneStroke
-        ? canvas.current.getActiveObject().set("stroke", stroke)
-        : canvas.current.getActiveObject().set("stroke", 0);
+        ? canvas.current.getActiveObject().set("strokeWidth", strokeWidth)
+        : canvas.current.getActiveObject().set("strokeWidth", 0);
+      canvas.current.getActiveObject().set("noneStroke", noneStroke);
+      canvas.current.getActiveObject().set("stroke", stroke);
       canvas.current.getActiveObject().set("fill", fill);
       canvas.current.getActiveObject().set("scaleX", scale.scaleX);
       canvas.current.getActiveObject().set("scaleY", scale.scaleY);
       canvas.current.getActiveObject().set("angle", rotation);
       canvas.current.getActiveObject().set("top", top);
       canvas.current.getActiveObject().set("left", left);
+
       dashed && canvas.current.getActiveObject().set("strokeDashArray", [9, 3]);
+      canvas.current.getActiveObject().set("dashed", dashed);
+
       dotted && canvas.current.getActiveObject().set("strokeDashArray", [3, 2]);
+      canvas.current.getActiveObject().set("dotted", dotted);
+
       !dotted &&
         !dashed &&
         canvas.current.getActiveObject().set("strokeDashArray", [10, 0]);
@@ -345,6 +354,7 @@ function Mainstatetool({ children }) {
           break;
         case "shape":
           setselectedShape({
+            ...selectedShape,
             fill: e.target.fill,
             scaleX: e.target.scaleX,
             scaleY: e.target.scaleY,
@@ -355,6 +365,9 @@ function Mainstatetool({ children }) {
             height: e.target.height,
             width: e.target.width,
             stroke: e.target.stroke,
+            dashed: e.target.dashed,
+            dotted: e.target.dotted,
+            noneStroke: e.target.noneStroke,
           });
           break;
       }
@@ -373,7 +386,7 @@ function Mainstatetool({ children }) {
       }, 200);
     });
 
-    canva.on("mouse:down", (evt) => {
+    canva.on("mouse:down", (e) => {
       // var circle = new fabric.Circle({
       //   radius: 1,
       //   originX: "center",
@@ -410,6 +423,10 @@ function Mainstatetool({ children }) {
     changeColor(currentModelColor);
   }, [currentModelColor]);
 
+  // useEffect(() => {
+  //   console.log(selectedObject);
+  // }, [selectedObject]);
+
   return (
     <ContextTool.Provider
       value={{
@@ -436,6 +453,7 @@ function Mainstatetool({ children }) {
         texture,
         printTexture,
         changeColor,
+        enableRotate,
       }}
     >
       {children}

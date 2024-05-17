@@ -24,7 +24,7 @@ const ShapeEdit = ({
     } , #3F4A57 0%)`;
     setselectedShape({
       ...selectedShape,
-      strokeWidth: parseInt(slider.current.value / 10),
+      strokeWidth: slider.current.value / 10,
     });
     updateShape(
       undefined,
@@ -32,7 +32,7 @@ const ShapeEdit = ({
       undefined,
       undefined,
       undefined,
-      parseInt(slider.current.value / 10),
+      slider.current.value / 10,
     );
   };
   const borderTypes = [
@@ -362,7 +362,7 @@ const ShapeEdit = ({
   };
 
   return (
-    <div className="flex flex-col w-full gap-4 pb-12">
+    <div className="flex w-full flex-col gap-4 pb-12">
       {/* <input
         onInput={(e) => {
           setselectedShape({ ...selectedShape, text: e.target.value });
@@ -374,7 +374,72 @@ const ShapeEdit = ({
         maxLength={30}
         value={selectedShape.text}
       /> */}
-
+      <div className="flex flex-col gap-2.5">
+        <p className="text-[14px] font-[700] text-textDark">Size</p>
+        <div className="flex gap-1">
+          <ShapeInput
+            name={"Width"}
+            func={(e) => {
+              setselectedShape({
+                ...selectedShape,
+                width: e.target.value,
+                scaleX: e.target.value / 30,
+              });
+              updateShape(undefined, {
+                scaleX: e.target.value / 30,
+                scaleY: selectedShape.scaleY,
+              });
+            }}
+            value={parseInt(selectedShape.scaleX * 30)}
+          />
+          <ShapeInput
+            name={"Height"}
+            func={(e) => {
+              setselectedShape({
+                ...selectedShape,
+                height: e.target.value,
+                scaleY: e.target.value / 30,
+              });
+              updateShape(undefined, {
+                scaleX: selectedShape.scaleX,
+                scaleY: e.target.value / 30,
+              });
+            }}
+            value={parseInt(selectedShape.scaleY * 30)}
+          />
+          <ShapeInput
+            name={"Rotation"}
+            func={(e) => {
+              setselectedShape({ ...selectedShape, rotation: e.target.value });
+              updateShape(
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                e.target.value,
+              );
+            }}
+            value={selectedShape.rotation.toString()}
+            fixed={true}
+          />
+          <ShapeInput
+            name={"Scale"}
+            func={(e) => {
+              setselectedShape({
+                ...selectedShape,
+                scaleX: e.target.value,
+                scaleY: e.target.value,
+              });
+              updateShape(undefined, {
+                scaleX: e.target.value,
+                scaleY: e.target.value,
+              });
+            }}
+            value={selectedShape.scaleX.toString()}
+            fixed={true}
+          />
+        </div>
+      </div>
       <div className="flex flex-col gap-2.5">
         <p className="text-[14px] font-[700] text-textDark">POSITION</p>
         <div className="flex gap-3">
@@ -480,15 +545,21 @@ const ShapeEdit = ({
             {borderWeight}%
           </span>
         </div>
-        <div className="flex mt-1 overflow-hidden rounded-lg">
+        <div className="mt-1 flex overflow-hidden rounded-lg">
           {borderTypes.map((it) => {
             return (
-              <div className="flex-col w-full gap-2 border flex-center border-darkMid">
+              <div className="flex-center w-full flex-col gap-2 border border-darkMid">
                 <span
                   onClick={() => {
                     setborderType(it.name);
                     switch (it.name) {
                       case "none":
+                        setselectedShape({
+                          ...selectedShape,
+                          noneStroke: true,
+                          dashed: false,
+                          dotted: false,
+                        });
                         updateShape(
                           undefined,
                           undefined,
@@ -503,6 +574,12 @@ const ShapeEdit = ({
                         );
                         break;
                       case "simple":
+                        setselectedShape({
+                          ...selectedShape,
+                          noneStroke: false,
+                          dashed: false,
+                          dotted: false,
+                        });
                         updateShape(
                           undefined,
                           undefined,
@@ -511,12 +588,19 @@ const ShapeEdit = ({
                           undefined,
                           undefined,
                           undefined,
+                          false,
                           false,
                           false,
                         );
                         break;
 
                       case "dashed":
+                        setselectedShape({
+                          ...selectedShape,
+                          noneStroke: false,
+                          dashed: true,
+                          dotted: false,
+                        });
                         updateShape(
                           undefined,
                           undefined,
@@ -526,10 +610,18 @@ const ShapeEdit = ({
                           undefined,
                           undefined,
                           true,
+                          false,
+                          false,
                         );
                         break;
 
                       case "dotted":
+                        setselectedShape({
+                          ...selectedShape,
+                          noneStroke: false,
+                          dashed: false,
+                          dotted: true,
+                        });
                         updateShape(
                           undefined,
                           undefined,
@@ -538,8 +630,9 @@ const ShapeEdit = ({
                           undefined,
                           undefined,
                           undefined,
-                          undefined,
+                          false,
                           true,
+                          false,
                         );
                         break;
                     }
@@ -559,10 +652,10 @@ const ShapeEdit = ({
 
 const TextAlign = ({ svg, name, func }) => {
   return (
-    <div className="flex-col gap-2 border flex-center border-darkMid ">
+    <div className="flex-center flex-col gap-2 border border-darkMid ">
       <span
         onClick={func}
-        className="h-8 px-3 cursor-pointer flex-center bg-darkLight hover:bg-darkHover "
+        className="flex-center h-8 cursor-pointer bg-darkLight px-3 hover:bg-darkHover "
       >
         {svg}
       </span>
@@ -573,7 +666,7 @@ const TextAlign = ({ svg, name, func }) => {
 
 const TextBtn = ({ name, svg, clickfunc }) => {
   return (
-    <div className="flex-col w-full gap-2 border flex-center border-darkMid ">
+    <div className="flex-center w-full flex-col gap-2 border border-darkMid ">
       <span
         onClick={clickfunc}
         className="flex-center h-8 w-full cursor-pointer bg-darkLight px-3 hover:bg-darkHover [&_*]:stroke-textLight"
@@ -639,13 +732,27 @@ const DropDown = ({
           <span
             key={index}
             onClick={changeSelected}
-            className="flex items-center justify-start w-full px-5 py-2 text-gray-400 cursor-pointer h-max min-h-7 whitespace-nowrap hover:bg-gray-200 "
+            className="flex h-max min-h-7 w-full cursor-pointer items-center justify-start whitespace-nowrap px-5 py-2 text-gray-400 hover:bg-gray-200 "
             value={it}
           >
             {it}
           </span>
         ))}
       </div>
+    </div>
+  );
+};
+
+const ShapeInput = ({ name, func, value, fixed }) => {
+  return (
+    <div className="flex-center w-full flex-col gap-1">
+      <input
+        type="number"
+        className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
+        value={fixed && value.length > 2 ? value.slice(0, 3) : value}
+        onInput={func}
+      />
+      <span className="text-[11px] font-[600] text-textDark">{name}</span>
     </div>
   );
 };
