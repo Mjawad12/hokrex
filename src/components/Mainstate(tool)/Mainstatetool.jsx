@@ -82,7 +82,7 @@ function Mainstatetool({ children }) {
 
   const addTextLayer = () => {
     canvas.current?.add(
-      new fabric.Text("Text", {
+      new fabric.Textbox("Text", {
         fontFamily: selectedText.fontFamily,
         top: 600,
         left: 495,
@@ -94,6 +94,12 @@ function Mainstatetool({ children }) {
         scaleY: 1,
         fill: "red",
         type: "text",
+        textAlign: "left",
+        breakWords: true,
+        width: 90,
+        editable: false,
+        cursorWidth: 0,
+        splitByGrapheme: true,
       }),
     );
     setTimeout(() => {
@@ -207,123 +213,32 @@ function Mainstatetool({ children }) {
     mtbIcons.src = process.env.NEXT_PUBLIC_URL + "/mtb.png";
     const mlrIcons = document.createElement("img");
     mlrIcons.src = process.env.NEXT_PUBLIC_URL + "/mlr.png";
-
-    function renderIcon(ctx, left, top, styleOverride, fabricObject) {
-      var size = this.cornerSize;
-      ctx.save();
-      ctx.translate(left, top);
-      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
-      ctx.drawImage(rotationIcon, -size / 2, -size / 2, size, size);
-      ctx.restore();
-    }
-    function renderIcon2(ctx, left, top, styleOverride, fabricObject) {
-      var size = this.cornerSize;
-      ctx.save();
-      ctx.translate(left, top);
-      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
-      ctx.drawImage(movementIcon, -size / 2, -size / 2, size, size);
-      ctx.restore();
-    }
-    function rendermtb(ctx, left, top, styleOverride, fabricObject) {
-      var size = this.cornerSize;
-      ctx.save();
-      ctx.translate(left, top);
-      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
-      ctx.drawImage(mtbIcons, -size / 2, -size / 2, size + 7, size - 2);
-      ctx.restore();
-    }
-    function rendermlr(ctx, left, top, styleOverride, fabricObject) {
-      var size = this.cornerSize;
-      ctx.save();
-      ctx.translate(left, top);
-      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
-      ctx.drawImage(mlrIcons, -size / 2, -size / 2, size - 2, size + 7);
-      ctx.restore();
-    }
-
-    const mtr = new fabric.Control({
-      x: 0,
-      y: -0.5,
-      offsetY: -30,
-      cursorStyle: "crosshair",
-      actionHandler: fabric.controlsUtils.rotationWithSnapping,
-      actionName: "rotate",
-      render: renderIcon,
-      cornerSize: 30,
-      withConnection: false,
+    const cornerIcons = document.createElement("img");
+    cornerIcons.src = process.env.NEXT_PUBLIC_URL + "/cornerBtn.png";
+    objectModifications(
+      rotationIcon,
+      movementIcon,
+      mtbIcons,
+      mlrIcons,
+      cornerIcons,
+    );
+    fabric.util.object.extend(fabric.Textbox.prototype, {
+      _wrapLine: _wrapLine,
     });
-
-    const movement = new fabric.Control({
-      x: 0,
-      y: 0.9,
-      offsetY: 3,
-      cursorStyle: "crosshair",
-      actionHandler: fabric.controlsUtils.dragHandler,
-      actionName: "rotate",
-      render: renderIcon2,
-      cornerSize: 28,
-      withConnection: false,
-    });
-
-    const mt = new fabric.Control({
-      x: -0.045,
-      y: -0.5,
-      offsetY: 0,
-      cursorStyle: "crosshair",
-      actionHandler: fabric.controlsUtils.scalingY,
-      actionName: "mt",
-      render: rendermtb,
-      cornerSize: 10,
-      withConnection: false,
-    });
-    const mb = new fabric.Control({
-      x: -0.045,
-      y: 0.52,
-      offsetY: 0,
-      cursorStyle: "crosshair",
-      actionHandler: fabric.controlsUtils.scalingY,
-      actionName: "mb",
-      render: rendermtb,
-      cornerSize: 10,
-      withConnection: false,
-    });
-    const ml = new fabric.Control({
-      x: -0.5,
-      y: -0.04,
-      offsetY: 0,
-      cursorStyle: "crosshair",
-      actionHandler: fabric.controlsUtils.scalingXOrSkewingY,
-      actionName: "mb",
-      render: rendermlr,
-      cornerSize: 10,
-      withConnection: false,
-    });
-    const mr = new fabric.Control({
-      x: 0.515,
-      y: -0.04,
-      offsetY: 0,
-      cursorStyle: "crosshair",
-      actionHandler: fabric.controlsUtils.scalingXOrSkewingY,
-      actionName: "mb",
-      render: rendermlr,
-      cornerSize: 10,
-      withConnection: false,
-    });
-
-    fabric.Object.prototype.controls.mtr = mtr;
-    fabric.Object.prototype.controls.mt = mt;
-    fabric.Object.prototype.controls.mb = mb;
-    fabric.Object.prototype.controls.ml = ml;
-    fabric.Object.prototype.controls.mr = mr;
-    fabric.Object.prototype.controls.movement = movement;
-    fabric.Object.prototype.transparentCorners = false;
-    fabric.Object.prototype.cornerColor = "white";
-    fabric.Object.prototype.cornerStrokeColor = "red";
-    fabric.Object.prototype.cornerStyle = "circle";
-    fabric.Object.prototype.cornerSize = "10";
-    fabric.Object.prototype.borderColor = "red";
-    fabric.Object.prototype.padding = "6";
-    fabric.Object.prototype.rotatingPointOffset = 1;
+    // fabric.Textbox.prototype.controls.mtr = mtr;
+    // fabric.Textbox.prototype.controls.mt = mt;
+    // fabric.Textbox.prototype.controls.mb = mb;
+    // fabric.Textbox.prototype.controls.ml = ml;
+    // fabric.Textbox.prototype.controls.mr = mr;
+    // fabric.Textbox.prototype.controls.movement = movement;
+    // fabric.Textbox.prototype.transparentCorners = false;
+    // fabric.Textbox.prototype.cornerColor = "white";
+    // fabric.Textbox.prototype.cornerStrokeColor = "red";
+    // fabric.Textbox.prototype.cornerStyle = "circle";
+    // fabric.Textbox.prototype.cornerSize = "10";
+    // fabric.Textbox.prototype.borderColor = "red";
+    // fabric.Textbox.prototype.padding = "6";
+    // fabric.Textbox.prototype.rotatingPointOffset = 1;
 
     const canva = new fabric.Canvas("can-text", {
       backgroundColor: "white",
@@ -398,6 +313,17 @@ function Mainstatetool({ children }) {
       // canvas.current.add(circle);
     });
 
+    // canva.on("object:scaling", function (e) {
+    //   console.log(e.target);
+    //   var target = e.target;
+    //   var sX = target.scaleX;
+    //   var sY = target.scaleY;
+    //   target.width *= sX;
+    //   target.height *= sY;
+    //   target.scaleX = 1;
+    //   target.scaleY = 1;
+    // });
+
     return canva;
   };
 
@@ -422,6 +348,296 @@ function Mainstatetool({ children }) {
   useEffect(() => {
     changeColor(currentModelColor);
   }, [currentModelColor]);
+
+  var _wrapLine = function (_line, lineIndex, desiredWidth, reservedSpace) {
+    var lineWidth = 0,
+      splitByGrapheme = this.splitByGrapheme,
+      graphemeLines = [],
+      line = [],
+      // spaces in different languges?
+      words = splitByGrapheme
+        ? fabric.util.string.graphemeSplit(_line)
+        : _line.split(this._wordJoiners),
+      word = "",
+      offset = 0,
+      infix = splitByGrapheme ? "" : " ",
+      wordWidth = 0,
+      infixWidth = 0,
+      largestWordWidth = 0,
+      lineJustStarted = true,
+      additionalSpace = splitByGrapheme ? 0 : this._getWidthOfCharSpacing();
+
+    reservedSpace = reservedSpace || 0;
+    desiredWidth -= reservedSpace;
+    for (var i = 0; i < words.length; i++) {
+      // i would avoid resplitting the graphemes
+      word = fabric.util.string.graphemeSplit(words[i]);
+      wordWidth = this._measureWord(word, lineIndex, offset);
+      offset += word.length;
+
+      // Break the line if a word is wider than the set width
+      if (this.breakWords && wordWidth >= desiredWidth) {
+        if (!lineJustStarted) {
+          line.push(infix);
+          lineJustStarted = true;
+        }
+
+        // Loop through each character in word
+        for (var w = 0; w < word.length; w++) {
+          var letter = word[w];
+          var letterWidth =
+            (this.getMeasuringContext().measureText(letter).width *
+              this.fontSize) /
+            this.CACHE_FONT_SIZE;
+          if (lineWidth + letterWidth > desiredWidth) {
+            graphemeLines.push(line);
+            line = [];
+            lineWidth = 0;
+          } else {
+            line.push(letter);
+            lineWidth += letterWidth;
+          }
+        }
+        word = [];
+      } else {
+        lineWidth += infixWidth + wordWidth - additionalSpace;
+      }
+
+      if (lineWidth >= desiredWidth && !lineJustStarted) {
+        graphemeLines.push(line);
+        line = [];
+        lineWidth = wordWidth;
+        lineJustStarted = true;
+      } else {
+        lineWidth += additionalSpace;
+      }
+
+      if (!lineJustStarted) {
+        line.push(infix);
+      }
+      line = line.concat(word);
+
+      infixWidth = this._measureWord([infix], lineIndex, offset);
+      offset++;
+      lineJustStarted = false;
+      // keep track of largest word
+      if (wordWidth > largestWordWidth && !this.breakWords) {
+        largestWordWidth = wordWidth;
+      }
+    }
+
+    i && graphemeLines.push(line);
+
+    if (largestWordWidth + reservedSpace > this.dynamicMinWidth) {
+      this.dynamicMinWidth = largestWordWidth - additionalSpace + reservedSpace;
+    }
+
+    return graphemeLines;
+  };
+
+  const objectModifications = (
+    rotationIcon,
+    movementIcon,
+    mtbIcons,
+    mlrIcons,
+    cornerbtn,
+  ) => {
+    //  Render icons
+    function renderRotationIcon(ctx, left, top, styleOverride, fabricObject) {
+      var size = this.cornerSize;
+      ctx.save();
+      ctx.translate(left, top);
+      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+      ctx.drawImage(rotationIcon, -size / 2, -size / 2, size, size);
+      ctx.restore();
+    }
+    function renderMovementIcon(ctx, left, top, styleOverride, fabricObject) {
+      var size = this.cornerSize;
+      ctx.save();
+      ctx.translate(left, top);
+      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+      ctx.drawImage(movementIcon, -size / 2, -size / 2, size, size);
+      ctx.restore();
+    }
+    function rendermtb(ctx, left, top, styleOverride, fabricObject) {
+      var size = this.cornerSize;
+      ctx.save();
+      ctx.translate(left, top);
+      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+      ctx.drawImage(mtbIcons, -size / 2, -size / 2, size + 8, size - 3);
+      ctx.restore();
+    }
+    function rendermlr(ctx, left, top, styleOverride, fabricObject) {
+      var size = this.cornerSize;
+      ctx.save();
+      ctx.translate(left, top);
+      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+      ctx.drawImage(mlrIcons, -size / 2, -size / 2, size - 2, size + 7);
+      ctx.restore();
+    }
+    function cornerBtn(ctx, left, top, styleOverride, fabricObject) {
+      var size = this.cornerSize;
+      ctx.save();
+      ctx.translate(left, top);
+      ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+      ctx.drawImage(cornerbtn, -size / 2, -size / 2, size, size);
+      ctx.restore();
+    }
+
+    //  Setting of icons
+    // const bt = new fabric.Control({
+    //   x: 0.5,
+    //   y: -0.5,
+    //   offsetY: -30,
+    //   cursorStyle: "crosshair",
+    //   actionHandler: fabric.controlsUtils.scallingEqially,
+    //   actionName: "rotate",
+    //   render: renderRotationIcon,
+    //   cornerSize: 30,
+    //   withConnection: false,
+    // });
+    const mtr = new fabric.Control({
+      x: 0,
+      y: -0.5,
+      offsetY: -30,
+      cursorStyle: "crosshair",
+      actionHandler: fabric.controlsUtils.rotationWithSnapping,
+      actionName: "rotate",
+      render: renderRotationIcon,
+      cornerSize: 30,
+      withConnection: false,
+      sizeX: 30,
+      sizeY: 30,
+    });
+
+    const movement = new fabric.Control({
+      x: 0,
+      y: 0.9,
+      offsetY: 3.5,
+      cursorStyle: "crosshair",
+      actionHandler: fabric.controlsUtils.dragHandler,
+      actionName: "movement",
+      render: renderMovementIcon,
+      cornerSize: 28,
+      withConnection: false,
+      sizeX: 28,
+      sizeY: 28,
+    });
+
+    const mt = new fabric.Control({
+      x: -0.02,
+      y: -0.49,
+      offsetY: 0,
+      cursorStyle: "crosshair",
+      actionHandler: fabric.controlsUtils.scalingY,
+      actionName: "mt",
+      render: rendermtb,
+      cornerSize: 10,
+      withConnection: false,
+      sizeX: 20,
+      sizeY: 20,
+    });
+    const mb = new fabric.Control({
+      x: -0.02,
+      y: 0.52,
+      offsetY: 0,
+      cursorStyle: "crosshair",
+      actionHandler: fabric.controlsUtils.scalingY,
+      actionName: "mb",
+      render: rendermtb,
+      cornerSize: 10,
+      withConnection: false,
+      sizeX: 20,
+      sizeY: 20,
+    });
+    const ml = new fabric.Control({
+      x: -0.5,
+      y: -0.04,
+      offsetY: 0,
+      cursorStyle: "crosshair",
+      actionHandler: fabric.controlsUtils.scalingXOrSkewingY,
+      actionName: "ml",
+      render: rendermlr,
+      cornerSize: 10,
+      withConnection: false,
+      sizeX: 20,
+      sizeY: 20,
+    });
+    const mr = new fabric.Control({
+      x: 0.515,
+      y: -0.04,
+      offsetY: 0,
+      cursorStyle: "crosshair",
+      actionHandler: fabric.controlsUtils.scalingXOrSkewingY,
+      actionName: "mr",
+      render: rendermlr,
+      cornerSize: 10,
+      withConnection: false,
+      sizeX: 20,
+      sizeY: 20,
+    });
+
+    const mlTextbox = new fabric.Control({
+      x: -0.5,
+      y: -0.04,
+      offsetY: 0,
+      cursorStyle: "resizing",
+      actionHandler: fabric.controlsUtils.changeWidth,
+      actionName: "ml",
+      render: rendermlr,
+      cornerSize: 10,
+      withConnection: false,
+      sizeX: 20,
+      sizeY: 20,
+    });
+
+    const mrTextbox = new fabric.Control({
+      x: 0.515,
+      y: -0.04,
+      offsetY: 0,
+      cursorStyle: "crosshair",
+      actionHandler: fabric.controlsUtils.changeWidth,
+      actionName: "mr",
+      render: rendermlr,
+      cornerSize: 10,
+      withConnection: false,
+      sizeX: 20,
+      sizeY: 20,
+    });
+
+    console.log(fabric.Object.prototype.controls);
+    console.log(fabric.controlsUtils);
+    //  Attach icons
+    fabric.Object.prototype.controls.mtr = mtr;
+    fabric.Object.prototype.controls.mt = mt;
+    fabric.Object.prototype.controls.mb = mb;
+    fabric.Object.prototype.controls.ml = ml;
+    fabric.Object.prototype.controls.mr = mr;
+    fabric.Object.prototype.controls.movement = movement;
+    fabric.Object.prototype.transparentCorners = false;
+    fabric.Object.prototype.cornerColor = "white";
+    fabric.Object.prototype.cornerStrokeColor = "red";
+    fabric.Object.prototype.cornerStyle = "circle";
+    fabric.Object.prototype.cornerSize = "10";
+    fabric.Object.prototype.borderColor = "red";
+    fabric.Object.prototype.padding = "6";
+    fabric.Object.prototype.rotatingPointOffset = 1;
+
+    fabric.Textbox.prototype.controls.mtr = mtr;
+    fabric.Textbox.prototype.controls.mt = mt;
+    fabric.Textbox.prototype.controls.mb = mb;
+    fabric.Textbox.prototype.controls.ml = mlTextbox;
+    fabric.Textbox.prototype.controls.mr = mrTextbox;
+    fabric.Textbox.prototype.controls.movement = movement;
+    fabric.Textbox.prototype.transparentCorners = false;
+    fabric.Textbox.prototype.cornerColor = "white";
+    fabric.Textbox.prototype.cornerStrokeColor = "red";
+    fabric.Textbox.prototype.cornerStyle = "circle";
+    fabric.Textbox.prototype.cornerSize = "10";
+    fabric.Textbox.prototype.borderColor = "red";
+    fabric.Textbox.prototype.padding = "6";
+    fabric.Textbox.prototype.rotatingPointOffset = 1;
+  };
 
   // useEffect(() => {
   //   console.log(selectedObject);
