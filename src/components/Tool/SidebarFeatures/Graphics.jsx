@@ -1,7 +1,7 @@
 import { searchIcon } from "@/Consonats";
 import React from "react";
 
-function Graphics() {
+function Graphics({ addSvgLayer }) {
   const graphics = [
     <svg
       width="61"
@@ -4661,8 +4661,14 @@ function Graphics() {
           {searchIcon}
         </div>
         <div className="grid grid-cols-2 gap-2 gap-x-2.5 ">
-          {graphics.map((it) => (
-            <div className="flex-center min-h-[8rem] rounded-lg bg-darkLight">
+          {graphics.map((it, index) => (
+            <div
+              id={"svg-ele-" + index}
+              onClick={(e) => {
+                addSvgLayer(document.querySelector(`#svg-ele-${index}>svg`));
+              }}
+              className="flex-center min-h-[8rem] cursor-pointer rounded-lg bg-darkLight"
+            >
               {it}
             </div>
           ))}

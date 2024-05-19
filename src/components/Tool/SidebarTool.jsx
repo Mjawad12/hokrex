@@ -10,14 +10,15 @@ import Shapes from "./SidebarFeatures/Shapes";
 import Graphics from "./SidebarFeatures/Graphics";
 
 function SidebarTool({ sethidden, selected }) {
-  const { addText, addShapeLayer, addTextLayer } = useContext(ContextTool);
+  const { addText, addShapeLayer, addTextLayer, addSvgLayer } =
+    useContext(ContextTool);
   const SelectedProd = {
     Product: <Prod />,
     Layers: <Layers />,
     Color: <Color />,
     Text: <Text addText={addText} addTextLayer={addTextLayer} />,
     Shapes: <Shapes addShapeLayer={addShapeLayer} />,
-    Graphics: <Graphics />,
+    Graphics: <Graphics addSvgLayer={addSvgLayer} />,
   };
   return (
     <motion.div

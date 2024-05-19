@@ -128,6 +128,19 @@ function Mainstatetool({ children }) {
     }, 100);
   };
 
+  const addSvgLayer = (svg) => {
+    const svgSerializer = new XMLSerializer();
+    const svgText = svgSerializer.serializeToString(svg);
+    fabric.loadSVGFromString(svgText, (objects, options) => {
+      var object = fabric.util.groupSVGElements(objects, options);
+      object.set({ left: 495, top: 600 }).setCoords();
+      canvas.current.add(object);
+    });
+    setTimeout(() => {
+      printTexture();
+    }, 100);
+  };
+
   const UpdateText = useMemo(
     () =>
       (
@@ -225,20 +238,6 @@ function Mainstatetool({ children }) {
     fabric.util.object.extend(fabric.Textbox.prototype, {
       _wrapLine: _wrapLine,
     });
-    // fabric.Textbox.prototype.controls.mtr = mtr;
-    // fabric.Textbox.prototype.controls.mt = mt;
-    // fabric.Textbox.prototype.controls.mb = mb;
-    // fabric.Textbox.prototype.controls.ml = ml;
-    // fabric.Textbox.prototype.controls.mr = mr;
-    // fabric.Textbox.prototype.controls.movement = movement;
-    // fabric.Textbox.prototype.transparentCorners = false;
-    // fabric.Textbox.prototype.cornerColor = "white";
-    // fabric.Textbox.prototype.cornerStrokeColor = "red";
-    // fabric.Textbox.prototype.cornerStyle = "circle";
-    // fabric.Textbox.prototype.cornerSize = "10";
-    // fabric.Textbox.prototype.borderColor = "red";
-    // fabric.Textbox.prototype.padding = "6";
-    // fabric.Textbox.prototype.rotatingPointOffset = 1;
 
     const canva = new fabric.Canvas("can-text", {
       backgroundColor: "white",
@@ -534,7 +533,7 @@ function Mainstatetool({ children }) {
       render: rendermtb,
       cornerSize: 10,
       withConnection: false,
-      sizeX: 20,
+      sizeX: 25,
       sizeY: 20,
     });
     const mb = new fabric.Control({
@@ -547,7 +546,7 @@ function Mainstatetool({ children }) {
       render: rendermtb,
       cornerSize: 10,
       withConnection: false,
-      sizeX: 20,
+      sizeX: 25,
       sizeY: 20,
     });
     const ml = new fabric.Control({
@@ -619,6 +618,8 @@ function Mainstatetool({ children }) {
     fabric.Object.prototype.cornerStrokeColor = "red";
     fabric.Object.prototype.cornerStyle = "circle";
     fabric.Object.prototype.cornerSize = "10";
+    fabric.Object.prototype.sizeX = "12";
+    fabric.Object.prototype.sizeY = "12";
     fabric.Object.prototype.borderColor = "red";
     fabric.Object.prototype.padding = "6";
     fabric.Object.prototype.rotatingPointOffset = 1;
@@ -670,6 +671,7 @@ function Mainstatetool({ children }) {
         printTexture,
         changeColor,
         enableRotate,
+        addSvgLayer,
       }}
     >
       {children}
