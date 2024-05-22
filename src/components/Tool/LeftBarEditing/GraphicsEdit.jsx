@@ -1,129 +1,21 @@
-import { arrowDown, order, plus, textPositions } from "@/Consonats";
+import {
+  arrowDown,
+  flipX,
+  flipY,
+  order,
+  plus,
+  textPositions,
+} from "@/Consonats";
 
 import React, { useRef, useState } from "react";
 
-const ShapeEdit = ({
-  selectedShape,
-  setselectedShape,
+const GraphicsEdit = ({
+  selectedGraphic,
+  setselectedGraphic,
   setsmColor,
   smColor,
-  updateShape,
-  borderColor,
-  setborderColor,
+  updateGraphics,
 }) => {
-  const [borderWeight, setborderWeight] = useState(10);
-  const [borderType, setborderType] = useState("simple");
-  const slider = useRef(null);
-
-  const func = () => {
-    const val = slider.current?.value;
-    setborderWeight(val);
-    const percent = (val / slider.current?.max) * 100;
-    slider.current.style.background = `linear-gradient(to right , white ${
-      percent.toFixed(0) + "%"
-    } , #3F4A57 0%)`;
-    setselectedShape({
-      ...selectedShape,
-      strokeWidth: slider.current.value / 10,
-    });
-    updateShape(
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      slider.current.value / 10,
-    );
-  };
-  const borderTypes = [
-    {
-      name: "none",
-      svg: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z"
-            stroke="#BDC7D1"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15.3148 4.71582L4.71484 15.3242"
-            stroke="#BDC7D1"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "simple",
-      svg: (
-        <svg
-          width="32"
-          height="4"
-          viewBox="0 0 32 4"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M2 2H30"
-            stroke="white"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "dashed",
-      svg: (
-        <svg
-          width="32"
-          height="4"
-          viewBox="0 0 32 4"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M2 2H30"
-            stroke="#BDC7D1"
-            strokeWidth="3"
-            strokeLinecap="round"
-            stroke-dasharray="13 5"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "dotted",
-      svg: (
-        <svg
-          width="32"
-          height="4"
-          viewBox="0 0 32 4"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M2 2H30"
-            stroke="#BDC7D1"
-            strokeWidth="3"
-            strokeLinecap="round"
-            stroke-dasharray="1 6"
-          />
-        </svg>
-      ),
-    },
-  ];
-
   const ordeAndMove = ["Forward", "Backward", "To Front", "To Back"];
   const movement = [
     {
@@ -143,11 +35,11 @@ const ShapeEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedShape({
-          ...selectedShape,
-          top: selectedShape.top - 5,
+        setselectedGraphic({
+          ...selectedGraphic,
+          top: selectedGraphic.top - 5,
         });
-        updateShape(undefined, undefined, selectedShape.top - 5);
+        updateGraphics(selectedGraphic.top - 5);
       },
     },
     {
@@ -167,11 +59,11 @@ const ShapeEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedShape({
-          ...selectedShape,
-          top: selectedShape.top + 5,
+        setselectedGraphic({
+          ...selectedGraphic,
+          top: selectedGraphic.top + 5,
         });
-        updateShape(undefined, undefined, selectedShape.top + 5);
+        updateGraphics(selectedGraphic.top + 5);
       },
     },
     {
@@ -191,11 +83,11 @@ const ShapeEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedShape({
-          ...selectedShape,
-          left: selectedShape.left - 5,
+        setselectedGraphic({
+          ...selectedGraphic,
+          left: selectedGraphic.left - 5,
         });
-        updateShape(undefined, undefined, undefined, selectedShape.left - 5);
+        updateGraphics(undefined, selectedGraphic.left - 5);
       },
     },
     {
@@ -215,11 +107,11 @@ const ShapeEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedShape({
-          ...selectedShape,
-          left: selectedShape.left + 5,
+        setselectedGraphic({
+          ...selectedGraphic,
+          left: selectedGraphic.left + 5,
         });
-        updateShape(undefined, undefined, undefined, selectedShape.left + 5);
+        updateGraphics(undefined, selectedGraphic.left + 5);
       },
     },
   ];
@@ -228,14 +120,14 @@ const ShapeEdit = ({
       name: "Scale Up",
       svg: plus,
       clickfunc: function () {
-        setselectedShape({
-          ...selectedShape,
-          scaleX: selectedShape.scaleX + 0.1,
-          scaleY: selectedShape.scaleY + 0.1,
+        setselectedGraphic({
+          ...selectedGraphic,
+          scaleX: selectedGraphic.scaleX + 0.1,
+          scaleY: selectedGraphic.scaleY + 0.1,
         });
-        updateShape(undefined, {
-          scaleX: selectedShape.scaleX + 0.1,
-          scaleY: selectedShape.scaleY + 0.1,
+        updateGraphics(undefined, undefined, {
+          scaleX: selectedGraphic.scaleX + 0.1,
+          scaleY: selectedGraphic.scaleY + 0.1,
         });
       },
     },
@@ -259,14 +151,14 @@ const ShapeEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedShape({
-          ...selectedShape,
-          scaleX: selectedShape.scaleX - 0.1,
-          scaleY: selectedShape.scaleY - 0.1,
+        setselectedGraphic({
+          ...selectedGraphic,
+          scaleX: selectedGraphic.scaleX - 0.1,
+          scaleY: selectedGraphic.scaleY - 0.1,
         });
-        updateShape(undefined, {
-          scaleX: selectedShape.scaleX - 0.1,
-          scaleY: selectedShape.scaleY - 0.1,
+        updateGraphics(undefined, undefined, {
+          scaleX: selectedGraphic.scaleX - 0.1,
+          scaleY: selectedGraphic.scaleY - 0.1,
         });
       },
     },
@@ -297,17 +189,16 @@ const ShapeEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedShape({
-          ...selectedShape,
-          rotation: selectedShape.rotation + 5,
+        setselectedGraphic({
+          ...selectedGraphic,
+          rotation: selectedGraphic.rotation + 5,
         });
-        updateShape(
-          undefined,
+        updateGraphics(
           undefined,
           undefined,
           undefined,
 
-          selectedShape.rotation + 5,
+          selectedGraphic.rotation + 5,
         );
       },
     },
@@ -338,16 +229,15 @@ const ShapeEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedShape({
-          ...selectedShape,
-          rotation: selectedShape.rotation - 5,
+        setselectedGraphic({
+          ...selectedGraphic,
+          rotation: selectedGraphic.rotation - 5,
         });
-        updateShape(
+        updateGraphics(
           undefined,
           undefined,
           undefined,
-          undefined,
-          selectedShape.rotation - 5,
+          selectedGraphic.rotation - 5,
         );
       },
     },
@@ -363,83 +253,97 @@ const ShapeEdit = ({
 
   return (
     <div className="flex w-full flex-col gap-4 ">
-      {/* <input
-        onInput={(e) => {
-          setselectedShape({ ...selectedShape, text: e.target.value });
-          // addText(e.target.value);
-        }}
-        type="text"
-        className="flex-center w-full rounded-md border border-darkLight bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-        placeholder="Text here"
-        maxLength={30}
-        value={selectedShape.text}
-      /> */}
       <div className="flex flex-col gap-2.5">
         <p className="text-[14px] font-[700] text-textDark">Size</p>
         <div className="flex gap-1">
           <ShapeInput
             name={"Width"}
             func={(e) => {
-              setselectedShape({
-                ...selectedShape,
-                width: e.target.value,
-                scaleX: e.target.value / 30,
+              setselectedGraphic({
+                ...selectedGraphic,
+                width: +e.target.value,
+                scaleX: +e.target.value / 30,
               });
-              updateShape(undefined, {
-                scaleX: e.target.value / 30,
-                scaleY: +selectedShape.scaleY,
+              updateGraphics(undefined, undefined, {
+                scaleX: +e.target.value / 30,
+                scaleY: selectedGraphic.scaleY,
               });
             }}
-            value={parseInt(selectedShape.scaleX * 30)}
+            value={parseInt(selectedGraphic.scaleX * 30)}
           />
           <ShapeInput
             name={"Height"}
             func={(e) => {
-              setselectedShape({
-                ...selectedShape,
-                height: e.target.value,
-                scaleY: e.target.value / 30,
+              setselectedGraphic({
+                ...selectedGraphic,
+                height: +e.target.value,
+                scaleY: +e.target.value / 30,
               });
-              updateShape(undefined, {
-                scaleX: selectedShape.scaleX,
+              updateGraphics(undefined, undefined, {
+                scaleX: selectedGraphic.scaleX,
                 scaleY: +e.target.value / 30,
               });
             }}
-            value={parseInt(selectedShape.scaleY * 30)}
+            value={parseInt(selectedGraphic.scaleY * 30)}
           />
           <ShapeInput
             name={"Rotation"}
             func={(e) => {
-              setselectedShape({ ...selectedShape, rotation: e.target.value });
-              updateShape(
-                undefined,
-                undefined,
-                undefined,
-                undefined,
-                +e.target.value,
-              );
+              setselectedGraphic({
+                ...selectedGraphic,
+                rotation: +e.target.value,
+              });
+              updateGraphics(undefined, undefined, undefined, e.target.value);
             }}
-            value={selectedShape.rotation.toString()}
+            value={selectedGraphic.rotation.toString()}
             fixed={true}
           />
           <ShapeInput
             name={"Scale"}
             func={(e) => {
-              setselectedShape({
-                ...selectedShape,
+              setselectedGraphic({
+                ...selectedGraphic,
                 scaleX: +e.target.value,
                 scaleY: +e.target.value,
               });
-              updateShape(undefined, {
+              updateGraphics(undefined, undefined, {
                 scaleX: +e.target.value,
                 scaleY: +e.target.value,
               });
             }}
-            value={selectedShape.scaleX.toString()}
+            value={selectedGraphic.scaleX.toString()}
             fixed={true}
           />
         </div>
       </div>
+
+      <div className="flex w-full flex-col gap-2.5 ">
+        <p className="text-[15px] font-[700] text-textDark">Edition</p>
+        <div className="flex-center w-max flex-col gap-2">
+          <div className="flex w-[6rem] overflow-hidden rounded-lg">
+            <TextBtn
+              svg={flipX}
+              clickfunc={() => {
+                updateGraphics(undefined, undefined, {
+                  scaleX: selectedGraphic.scaleX * -1,
+                  scaleY: selectedGraphic.scaleY,
+                });
+              }}
+            />
+            <TextBtn
+              svg={flipY}
+              clickfunc={() => {
+                updateGraphics(undefined, undefined, {
+                  scaleX: selectedGraphic.scaleX,
+                  scaleY: selectedGraphic.scaleY * -1,
+                });
+              }}
+            />
+          </div>
+          <p className="whitespace-nowrap text-[12px]  text-textLight ">Flip</p>
+        </div>
+      </div>
+
       <div className="flex flex-col gap-2.5">
         <p className="text-[14px] font-[700] text-textDark">POSITION</p>
         <div className="flex gap-3">
@@ -450,11 +354,11 @@ const ShapeEdit = ({
                 name={it.name}
                 svg={it.svg}
                 func={() => {
-                  setselectedShape({
-                    ...selectedShape,
+                  setselectedGraphic({
+                    ...selectedGraphic,
                     position: [
                       endLineShirt[it.name],
-                      selectedShape.position[1],
+                      selectedGraphic.position[1],
                       0.1,
                     ],
                   });
@@ -469,10 +373,10 @@ const ShapeEdit = ({
                 name={it.name}
                 svg={it.svg}
                 func={() => {
-                  setselectedShape({
-                    ...selectedShape,
+                  setselectedGraphic({
+                    ...selectedGraphic,
                     position: [
-                      selectedShape.position[0],
+                      selectedGraphic.position[0],
                       endLineShirt[it.name],
                       0.1,
                     ],
@@ -516,135 +420,10 @@ const ShapeEdit = ({
       <div className="flex w-full flex-col gap-2.5 ">
         <p className="text-[15px] font-[700] text-textDark">Color</p>
         <div
-          style={{ background: selectedShape.fill }}
+          style={{ background: selectedGraphic.fill }}
           onClick={() => setsmColor(!smColor)}
           className={`relative z-50 h-9  w-9 cursor-pointer rounded-full  border border-textDark `}
         ></div>
-      </div>
-      <div className="flex w-full flex-col gap-2.5 ">
-        <p className="text-[15px] font-[700] text-textDark">Border</p>
-        <div className="flex items-center justify-start gap-4">
-          <div
-            style={{ background: selectedShape.stroke }}
-            onClick={() => setborderColor(!borderColor)}
-            className={`relative z-50 h-9  w-9 cursor-pointer rounded-full border border-textDark`}
-          ></div>
-          <div className="flex w-[65%] flex-col  gap-1">
-            <p className="text-[12px] text-textLight">Border weight</p>
-            <input
-              type="range"
-              min={0}
-              max={100}
-              defaultValue={10}
-              id="cs12-Sli-tool"
-              ref={slider}
-              onInput={func}
-            />
-          </div>
-          <span className="mt-5 text-[13px] font-[600] text-[#D9DBDD]">
-            {borderWeight}%
-          </span>
-        </div>
-        <div className="mt-1 flex overflow-hidden rounded-lg">
-          {borderTypes.map((it) => {
-            return (
-              <div className="flex-center w-full flex-col gap-2 border border-darkMid">
-                <span
-                  onClick={() => {
-                    setborderType(it.name);
-                    switch (it.name) {
-                      case "none":
-                        setselectedShape({
-                          ...selectedShape,
-                          noneStroke: true,
-                          dashed: false,
-                          dotted: false,
-                        });
-                        updateShape(
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          false,
-                          false,
-                          true,
-                        );
-                        break;
-                      case "simple":
-                        setselectedShape({
-                          ...selectedShape,
-                          noneStroke: false,
-                          dashed: false,
-                          dotted: false,
-                        });
-                        updateShape(
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          false,
-                          false,
-                          false,
-                        );
-                        break;
-
-                      case "dashed":
-                        setselectedShape({
-                          ...selectedShape,
-                          noneStroke: false,
-                          dashed: true,
-                          dotted: false,
-                        });
-                        updateShape(
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          true,
-                          false,
-                          false,
-                        );
-                        break;
-
-                      case "dotted":
-                        setselectedShape({
-                          ...selectedShape,
-                          noneStroke: false,
-                          dashed: false,
-                          dotted: true,
-                        });
-                        updateShape(
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          false,
-                          true,
-                          false,
-                        );
-                        break;
-                    }
-                  }}
-                  className={`flex-center h-8 w-full cursor-pointer ${borderType === it.name ? "bg-darkHover" : "bg-darkLight"} px-3 hover:bg-darkHover [&_*]:stroke-textLight`}
-                >
-                  {it.svg}
-                </span>
-              </div>
-            );
-          })}
-        </div>
       </div>
     </div>
   );
@@ -673,7 +452,9 @@ const TextBtn = ({ name, svg, clickfunc }) => {
       >
         {svg}
       </span>
-      <p className="whitespace-nowrap text-[12px] text-textLight">{name}</p>
+      {name && (
+        <p className="whitespace-nowrap text-[12px] text-textLight">{name}</p>
+      )}
     </div>
   );
 };
@@ -757,4 +538,4 @@ const ShapeInput = ({ name, func, value, fixed }) => {
   );
 };
 
-export default ShapeEdit;
+export default GraphicsEdit;

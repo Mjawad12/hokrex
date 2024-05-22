@@ -42,8 +42,8 @@ function Mainstatetool({ children }) {
     strokeWidth: "1",
     width: 80,
     height: 80,
-    top: 637,
-    left: 542,
+    top: 652,
+    left: 527,
     scaleX: 1,
     scaleY: 1,
     rotation: 0,
@@ -52,8 +52,18 @@ function Mainstatetool({ children }) {
     dotted: false,
     noneStroke: false,
   });
+  const [selectedGraphic, setselectedGraphic] = useState({
+    width: 80,
+    height: 80,
+    left: 495,
+    top: 600,
+    scaleX: 1,
+    scaleY: 1,
+    rotation: 0,
+    type: "graphics",
+  });
+
   const [currentModelColor, setcurrentModelColor] = useState("#fffff");
-  const [alpha, setalpha] = useState("1");
   const [layerState, layerChange] = useReducer(reducer, {
     Front: {
       name: "Front",
@@ -66,10 +76,8 @@ function Mainstatetool({ children }) {
     Coular: { name: "Coular", layers: [], color: "#fffff" },
   });
   const [texture, settexture] = useState(null);
-  const [shapeTexture, setshapeTexture] = useState(null);
   const [canvasOffset, setcanvasOffset] = useState(false);
   const [selectedObject, setselectedObject] = useState(null);
-  const [enableRotate, setenableRotate] = useState(false);
 
   let canvas = useRef(null);
 
@@ -133,7 +141,9 @@ function Mainstatetool({ children }) {
     const svgText = svgSerializer.serializeToString(svg);
     fabric.loadSVGFromString(svgText, (objects, options) => {
       var object = fabric.util.groupSVGElements(objects, options);
-      object.set({ left: 495, top: 600 }).setCoords();
+      object
+        .set({ left: 495, top: 600, type: "graphics", width: 80, height: 80 })
+        .setCoords();
       canvas.current.add(object);
     });
     setTimeout(() => {
@@ -217,6 +227,24 @@ function Mainstatetool({ children }) {
     }
   };
 
+  const updateGraphics = (
+    top = selectedGraphic.top,
+    left = selectedGraphic.left,
+    scale = { scaleX: selectedGraphic.scaleX, scaleY: selectedGraphic.scaleY },
+    rotation = selectedGraphic.rotation,
+  ) => {
+    if (canvas.current.getActiveObject()) {
+      console.log(scale);
+      canvas.current.getActiveObject().set("top", top);
+      canvas.current.getActiveObject().set("left", left);
+      canvas.current.getActiveObject().set("scaleX", scale.scaleX);
+      canvas.current.getActiveObject().set("scaleY", scale.scaleY);
+      canvas.current.getActiveObject().set("angle", rotation);
+      canvas.current.renderAll();
+      console.log(canvas.current.getActiveObject());
+    }
+  };
+
   const initCanvas = () => {
     const rotationIcon = document.createElement("img");
     rotationIcon.src = process.env.NEXT_PUBLIC_URL + "/rotationicon.png";
@@ -282,6 +310,17 @@ function Mainstatetool({ children }) {
             dashed: e.target.dashed,
             dotted: e.target.dotted,
             noneStroke: e.target.noneStroke,
+          });
+          break;
+        case "graphics":
+          setselectedGraphic({
+            width: e.target.width,
+            height: e.target.height,
+            left: e.target.left,
+            top: e.target.top,
+            scaleX: e.target.scaleX,
+            scaleY: e.target.scaleY,
+            rotation: e.target.angle,
           });
           break;
       }
@@ -651,14 +690,11 @@ function Mainstatetool({ children }) {
         layerChange,
         currentModelColor,
         setcurrentModelColor,
-        alpha,
-        setalpha,
         UpdateText,
         texture,
         settexture,
         setselectedText,
         selectedText,
-        shapeTexture,
         selectedShape,
         setselectedShape,
         canvas: canvas.current,
@@ -670,8 +706,10 @@ function Mainstatetool({ children }) {
         texture,
         printTexture,
         changeColor,
-        enableRotate,
         addSvgLayer,
+        selectedGraphic,
+        setselectedGraphic,
+        updateGraphics,
       }}
     >
       {children}

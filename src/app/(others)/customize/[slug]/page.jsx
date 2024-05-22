@@ -19,17 +19,6 @@ function page() {
   const [smColor, setsmColor] = useState(false);
   const [borderColor, setborderColor] = useState(false);
 
-  // useEffect(() => {
-  //   console.log("easd");
-  //   if (smColor) {
-  //     setborderColor(false);
-  //   } else if (borderColor) {
-  //     setsmColor(false);
-  //   } else if(!smColor){
-
-  //   }
-  // }, [borderColor, smColor]);
-
   return (
     <>
       <div className="min-h-screen w-full">

@@ -2021,6 +2021,45 @@ const shapes = [
   },
 ];
 
+const flipY = (
+  <svg
+    width="18"
+    height="15"
+    viewBox="0 0 18 15"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M0.75 1.09235L13.9635 6.17878L0.75 6.17823L0.75 1.09235Z"
+      stroke="#BDC7D1"
+      stroke-width="1.5"
+    />
+    <path
+      d="M15.4886 8.96747C16.0058 8.76838 15.8632 8.00083 15.309 8.00085L0.499979 8.00146C0.223845 8.00147 2.93057e-07 8.22533 2.80987e-07 8.50146L3.18322e-08 14.2015C1.64917e-08 14.5524 0.3521 14.7941 0.679623 14.6681L15.4886 8.96747Z"
+      fill="#BDC7D1"
+    />
+  </svg>
+);
+const flipX = (
+  <svg
+    width="15"
+    height="18"
+    viewBox="0 0 15 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1.09235 17.25L6.17878 4.0365L6.17823 17.25H1.09235Z"
+      stroke="#BDC7D1"
+      stroke-width="1.5"
+    />
+    <path
+      d="M8.96747 2.51137C8.76838 1.99416 8.00083 2.13681 8.00085 2.69102L8.00146 17.5C8.00147 17.7762 8.22533 18 8.50146 18H14.2015C14.5524 18 14.7941 17.6479 14.6681 17.3204L8.96747 2.51137Z"
+      fill="#BDC7D1"
+    />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -2067,4 +2106,6 @@ export {
   underline,
   shapes,
   nullColor,
+  flipX,
+  flipY,
 };

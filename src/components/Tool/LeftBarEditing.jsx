@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 import TextEdit from "./LeftBarEditing/TextEdit";
 import ShapeEdit from "./LeftBarEditing/ShapeEdit";
+import GraphicsEdit from "./LeftBarEditing/GraphicsEdit";
 
 function LeftBarEditing({
   selected,
@@ -14,10 +15,13 @@ function LeftBarEditing({
   const {
     UpdateText,
     updateShape,
+    updateGraphics,
     selectedText,
     setselectedText,
     selectedShape,
     setselectedShape,
+    selectedGraphic,
+    setselectedGraphic,
   } = useContext(ContextTool);
   const editers = {
     Text: [
@@ -40,6 +44,14 @@ function LeftBarEditing({
         setsmColor={setsmColor}
         setborderColor={setborderColor}
         borderColor={borderColor}
+      />,
+    ],
+    Graphics: [
+      "Graphics Edit",
+      <GraphicsEdit
+        updateGraphics={updateGraphics}
+        selectedGraphic={selectedGraphic}
+        setselectedGraphic={setselectedGraphic}
       />,
     ],
   };
