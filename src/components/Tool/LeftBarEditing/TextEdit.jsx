@@ -10,6 +10,7 @@ import {
 } from "@/Consonats";
 import { motion, useAnimate } from "framer-motion";
 import React, { useState } from "react";
+import OrderAndMove from "../OrderAndMove";
 
 const TextEdit = ({
   UpdateText,
@@ -388,34 +389,11 @@ const TextEdit = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-2.5">
-        <p className="text-[15px] font-[700] text-textDark">ORDER AND MOVE</p>
-        <div className="flex ">
-          {ordeAndMove.map((it, index) => (
-            <TextBtn name={it} key={index} svg={order} />
-          ))}
-        </div>
-        <div className="flex ">
-          {movement.map((it, index) => (
-            <TextBtn
-              name={it.name}
-              key={index}
-              svg={it.svg}
-              clickfunc={it.clickfunc}
-            />
-          ))}
-        </div>
-        <div className="flex ">
-          {sEdit.map((it, index) => (
-            <TextBtn
-              name={it.name}
-              key={index}
-              svg={it.svg}
-              clickfunc={it.clickfunc}
-            />
-          ))}
-        </div>
-      </div>
+      <OrderAndMove
+        movement={movement}
+        ordeAndMove={ordeAndMove}
+        sEdit={sEdit}
+      />
 
       <div className="flex flex-col gap-2.5">
         <p className="text-[15px] font-[700] text-textDark">Fonts</p>

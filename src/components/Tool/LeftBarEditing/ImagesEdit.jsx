@@ -7,14 +7,10 @@ import {
   textPositions,
 } from "@/Consonats";
 
-import React, { useRef, useState } from "react";
+import React from "react";
 import OrderAndMove, { EditInput, TextAlign, TextBtn } from "../OrderAndMove";
 
-const GraphicsEdit = ({
-  selectedGraphic,
-  setselectedGraphic,
-  updateGraphics,
-}) => {
+const ImageEdit = ({ selectedImage, setselectedImage, updateImage }) => {
   const ordeAndMove = ["Forward", "Backward", "To Front", "To Back"];
   const movement = [
     {
@@ -34,11 +30,11 @@ const GraphicsEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedGraphic({
-          ...selectedGraphic,
-          top: selectedGraphic.top - 5,
+        setselectedImage({
+          ...selectedImage,
+          top: selectedImage.top - 5,
         });
-        updateGraphics(selectedGraphic.top - 5);
+        updateImage(selectedImage.top - 5);
       },
     },
     {
@@ -58,11 +54,11 @@ const GraphicsEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedGraphic({
-          ...selectedGraphic,
-          top: selectedGraphic.top + 5,
+        setselectedImage({
+          ...selectedImage,
+          top: selectedImage.top + 5,
         });
-        updateGraphics(selectedGraphic.top + 5);
+        updateImage(selectedImage.top + 5);
       },
     },
     {
@@ -82,11 +78,11 @@ const GraphicsEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedGraphic({
-          ...selectedGraphic,
-          left: selectedGraphic.left - 5,
+        setselectedImage({
+          ...selectedImage,
+          left: selectedImage.left - 5,
         });
-        updateGraphics(undefined, selectedGraphic.left - 5);
+        updateImage(undefined, selectedImage.left - 5);
       },
     },
     {
@@ -106,11 +102,11 @@ const GraphicsEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedGraphic({
-          ...selectedGraphic,
-          left: selectedGraphic.left + 5,
+        setselectedImage({
+          ...selectedImage,
+          left: selectedImage.left + 5,
         });
-        updateGraphics(undefined, selectedGraphic.left + 5);
+        updateImage(undefined, selectedImage.left + 5);
       },
     },
   ];
@@ -119,14 +115,14 @@ const GraphicsEdit = ({
       name: "Scale Up",
       svg: plus,
       clickfunc: function () {
-        setselectedGraphic({
-          ...selectedGraphic,
-          scaleX: selectedGraphic.scaleX + 0.1,
-          scaleY: selectedGraphic.scaleY + 0.1,
+        setselectedImage({
+          ...selectedImage,
+          scaleX: selectedImage.scaleX + 0.1,
+          scaleY: selectedImage.scaleY + 0.1,
         });
-        updateGraphics(undefined, undefined, {
-          scaleX: selectedGraphic.scaleX + 0.1,
-          scaleY: selectedGraphic.scaleY + 0.1,
+        updateImage(undefined, undefined, {
+          scaleX: selectedImage.scaleX + 0.1,
+          scaleY: selectedImage.scaleY + 0.1,
         });
       },
     },
@@ -150,14 +146,14 @@ const GraphicsEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedGraphic({
-          ...selectedGraphic,
-          scaleX: selectedGraphic.scaleX - 0.1,
-          scaleY: selectedGraphic.scaleY - 0.1,
+        setselectedImage({
+          ...selectedImage,
+          scaleX: selectedImage.scaleX - 0.1,
+          scaleY: selectedImage.scaleY - 0.1,
         });
-        updateGraphics(undefined, undefined, {
-          scaleX: selectedGraphic.scaleX - 0.1,
-          scaleY: selectedGraphic.scaleY - 0.1,
+        updateImage(undefined, undefined, {
+          scaleX: selectedImage.scaleX - 0.1,
+          scaleY: selectedImage.scaleY - 0.1,
         });
       },
     },
@@ -188,16 +184,16 @@ const GraphicsEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedGraphic({
-          ...selectedGraphic,
-          rotation: selectedGraphic.rotation + 5,
+        setselectedImage({
+          ...selectedImage,
+          rotation: selectedImage.rotation + 5,
         });
-        updateGraphics(
+        updateImage(
           undefined,
           undefined,
           undefined,
 
-          selectedGraphic.rotation + 5,
+          selectedImage.rotation + 5,
         );
       },
     },
@@ -228,15 +224,15 @@ const GraphicsEdit = ({
         </svg>
       ),
       clickfunc: function () {
-        setselectedGraphic({
-          ...selectedGraphic,
-          rotation: selectedGraphic.rotation - 5,
+        setselectedImage({
+          ...selectedImage,
+          rotation: selectedImage.rotation - 5,
         });
-        updateGraphics(
+        updateImage(
           undefined,
           undefined,
           undefined,
-          selectedGraphic.rotation - 5,
+          selectedImage.rotation - 5,
         );
       },
     },
@@ -258,59 +254,59 @@ const GraphicsEdit = ({
           <EditInput
             name={"Width"}
             func={(e) => {
-              setselectedGraphic({
-                ...selectedGraphic,
+              setselectedImage({
+                ...selectedImage,
                 width: +e.target.value,
                 scaleX: +e.target.value / 30,
               });
-              updateGraphics(undefined, undefined, {
+              updateImage(undefined, undefined, {
                 scaleX: +e.target.value / 30,
-                scaleY: selectedGraphic.scaleY,
+                scaleY: selectedImage.scaleY,
               });
             }}
-            value={parseInt(selectedGraphic.scaleX * 30)}
+            value={parseInt(selectedImage.scaleX * 30)}
           />
           <EditInput
             name={"Height"}
             func={(e) => {
-              setselectedGraphic({
-                ...selectedGraphic,
+              setselectedImage({
+                ...selectedImage,
                 height: +e.target.value,
                 scaleY: +e.target.value / 30,
               });
-              updateGraphics(undefined, undefined, {
-                scaleX: selectedGraphic.scaleX,
+              updateImage(undefined, undefined, {
+                scaleX: selectedImage.scaleX,
                 scaleY: +e.target.value / 30,
               });
             }}
-            value={parseInt(selectedGraphic.scaleY * 30)}
+            value={parseInt(selectedImage.scaleY * 30)}
           />
           <EditInput
             name={"Rotation"}
             func={(e) => {
-              setselectedGraphic({
-                ...selectedGraphic,
+              setselectedImage({
+                ...selectedImage,
                 rotation: +e.target.value,
               });
-              updateGraphics(undefined, undefined, undefined, e.target.value);
+              updateImage(undefined, undefined, undefined, e.target.value);
             }}
-            value={selectedGraphic.rotation.toString()}
+            value={selectedImage.rotation.toString()}
             fixed={true}
           />
           <EditInput
             name={"Scale"}
             func={(e) => {
-              setselectedGraphic({
-                ...selectedGraphic,
+              setselectedImage({
+                ...selectedImage,
                 scaleX: +e.target.value,
                 scaleY: +e.target.value,
               });
-              updateGraphics(undefined, undefined, {
+              updateImage(undefined, undefined, {
                 scaleX: +e.target.value,
                 scaleY: +e.target.value,
               });
             }}
-            value={selectedGraphic.scaleX.toString()}
+            value={selectedImage.scaleX.toString()}
             fixed={true}
           />
         </div>
@@ -323,18 +319,18 @@ const GraphicsEdit = ({
             <TextBtn
               svg={flipX}
               clickfunc={() => {
-                updateGraphics(undefined, undefined, {
-                  scaleX: selectedGraphic.scaleX * -1,
-                  scaleY: selectedGraphic.scaleY,
+                updateImage(undefined, undefined, {
+                  scaleX: selectedImage.scaleX * -1,
+                  scaleY: selectedImage.scaleY,
                 });
               }}
             />
             <TextBtn
               svg={flipY}
               clickfunc={() => {
-                updateGraphics(undefined, undefined, {
-                  scaleX: selectedGraphic.scaleX,
-                  scaleY: selectedGraphic.scaleY * -1,
+                updateImage(undefined, undefined, {
+                  scaleX: selectedImage.scaleX,
+                  scaleY: selectedImage.scaleY * -1,
                 });
               }}
             />
@@ -353,11 +349,11 @@ const GraphicsEdit = ({
                 name={it.name}
                 svg={it.svg}
                 func={() => {
-                  setselectedGraphic({
-                    ...selectedGraphic,
+                  setselectedImage({
+                    ...selectedImage,
                     position: [
                       endLineShirt[it.name],
-                      selectedGraphic.position[1],
+                      selectedImage.position[1],
                       0.1,
                     ],
                   });
@@ -372,10 +368,10 @@ const GraphicsEdit = ({
                 name={it.name}
                 svg={it.svg}
                 func={() => {
-                  setselectedGraphic({
-                    ...selectedGraphic,
+                  setselectedImage({
+                    ...selectedImage,
                     position: [
-                      selectedGraphic.position[0],
+                      selectedImage.position[0],
                       endLineShirt[it.name],
                       0.1,
                     ],
@@ -388,20 +384,12 @@ const GraphicsEdit = ({
       </div>
 
       <OrderAndMove
-        movement={movement}
         ordeAndMove={ordeAndMove}
+        movement={movement}
         sEdit={sEdit}
       />
-      <div className="flex w-full flex-col gap-2.5 ">
-        <p className="text-[15px] font-[700] text-textDark">Color</p>
-        <div
-          style={{ background: selectedGraphic.fill }}
-          onClick={() => setsmColor(!smColor)}
-          className={`relative z-50 h-9  w-9 cursor-pointer rounded-full  border border-textDark `}
-        ></div>
-      </div>
     </div>
   );
 };
 
-export default GraphicsEdit;
+export default ImageEdit;

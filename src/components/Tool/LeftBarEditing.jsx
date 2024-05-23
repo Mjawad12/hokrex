@@ -4,6 +4,7 @@ import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 import TextEdit from "./LeftBarEditing/TextEdit";
 import ShapeEdit from "./LeftBarEditing/ShapeEdit";
 import GraphicsEdit from "./LeftBarEditing/GraphicsEdit";
+import ImagesEdit from "./LeftBarEditing/ImagesEdit";
 
 function LeftBarEditing({
   selected,
@@ -16,12 +17,15 @@ function LeftBarEditing({
     UpdateText,
     updateShape,
     updateGraphics,
+    updateImage,
     selectedText,
     setselectedText,
     selectedShape,
     setselectedShape,
     selectedGraphic,
     setselectedGraphic,
+    setselectedImage,
+    selectedImage,
   } = useContext(ContextTool);
   const editers = {
     Text: [
@@ -52,6 +56,14 @@ function LeftBarEditing({
         updateGraphics={updateGraphics}
         selectedGraphic={selectedGraphic}
         setselectedGraphic={setselectedGraphic}
+      />,
+    ],
+    Images: [
+      "Images Edit",
+      <ImagesEdit
+        updateImage={updateImage}
+        selectedImage={selectedImage}
+        setselectedImage={setselectedImage}
       />,
     ],
   };

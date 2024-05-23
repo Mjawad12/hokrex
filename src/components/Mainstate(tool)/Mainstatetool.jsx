@@ -62,7 +62,14 @@ function Mainstatetool({ children }) {
     rotation: 0,
     type: "graphics",
   });
-
+  const [selectedImage, setselectedImage] = useState({
+    left: 495,
+    top: 600,
+    scaleX: 0.346452328159645,
+    scaleY: 0.346452328159645,
+    rotation: 0,
+    type: "image",
+  });
   const [currentModelColor, setcurrentModelColor] = useState("#fffff");
   const [layerState, layerChange] = useReducer(reducer, {
     Front: {
@@ -151,6 +158,20 @@ function Mainstatetool({ children }) {
     }, 100);
   };
 
+  const addImageLayer = (image) => {
+    const imageItem = new fabric.Image(image, {
+      left: 495,
+      top: 600,
+    });
+    imageItem.scaleToWidth(150);
+    imageItem.scaleToHeight(150);
+    canvas.current.add(imageItem);
+    canvas.current.renderAll();
+    setTimeout(() => {
+      printTexture();
+    }, 100);
+  };
+
   const UpdateText = useMemo(
     () =>
       (
@@ -234,7 +255,23 @@ function Mainstatetool({ children }) {
     rotation = selectedGraphic.rotation,
   ) => {
     if (canvas.current.getActiveObject()) {
-      console.log(scale);
+      canvas.current.getActiveObject().set("top", top);
+      canvas.current.getActiveObject().set("left", left);
+      canvas.current.getActiveObject().set("scaleX", scale.scaleX);
+      canvas.current.getActiveObject().set("scaleY", scale.scaleY);
+      canvas.current.getActiveObject().set("angle", rotation);
+      canvas.current.renderAll();
+      console.log(canvas.current.getActiveObject());
+    }
+  };
+
+  const updateImage = (
+    top = selectedImage.top,
+    left = selectedImage.left,
+    scale = { scaleX: selectedImage.scaleX, scaleY: selectedImage.scaleY },
+    rotation = selectedImage.rotation,
+  ) => {
+    if (canvas.current.getActiveObject()) {
       canvas.current.getActiveObject().set("top", top);
       canvas.current.getActiveObject().set("left", left);
       canvas.current.getActiveObject().set("scaleX", scale.scaleX);
@@ -274,6 +311,7 @@ function Mainstatetool({ children }) {
     });
 
     canva.on("object:modified", (e) => {
+      console.log(e.target);
       switch (e.target.type) {
         case "text":
           setselectedText({
@@ -316,6 +354,15 @@ function Mainstatetool({ children }) {
           setselectedGraphic({
             width: e.target.width,
             height: e.target.height,
+            left: e.target.left,
+            top: e.target.top,
+            scaleX: e.target.scaleX,
+            scaleY: e.target.scaleY,
+            rotation: e.target.angle,
+          });
+          break;
+        case "image":
+          setselectedImage({
             left: e.target.left,
             top: e.target.top,
             scaleX: e.target.scaleX,
@@ -710,6 +757,10 @@ function Mainstatetool({ children }) {
         selectedGraphic,
         setselectedGraphic,
         updateGraphics,
+        addImageLayer,
+        updateImage,
+        selectedImage,
+        setselectedImage,
       }}
     >
       {children}

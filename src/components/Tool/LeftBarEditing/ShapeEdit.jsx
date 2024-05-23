@@ -1,6 +1,7 @@
 import { arrowDown, order, plus, textPositions } from "@/Consonats";
 
 import React, { useRef, useState } from "react";
+import { EditInput, TextAlign, TextBtn } from "../OrderAndMove";
 
 const ShapeEdit = ({
   selectedShape,
@@ -377,7 +378,7 @@ const ShapeEdit = ({
       <div className="flex flex-col gap-2.5">
         <p className="text-[14px] font-[700] text-textDark">Size</p>
         <div className="flex gap-1">
-          <ShapeInput
+          <EditInput
             name={"Width"}
             func={(e) => {
               setselectedShape({
@@ -392,7 +393,7 @@ const ShapeEdit = ({
             }}
             value={parseInt(selectedShape.scaleX * 30)}
           />
-          <ShapeInput
+          <EditInput
             name={"Height"}
             func={(e) => {
               setselectedShape({
@@ -407,7 +408,7 @@ const ShapeEdit = ({
             }}
             value={parseInt(selectedShape.scaleY * 30)}
           />
-          <ShapeInput
+          <EditInput
             name={"Rotation"}
             func={(e) => {
               setselectedShape({ ...selectedShape, rotation: e.target.value });
@@ -422,7 +423,7 @@ const ShapeEdit = ({
             value={selectedShape.rotation.toString()}
             fixed={true}
           />
-          <ShapeInput
+          <EditInput
             name={"Scale"}
             func={(e) => {
               setselectedShape({
@@ -646,113 +647,6 @@ const ShapeEdit = ({
           })}
         </div>
       </div>
-    </div>
-  );
-};
-
-const TextAlign = ({ svg, name, func }) => {
-  return (
-    <div className="flex-center flex-col gap-2 border border-darkMid ">
-      <span
-        onClick={func}
-        className="flex-center h-8 cursor-pointer bg-darkLight px-3 hover:bg-darkHover "
-      >
-        {svg}
-      </span>
-      <p className="text-[12px] text-textLight">{name}</p>
-    </div>
-  );
-};
-
-const TextBtn = ({ name, svg, clickfunc }) => {
-  return (
-    <div className="flex-center w-full flex-col gap-2 border border-darkMid ">
-      <span
-        onClick={clickfunc}
-        className="flex-center h-8 w-full cursor-pointer bg-darkLight px-3 hover:bg-darkHover [&_*]:stroke-textLight"
-      >
-        {svg}
-      </span>
-      <p className="whitespace-nowrap text-[12px] text-textLight">{name}</p>
-    </div>
-  );
-};
-
-const DropDown = ({
-  data,
-  selectedOption,
-  setselectedOption,
-  overflow,
-  weight,
-  // addText,
-}) => {
-  const [show, setshow] = useState(false);
-  const weightData = {
-    Light: "0",
-    Regular: "2",
-    Medium: "3",
-    Semibold: "4",
-    Bold: "5",
-    Extrabold: "6",
-  };
-  const changeSelected = (val) => {
-    if (weight) {
-      setselectedOption((e) => {
-        return { ...e, fontWeight: weightData[val.target.innerText] };
-      });
-      // addText(undefined, undefined, weightData[val.target.innerText]);
-    } else {
-      setselectedOption((e) => {
-        return { ...e, fontFamily: val.target.innerText };
-      });
-      // addText(undefined, val.target.innerText);
-    }
-  };
-  return (
-    <div
-      onClick={() => setshow(!show)}
-      className="[&_svg]:strokeWhite relative flex h-[3rem] w-full cursor-pointer items-center justify-between rounded-md bg-fullDark px-3 pr-4 transition duration-[100ms] hover:shadow-xl [&_svg]:w-[13px]"
-    >
-      <p className="font-med text-[15px] text-[#D3D4D6]">
-        {weight
-          ? Object.keys(weightData).find(
-              (key) => weightData[key] === selectedOption,
-            )
-          : selectedOption}
-      </p>
-      {arrowDown}
-      <div
-        className={`absolute ${
-          show ? "flex" : "hidden"
-        } border-borderColorP left-0 top-[45px] z-20 flex max-h-[10rem] w-full flex-col items-start justify-start rounded-md border  bg-white py-3  ${
-          overflow ? "overflow-y-scroll" : ""
-        }`}
-      >
-        {data.map((it, index) => (
-          <span
-            key={index}
-            onClick={changeSelected}
-            className="flex h-max min-h-7 w-full cursor-pointer items-center justify-start whitespace-nowrap px-5 py-2 text-gray-400 hover:bg-gray-200 "
-            value={it}
-          >
-            {it}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const ShapeInput = ({ name, func, value, fixed }) => {
-  return (
-    <div className="flex-center w-full flex-col gap-1">
-      <input
-        type="number"
-        className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-        value={fixed && value.length > 2 ? value.slice(0, 3) : value}
-        onInput={func}
-      />
-      <span className="text-[11px] font-[600] text-textDark">{name}</span>
     </div>
   );
 };

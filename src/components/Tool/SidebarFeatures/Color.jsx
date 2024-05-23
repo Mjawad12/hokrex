@@ -6,8 +6,7 @@ import { ChromePicker } from "react-color";
 import rgbHex from "rgb-hex";
 
 function Color() {
-  const { setcurrentModelColor, setalpha, currentModelColor } =
-    useContext(ContextTool);
+  const { setcurrentModelColor, currentModelColor } = useContext(ContextTool);
   const [selectedOption, setselectedOption] = useState("ALL LAYERS");
   const [colorSelect, setcolorSelect] = useState("Solid");
   const [currentColor, setcurrentColor] = useState(currentModelColor);
@@ -64,7 +63,7 @@ function Color() {
               setcurrentModelColor(
                 "#" + rgbHex(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb.a),
               );
-              setalpha(e.rgb.a);
+
               setcurrentColor("#" + rgbHex(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb.a));
             }}
             disableAlpha={false}

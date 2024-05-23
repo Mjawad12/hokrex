@@ -8,9 +8,10 @@ import Text from "./SidebarFeatures/Text";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
 import Shapes from "./SidebarFeatures/Shapes";
 import Graphics from "./SidebarFeatures/Graphics";
+import Images from "./SidebarFeatures/Images";
 
 function SidebarTool({ sethidden, selected }) {
-  const { addText, addShapeLayer, addTextLayer, addSvgLayer } =
+  const { addText, addShapeLayer, addTextLayer, addSvgLayer, addImageLayer } =
     useContext(ContextTool);
   const SelectedProd = {
     Product: <Prod />,
@@ -19,6 +20,7 @@ function SidebarTool({ sethidden, selected }) {
     Text: <Text addText={addText} addTextLayer={addTextLayer} />,
     Shapes: <Shapes addShapeLayer={addShapeLayer} />,
     Graphics: <Graphics addSvgLayer={addSvgLayer} />,
+    Images: <Images addImageLayer={addImageLayer} />,
   };
   return (
     <motion.div
@@ -26,7 +28,7 @@ function SidebarTool({ sethidden, selected }) {
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: "-120%", opacity: 0.2 }}
       transition={{ duration: 1.1, ease: [0, 0, 0, 1] }}
-      className={`relative flex h-[calc(100vh-50px)] w-full max-w-[300px]  flex-col bg-darkMid ${selected !== "Graphics" ? "p-3 px-3.5" : "p-0"}`}
+      className={`relative flex h-[calc(100vh-50px)] w-full max-w-[300px]  flex-col bg-darkMid ${selected !== "Graphics" && selected !== "Images" ? "p-3 px-3.5" : "p-0"}`}
     >
       <SideBtn sethidden={sethidden} />
       {SelectedProd[selected]}

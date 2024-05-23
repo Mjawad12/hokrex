@@ -2,7 +2,12 @@
 const nextConfig = {
   eslint: { ignoreDuringBuilds: true },
   images: {
-    domains: ["source.unsplash.com", "outfitters.com.pk", "res.cloudinary.com"],
+    domains: [
+      "source.unsplash.com",
+      "outfitters.com.pk",
+      "res.cloudinary.com",
+      "images.unsplash.com",
+    ],
   },
   webpack: (config) => {
     config.externals.push({
