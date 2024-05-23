@@ -1,12 +1,12 @@
 import { cross } from "@/Consonats";
 import React, { useContext } from "react";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
-import TextEdit from "./LeftBarEditing/TextEdit";
-import ShapeEdit from "./LeftBarEditing/ShapeEdit";
-import GraphicsEdit from "./LeftBarEditing/GraphicsEdit";
-import ImagesEdit from "./LeftBarEditing/ImagesEdit";
+import TextEdit from "./RightBarEditing/TextEdit";
+import ShapeEdit from "./RightBarEditing/ShapeEdit";
+import GraphicsEdit from "./RightBarEditing/GraphicsEdit";
+import ImagesEdit from "./RightBarEditing/ImagesEdit";
 
-function LeftBarEditing({
+function RightBarEditing({
   selected,
   smColor,
   setsmColor,
@@ -26,6 +26,8 @@ function LeftBarEditing({
     setselectedGraphic,
     setselectedImage,
     selectedImage,
+    canvas,
+    dele,
   } = useContext(ContextTool);
   const editers = {
     Text: [
@@ -64,6 +66,8 @@ function LeftBarEditing({
         updateImage={updateImage}
         selectedImage={selectedImage}
         setselectedImage={setselectedImage}
+        canvas={canvas}
+        dele={dele}
       />,
     ],
   };
@@ -85,4 +89,4 @@ function LeftBarEditing({
   );
 }
 
-export default LeftBarEditing;
+export default RightBarEditing;

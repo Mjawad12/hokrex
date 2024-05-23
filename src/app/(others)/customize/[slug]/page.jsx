@@ -2,9 +2,9 @@
 import { prods } from "@/Consonats";
 import Controls from "@/components/Controls";
 import { ContextTool } from "@/components/Mainstate(tool)/Mainstatetool";
-import LeftBarEditing from "@/components/Tool/LeftBarEditing";
-import ColorSmall from "@/components/Tool/LeftBarEditing/ColorSmall";
+import ColorSmall from "@/components/Tool/RightBarEditing/ColorSmall";
 import ModelViewer from "@/components/Tool/ModelViewer";
+import RightBarEditing from "@/components/Tool/RightBarEditing";
 import SidebarTool from "@/components/Tool/SidebarTool";
 import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -83,7 +83,7 @@ function page() {
           </AnimatePresence>
         </div>
 
-        <LeftBarEditing
+        <RightBarEditing
           selected={selected}
           setsmColor={setsmColor}
           smColor={smColor}

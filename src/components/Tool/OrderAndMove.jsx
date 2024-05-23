@@ -1,5 +1,5 @@
 import { order } from "@/Consonats";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function OrderAndMove({ ordeAndMove, movement, sEdit }) {
   return (
@@ -48,12 +48,12 @@ const TextAlign = ({ svg, name, func }) => {
   );
 };
 
-const TextBtn = ({ name, svg, clickfunc }) => {
+const TextBtn = ({ name, svg, clickfunc, rounded }) => {
   return (
-    <div className="flex-center w-full flex-col gap-2 border border-darkMid ">
+    <div className={`flex-center w-full flex-col gap-2 border border-darkMid `}>
       <span
         onClick={clickfunc}
-        className="flex-center h-8 w-full cursor-pointer bg-darkLight px-3 hover:bg-darkHover [&_*]:stroke-textLight"
+        className={`flex-center h-8 w-full cursor-pointer bg-darkLight px-3 hover:bg-darkHover [&_*]:stroke-textLight ${rounded ? "rounded-[5px]" : ""}`}
       >
         {svg}
       </span>
@@ -70,7 +70,7 @@ const EditInput = ({ name, func, value, fixed }) => {
       <input
         type="number"
         className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
-        value={fixed && value.length > 2 ? value.slice(0, 3) : value}
+        value={fixed && value.length > 2 ? value.slice(0, 4) : value}
         onInput={func}
       />
       <span className="text-[11px] font-[600] text-textDark">{name}</span>

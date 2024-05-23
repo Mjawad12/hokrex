@@ -159,17 +159,20 @@ function Mainstatetool({ children }) {
   };
 
   const addImageLayer = (image) => {
-    const imageItem = new fabric.Image(image, {
-      left: 495,
-      top: 600,
+    new fabric.Image.fromURL(image, (img) => {
+      img.set({
+        left: 495,
+        top: 600,
+      });
+      img.scaleToWidth(150);
+      img.scaleToHeight(150);
+      canvas.current.add(img);
+      canvas.current.renderAll();
     });
-    imageItem.scaleToWidth(150);
-    imageItem.scaleToHeight(150);
-    canvas.current.add(imageItem);
-    canvas.current.renderAll();
+
     setTimeout(() => {
       printTexture();
-    }, 100);
+    }, 200);
   };
 
   const UpdateText = useMemo(
@@ -368,6 +371,7 @@ function Mainstatetool({ children }) {
             scaleX: e.target.scaleX,
             scaleY: e.target.scaleY,
             rotation: e.target.angle,
+            src: e.target._element.src,
           });
           break;
       }
@@ -375,12 +379,38 @@ function Mainstatetool({ children }) {
 
     canva.on("selection:created", (e) => {
       setselectedObject(e.selected[0]);
+      switch (e.selected[0].type) {
+        case "image": {
+          setselectedImage({
+            ...selectedImage,
+            src: e.selected[0]._element.src,
+          });
+        }
+      }
       setTimeout(() => {
         printTexture();
       }, 200);
     });
     canva.on("selection:cleared", () => {
       setselectedObject(false);
+      setselectedImage({
+        ...selectedImage,
+        src: null,
+      });
+      setTimeout(() => {
+        printTexture();
+      }, 200);
+    });
+    canva.on("selection:updated", (e) => {
+      setselectedObject(e.selected[0]);
+      switch (e.selected[0].type) {
+        case "image": {
+          setselectedImage({
+            ...selectedImage,
+            src: e.selected[0]._element.src,
+          });
+        }
+      }
       setTimeout(() => {
         printTexture();
       }, 200);
@@ -421,19 +451,28 @@ function Mainstatetool({ children }) {
     }, 100);
   };
 
+  //  Key press fucntion for del
+  const dele = (e) => {
+    if (canvas.current.getActiveObject() && e.key === "Delete") {
+      canvas.current.remove(canvas.current.getActiveObject());
+      canvas.current.renderAll();
+    }
+  };
+
+  //   initializing canvas in ref
   useEffect(() => {
     canvas.current = initCanvas();
   }, []);
-
+  //  setting state for offset of canvas
   useEffect(() => {
     canvas.current._offset;
     setcanvasOffset(canvas.current._offset);
   }, [canvas.current]);
-
+  // Chnaging color of model
   useEffect(() => {
     changeColor(currentModelColor);
   }, [currentModelColor]);
-
+  // fucntion to wrap lines
   var _wrapLine = function (_line, lineIndex, desiredWidth, reservedSpace) {
     var lineWidth = 0,
       splitByGrapheme = this.splitByGrapheme,
@@ -519,7 +558,7 @@ function Mainstatetool({ children }) {
 
     return graphemeLines;
   };
-
+  // Text box modification
   const objectModifications = (
     rotationIcon,
     movementIcon,
@@ -726,9 +765,11 @@ function Mainstatetool({ children }) {
     fabric.Textbox.prototype.rotatingPointOffset = 1;
   };
 
-  // useEffect(() => {
-  //   console.log(selectedObject);
-  // }, [selectedObject]);
+  useEffect(() => {
+    window.addEventListener("keydown", dele);
+
+    return () => window.removeEventListener("keydown", dele);
+  }, []);
 
   return (
     <ContextTool.Provider
@@ -761,6 +802,7 @@ function Mainstatetool({ children }) {
         updateImage,
         selectedImage,
         setselectedImage,
+        dele,
       }}
     >
       {children}

@@ -1,16 +1,27 @@
 import {
   arrowDown,
+  dublicate,
   flipX,
   flipY,
   order,
   plus,
+  replace,
   textPositions,
+  trash,
 } from "@/Consonats";
 
-import React from "react";
+import React, { useState } from "react";
 import OrderAndMove, { EditInput, TextAlign, TextBtn } from "../OrderAndMove";
+import DropDown from "@/components/DropDown";
+import Image from "next/image";
 
-const ImageEdit = ({ selectedImage, setselectedImage, updateImage }) => {
+const ImageEdit = ({
+  selectedImage,
+  setselectedImage,
+  updateImage,
+  canvas,
+  dele,
+}) => {
   const ordeAndMove = ["Forward", "Backward", "To Front", "To Back"];
   const movement = [
     {
@@ -117,12 +128,12 @@ const ImageEdit = ({ selectedImage, setselectedImage, updateImage }) => {
       clickfunc: function () {
         setselectedImage({
           ...selectedImage,
-          scaleX: selectedImage.scaleX + 0.1,
-          scaleY: selectedImage.scaleY + 0.1,
+          scaleX: selectedImage.scaleX + 0.01,
+          scaleY: selectedImage.scaleY + 0.01,
         });
         updateImage(undefined, undefined, {
-          scaleX: selectedImage.scaleX + 0.1,
-          scaleY: selectedImage.scaleY + 0.1,
+          scaleX: selectedImage.scaleX + 0.01,
+          scaleY: selectedImage.scaleY + 0.01,
         });
       },
     },
@@ -148,12 +159,12 @@ const ImageEdit = ({ selectedImage, setselectedImage, updateImage }) => {
       clickfunc: function () {
         setselectedImage({
           ...selectedImage,
-          scaleX: selectedImage.scaleX - 0.1,
-          scaleY: selectedImage.scaleY - 0.1,
+          scaleX: selectedImage.scaleX - 0.01,
+          scaleY: selectedImage.scaleY - 0.01,
         });
         updateImage(undefined, undefined, {
-          scaleX: selectedImage.scaleX - 0.1,
-          scaleY: selectedImage.scaleY - 0.1,
+          scaleX: selectedImage.scaleX - 0.01,
+          scaleY: selectedImage.scaleY - 0.01,
         });
       },
     },
@@ -245,97 +256,87 @@ const ImageEdit = ({ selectedImage, setselectedImage, updateImage }) => {
     Middle: 0,
     Bottom: -0.32,
   };
-
+  const [selectedOption, setselectedOption] = useState("Front");
   return (
     <div className="flex w-full flex-col gap-4 ">
-      <div className="flex flex-col gap-2.5">
-        <p className="text-[14px] font-[700] text-textDark">Size</p>
-        <div className="flex gap-1">
-          <EditInput
-            name={"Width"}
-            func={(e) => {
-              setselectedImage({
-                ...selectedImage,
-                width: +e.target.value,
-                scaleX: +e.target.value / 30,
-              });
-              updateImage(undefined, undefined, {
-                scaleX: +e.target.value / 30,
-                scaleY: selectedImage.scaleY,
-              });
-            }}
-            value={parseInt(selectedImage.scaleX * 30)}
+      <div className="flex-center relative mt-4 h-[7.4rem] w-full rounded-[6px] border border-[#3F4A57] p-2">
+        <span
+          onClick={() => dele({ key: "Delete" })}
+          className="absolute right-0 top-0 z-10 cursor-pointer bg-darkMid p-2"
+        >
+          {trash}
+        </span>
+        {selectedImage.src && (
+          <img
+            src={selectedImage.src}
+            alt="selected"
+            width={500}
+            height={500}
+            className="h-auto max-h-[100%] w-auto max-w-full"
           />
-          <EditInput
-            name={"Height"}
-            func={(e) => {
-              setselectedImage({
-                ...selectedImage,
-                height: +e.target.value,
-                scaleY: +e.target.value / 30,
-              });
-              updateImage(undefined, undefined, {
-                scaleX: selectedImage.scaleX,
-                scaleY: +e.target.value / 30,
-              });
-            }}
-            value={parseInt(selectedImage.scaleY * 30)}
-          />
-          <EditInput
-            name={"Rotation"}
-            func={(e) => {
-              setselectedImage({
-                ...selectedImage,
-                rotation: +e.target.value,
-              });
-              updateImage(undefined, undefined, undefined, e.target.value);
-            }}
-            value={selectedImage.rotation.toString()}
-            fixed={true}
-          />
-          <EditInput
-            name={"Scale"}
-            func={(e) => {
-              setselectedImage({
-                ...selectedImage,
-                scaleX: +e.target.value,
-                scaleY: +e.target.value,
-              });
-              updateImage(undefined, undefined, {
-                scaleX: +e.target.value,
-                scaleY: +e.target.value,
-              });
-            }}
-            value={selectedImage.scaleX.toString()}
-            fixed={true}
-          />
-        </div>
+        )}
       </div>
-
+      <DropDown
+        data={[
+          "Front",
+          "Back",
+          "Right",
+          "Left",
+          "Inside Label",
+          "Outside Label",
+          "Coular",
+        ]}
+        selectedOption={selectedOption}
+        setselectedOption={setselectedOption}
+      />
       <div className="flex w-full flex-col gap-2.5 ">
         <p className="text-[15px] font-[700] text-textDark">Edition</p>
-        <div className="flex-center w-max flex-col gap-2">
-          <div className="flex w-[6rem] overflow-hidden rounded-lg">
+        <div className="flex w-full gap-2">
+          <div className="flex-center w-max flex-col gap-2">
+            <div className="flex w-[7rem] overflow-hidden rounded-lg">
+              <TextBtn
+                svg={flipX}
+                clickfunc={() => {
+                  updateImage(undefined, undefined, {
+                    scaleX: selectedImage.scaleX * -1,
+                    scaleY: selectedImage.scaleY,
+                  });
+                }}
+              />
+              <TextBtn
+                svg={flipY}
+                clickfunc={() => {
+                  updateImage(undefined, undefined, {
+                    scaleX: selectedImage.scaleX,
+                    scaleY: selectedImage.scaleY * -1,
+                  });
+                }}
+              />
+            </div>
+            <p className="whitespace-nowrap text-[12px]  text-textLight ">
+              Flip
+            </p>
+          </div>
+          <div>
             <TextBtn
-              svg={flipX}
+              name={"Dublicate"}
+              svg={dublicate}
+              rounded={true}
               clickfunc={() => {
-                updateImage(undefined, undefined, {
-                  scaleX: selectedImage.scaleX * -1,
-                  scaleY: selectedImage.scaleY,
-                });
-              }}
-            />
-            <TextBtn
-              svg={flipY}
-              clickfunc={() => {
-                updateImage(undefined, undefined, {
-                  scaleX: selectedImage.scaleX,
-                  scaleY: selectedImage.scaleY * -1,
-                });
+                if (canvas.getActiveObject()) {
+                  canvas.getActiveObject().clone((obj) => {
+                    obj
+                      .set({ top: obj.top - 15, left: obj.left - 15 })
+                      .setCoords();
+                    canvas.add(obj);
+                  });
+                }
               }}
             />
           </div>
-          <p className="whitespace-nowrap text-[12px]  text-textLight ">Flip</p>
+          <div className="w-[7rem]">
+            <TextBtn name={"Replace"} svg={replace} rounded={true} />
+          </div>
         </div>
       </div>
 

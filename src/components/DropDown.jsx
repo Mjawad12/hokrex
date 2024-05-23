@@ -18,12 +18,12 @@ const DropDown = ({
       onClick={() => setshow(!show)}
       className="relative flex h-[2.9rem] w-full cursor-pointer items-center justify-between rounded-lg border border-darkLight px-4 transition duration-[100ms] hover:shadow-xl [&_svg]:stroke-textLight"
     >
-      <p className="text-[14px] font-[600] text-textLight">{selectedOption}</p>{" "}
+      <p className="text-[14px] font-[600] text-textLight">{selectedOption}</p>
       {arrowDown}
       <div
         className={`absolute ${
           show ? "flex" : "hidden"
-        } border-borderColorP left-0 top-[45px] z-20 flex max-h-[15rem] w-full flex-col items-start justify-start border bg-white py-3 ${
+        }  left-0 top-[45px] z-20 flex min-h-[15rem] w-full flex-col items-start justify-start  rounded-md bg-darkLight  ${
           overflow ? "overflow-y-scroll" : ""
         }`}
       >
@@ -31,7 +31,7 @@ const DropDown = ({
           <span
             key={index}
             onClick={changeSelected}
-            className="flex h-7 w-full cursor-pointer items-center justify-start px-5 py-2 text-gray-400 hover:bg-gray-200 "
+            className="flex h-8 w-full cursor-pointer items-center justify-start px-5 py-2 text-gray-400 hover:bg-gray-200 "
             value={it}
           >
             {city === "Karachi" ? it.name : it}

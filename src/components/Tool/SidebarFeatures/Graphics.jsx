@@ -4651,6 +4651,7 @@ function Graphics({ addSvgLayer }) {
         style={{ direction: "ltr" }}
         className="flex flex-col gap-3 p-3 px-3.5 pl-1.5"
       >
+        <h1 className="text-[18px] text-[500] text-textLight ">Design</h1>
         <button>Upload Media</button>
         <div className="flex-center w-full rounded-md border border-darkLight bg-canvasColor px-3 py-[0.7rem]  [&_svg]:w-[18px] [&_svg]:stroke-textDark ">
           <input
