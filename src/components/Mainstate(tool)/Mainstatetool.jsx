@@ -19,6 +19,7 @@ function reducer(state, action) {
 }
 
 function Mainstatetool({ children }) {
+  const [selected, setselected] = useState("Shapes");
   const [selectedText, setselectedText] = useState({
     text: "Text",
     color: "red",
@@ -380,11 +381,25 @@ function Mainstatetool({ children }) {
     canva.on("selection:created", (e) => {
       setselectedObject(e.selected[0]);
       switch (e.selected[0].type) {
+        case "text": {
+          setselected("Text");
+          break;
+        }
+        case "shape": {
+          setselected("Shapes");
+          break;
+        }
+        case "graphics": {
+          setselected("Graphics");
+          break;
+        }
         case "image": {
           setselectedImage({
             ...selectedImage,
             src: e.selected[0]._element.src,
           });
+          setselected("Images");
+          break;
         }
       }
       setTimeout(() => {
@@ -404,11 +419,25 @@ function Mainstatetool({ children }) {
     canva.on("selection:updated", (e) => {
       setselectedObject(e.selected[0]);
       switch (e.selected[0].type) {
+        case "text": {
+          setselected("Text");
+          break;
+        }
+        case "shape": {
+          setselected("Shapes");
+          break;
+        }
+        case "graphics": {
+          setselected("Graphics");
+          break;
+        }
         case "image": {
           setselectedImage({
             ...selectedImage,
             src: e.selected[0]._element.src,
           });
+          setselected("Images");
+          break;
         }
       }
       setTimeout(() => {
@@ -803,6 +832,8 @@ function Mainstatetool({ children }) {
         selectedImage,
         setselectedImage,
         dele,
+        selected,
+        setselected,
       }}
     >
       {children}

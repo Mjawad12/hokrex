@@ -12,10 +12,10 @@ import { AnimatePresence } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
 
 function page() {
-  const { selectedObject } = useContext(ContextTool);
-  const [selected, setselected] = useState("Shapes");
+  const { selectedObject, selected, setselected } = useContext(ContextTool);
 
   const [hidden, sethidden] = useState(true);
+  const [rightBar, setrightBar] = useState(false);
   const [smColor, setsmColor] = useState(false);
   const [borderColor, setborderColor] = useState(false);
 
@@ -54,6 +54,7 @@ function page() {
               <div
                 onClick={() => {
                   sethidden(true);
+                  setrightBar(true);
                   setselected(it.text);
                 }}
                 key={index}
@@ -83,17 +84,25 @@ function page() {
           </AnimatePresence>
         </div>
 
-        <RightBarEditing
-          selected={selected}
-          setsmColor={setsmColor}
-          smColor={smColor}
-          setborderColor={setborderColor}
-          borderColor={borderColor}
-        />
+        <AnimatePresence>
+          {rightBar && (
+            <RightBarEditing
+              selected={selected}
+              setsmColor={setsmColor}
+              smColor={smColor}
+              setborderColor={setborderColor}
+              borderColor={borderColor}
+              setrightBar={setrightBar}
+            />
+          )}
+        </AnimatePresence>
+
         <AnimatePresence>{smColor && <ColorSmall />}</AnimatePresence>
+
         <AnimatePresence>
           {borderColor && <ColorSmall border={true} />}
         </AnimatePresence>
+
         <Controls />
       </div>
       <div className="fabricContainer">

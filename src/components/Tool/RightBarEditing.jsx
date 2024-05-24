@@ -1,3 +1,4 @@
+"use client";
 import { cross } from "@/Consonats";
 import React, { useContext } from "react";
 import { ContextTool } from "../Mainstate(tool)/Mainstatetool";
@@ -5,6 +6,7 @@ import TextEdit from "./RightBarEditing/TextEdit";
 import ShapeEdit from "./RightBarEditing/ShapeEdit";
 import GraphicsEdit from "./RightBarEditing/GraphicsEdit";
 import ImagesEdit from "./RightBarEditing/ImagesEdit";
+import { motion } from "framer-motion";
 
 function RightBarEditing({
   selected,
@@ -12,6 +14,7 @@ function RightBarEditing({
   setsmColor,
   borderColor,
   setborderColor,
+  setrightBar,
 }) {
   const {
     UpdateText,
@@ -72,7 +75,11 @@ function RightBarEditing({
     ],
   };
   return (
-    <div
+    <motion.div
+      initial={{ x: "100%", opacity: 0.2 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: "100%", opacity: 0.2 }}
+      transition={{ duration: 1, ease: [0, 0, 0, 1] }}
       id="smSCroll"
       className="absolute right-0 top-[3.05rem] z-50 flex h-[calc(100vh-50px)] w-full max-w-[320px] flex-col overflow-x-visible overflow-y-scroll bg-darkMid p-3 px-3.5"
     >
@@ -80,12 +87,15 @@ function RightBarEditing({
         <h3 className="text-[18px] text-[500] text-textLight">
           {editers[selected] && editers[selected][0]}
         </h3>
-        <span className="cursor-pointer [&_path]:stroke-white [&_rect]:stroke-none [&_svg]:h-[38px] [&_svg]:w-[38px] ">
+        <span
+          onClick={() => setrightBar(false)}
+          className="cursor-pointer [&_path]:stroke-white [&_rect]:stroke-none [&_svg]:h-[38px] [&_svg]:w-[38px] "
+        >
           {cross}
         </span>
       </div>
       {editers[selected] && editers[selected][1]}
-    </div>
+    </motion.div>
   );
 }
 
