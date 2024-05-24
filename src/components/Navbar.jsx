@@ -44,15 +44,19 @@ const SearchBar = () => {
 
 const SmNav = ({ cart }) => {
   return (
-    <ul className="flex-center list-none gap-5 [&_li]:cursor-pointer  [&_li]:whitespace-nowrap [&_li]:text-[0.95rem] [&_li]:font-[500] ">
+    <ul className="flex-center list-none gap-5 [&_li]:cursor-pointer  [&_li]:whitespace-nowrap [&_li]:text-[0.95rem] [&_li]:font-[500] hover:[&_li]:text-pmRed ">
       {!cart && (
         <>
-          <a href={"/products"}>
+          <Link href={"/products"}>
             <li>Products</li>
-          </a>
+          </Link>
           <li>Services</li>
-          <li>About us</li>
-          <li>Contact us</li>
+          <Link href={"/about"}>
+            <li>About us</li>
+          </Link>
+          <Link href={"/contact"}>
+            <li>Contact us</li>
+          </Link>
           <li className={` flex-center w-[165px] !text-[1rem]`}>
             <Dealerbtn />
           </li>

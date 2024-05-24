@@ -15,7 +15,7 @@ function page() {
           transition={{ duration: 1, ease: [0, 0, 0.2, 0.8] }}
           className="animateH1 z-10"
         >
-          Contact us
+          About us
         </motion.h1>
         <div className="absolute bottom-0 left-0">
           <Image src={"/dots.png"} alt="dots" width={650} height={500} />

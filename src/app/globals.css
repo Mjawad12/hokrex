@@ -18,6 +18,9 @@
   .btn-Primary {
     @apply rounded-3xl border border-black px-6 py-[0.7rem] text-[17px] font-[500];
   }
+  .animateH1 {
+    @apply text-[204px] font-[700] leading-[204px];
+  }
 }
 
 /* html {
