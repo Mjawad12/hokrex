@@ -4777,6 +4777,31 @@ const replace = (
   </svg>
 );
 
+const bigArrow = (
+  <svg
+    width="95"
+    height="95"
+    viewBox="0 0 131 131"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M60.3988 40.7173L93.1296 49.4875L84.3594 82.2183"
+      stroke="#707070"
+      stroke-width="0.798686"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M93.1315 49.4871L37.7969 81.4346"
+      stroke="#707070"
+      stroke-width="0.798686"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -4829,4 +4854,5 @@ export {
   images,
   dublicate,
   replace,
+  bigArrow,
 };

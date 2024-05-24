@@ -21,6 +21,7 @@ function MainStateAnimation({ children }) {
         e.preventDefault();
       }
     };
+    console.log(animating);
   }, [animating]);
 
   return (
