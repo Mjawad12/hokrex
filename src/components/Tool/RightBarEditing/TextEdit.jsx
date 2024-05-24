@@ -1,8 +1,6 @@
 import {
   align,
   arrowDown,
-  left,
-  order,
   plus,
   textPositions,
   underline as underlineSvg,
@@ -22,7 +20,161 @@ const TextEdit = ({
   const [scope, animate] = useAnimate();
   const [upperCase, setupperCase] = useState(false);
   const [moreOpts, setmoreOpts] = useState(false);
-
+  const [alignment, setalignment] = useState(0);
+  const alignmentSvgs = {
+    0: (
+      <svg
+        width="16"
+        height="14"
+        viewBox="0 0 16 14"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5 13H12"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M1 9H15"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M12 5H5"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M1 1H15"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    ),
+    1: (
+      <svg
+        width="16"
+        height="14"
+        viewBox="0 0 16 14"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M8 13H15"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M1 9H15"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M15 5H8"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M1 1H15"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    ),
+    2: (
+      <svg
+        width="16"
+        height="14"
+        viewBox="0 0 16 14"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1 13H15"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M1 9H15"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M15 5H1"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M1 1H15"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    ),
+    3: (
+      <svg
+        width="16"
+        height="14"
+        viewBox="0 0 16 14"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1 13H8"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M1 9H15"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M8 5H1"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M1 1H15"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    ),
+  };
   const ordeAndMove = ["Forward", "Backward", "To Front", "To Back"];
   const movement = [
     {
@@ -480,9 +632,88 @@ const TextEdit = ({
           </span>
         </div>
 
-        <div className="flex-center w-full flex-col gap-1">
+        <div
+          onClick={() => {
+            alignment === 3 ? setalignment(0) : setalignment((e) => e + 1);
+            switch (alignment) {
+              case 0: {
+                setselectedText({ ...selectedText, textAlign: "right" });
+                UpdateText(
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  "right",
+                );
+                break;
+              }
+              case 1: {
+                setselectedText({ ...selectedText, textAlign: "justify" });
+                UpdateText(
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  "justify",
+                );
+                break;
+              }
+              case 2: {
+                setselectedText({ ...selectedText, textAlign: "left" });
+                UpdateText(
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  "left",
+                );
+                break;
+              }
+              case 3: {
+                setselectedText({ ...selectedText, textAlign: "center" });
+                UpdateText(
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  "center",
+                );
+                break;
+              }
+            }
+          }}
+          className="flex-center w-full flex-col gap-1"
+        >
           <span className="flex-center w-full cursor-pointer rounded-md bg-darkLight px-3 py-[0.8rem] hover:bg-darkHover">
-            {align}
+            {alignmentSvgs[alignment]}
           </span>
           <span className="text-[11px] font-[600] text-textDark">
             Alignment

@@ -36,6 +36,7 @@ function Mainstatetool({ children }) {
     spacing: "0",
     top: 600,
     left: 496,
+    textAlign: "cemter",
   });
   const [selectedShape, setselectedShape] = useState({
     fill: "red",
@@ -110,7 +111,7 @@ function Mainstatetool({ children }) {
         scaleY: 1,
         fill: "red",
         type: "text",
-        textAlign: "left",
+        textAlign: "center",
         breakWords: true,
         width: 90,
         editable: false,
@@ -190,6 +191,7 @@ function Mainstatetool({ children }) {
         rotation = selectedText.rotation,
         top = selectedText.top,
         left = selectedText.left,
+        textAlign = selectedText.textAlign,
       ) => {
         console.log(canvas.current.getActiveObject());
         if (canvas.current.getActiveObject()) {
@@ -206,6 +208,7 @@ function Mainstatetool({ children }) {
           canvas.current.getActiveObject().set("angle", rotation);
           canvas.current.getActiveObject().set("top", top);
           canvas.current.getActiveObject().set("left", left);
+          canvas.current.getActiveObject().textAlign = textAlign;
           canvas.current.renderAll();
         }
       },
@@ -334,6 +337,7 @@ function Mainstatetool({ children }) {
             spacing: e.target.charSpacing,
             top: e.target.top,
             left: e.target.left,
+            textAlign: e.target.textAlign,
           });
           break;
         case "shape":
@@ -796,7 +800,6 @@ function Mainstatetool({ children }) {
 
   useEffect(() => {
     window.addEventListener("keydown", dele);
-
     return () => window.removeEventListener("keydown", dele);
   }, []);
 
