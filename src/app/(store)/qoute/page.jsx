@@ -1,6 +1,8 @@
-import React from "react";
+"use client";
+import React, { useRef } from "react";
 
 function page() {
+  const fileRef = useRef(null);
   const icons = [
     <svg
       width="39"
@@ -81,26 +83,147 @@ function page() {
     </svg>,
   ];
   return (
-    <section className="w-full px-5">
-      <div className="flex w-full max-w-[1200px] ">
-        <div className="flex-gorw-[0.5] flex flex-1 flex-col"></div>
-        <div className="flex-gorw-[0.5] flex flex-1 flex-col">
-          <p>Submit your</p>
-          <h1>Free Qoute</h1>
-          <p>
-            Growing up in Orlando Florida with such a diverse culture. was not
-            hard to come by. It is a city full of art,
-          </p>
-          <div className="flex gap-1.5">
-            {icons.map((it, index) => (
-              <span key={index}>{it}</span>
-            ))}
+    <>
+      <section className="w-full px-5">
+        <div className="flex-center m-auto min-h-[calc(100vh-82px)] w-full max-w-[1200px] gap-24 ">
+          <div className="flex flex-1 flex-grow-[0.55] flex-col">
+            <div
+              style={{ "box-shadow": "2px 4px 25px 0px #0000000D" }}
+              className="flex w-full flex-col gap-12 rounded-[32px] border  border-[#E5E5E5] px-14 py-16"
+            >
+              <h2 className="text-[52px] font-[600] leading-[56px]">
+                Fill Form
+              </h2>
+              <form action={"#"} className="flex flex-wrap gap-5 gap-y-5">
+                <CustomInput
+                  type="text"
+                  required={true}
+                  placeholder="First Name"
+                />
+                <CustomInput type="" required={true} placeholder="Last Name" />
+                <CustomInput type="text" required={true} placeholder="Email" />
+                <CustomInput type="text" required={true} placeholder="Phone" />
+                <textarea
+                  className="flex w-full  resize-none gap-1.5 border-b border-[#E5E5E5] py-2  text-[16px] outline-none hover:border-black focus:border-black "
+                  placeholder="Message"
+                  rows={3}
+                  cols={5}
+                />
+              </form>
+              <div className="flex flex-col gap-2">
+                <div className="flex-center mt-1 justify-start gap-2 ">
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onInput={(e) => {
+                      console.log(e.target.files);
+                      if (e.target.files.length > 0) {
+                        e.target.nextElementSibling.nextElementSibling.innerText =
+                          e.target.files[0].name;
+                      }
+                    }}
+                  />
+                  <button
+                    className="cs-in-1 !rounded-[10px] !px-[1.4rem]  !text-[13px]"
+                    onClick={() => fileRef.current.click()}
+                  >
+                    Choose File
+                  </button>
+                  <p
+                    className="ml-0.5 text-[12px] font-[500]"
+                    onClick={() => fileRef.current.click()}
+                  >
+                    No File selected
+                  </p>
+                  <p className="text-[13px] font-[500] text-gray-400 ">
+                    (optional)
+                  </p>
+                </div>
+                <p className="text-[12px] font-[500]">
+                  If The File Is Larger Than 256mb, Please Provide A Dropbox.
+                </p>
+              </div>
+            </div>
           </div>
-          <button>Submit Qoute</button>
+          <div className="flex flex-1 flex-grow-[0.5] flex-col items-start justify-start gap-6">
+            <div className="flex flex-col gap-1">
+              <h1 className="text-[25px] font-[700] tracking-[3px]">
+                SUBMIT YOUR
+              </h1>
+              <h2 className="text-[56px] font-[700] leading-[56px]">
+                Free Qoute
+              </h2>
+            </div>
+            <p className="text-[17px] font-[500] leading-[18px]">
+              Growing up in Orlando Florida with such a diverse culture. was not
+              hard to come by. It is a city full of art,
+            </p>
+            <div className="mt-1 flex gap-1.5">
+              {icons.map((it, index) => (
+                <span key={index}>{it}</span>
+              ))}
+            </div>
+            <hr className="my-2.5 h-[5px] w-[95px] bg-pmRed" />
+            <button className="btn-Primary mt-1 px-8 ">Submit Qoute</button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
 export default page;
+
+const DropDown = ({
+  data,
+  selectedOption,
+  setselectedOption,
+  overflow,
+  city,
+}) => {
+  const [show, setshow] = useState(false);
+
+  const changeSelected = (e) => {
+    setselectedOption(e.target.innerText);
+  };
+  return (
+    <div
+      onClick={() => setshow(!show)}
+      className="relative flex h-[2.9rem] w-full cursor-pointer items-center justify-between rounded-lg border border-darkLight px-4 transition duration-[100ms] hover:shadow-xl [&_svg]:stroke-textLight"
+    >
+      <p className="text-[14px] font-[600] text-textLight">{selectedOption}</p>
+      {arrowDown}
+      <div
+        className={`absolute ${
+          show ? "flex" : "hidden"
+        }  left-0 top-[45px] z-20 flex min-h-[15rem] w-full flex-col items-start justify-start  rounded-md bg-darkLight  ${
+          overflow ? "overflow-y-scroll" : ""
+        }`}
+      >
+        {data.map((it, index) => (
+          <span
+            key={index}
+            onClick={changeSelected}
+            className="flex h-8 w-full cursor-pointer items-center justify-start px-5 py-2 text-gray-400 hover:bg-gray-200 "
+            value={it}
+          >
+            {city === "Karachi" ? it.name : it}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const CustomInput = ({ type, placeholder, required }) => {
+  return (
+    <input
+      type={type}
+      required={true}
+      placeholder={placeholder}
+      className="flex flex-1 flex-grow-[0.5] gap-1.5 border-b border-[#E5E5E5] py-2 text-[16px] outline-none hover:border-black focus:border-black"
+    />
+  );
+};

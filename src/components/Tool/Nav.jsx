@@ -1,5 +1,6 @@
 "use client";
 import { duplicate, left2, logo, redo, trash, undo } from "@/Consonats";
+import Link from "next/link";
 import React, { useState } from "react";
 
 function Nav({ name, type }) {
@@ -8,9 +9,12 @@ function Nav({ name, type }) {
     <div className="flex-center relative z-20 w-full flex-col gap-2 ">
       <div className="flex w-full items-center justify-between bg-darkLight px-2 py-1 shadow-xl ">
         <div className="flex-center gap-3 ">
-          <div className="flex h-10 w-10 items-center justify-center rounded-[0.7rem] border-[0.5px] border-gray-500 bg-white   ">
+          <Link
+            href={"/"}
+            className="flex h-10 w-10 items-center justify-center rounded-[0.7rem] border-[0.5px] border-gray-500 bg-white   "
+          >
             {logo}
-          </div>
+          </Link>
           <div className="flex flex-col">
             <h1 className="text-[15px] font-[500] leading-4 text-textLight">
               {name}

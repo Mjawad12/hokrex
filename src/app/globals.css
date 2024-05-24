@@ -15,6 +15,9 @@
   .checkoutInput {
     @apply w-full rounded-lg border border-[#E5E5E5] px-3 py-[0.75rem] outline-none focus:border-[#707072];
   }
+  .btn-Primary {
+    @apply rounded-3xl border border-black px-6 py-[0.7rem] text-[17px] font-[500];
+  }
 }
 
 /* html {

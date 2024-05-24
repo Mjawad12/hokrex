@@ -1,14 +1,13 @@
 "use client";
 import { google, left2, lock } from "@/Consonats";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "react-country-state-city/dist/react-country-state-city.css";
 import { CountrySelect, StateSelect } from "react-country-state-city";
 import PhoneInput from "react-phone-number-input";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { OpnerCompoent } from "@/components/D_R_R";
 import Image from "next/image";
-import { fabric } from "fabric";
 
 function page() {
   const [pages, setpages] = useState(0);
@@ -85,20 +84,6 @@ function page() {
       date: "23 March,2024",
     },
   ];
-
-  const [canvas, setCanvas] = useState("");
-  useEffect(() => {
-    setCanvas(initCanvas());
-  }, []);
-  const initCanvas = () => {
-    var canvas = new fabric.Canvas("can", {
-      height: 200,
-      width: 200,
-      backgroundColor: "pink",
-    });
-
-    return canvas;
-  };
 
   return (
     <div className="min-h-screen w-full">

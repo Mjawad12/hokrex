@@ -262,7 +262,7 @@ const ImageEdit = ({
       <div className="flex-center relative mt-4 h-[7.4rem] w-full rounded-[6px] border border-[#3F4A57] p-2">
         <span
           onClick={() => dele({ key: "Delete" })}
-          className="absolute right-0 top-0 z-10 cursor-pointer bg-darkMid p-2"
+          className="absolute right-2 top-2 z-10 cursor-pointer rounded-[4px] bg-darkMid p-1"
         >
           {trash}
         </span>
