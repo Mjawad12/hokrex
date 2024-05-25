@@ -924,11 +924,11 @@ const DropDown = ({
   const [show, setshow] = useState(false);
   const weightData = {
     Light: 0,
-    Regular: "1",
-    Medium: "2",
-    Semibold: "3",
-    Bold: "4",
-    Extrabold: "5",
+    Regular: 1,
+    Medium: 2,
+    Semibold: 3,
+    Bold: 4,
+    Extrabold: 5,
   };
   const changeSelected = (val) => {
     if (weight) {

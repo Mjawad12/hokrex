@@ -36,7 +36,7 @@ function OrderAndMove({ ordeAndMove, movement, sEdit }) {
 
 const TextAlign = ({ svg, name, func }) => {
   return (
-    <div className="flex-center flex-col gap-2 border border-darkMid ">
+    <div className="flex-center select-none flex-col gap-2 border border-darkMid">
       <span
         onClick={func}
         className="flex-center h-8 cursor-pointer bg-darkLight px-3 hover:bg-darkHover "
@@ -50,7 +50,9 @@ const TextAlign = ({ svg, name, func }) => {
 
 const TextBtn = ({ name, svg, clickfunc, rounded }) => {
   return (
-    <div className={`flex-center w-full flex-col gap-2 border border-darkMid `}>
+    <div
+      className={`flex-center w-full select-none flex-col gap-2 border border-darkMid `}
+    >
       <span
         onClick={clickfunc}
         className={`flex-center h-8 w-full cursor-pointer bg-darkLight px-3 hover:bg-darkHover [&_*]:stroke-textLight ${rounded ? "rounded-[5px]" : ""}`}
