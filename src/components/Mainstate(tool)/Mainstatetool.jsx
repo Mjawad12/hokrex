@@ -192,6 +192,7 @@ function Mainstatetool({ children }) {
         top = selectedText.top,
         left = selectedText.left,
         textAlign = selectedText.textAlign,
+        lineHeight = selectedText.lineHeight,
       ) => {
         console.log(canvas.current.getActiveObject());
         if (canvas.current.getActiveObject()) {
@@ -208,7 +209,8 @@ function Mainstatetool({ children }) {
           canvas.current.getActiveObject().set("angle", rotation);
           canvas.current.getActiveObject().set("top", top);
           canvas.current.getActiveObject().set("left", left);
-          canvas.current.getActiveObject().textAlign = textAlign;
+          canvas.current.getActiveObject().set("textAlign", textAlign);
+          canvas.current.getActiveObject().set("lineHeight", lineHeight);
           canvas.current.renderAll();
         }
       },
@@ -338,6 +340,7 @@ function Mainstatetool({ children }) {
             top: e.target.top,
             left: e.target.left,
             textAlign: e.target.textAlign,
+            lineHeight: e.target.lineHeight,
           });
           break;
         case "shape":
@@ -399,7 +402,11 @@ function Mainstatetool({ children }) {
         }
         case "image": {
           setselectedImage({
-            ...selectedImage,
+            left: e.selected[0].left,
+            top: e.selected[0].top,
+            scaleX: e.selected[0].scaleX,
+            scaleY: e.selected[0].scaleY,
+            rotation: e.selected[0].angle,
             src: e.selected[0]._element.src,
           });
           setselected("Images");

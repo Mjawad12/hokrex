@@ -625,7 +625,28 @@ const TextEdit = ({
             type="number"
             className="flex-center w-full rounded-md bg-canvasColor  px-3 py-[0.7rem] text-[14px] text-textDark outline-none"
             defaultValue={1.2}
-            onInput={() => {}}
+            value={selectedText.lineHeight}
+            onInput={(e) => {
+              setselectedText({
+                ...selectedText,
+                lineHeight: e.target.value,
+              });
+              UpdateText(
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                e.target.value,
+              );
+            }}
           />
           <span className="text-[11px] font-[600] text-textDark">
             Line Height
