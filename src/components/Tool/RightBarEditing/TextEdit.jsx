@@ -8,7 +8,7 @@ import {
 } from "@/Consonats";
 import { motion, useAnimate } from "framer-motion";
 import React, { useState } from "react";
-import OrderAndMove from "../OrderAndMove";
+import OrderAndMove, { Positions } from "../OrderAndMove";
 
 const TextEdit = ({
   UpdateText,
@@ -497,49 +497,7 @@ const TextEdit = ({
         value={selectedText.text}
       />
 
-      <div className="flex flex-col gap-2.5">
-        <p className="text-[14px] font-[700] text-textDark">POSITION</p>
-        <div className="flex gap-3">
-          <div className="flex w-full">
-            {textPositions.slice(0, 3).map((it, index) => (
-              <TextAlign
-                key={index}
-                name={it.name}
-                svg={it.svg}
-                func={() => {
-                  setselectedText({
-                    ...selectedText,
-                    position: [
-                      endLineShirt[it.name],
-                      selectedText.position[1],
-                      0.1,
-                    ],
-                  });
-                }}
-              />
-            ))}
-          </div>
-          <div className="flex w-full">
-            {textPositions.slice(3, 6).map((it, index) => (
-              <TextAlign
-                key={index}
-                name={it.name}
-                svg={it.svg}
-                func={() => {
-                  setselectedText({
-                    ...selectedText,
-                    position: [
-                      selectedText.position[0],
-                      endLineShirt[it.name],
-                      0.1,
-                    ],
-                  });
-                }}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      <Positions />
 
       <OrderAndMove
         movement={movement}
