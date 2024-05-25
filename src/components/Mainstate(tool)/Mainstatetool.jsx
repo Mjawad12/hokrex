@@ -417,16 +417,6 @@ function Mainstatetool({ children }) {
         printTexture();
       }, 200);
     });
-    canva.on("selection:cleared", () => {
-      setselectedObject(false);
-      setselectedImage({
-        ...selectedImage,
-        src: null,
-      });
-      setTimeout(() => {
-        printTexture();
-      }, 200);
-    });
     canva.on("selection:updated", (e) => {
       setselectedObject(e.selected[0]);
       switch (e.selected[0].type) {
@@ -444,13 +434,27 @@ function Mainstatetool({ children }) {
         }
         case "image": {
           setselectedImage({
-            ...selectedImage,
+            left: e.selected[0].left,
+            top: e.selected[0].top,
+            scaleX: e.selected[0].scaleX,
+            scaleY: e.selected[0].scaleY,
+            rotation: e.selected[0].angle,
             src: e.selected[0]._element.src,
           });
           setselected("Images");
           break;
         }
       }
+      setTimeout(() => {
+        printTexture();
+      }, 200);
+    });
+    canva.on("selection:cleared", () => {
+      setselectedObject(false);
+      setselectedImage({
+        ...selectedImage,
+        src: null,
+      });
       setTimeout(() => {
         printTexture();
       }, 200);
