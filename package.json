@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fseehawer/react-circular-slider": "^2.6.4",
     "@react-three/drei": "^9.105.2",
     "@react-three/fiber": "^8.16.1",
     "fabric": "5.3.0-browser",

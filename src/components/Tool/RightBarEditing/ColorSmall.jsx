@@ -32,7 +32,6 @@ function ColorSmall({ border }) {
   ];
 
   const changeColor = (clr) => {
-    console.log(selectedObject);
     if (selectedObject?.type === "text") {
       setselectedText({
         ...selectedText,
@@ -87,7 +86,7 @@ function ColorSmall({ border }) {
         </button>
       </div>
 
-      <div className="flex flex-col pb-3 border-b border-darkLight">
+      <div className="flex flex-col border-b border-darkLight pb-3">
         <ChromePicker
           color={currentColor}
           onChange={(e) => {

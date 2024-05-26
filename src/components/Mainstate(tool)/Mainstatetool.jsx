@@ -36,7 +36,12 @@ function Mainstatetool({ children }) {
     spacing: "0",
     top: 600,
     left: 496,
-    textAlign: "cemter",
+    textAlign: "center",
+    effects: [
+      { apply: false, strokeWidth: 1, strokeColor: "red" },
+      { apply: false, color: "red", opacity: 1, x: 8, y: 8, blur: 5 },
+      {},
+    ],
   });
   const [selectedShape, setselectedShape] = useState({
     fill: "red",
@@ -193,17 +198,17 @@ function Mainstatetool({ children }) {
         left = selectedText.left,
         textAlign = selectedText.textAlign,
         lineHeight = selectedText.lineHeight,
+        effects = selectedText.effects,
       ) => {
-        console.log(canvas.current.getActiveObject());
         if (canvas.current.getActiveObject()) {
+          console.log(effects);
+          console.log(canvas.current.getActiveObject());
           canvas.current.getActiveObject().set("text", text);
           canvas.current.getActiveObject().set("fontFamily", fontFamily);
           canvas.current.getActiveObject().set("strokeWidth", fontWeight);
           canvas.current.getActiveObject().set("stroke", color);
           canvas.current.getActiveObject().set("fontSize", fontSize);
           canvas.current.getActiveObject().set("charSpacing", +spacing);
-          canvas.current.getActiveObject().set("fill", color);
-          canvas.current.getActiveObject().set("underline", underline);
           canvas.current.getActiveObject().set("scaleX", scale.scaleX);
           canvas.current.getActiveObject().set("scaleY", scale.scaleY);
           canvas.current.getActiveObject().set("angle", rotation);
@@ -211,6 +216,30 @@ function Mainstatetool({ children }) {
           canvas.current.getActiveObject().set("left", left);
           canvas.current.getActiveObject().set("textAlign", textAlign);
           canvas.current.getActiveObject().set("lineHeight", lineHeight);
+          canvas.current.getActiveObject().set("effects", effects);
+          if (effects[0].apply) {
+            console.log("gone");
+            canvas.current.getActiveObject().set("stroke", color);
+            canvas.current
+              .getActiveObject()
+              .set("strokeWidth", effects[0].strokeWidth);
+            canvas.current.getActiveObject().set("fill", "rgba(0,0,0,0)");
+          } else {
+            console.log("gone2");
+            canvas.current.getActiveObject().set("fill", color);
+            canvas.current.getActiveObject().set("underline", underline);
+          }
+
+          if (effects[1].apply) {
+            const shadowSettings = effects[1];
+            canvas.current
+              .getActiveObject()
+              .set(
+                "shadow",
+                `${shadowSettings.color} ${shadowSettings.x} ${shadowSettings.y} ${shadowSettings.blur}`,
+              );
+          }
+
           canvas.current.renderAll();
         }
       },
@@ -320,12 +349,15 @@ function Mainstatetool({ children }) {
     });
 
     canva.on("object:modified", (e) => {
-      console.log(e.target);
       switch (e.target.type) {
         case "text":
           setselectedText({
+            ...selectedText,
             text: e.target.text,
-            color: e.target.fill,
+            color:
+              e.target.effects && e.target.effects[0].apply
+                ? e.target.stroke
+                : e.target.fill,
             scaleX: e.target.scaleX,
             scaleY: e.target.scaleY,
             rotation: e.target.angle,
@@ -333,7 +365,7 @@ function Mainstatetool({ children }) {
             fontStyle: e.target.fontStyle,
             fontSize: e.target.fontSize,
             lineHeight: e.target.lineHeight,
-            fontWeight: e.target.strokeWidth,
+            fontWeight: parseInt(e.target.strokeWidth),
             uppercase: e.target.uppercase,
             underline: e.target.underline,
             spacing: e.target.charSpacing,
@@ -341,6 +373,8 @@ function Mainstatetool({ children }) {
             left: e.target.left,
             textAlign: e.target.textAlign,
             lineHeight: e.target.lineHeight,
+            stroke: e.target.stroke,
+            effects: e.target.effects ?? selectedText.effects,
           });
           break;
         case "shape":
@@ -813,6 +847,10 @@ function Mainstatetool({ children }) {
     window.addEventListener("keydown", dele);
     return () => window.removeEventListener("keydown", dele);
   }, []);
+
+  useEffect(() => {
+    console.log(selectedText);
+  }, [selectedText]);
 
   return (
     <ContextTool.Provider

@@ -4801,6 +4801,32 @@ const bigArrow = (
     />
   </svg>
 );
+const redCross = (
+  <svg
+    width="15"
+    height="15"
+    viewBox="0 0 15 15"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    id="noEffect"
+  >
+    <rect width="15" height="15" rx="7.5" fill="#EA0000" />
+    <path
+      d="M4.26172 4.2627L10.5955 10.5964"
+      stroke="white"
+      stroke-width="0.90482"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M10.5955 4.2627L4.26172 10.5964"
+      stroke="white"
+      stroke-width="0.90482"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
 
 export {
   logo,
@@ -4855,4 +4881,5 @@ export {
   dublicate,
   replace,
   bigArrow,
+  redCross,
 };
