@@ -238,6 +238,8 @@ function Mainstatetool({ children }) {
                 "shadow",
                 `${shadowSettings.color} ${shadowSettings.x} ${shadowSettings.y} ${shadowSettings.blur}`,
               );
+          } else {
+            canvas.current.getActiveObject().set("shadow", null);
           }
 
           canvas.current.renderAll();
