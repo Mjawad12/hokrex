@@ -2,11 +2,18 @@
 import { tick } from "@/Consonats";
 import React, { useEffect, useState } from "react";
 
-const CustomCheckbox = ({ text, st, fontSize, admin, type, textColor }) => {
+const CustomCheckbox = ({
+  text,
+  setOuter,
+  fontSize,
+  admin,
+  type,
+  textColor,
+}) => {
   const [checked, setchecked] = useState(false);
   useEffect(() => {
-    setchecked(st);
-  }, [st]);
+    setOuter && setOuter(checked);
+  }, [checked]);
   return (
     <label
       onClick={() => setchecked(!checked)}

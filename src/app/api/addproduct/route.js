@@ -17,12 +17,12 @@ export async function POST(req) {
       productSizes: body.productSizes,
       slug: slug,
     });
-    return Response.json({ success: true, products }, { status: 200 });
+    return Response.json({ success: true, product }, { status: 200 });
   } catch (error) {
     console.log(error.message);
     return Response.json(
       { success: false, err: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

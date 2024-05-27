@@ -1,14 +1,91 @@
 "use client";
-import { cross, email, left, lock, phone, user } from "@/Consonats";
+import { cross, email, errorIcon, left, lock, phone, user } from "@/Consonats";
 import CustomCheckbox from "@/components/CustomCheckbox";
+import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 function page() {
+  const { authError, setauthError, signIn, signUp } = useContext(ContextStore);
   const [scope, animate] = useAnimate();
   const [pageState, setpageState] = useState(0);
+  const signinForm = useRef(null);
+  const signupForm = useRef(null);
+  const [loading, setloading] = useState(false);
+  const [signinSave, setsigninSave] = useState(false);
+  const [signupSave, setsignupSave] = useState(false);
+  const router = useRouter();
+
+  const Signin = async (e) => {
+    if (signinForm.current.checkValidity()) {
+      e.preventDefault();
+      setauthError(null);
+      setloading(true);
+      const details = {
+        email: document.querySelector("#s-in-em").value,
+        password: document.querySelector("#s-in-pass").value,
+      };
+      const condition = await signIn(details);
+      setloading(false);
+      if (condition) {
+        signinSave &&
+          SaveInformation(
+            {
+              email: { id: "#s-in-em", value: details.email },
+              password: { id: "#s-in-pass", value: details.password },
+            },
+            "temp-data-signin",
+          );
+        router.push("/");
+      }
+    }
+  };
+
+  function getInformation(id) {
+    const data = JSON.parse(localStorage.getItem(id));
+    if (!data) return;
+    for (let key in data) {
+      document.querySelector(data[key].id).value = data[key].value;
+    }
+  }
+
+  const Signup = async (e) => {
+    if (signupForm.current.checkValidity()) {
+      e.preventDefault();
+      setauthError(null);
+      setloading(true);
+      const details = {
+        email: document.querySelector("#s-up-em").value,
+        password: document.querySelector("#s-up-pass").value,
+        name: document.querySelector("#s-up-name").value,
+        phone: document.querySelector("#s-up-phone").value,
+      };
+      const condition = await signUp(details);
+      setloading(false);
+      if (condition) {
+        signupSave &&
+          SaveInformation(
+            {
+              email: { id: "#s-up-em", value: details.email },
+              password: { id: "#s-up-pass", value: details.password },
+              name: { id: "#s-up-name", value: details.name },
+              phone: { id: "#s-up-phone", value: details.phone },
+            },
+            "temp-data-signup",
+          );
+        router.push("/");
+      }
+    }
+  };
+
+  useEffect(() => {
+    getInformation("temp-data-signin");
+    getInformation("temp-data-signup");
+  }, []);
+
   return (
     <div
       id="log-in-05"
@@ -32,6 +109,7 @@ function page() {
         >
           {cross}
         </Link>
+
         <motion.div
           ref={scope}
           transition={{ duration: 1, type: "spring" }}
@@ -69,12 +147,16 @@ function page() {
 
         <motion.div
           id="trans-x-cal-1"
-          className="flex-center flex-1 flex-grow-[0.5]"
+          className="flex-center flex-1 flex-grow-[0.5] flex-col"
           initial={{ opacity: 0 }}
           animate={{ opacity: pageState === 1 ? 1 : 0 }}
           transition={{ duration: 1, ease: "easeInOut" }}
         >
-          <form action={"#"} className="flex w-full max-w-[300px] flex-col">
+          <form
+            ref={signupForm}
+            action={"#"}
+            className="flex w-full max-w-[300px] flex-col"
+          >
             <div className="mb-9 flex flex-col gap-2 massive:mb-7">
               <h1 className="text-[36px] font-[600] leading-[36px] ">
                 Sign up
@@ -84,6 +166,7 @@ function page() {
                 <span
                   className="cursor-pointer text-pmRed"
                   onClick={async () => {
+                    setauthError(null);
                     setpageState(0);
                     animate(
                       scope.current,
@@ -98,95 +181,155 @@ function page() {
             </div>
 
             <div className="flex flex-col gap-8 massive:gap-3">
-              <CustomInput svg={user} text={"First Name"} type={"text"} />
-              <CustomInput svg={phone} text={"Phone"} type={"number"} />
-              <CustomInput svg={email} text={"Email address"} type={"email"} />
-              <CustomInput svg={lock} text={"Password"} type={"Password"} />
+              <CustomInput
+                svg={user}
+                text={"First Name"}
+                type={"text"}
+                id={"s-up-name"}
+              />
+              <CustomInput
+                svg={phone}
+                text={"Phone"}
+                type={"number"}
+                id={"s-up-phone"}
+                max={15}
+              />
+              <CustomInput
+                svg={email}
+                text={"Email address"}
+                type={"email"}
+                id={"s-up-em"}
+              />
+              <CustomInput
+                svg={lock}
+                text={"Password"}
+                type={"Password"}
+                id={"s-up-pass"}
+              />
             </div>
+
             <div className="mt-4">
               <CustomCheckbox
                 text={"Save this information for next time"}
                 fontSize={"sm"}
                 textColor={"#707070"}
+                setOuter={setsignupSave}
               />
             </div>
-            <div className="mt-8 flex flex-col gap-4">
-              <button className="w-full rounded-lg border border-black py-2.5 text-[17px] font-[600]  hover:bg-black hover:text-white ">
-                Sign up
-              </button>
-              <button className="flex-center gap-3 rounded-lg border py-2.5 text-[17px] font-[600] text-[#0000008A] hover:border-black">
-                <img
-                  className="h-6 w-6"
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
-                  loading="lazy"
-                  alt="google logo"
-                />
-                <span>Sign up with Google</span>
+            <div className="mt-8 flex flex-col gap-2">
+              {authError && (
+                <div className="flex-center w-max gap-1.5">
+                  {errorIcon}
+                  <p className="text-[14px] text-pmRed">{authError}</p>
+                </div>
+              )}
+              <button
+                onClick={Signup}
+                disabled={loading}
+                className="w-full rounded-lg border border-black py-2.5 text-[17px] font-[600]  hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:bg-gray-300 "
+              >
+                {loading ? <LoadingIcon /> : "Sign up"}
               </button>
             </div>
           </form>
+          <button className="flex-center mt-4 w-full max-w-[300px] gap-3 rounded-lg border py-2.5 text-[17px] font-[600] text-[#0000008A] hover:border-black">
+            <img
+              className="h-6 w-6"
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              loading="lazy"
+              alt="google logo"
+            />
+            <span>Sign up with Google</span>
+          </button>
         </motion.div>
 
         <motion.div
           animate={{ opacity: pageState === 0 ? 1 : 0 }}
           transition={{ duration: 1, ease: "easeInOut" }}
-          className="flex-center flex-1 flex-grow-[0.5]"
+          className="flex-center flex-1 flex-grow-[0.5] flex-col"
         >
-          <form action={"#"} className="flex w-full max-w-[300px] flex-col">
+          <form
+            ref={signinForm}
+            action={"#"}
+            className="flex w-full max-w-[300px] flex-col"
+          >
             <h1 className="mb-9 text-[36px] font-[600]">Login</h1>
-
             <div className="flex flex-col gap-8">
-              <CustomInput svg={email} text={"Email address"} type={"email"} />
-              <CustomInput svg={lock} text={"Password"} type={"Password"} />
+              <CustomInput
+                svg={email}
+                text={"Email address"}
+                type={"email"}
+                id="s-in-em"
+              />
+              <CustomInput
+                svg={lock}
+                text={"Password"}
+                type={"Password"}
+                id="s-in-pass"
+              />
             </div>
             <div className="mt-4">
               <CustomCheckbox
                 text={"Save this information for next time"}
                 fontSize={"sm"}
                 textColor={"#707070"}
+                setOuter={setsigninSave}
               />
             </div>
-            <div className="mt-8 flex flex-col gap-4">
-              <button className="w-full rounded-lg border border-black py-2.5 text-[17px] font-[600]  hover:bg-black hover:text-white ">
-                Login
-              </button>
-              <button className="flex-center gap-3 rounded-lg border py-2.5 text-[17px] font-[600] text-[#0000008A] hover:border-black">
-                <img
-                  className="h-6 w-6"
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
-                  loading="lazy"
-                  alt="google logo"
-                />
-                <span>Sign in with Google</span>
-              </button>
-              <div className="flex-center w-full gap-1 text-[15px] text-[#707070]">
-                <p>Already have an account? </p>{" "}
-                <span
-                  className="cursor-pointer text-pmRed"
-                  onClick={async () => {
-                    setpageState(1);
-                    animate(
-                      scope.current,
-                      {
-                        x:
-                          document.querySelector("#trans-x-cal-1").scrollWidth +
-                          "px",
-                      },
-                      { duration: 1.2, type: "spring" },
-                    );
-                  }}
-                >
-                  Sign up
-                </span>
-              </div>
-              <Link
-                href="/"
-                className="mt-3 w-full text-center text-[14px] text-black underline underline-offset-2 "
+            <div className="mt-8 flex flex-col gap-2">
+              {authError && (
+                <div className="flex-center w-max gap-1.5">
+                  {errorIcon}
+                  <p className="text-[14px] text-pmRed">{authError}</p>
+                </div>
+              )}
+              <button
+                onClick={Signin}
+                disabled={loading}
+                className="w-full rounded-lg border border-black py-2.5 text-[17px] font-[600]  transition-all duration-300 hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:bg-gray-300"
               >
-                Forget Password
-              </Link>
+                {loading ? <LoadingIcon /> : "Login"}
+              </button>
             </div>
           </form>
+          <div className="mt-4 flex w-full max-w-[300px] flex-col gap-4">
+            <button className="flex-center gap-3 rounded-lg border py-2.5 text-[17px] font-[600] text-[#0000008A] hover:border-black">
+              <img
+                className="h-6 w-6"
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                loading="lazy"
+                alt="google logo"
+              />
+              <span>Sign in with Google</span>
+            </button>
+            <div className="flex-center w-full gap-1 text-[15px] text-[#707070]">
+              <p>Already have an account? </p>{" "}
+              <span
+                className="cursor-pointer text-pmRed"
+                onClick={async () => {
+                  setpageState(1);
+                  animate(
+                    scope.current,
+                    {
+                      x:
+                        document.querySelector("#trans-x-cal-1").scrollWidth +
+                        "px",
+                    },
+                    { duration: 1.2, type: "spring" },
+                  );
+                  setauthError(null);
+                }}
+              >
+                Sign up
+              </span>
+            </div>
+            <Link
+              href="/"
+              className="mt-3 w-full text-center text-[14px] text-black underline underline-offset-2 "
+            >
+              Forget Password
+            </Link>
+          </div>
         </motion.div>
       </div>
     </div>
@@ -195,7 +338,16 @@ function page() {
 
 export default page;
 
-const CustomInput = ({ type, width, svg, text }) => {
+const LoadingIcon = () => {
+  return (
+    <motion.div
+      animate={{ rotate: 360 }}
+      transition={{ ease: "easeInOut", duration: 0.7, repeat: Infinity }}
+      className="m-auto h-[26px] w-[26px] rounded-full border-[3.5px] border-black border-t-transparent"
+    ></motion.div>
+  );
+};
+const CustomInput = ({ type, width, svg, text, id, max }) => {
   return (
     <div
       style={{ width: width ? "100%" : width + "rem" }}
@@ -203,11 +355,21 @@ const CustomInput = ({ type, width, svg, text }) => {
     >
       <span className="flex-center w-[30px]">{svg}</span>
       <input
+        id={id}
         type={type}
         required={true}
         placeholder={text}
         className="w-full text-[16px] outline-none "
+        onKeyDown={(e) => {
+          if (max && e.target.value.length >= max && e.key !== "Backspace") {
+            e.preventDefault();
+          }
+        }}
       />
     </div>
   );
+};
+
+const SaveInformation = (obj, name) => {
+  localStorage.setItem(name, JSON.stringify(obj));
 };

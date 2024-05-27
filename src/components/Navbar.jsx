@@ -1,8 +1,15 @@
-import React from "react";
+"use client";
+import React, { use, useContext, useEffect } from "react";
 import { bag, logo, searchIcon, user } from "../Consonats.jsx";
 import Link from "next/link.js";
+import { ContextStore } from "./Mainstate(store)/Mainstatestore.jsx";
 
 function Navbar({ cart }) {
+  const { authToken } = useContext(ContextStore);
+
+  useEffect(() => {
+    console.log(authToken);
+  }, [authToken]);
   return (
     <div className="flex w-full items-center justify-between border-b border-[#E5E5E5] px-6 py-3 pr-12 ">
       <Link
@@ -20,7 +27,7 @@ function Navbar({ cart }) {
         } `}
       >
         {!cart && <SearchBar />}
-        <SmNav cart={cart} />
+        <SmNav cart={cart} authToken={authToken} />
       </div>
     </div>
   );
@@ -42,7 +49,7 @@ const SearchBar = () => {
   );
 };
 
-const SmNav = ({ cart }) => {
+const SmNav = ({ cart, authToken }) => {
   return (
     <ul className="flex-center list-none gap-5 [&_li]:cursor-pointer  [&_li]:whitespace-nowrap [&_li]:text-[0.95rem] [&_li]:font-[500] hover:[&_li]:text-pmRed ">
       {!cart && (
@@ -70,7 +77,7 @@ const SmNav = ({ cart }) => {
           {bag}
         </Link>
         <Link
-          href="/login"
+          href={authToken ? "/account" : "/login"}
           className="flex-center logoStyle h-9 w-[2.4rem] border-gray-300 "
         >
           {user}
