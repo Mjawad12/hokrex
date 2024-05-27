@@ -13,8 +13,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar cart={true} />
-        {children}
+        <Mainstatestore>
+          <Navbar cart={true} />
+          {children}
+        </Mainstatestore>
       </body>
     </html>
   );
