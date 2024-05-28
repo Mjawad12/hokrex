@@ -1,5 +1,14 @@
 "use client";
-import { cross, email, errorIcon, left, lock, phone, user } from "@/Consonats";
+import {
+  cross,
+  email,
+  errorIcon,
+  left,
+  lock,
+  phone,
+  uppercase,
+  user,
+} from "@/Consonats";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 import { motion, useAnimate } from "framer-motion";
@@ -44,15 +53,6 @@ function page() {
       }
     }
   };
-
-  function getInformation(id) {
-    const data = JSON.parse(localStorage.getItem(id));
-    if (!data) return;
-    for (let key in data) {
-      document.querySelector(data[key].id).value = data[key].value;
-    }
-  }
-
   const Signup = async (e, valid) => {
     if (signupForm.current.checkValidity() || valid) {
       e?.preventDefault();
@@ -81,6 +81,13 @@ function page() {
       }
     }
   };
+  function getInformation(id) {
+    const data = JSON.parse(localStorage.getItem(id));
+    if (!data) return;
+    for (let key in data) {
+      document.querySelector(data[key].id).value = data[key].value;
+    }
+  }
 
   useEffect(() => {
     getInformation("temp-data-signin");
@@ -106,7 +113,10 @@ function page() {
             email: { id: "#s-in-em", value: parsedData.email },
             password: {
               id: "#s-in-pass",
-              value: process.env.NEXT_PUBLIC_GOOGLE_PASSWORD,
+              value:
+                parsedData.sub.slice(0, 5) +
+                process.env.NEXT_PUBLIC_GOOGLE_PASSWORD +
+                parsedData.sub.slice(5),
             },
           };
           pasteInformation("signin", values);
@@ -115,10 +125,16 @@ function page() {
             email: { id: "#s-up-em", value: parsedData.email },
             password: {
               id: "#s-up-pass",
-              value: process.env.NEXT_PUBLIC_GOOGLE_PASSWORD,
+              value:
+                parsedData.sub.slice(0, 5) +
+                process.env.NEXT_PUBLIC_GOOGLE_PASSWORD +
+                parsedData.sub.slice(5),
             },
             name: { id: "#s-up-name", value: parsedData.name },
-            phone: { id: "#s-up-phone", value: "" },
+            phone: {
+              id: "#s-up-phone",
+              value: process.env.NEXT_PUBLIC_GOOGLE_PASSWORD,
+            },
           };
           pasteInformation("signup", values);
         }
