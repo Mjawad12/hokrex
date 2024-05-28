@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useGoogleLogin } from "@react-oauth/google";
 
 function page() {
   const { authError, setauthError, signIn, signUp } = useContext(ContextStore);
@@ -19,9 +20,9 @@ function page() {
   const [signupSave, setsignupSave] = useState(false);
   const router = useRouter();
 
-  const Signin = async (e) => {
-    if (signinForm.current.checkValidity()) {
-      e.preventDefault();
+  const Signin = async (e, valid) => {
+    if (signinForm.current.checkValidity() || valid) {
+      e?.preventDefault();
       setauthError(null);
       setloading(true);
       const details = {
@@ -52,9 +53,9 @@ function page() {
     }
   }
 
-  const Signup = async (e) => {
-    if (signupForm.current.checkValidity()) {
-      e.preventDefault();
+  const Signup = async (e, valid) => {
+    if (signupForm.current.checkValidity() || valid) {
+      e?.preventDefault();
       setauthError(null);
       setloading(true);
       const details = {
@@ -85,6 +86,53 @@ function page() {
     getInformation("temp-data-signin");
     getInformation("temp-data-signup");
   }, []);
+
+  const log = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      try {
+        const data = await fetch(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            method: "Get",
+            headers: {
+              Authorization: `Bearer ${codeResponse.access_token}`,
+            },
+          },
+        );
+        const parsedData = await data.json();
+        console.log(parsedData);
+        if (pageState === 0) {
+          const values = {
+            email: { id: "#s-in-em", value: parsedData.email },
+            password: {
+              id: "#s-in-pass",
+              value: process.env.NEXT_PUBLIC_GOOGLE_PASSWORD,
+            },
+          };
+          pasteInformation("signin", values);
+        } else {
+          const values = {
+            email: { id: "#s-up-em", value: parsedData.email },
+            password: {
+              id: "#s-up-pass",
+              value: process.env.NEXT_PUBLIC_GOOGLE_PASSWORD,
+            },
+            name: { id: "#s-up-name", value: parsedData.name },
+          };
+          pasteInformation("signup", values);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
+  const pasteInformation = (type, values) => {
+    for (let key in values) {
+      document.querySelector(values[key].id).value = values[key].value;
+    }
+    type === "signin" ? Signin(null, true) : Signup(null, true);
+  };
 
   return (
     <div
@@ -232,7 +280,10 @@ function page() {
               </button>
             </div>
           </form>
-          <button className="flex-center mt-4 w-full max-w-[300px] gap-3 rounded-lg border py-2.5 text-[17px] font-[600] text-[#0000008A] hover:border-black">
+          <button
+            onClick={log}
+            className="flex-center mt-4 w-full max-w-[300px] gap-3 rounded-lg border py-2.5 text-[17px] font-[600] text-[#0000008A] hover:border-black"
+          >
             <img
               className="h-6 w-6"
               src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -293,7 +344,10 @@ function page() {
             </div>
           </form>
           <div className="mt-4 flex w-full max-w-[300px] flex-col gap-4">
-            <button className="flex-center gap-3 rounded-lg border py-2.5 text-[17px] font-[600] text-[#0000008A] hover:border-black">
+            <button
+              onClick={log}
+              className="flex-center gap-3 rounded-lg border py-2.5 text-[17px] font-[600] text-[#0000008A] hover:border-black"
+            >
               <img
                 className="h-6 w-6"
                 src="https://www.svgrepo.com/show/475656/google-color.svg"

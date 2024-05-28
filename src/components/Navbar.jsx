@@ -1,15 +1,14 @@
 "use client";
 import React, { use, useContext, useEffect } from "react";
-import { bag, logo, searchIcon, user } from "../Consonats.jsx";
+import { arrowDown, bag, logo, searchIcon, user } from "../Consonats.jsx";
 import Link from "next/link.js";
 import { ContextStore } from "./Mainstate(store)/Mainstatestore.jsx";
+import { usePathname } from "next/navigation.js";
 
 function Navbar({ cart }) {
   const { authToken } = useContext(ContextStore);
+  const pathname = usePathname();
 
-  useEffect(() => {
-    console.log(authToken);
-  }, [authToken]);
   return (
     <div className="flex w-full items-center justify-between border-b border-[#E5E5E5] px-6 py-3 pr-12 ">
       <Link
@@ -23,11 +22,17 @@ function Navbar({ cart }) {
       </Link>
       <div
         className={`flex h-[2.5rem] flex-1 flex-grow-[0.75] items-center ${
-          cart ? "justify-end" : "justify-between"
+          cart || pathname.includes("account")
+            ? "justify-end"
+            : "justify-between"
         } `}
       >
-        {!cart && <SearchBar />}
-        <SmNav cart={cart} authToken={authToken} />
+        {!cart && !pathname.includes("account") && <SearchBar />}
+        <SmNav
+          cart={cart}
+          authToken={authToken}
+          account={pathname.includes("account")}
+        />
       </div>
     </div>
   );
@@ -49,10 +54,10 @@ const SearchBar = () => {
   );
 };
 
-const SmNav = ({ cart, authToken }) => {
+const SmNav = ({ cart, authToken, account }) => {
   return (
     <ul className="flex-center list-none gap-5 [&_li]:cursor-pointer  [&_li]:whitespace-nowrap [&_li]:text-[0.95rem] [&_li]:font-[500] hover:[&_li]:text-pmRed ">
-      {!cart && (
+      {!cart && !account && (
         <>
           <Link href={"/products"}>
             <li>Products</li>
@@ -78,9 +83,10 @@ const SmNav = ({ cart, authToken }) => {
         </Link>
         <Link
           href={authToken ? "/account" : "/login"}
-          className="flex-center logoStyle h-9 w-[2.4rem] border-gray-300 "
+          className={`flex-center logoStyle h-9 w-[2.4rem]  gap-1 border-gray-300 ${account ? "w-max px-3 pl-2 [&_svg:nth-child(1)]:fill-black [&_svg:nth-child(2)]:w-[10px]" : ""}`}
         >
           {user}
+          {account && arrowDown}
         </Link>
       </li>
     </ul>

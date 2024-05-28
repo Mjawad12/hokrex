@@ -227,7 +227,7 @@ const AccountCard = ({ svg, name, des }) => {
   return (
     <div className="flex w-full max-w-[320px] cursor-pointer flex-col rounded-[15px] border border-[#E5E5E5] p-6 hover:shadow-lg">
       <span className="w-max rounded-[10px] bg-[#F9F9F9] p-2.5 ">{svg}</span>
-      <h2 className="mt-6 text-[18px] font-[600]">{name}</h2>
+      <h2 className="mt-5 text-[18px] font-[600]">{name}</h2>
       <p className="mt-1 text-[15px] font-[400] text-[#707070]">{des}</p>
     </div>
   );
