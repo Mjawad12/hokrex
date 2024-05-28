@@ -118,6 +118,7 @@ function page() {
               value: process.env.NEXT_PUBLIC_GOOGLE_PASSWORD,
             },
             name: { id: "#s-up-name", value: parsedData.name },
+            phone: { id: "#s-up-phone", value: "" },
           };
           pasteInformation("signup", values);
         }
