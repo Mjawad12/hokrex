@@ -1,8 +1,10 @@
 import { headers } from "next/headers";
 import authorize from "../Middleware/Authorize";
 import UserSchema from "../Schemas/UserSchema";
+import ConnectDb from "../dbConnect";
 
 export async function POST() {
+  await ConnectDb();
   const headersList = headers();
 
   console.log(headersList.get("authToken"));
