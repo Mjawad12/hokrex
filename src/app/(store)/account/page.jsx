@@ -1,11 +1,12 @@
 "use client";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 function page() {
   const router = useRouter();
-  const { delFunc } = useContext(ContextStore);
+  const { delFunc, authToken } = useContext(ContextStore);
   const AccountDetails = [
     {
       svg: (
@@ -34,6 +35,7 @@ function page() {
       ),
       name: "Personal info",
       des: "Provide and edit your personal details",
+      slug: "personal-info",
     },
     {
       svg: (
@@ -69,6 +71,7 @@ function page() {
       ),
       name: "Security",
       des: "Update your password",
+      slug: "security",
     },
     {
       svg: (
@@ -104,6 +107,7 @@ function page() {
       ),
       name: "My Orders",
       des: "Check your orders details.",
+      slug: "my-orders",
     },
     {
       svg: (
@@ -125,6 +129,7 @@ function page() {
       ),
       name: "Wishlist",
       des: "Check,Add ,delete items from wishlist",
+      slug: "wishlist",
     },
     {
       svg: (
@@ -167,6 +172,7 @@ function page() {
       ),
       name: "Payment",
       des: "Provide and edit your payment details",
+      slug: "payment",
     },
     {
       svg: (
@@ -195,8 +201,12 @@ function page() {
       ),
       name: "Address book",
       des: "Provide and edit your address details",
+      slug: "address-book",
     },
   ];
+  useEffect(() => {
+    !authToken && router.push("/");
+  }, []);
 
   return (
     <section className="flex-center min-h-[calc(100vh-65px)] w-full">
@@ -204,7 +214,13 @@ function page() {
         <h1 className="text-[35px] font-[500] leading-[40px]">My Account</h1>
         <div className="mt-3 flex flex-wrap gap-7">
           {AccountDetails.map((it, index) => (
-            <AccountCard name={it.name} des={it.des} svg={it.svg} key={index} />
+            <AccountCard
+              name={it.name}
+              des={it.des}
+              svg={it.svg}
+              key={index}
+              slug={it.slug}
+            />
           ))}
         </div>
         <button
@@ -223,12 +239,15 @@ function page() {
 
 export default page;
 
-const AccountCard = ({ svg, name, des }) => {
+const AccountCard = ({ svg, name, des, slug }) => {
   return (
-    <div className="flex w-full max-w-[320px] cursor-pointer flex-col rounded-[15px] border border-[#E5E5E5] p-6 hover:shadow-lg">
+    <Link
+      href={"/account/" + slug}
+      className="flex w-full max-w-[320px] cursor-pointer flex-col rounded-[15px] border border-[#E5E5E5] p-6 hover:shadow-lg"
+    >
       <span className="w-max rounded-[10px] bg-[#F9F9F9] p-2.5 ">{svg}</span>
       <h2 className="mt-5 text-[18px] font-[600]">{name}</h2>
       <p className="mt-1 text-[15px] font-[400] text-[#707070]">{des}</p>
-    </div>
+    </Link>
   );
 };

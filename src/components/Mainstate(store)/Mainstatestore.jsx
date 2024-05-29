@@ -7,6 +7,7 @@ function Mainstatestore({ children }) {
   const [products, setproducts] = useState([]);
   const [authError, setauthError] = useState(null);
   const [authToken, setauthToken] = useState(null);
+  const [userData, setuserData] = useState(null);
 
   const getProducts = async () => {
     const data = await fetch(`${url}/api/getproducts`, {
@@ -58,12 +59,24 @@ function Mainstatestore({ children }) {
     localStorage.removeItem("authToken");
   };
 
+  const getUserdata = async () => {
+    const data = await fetch(`${url}/api/getUserData`, {
+      method: "POST",
+      headers: { authToken: localStorage.getItem("authToken") },
+    });
+    const parsedData = await data.json();
+    if (parsedData.success) {
+      setuserData(parsedData.userdata);
+    }
+  };
+
   useEffect(() => {
     console.log(authToken);
   }, [authToken]);
 
   useEffect(() => {
     setauthToken(localStorage.getItem("authToken"));
+    localStorage.getItem("authToken") && !userData && getUserdata();
   }, []);
 
   return (
@@ -78,6 +91,8 @@ function Mainstatestore({ children }) {
         authToken,
         setauthToken,
         delFunc,
+        userData,
+        setuserData,
       }}
     >
       {children}

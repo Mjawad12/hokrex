@@ -270,3 +270,17 @@ input[type="number"] {
 #smSCroll::-webkit-scrollbar {
   width: 5px;
 }
+
+#cs-pi .stdropdown-menu {
+  max-width: 603px !important;
+  width: 100% !important;
+}
+#cs-pi > div:nth-child(1),
+#cs-pi .stdropdown-container {
+  position: unset !important;
+}
+
+#cs-pi input {
+  z-index: 10;
+  background: transparent;
+}

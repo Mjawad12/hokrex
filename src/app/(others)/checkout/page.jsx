@@ -1,7 +1,7 @@
 "use client";
 import { google, left2, lock } from "@/Consonats";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "react-country-state-city/dist/react-country-state-city.css";
 import { CountrySelect, StateSelect } from "react-country-state-city";
 import PhoneInput from "react-phone-number-input";
@@ -241,7 +241,7 @@ const Page1 = ({
                 defaultCountry="PK"
                 placeholder="Phone"
                 value={value}
-                onChange={(e) => setValue(e)}
+                onChange={setValue}
               />
             </div>
           </div>

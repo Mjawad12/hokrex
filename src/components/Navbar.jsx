@@ -70,7 +70,9 @@ const SmNav = ({ cart, authToken, account }) => {
             <li>Contact us</li>
           </Link>
           <li className={` flex-center w-[165px] !text-[1rem]`}>
-            <Dealerbtn />
+            <Link className="w-[160px]" href={"/qoute"}>
+              <Dealerbtn />
+            </Link>
           </li>
         </>
       )}
