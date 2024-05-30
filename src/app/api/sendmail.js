@@ -19,7 +19,7 @@ const SendMail = async (clientMail, otp) => {
     });
 
     const mailoptions = {
-      from: "Hokrex 🚗 <hokrexofficial@gmail.com> ",
+      from: "Hokrex 👕 <hokrexofficial@gmail.com> ",
       to: clientMail,
       subject: "Hokrex - One-Time Password (OTP) Code",
       text: `Your code is ${otp}`,
@@ -30,7 +30,7 @@ const SendMail = async (clientMail, otp) => {
        <p>Thank you for helping us keep your account secure.<p/>
 
        <p>Best regards. <p/>
-       <h3>Hokrex</h3>
+       <h3>Hokrex - Official</h3>
        `,
     };
 
