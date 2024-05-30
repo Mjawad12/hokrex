@@ -5,6 +5,7 @@ const Schema = new mongoose.Schema({
   name: String,
   password: String,
   phone: String,
+  otherphone: String,
   email: String,
   orders: {
     type: Array,
@@ -16,6 +17,8 @@ const Schema = new mongoose.Schema({
   },
   address: String,
   paymentMethods: Array,
+  verification: { type: Boolean, default: false },
+  otp: Number,
 });
 
 export default mongoose.models.Users || mongoose.model("Users", Schema);

@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import UserSchema from "../Schemas/UserSchema";
 import ConnectDb from "../dbConnect";
 import bcrypt from "bcrypt";
+import { Otpcreator, SendMail } from "../sendmail";
 
 export async function POST(req) {
   await ConnectDb();
@@ -19,10 +20,24 @@ export async function POST(req) {
       return Response.json({ success: false, error: "Wrong Password" });
     }
 
-    const authToken = jwt.sign(user._id.toString(), process.env.JWT_STRING);
-
-    return Response.json({ success: true, authToken });
+    if (user.verification) {
+      const authToken = jwt.sign(user._id.toString(), process.env.JWT_STRING);
+      return Response.json({ success: true, authToken });
+    } else {
+      const otp = Otpcreator();
+      await OTP_Seeter(otp, user.email);
+      await SendMail(user.email, otp);
+      const authToken = jwt.sign(user._id.toString(), process.env.JWT_STRING);
+      return Response.json(
+        { success: true, otp: true, email: user.email, authToken },
+        { status: 200 },
+      );
+    }
   } catch (error) {
     return Response.json({ success: false, error: error.message });
   }
 }
+
+const OTP_Seeter = async (otp, email) => {
+  const prevOTP = await UserSchema.updateOne({ email: email }, { otp: otp });
+};

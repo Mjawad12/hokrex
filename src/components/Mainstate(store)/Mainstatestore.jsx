@@ -8,6 +8,8 @@ function Mainstatestore({ children }) {
   const [authError, setauthError] = useState(null);
   const [authToken, setauthToken] = useState(null);
   const [userData, setuserData] = useState(null);
+  const [otp, setotp] = useState(false);
+  const [verified, setverified] = useState(false);
 
   const getProducts = async () => {
     const data = await fetch(`${url}/api/getproducts`, {
@@ -27,9 +29,16 @@ function Mainstatestore({ children }) {
     const parsedData = await data.json();
     console.log(parsedData);
     if (parsedData.success) {
-      setauthToken(parsedData.authToken);
-      localStorage.setItem("authToken", parsedData.authToken);
-      return true;
+      if (parsedData.otp) {
+        setotp(true);
+        setauthToken(parsedData.authToken);
+        localStorage.removeItem("authToken");
+        return "otp";
+      } else {
+        setauthToken(parsedData.authToken);
+        localStorage.setItem("authToken", parsedData.authToken);
+        return true;
+      }
     } else {
       setauthError(parsedData.error);
       return false;
@@ -45,12 +54,35 @@ function Mainstatestore({ children }) {
     const parsedData = await data.json();
 
     if (parsedData.success) {
-      setauthToken(parsedData.authToken);
-      localStorage.setItem("authToken", parsedData.authToken);
-      return true;
+      if (parsedData.otp) {
+        setotp(true);
+        setauthToken(parsedData.authToken);
+        localStorage.removeItem("authToken");
+        return "otp";
+      } else {
+        setauthToken(parsedData.authToken);
+        localStorage.setItem("authToken", parsedData.authToken);
+        return true;
+      }
     } else {
       setauthError(parsedData.error);
       return false;
+    }
+  };
+
+  const emailVerification = async (otp) => {
+    const data = await fetch(`${url}/api/verifyemail`, {
+      method: "POST",
+      cache: "no-cache",
+      body: JSON.stringify({ otp }),
+      headers: { authToken: authToken },
+    });
+    const parsedData = await data.json();
+    if (parsedData.success) {
+      setverified(true);
+      localStorage.setItem("authToken", authToken);
+    } else {
+      setauthError(parsedData.error);
     }
   };
 
@@ -62,7 +94,7 @@ function Mainstatestore({ children }) {
   const getUserdata = async () => {
     const data = await fetch(`${url}/api/getUserData`, {
       method: "POST",
-      headers: { authToken: localStorage.getItem("authToken") },
+      headers: { authToken: localStorage.getItem("authToken") || authToken },
     });
     const parsedData = await data.json();
     if (parsedData.success) {
@@ -72,11 +104,11 @@ function Mainstatestore({ children }) {
 
   useEffect(() => {
     console.log(authToken);
+    authToken && !userData && getUserdata();
   }, [authToken]);
 
   useEffect(() => {
     setauthToken(localStorage.getItem("authToken"));
-    localStorage.getItem("authToken") && !userData && getUserdata();
   }, []);
 
   return (
@@ -93,6 +125,11 @@ function Mainstatestore({ children }) {
         delFunc,
         userData,
         setuserData,
+        setotp,
+        otp,
+        emailVerification,
+        verified,
+        setverified,
       }}
     >
       {children}
