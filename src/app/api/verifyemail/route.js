@@ -1,27 +1,20 @@
-import { headers } from "next/headers";
 import UserSchema from "../Schemas/UserSchema";
 import ConnectDb from "../dbConnect";
-import authorize from "../Middleware/Authorize";
+import jwt from "jsonwebtoken";
 
 export async function POST(req) {
   await ConnectDb();
   const body = await req.json();
-  const headerlist = headers();
-  const id = await authorize(headerlist.get("authToken"));
-  const user = await UserSchema.findOne({ _id: id });
 
-  if (user) {
-    if (body.otp == user.otp) {
-      await UserSchema.updateOne(
-        { _id: id },
-        { verification: true, otp: null },
-      );
-    } else {
-      return Response.json({ success: false, error: "Wrong Otp" });
-    }
-  } else {
-    return Response.json({ success: false, error: "Not Authorized" });
+  const user = await UserSchema.findOne({ email: body.email, otp: body.otp });
+
+  if (!user) {
+    return Response.json({ success: false, error: "Wrong Otp" });
   }
-
-  return Response.json({ success: true });
+  await UserSchema.updateOne(
+    { email: body.email, otp: body.otp },
+    { verification: true, otp: null },
+  );
+  const authToken = jwt.sign(user._id.toString(), process.env.JWT_STRING);
+  return Response.json({ success: true, authToken });
 }

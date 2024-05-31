@@ -39,12 +39,8 @@ export async function POST(req) {
       const otp = Otpcreator();
       await OTP_Seeter(otp, user.email);
       await SendMail(user.email, otp);
-      const authToken = await Jwt.sign(
-        user._id.toString(),
-        process.env.JWT_STRING,
-      );
       return Response.json(
-        { success: true, otp: true, email: user.email, authToken },
+        { success: true, otp: true, email: user.email },
         { status: 200 },
       );
     }
@@ -64,5 +60,4 @@ const checkExsistingUser = async (body) => {
 
 const OTP_Seeter = async (otp, email) => {
   const prevOTP = await UserSchema.updateOne({ email: email }, { otp: otp });
-  console.log(prevOTP);
 };

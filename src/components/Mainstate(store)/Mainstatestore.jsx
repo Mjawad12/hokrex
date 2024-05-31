@@ -1,4 +1,5 @@
 "use client";
+import { email } from "@/Consonats";
 import React, { createContext, useEffect, useState } from "react";
 const ContextStore = createContext();
 
@@ -10,6 +11,8 @@ function Mainstatestore({ children }) {
   const [userData, setuserData] = useState(null);
   const [otp, setotp] = useState(false);
   const [verified, setverified] = useState(false);
+  const [forgetPassword, setforgetPassword] = useState(false);
+  const [forgetFunc, setforgetFunc] = useState(false);
 
   const getProducts = async () => {
     const data = await fetch(`${url}/api/getproducts`, {
@@ -26,12 +29,12 @@ function Mainstatestore({ children }) {
       cache: "no-cache",
       body: JSON.stringify(obj),
     });
+    setuserData(obj);
     const parsedData = await data.json();
     console.log(parsedData);
     if (parsedData.success) {
       if (parsedData.otp) {
         setotp(true);
-        setauthToken(parsedData.authToken);
         localStorage.removeItem("authToken");
         return "otp";
       } else {
@@ -52,11 +55,10 @@ function Mainstatestore({ children }) {
       body: JSON.stringify(obj),
     });
     const parsedData = await data.json();
-
+    setuserData(obj);
     if (parsedData.success) {
       if (parsedData.otp) {
         setotp(true);
-        setauthToken(parsedData.authToken);
         localStorage.removeItem("authToken");
         return "otp";
       } else {
@@ -74,13 +76,12 @@ function Mainstatestore({ children }) {
     const data = await fetch(`${url}/api/verifyemail`, {
       method: "POST",
       cache: "no-cache",
-      body: JSON.stringify({ otp }),
-      headers: { authToken: authToken },
+      body: JSON.stringify({ otp, email: userData.email }),
     });
     const parsedData = await data.json();
     if (parsedData.success) {
       setverified(true);
-      localStorage.setItem("authToken", authToken);
+      localStorage.setItem("authToken", parsedData.authToken);
     } else {
       setauthError(parsedData.error);
     }
@@ -102,14 +103,17 @@ function Mainstatestore({ children }) {
     }
   };
 
-  const sendMail = async (otp) => {
-    const data = await fetch(`${url}/api/mailsend`, {
+  const sendMail = async () => {
+    const data = await fetch(`${url}/api/signin`, {
       method: "POST",
       cache: "no-cache",
-      headers: { authToken: authToken },
+      body: JSON.stringify({
+        email: userData.email,
+        password: userData.password,
+      }),
     });
     const parsedData = await data.json();
-    if (parsedData.success) {
+    if (parsedData.success && parsedData.otp) {
       setauthError("Email sent");
     } else {
       setauthError(parsedData.error);
@@ -145,6 +149,10 @@ function Mainstatestore({ children }) {
         verified,
         setverified,
         sendMail,
+        setforgetPassword,
+        forgetPassword,
+        setforgetFunc,
+        forgetFunc,
       }}
     >
       {children}

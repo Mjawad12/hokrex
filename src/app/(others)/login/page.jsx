@@ -22,6 +22,9 @@ function page() {
     verified,
     setverified,
     sendMail,
+    setforgetPassword,
+    forgetPassword,
+    forgetFunc,
   } = useContext(ContextStore);
   const [scope, animate] = useAnimate();
   const [pageState, setpageState] = useState(0);
@@ -67,7 +70,6 @@ function page() {
         password: document.querySelector("#s-up-pass").value,
         name: document.querySelector("#s-up-name").value,
         phone: document.querySelector("#s-up-phone").value,
-        verification: valid,
       };
       const condition = await signUp(details);
       setloading(false);
@@ -177,7 +179,7 @@ function page() {
   };
 
   useEffect(() => {
-    if (otp && pageState !== 1) {
+    if ((otp && pageState !== 1) || forgetPassword) {
       setpageState(1);
       animate(
         scope.current,
@@ -186,23 +188,32 @@ function page() {
         },
         { duration: 1.2, type: "spring" },
       );
-      setauthError(null);
+      // setauthError(null);
     }
-  }, [otp]);
+  }, [otp, forgetPassword]);
 
   return (
     <div
       id="log-in-05"
       className="flex-center relative min-h-screen w-full py-5"
     >
-      <Image
-        src={otp ? (verified ? "/verified.png" : "/otp.png") : "/forest.png"}
-        width={otp ? 600 : 500}
-        height={500}
-        alt="forest"
-        className="absolute right-0 top-0 h-screen w-max"
-      />
-
+      {forgetPassword ? (
+        <Image
+          src={"/forget.png"}
+          width={otp ? 600 : 500}
+          height={500}
+          alt="forest"
+          className="absolute right-0 top-0 h-screen w-max"
+        />
+      ) : (
+        <Image
+          src={otp ? (verified ? "/verified.png" : "/otp.png") : "/forest.png"}
+          width={otp ? 600 : 500}
+          height={500}
+          alt="forest"
+          className="absolute right-0 top-0 h-screen w-max"
+        />
+      )}
       <div
         style={{ boxShadow: "0px 0px 64px 0px #00000017" }}
         className="relative z-20 flex min-h-[730px] w-full  max-w-[1300px] rounded-3xl bg-white massive:min-h-[600px] massive:max-w-[1100px]"
@@ -213,7 +224,7 @@ function page() {
             setotp(false);
             setverified(false);
           }}
-          className={`absolute right-3 top-3 z-30 [&_svg]:h-[33px] [&_svg]:w-[33px] [&_svg]:stroke-none ${otp ? "[&_path]:stroke-white" : ""} ${verified ? "[&_path]:!stroke-black" : ""}`}
+          className={`absolute right-3 top-3 z-30 [&_svg]:h-[33px] [&_svg]:w-[33px] [&_svg]:stroke-none ${otp || forgetPassword ? "[&_path]:stroke-white" : ""} ${verified ? "[&_path]:!stroke-black" : ""}`}
         >
           {cross}
         </Link>
@@ -249,21 +260,32 @@ function page() {
             transition={{ duration: 0.5, ease: "easeInOut" }}
             className="absolute h-full w-full"
           >
-            <Image
-              src={
-                otp
-                  ? verified
-                    ? "/verifiedbox.png"
-                    : "/otpcard.png"
-                  : "/forestColor.png"
-              }
-              alt="forestColor"
-              width={500}
-              height={500}
-              className="h-full w-full "
-            />
+            {forgetPassword ? (
+              <Image
+                src={"/forgetbox.png"}
+                alt="forestColor"
+                width={800}
+                height={800}
+                className="h-full w-full "
+              />
+            ) : (
+              <Image
+                src={
+                  otp
+                    ? verified
+                      ? "/verifiedbox.png"
+                      : "/otpcard.png"
+                    : "/forestColor.png"
+                }
+                alt="forestColor"
+                width={500}
+                height={500}
+                className="h-full w-full "
+              />
+            )}
           </motion.div>
         </motion.div>
+
         {otp ? (
           verified ? (
             <VerifiedPage
@@ -283,6 +305,12 @@ function page() {
               sendMail={sendMail}
             />
           )
+        ) : forgetPassword ? (
+          <ForgetPage
+            forgetPassword={forgetPassword}
+            loading={loading}
+            authError={authError}
+          />
         ) : (
           <motion.div
             id="trans-x-cal-1"
@@ -305,13 +333,15 @@ function page() {
                   <span
                     className="cursor-pointer text-pmRed"
                     onClick={async () => {
-                      setauthError(null);
-                      setpageState(0);
-                      animate(
-                        scope.current,
-                        { x: 0 },
-                        { duration: 1.2, type: "spring" },
-                      );
+                      if (!loading) {
+                        setauthError(null);
+                        setpageState(0);
+                        animate(
+                          scope.current,
+                          { x: 0 },
+                          { duration: 1.2, type: "spring" },
+                        );
+                      }
                     }}
                   >
                     Log in
@@ -373,6 +403,7 @@ function page() {
             </form>
             <button
               onClick={log}
+              disabled={loading}
               className="flex-center mt-4 w-full max-w-[300px] gap-3 rounded-lg border py-2.5 text-[17px] font-[600] text-[#0000008A] hover:border-black"
             >
               <img
@@ -439,6 +470,7 @@ function page() {
           <div className="mt-4 flex w-full max-w-[300px] flex-col gap-4">
             <button
               onClick={log}
+              disabled={loading}
               className="flex-center gap-3 rounded-lg border py-2.5 text-[17px] font-[600] text-[#0000008A] hover:border-black"
             >
               <img
@@ -449,33 +481,38 @@ function page() {
               />
               <span>Sign in with Google</span>
             </button>
+
             <div className="flex-center w-full gap-1 text-[15px] text-[#707070]">
               <p>Already have an account? </p>{" "}
               <span
                 className="cursor-pointer text-pmRed"
                 onClick={async () => {
-                  setpageState(1);
-                  animate(
-                    scope.current,
-                    {
-                      x:
-                        document.querySelector("#trans-x-cal-1").scrollWidth +
-                        "px",
-                    },
-                    { duration: 1.2, type: "spring" },
-                  );
-                  setauthError(null);
+                  if (!loading) {
+                    setpageState(1);
+                    animate(
+                      scope.current,
+                      {
+                        x:
+                          document.querySelector("#trans-x-cal-1").scrollWidth +
+                          "px",
+                      },
+                      { duration: 1.2, type: "spring" },
+                    );
+                    setauthError(null);
+                  }
                 }}
               >
                 Sign up
               </span>
             </div>
-            <Link
-              href="/"
+            <button
+              onClick={() => {
+                !loading && setforgetPassword(true);
+              }}
               className="mt-3 w-full text-center text-[14px] text-black underline underline-offset-2 "
             >
               Forget Password
-            </Link>
+            </button>
           </div>
         </motion.div>
       </div>
@@ -498,7 +535,7 @@ const CustomInput = ({ type, width, svg, text, id, max }) => {
   return (
     <div
       style={{ width: width ? "100%" : width + "rem" }}
-      className="flex gap-1.5 border-b border-[#E5E5E5]  py-2 hover:border-black focus:[&_input]:border-black"
+      className="flex gap-1.5 border-b border-[#E5E5E5] py-2 focus-within:border-black hover:border-black"
     >
       <span className="flex-center w-[30px]">{svg}</span>
       <input
@@ -705,6 +742,50 @@ const VerifiedPage = ({ verified, setverified, setotp }) => {
       >
         Got it
       </Link>
+    </motion.div>
+  );
+};
+
+const ForgetPage = ({ forgetPassword, loading, authError }) => {
+  return (
+    <motion.div
+      animate={{ opacity: forgetPassword ? 1 : 0 }}
+      transition={{ duration: 1, ease: "easeInOut" }}
+      className="flex-center flex-1 flex-grow-[0.5] flex-col"
+    >
+      <div>
+        <h1 className="text-[30px] font-[600] leading-[25px]">
+          Forget password
+        </h1>
+        <form action="#" className="mt-12">
+          <div className="flex flex-col gap-5">
+            <p className="text-[14px] font-[600]">Enter your email</p>
+            <div className="flex gap-1.5 border-b border-[#E5E5E5] py-2 focus-within:border-black hover:border-black">
+              <span className="flex-center w-[25px]">{email}</span>
+              <input
+                type={"email"}
+                required={true}
+                placeholder={"Enter email"}
+                className="w-[16rem] text-[15px] outline-none "
+              />
+            </div>
+          </div>
+          <div className="mt-7 flex flex-col gap-2 ">
+            {authError && (
+              <div className="flex-center w-max gap-1.5">
+                {errorIcon}
+                <p className="text-[14px] text-pmRed">{authError}</p>
+              </div>
+            )}
+            <button
+              disabled={loading}
+              className="w-max rounded-[10px] bg-black px-11 py-2.5 text-white disabled:cursor-not-allowed disabled:bg-gray-300"
+            >
+              {loading ? <LoadingIcon /> : "Reset"}
+            </button>
+          </div>
+        </form>
+      </div>
     </motion.div>
   );
 };
