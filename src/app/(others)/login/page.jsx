@@ -21,6 +21,7 @@ function page() {
     emailVerification,
     verified,
     setverified,
+    sendMail,
   } = useContext(ContextStore);
   const [scope, animate] = useAnimate();
   const [pageState, setpageState] = useState(0);
@@ -279,6 +280,7 @@ function page() {
               VerifyEmail={VerifyEmail}
               authError={authError}
               setauthError={setauthError}
+              sendMail={sendMail}
             />
           )
         ) : (
@@ -527,6 +529,7 @@ const OTP_Page = ({
   VerifyEmail,
   authError,
   setauthError,
+  sendMail,
 }) => {
   const [timerStated, settimerStated] = useState(false);
 
@@ -645,6 +648,7 @@ const OTP_Page = ({
                       time--;
                     }
                   }, [1000]);
+                  sendMail();
                 }
               }}
               className="text cursor-pointer border-none text-pmRed underline underline-offset-2 outline-none"

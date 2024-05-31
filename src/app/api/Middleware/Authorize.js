@@ -6,6 +6,6 @@ export default async function authorize(authtoken) {
     return id;
   } catch (error) {
     console.log("Not Authorized");
-    return "Not Authorized";
+    return false;
   }
 }

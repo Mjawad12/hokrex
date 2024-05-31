@@ -10,7 +10,7 @@ const SendMail = async (clientMail, otp) => {
   try {
     console.log(clientMail);
 
-    const transport = nodemailer.createTransport({
+    const transport = await nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: "hokrexofficial@gmail.com",

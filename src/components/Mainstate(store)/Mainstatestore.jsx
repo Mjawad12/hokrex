@@ -102,6 +102,20 @@ function Mainstatestore({ children }) {
     }
   };
 
+  const sendMail = async (otp) => {
+    const data = await fetch(`${url}/api/mailsend`, {
+      method: "POST",
+      cache: "no-cache",
+      headers: { authToken: authToken },
+    });
+    const parsedData = await data.json();
+    if (parsedData.success) {
+      setauthError("Email sent");
+    } else {
+      setauthError(parsedData.error);
+    }
+  };
+
   useEffect(() => {
     console.log(authToken);
     authToken && !userData && getUserdata();
@@ -130,6 +144,7 @@ function Mainstatestore({ children }) {
         emailVerification,
         verified,
         setverified,
+        sendMail,
       }}
     >
       {children}
