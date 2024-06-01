@@ -862,11 +862,15 @@ const PasswordResetPage = ({
     if (passwordForm.current.checkValidity()) {
       e.preventDefault();
       setloading(true);
-      checkPassword(
+      const checker = checkPassword(
         document.querySelector("#p-1-en").value,
         setauthError,
         true,
       );
+      if (!checker) {
+        setloading(false);
+        return;
+      }
       if (
         document.querySelector("#p-1-en").value !==
         document.querySelector("#p-1-ag").value

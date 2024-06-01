@@ -1,13 +1,13 @@
 import ConnectDb from "../dbConnect";
 import UserSchema from "../Schemas/UserSchema";
+import bcrypt from "bcrypt";
 
 export async function POST(req) {
   await ConnectDb();
-
-  const body = req.json();
+  const body = await req.json();
   const genSalts = await bcrypt.genSalt(10);
   const hashedPAssword = await bcrypt.hash(body.password, genSalts);
-  const user = UserSchema.updateOne(
+  const user = await UserSchema.updateOne(
     { email: body.email },
     { password: hashedPAssword },
   );

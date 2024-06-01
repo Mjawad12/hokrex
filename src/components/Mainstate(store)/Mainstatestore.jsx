@@ -1,5 +1,4 @@
 "use client";
-import { email } from "@/Consonats";
 import React, { createContext, useEffect, useState } from "react";
 const ContextStore = createContext();
 
@@ -133,11 +132,11 @@ function Mainstatestore({ children }) {
       method: "POST",
       cache: "no-cache",
       body: JSON.stringify({
-        email: email || userData.email,
-        passwrd: pass,
+        email: userData.email,
+        password: pass,
       }),
     });
-    setuserData({ ...userData, email: email });
+
     const parsedData = await data.json();
     if (parsedData.success) {
       setforgetPassword(false);
