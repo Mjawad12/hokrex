@@ -1,8 +1,8 @@
 "use client";
-import { cross, email, errorIcon, lock, phone, user } from "@/Consonats";
+import { cross, email, errorIcon, lock, phone, tick, user } from "@/Consonats";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
-import { motion, useAnimate } from "framer-motion";
+import { AnimatePresence, motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -24,7 +24,9 @@ function page() {
     sendMail,
     setforgetPassword,
     forgetPassword,
-    forgetFunc,
+    setforgetFunc,
+    enterPass,
+    PassReset,
   } = useContext(ContextStore);
   const [scope, animate] = useAnimate();
   const [pageState, setpageState] = useState(0);
@@ -179,7 +181,7 @@ function page() {
   };
 
   useEffect(() => {
-    if ((otp && pageState !== 1) || forgetPassword) {
+    if ((otp && pageState !== 1) || forgetPassword || enterPass) {
       setpageState(1);
       animate(
         scope.current,
@@ -188,9 +190,9 @@ function page() {
         },
         { duration: 1.2, type: "spring" },
       );
-      // setauthError(null);
+      setauthError(null);
     }
-  }, [otp, forgetPassword]);
+  }, [otp, forgetPassword, enterPass]);
 
   return (
     <div
@@ -205,6 +207,14 @@ function page() {
           alt="forest"
           className="absolute right-0 top-0 h-screen w-max"
         />
+      ) : enterPass ? (
+        <Image
+          src={"/forest.png"}
+          width={otp ? 600 : 500}
+          height={500}
+          alt="forest"
+          className="absolute right-0 top-0 h-screen w-max"
+        />
       ) : (
         <Image
           src={otp ? (verified ? "/verified.png" : "/otp.png") : "/forest.png"}
@@ -214,6 +224,7 @@ function page() {
           className="absolute right-0 top-0 h-screen w-max"
         />
       )}
+
       <div
         style={{ boxShadow: "0px 0px 64px 0px #00000017" }}
         className="relative z-20 flex min-h-[730px] w-full  max-w-[1300px] rounded-3xl bg-white massive:min-h-[600px] massive:max-w-[1100px]"
@@ -268,6 +279,14 @@ function page() {
                 height={800}
                 className="h-full w-full "
               />
+            ) : enterPass ? (
+              <Image
+                src={"/forestColor.png"}
+                alt="forestColor"
+                width={500}
+                height={500}
+                className="h-full w-full "
+              />
             ) : (
               <Image
                 src={
@@ -310,6 +329,18 @@ function page() {
             forgetPassword={forgetPassword}
             loading={loading}
             authError={authError}
+            sendMail={sendMail}
+            setloading={setloading}
+            setauthError={setauthError}
+          />
+        ) : enterPass ? (
+          <PasswordResetPage
+            enterPass={enterPass}
+            authError={authError}
+            loading={loading}
+            setauthError={setauthError}
+            PassReset={PassReset}
+            setloading={setloading}
           />
         ) : (
           <motion.div
@@ -355,6 +386,7 @@ function page() {
                   text={"First Name"}
                   type={"text"}
                   id={"s-up-name"}
+                  setauthError={setauthError}
                 />
                 <CustomInput
                   svg={phone}
@@ -362,18 +394,21 @@ function page() {
                   type={"number"}
                   id={"s-up-phone"}
                   max={15}
+                  setauthError={setauthError}
                 />
                 <CustomInput
                   svg={email}
                   text={"Email address"}
                   type={"email"}
                   id={"s-up-em"}
+                  setauthError={setauthError}
                 />
                 <CustomInput
                   svg={lock}
                   text={"Password"}
                   type={"Password"}
                   id={"s-up-pass"}
+                  setauthError={setauthError}
                 />
               </div>
 
@@ -385,13 +420,8 @@ function page() {
                   setOuter={setsignupSave}
                 />
               </div>
-              <div className="mt-8 flex flex-col gap-2">
-                {authError && (
-                  <div className="flex-center w-max gap-1.5">
-                    {errorIcon}
-                    <p className="text-[14px] text-pmRed">{authError}</p>
-                  </div>
-                )}
+              <div className="mt-3 flex flex-col gap-2">
+                <AuthError authError={authError} />
                 <button
                   onClick={Signup}
                   disabled={loading}
@@ -435,12 +465,14 @@ function page() {
                 text={"Email address"}
                 type={"email"}
                 id="s-in-em"
+                setauthError={setauthError}
               />
               <CustomInput
                 svg={lock}
                 text={"Password"}
                 type={"Password"}
                 id="s-in-pass"
+                setauthError={setauthError}
               />
             </div>
             <div className="mt-4">
@@ -451,13 +483,8 @@ function page() {
                 setOuter={setsigninSave}
               />
             </div>
-            <div className="mt-8 flex flex-col gap-2">
-              {authError && (
-                <div className="flex-center w-max gap-1.5">
-                  {errorIcon}
-                  <p className="text-[14px] text-pmRed">{authError}</p>
-                </div>
-              )}
+            <div className="mt-3 flex flex-col gap-2">
+              <AuthError authError={authError} />
               <button
                 onClick={Signin}
                 disabled={loading}
@@ -507,7 +534,10 @@ function page() {
             </div>
             <button
               onClick={() => {
-                !loading && setforgetPassword(true);
+                if (!loading) {
+                  setforgetPassword(true);
+                  setforgetFunc(true);
+                }
               }}
               className="mt-3 w-full text-center text-[14px] text-black underline underline-offset-2 "
             >
@@ -531,7 +561,17 @@ const LoadingIcon = () => {
     ></motion.div>
   );
 };
-const CustomInput = ({ type, width, svg, text, id, max }) => {
+const CustomInput = ({
+  type,
+  width,
+  svg,
+  text,
+  id,
+  max,
+  min,
+  setauthError,
+  onInput,
+}) => {
   return (
     <div
       style={{ width: width ? "100%" : width + "rem" }}
@@ -543,12 +583,15 @@ const CustomInput = ({ type, width, svg, text, id, max }) => {
         type={type}
         required={true}
         placeholder={text}
+        minLength={min}
         className="w-full text-[16px] outline-none "
         onKeyDown={(e) => {
+          setauthError && setauthError(null);
           if (max && e.target.value.length >= max && e.key !== "Backspace") {
             e.preventDefault();
           }
         }}
+        onInput={(e) => onInput && onInput(e)}
       />
     </div>
   );
@@ -662,12 +705,6 @@ const OTP_Page = ({
           </div>
         </div>
         <div className="mt-5 flex flex-col gap-1 ">
-          {authError && (
-            <div className="flex-center w-max gap-1.5">
-              {errorIcon}
-              <p className="text-[14px] text-pmRed">{authError}</p>
-            </div>
-          )}
           <div className="flex gap-1 text-[15px] text-[#707070]">
             <p>Haven't received an OTP?</p>
             <span
@@ -694,14 +731,16 @@ const OTP_Page = ({
             </span>
           </div>
         </div>
-
-        <button
-          disabled={loading}
-          onClick={VerifyEmail}
-          className="mt-8 w-max rounded-[10px] bg-black px-10 py-2.5 text-white disabled:cursor-not-allowed disabled:bg-gray-300"
-        >
-          {loading ? <LoadingIcon /> : "Verify"}
-        </button>
+        <div className="mt-2.5 flex flex-col gap-2">
+          <AuthError authError={authError} />
+          <button
+            disabled={loading}
+            onClick={VerifyEmail}
+            className=" w-max rounded-[10px] bg-black px-10 py-2.5 text-white disabled:cursor-not-allowed disabled:bg-gray-300"
+          >
+            {loading ? <LoadingIcon /> : "Verify"}
+          </button>
+        </div>
       </form>
     </motion.div>
   );
@@ -746,7 +785,25 @@ const VerifiedPage = ({ verified, setverified, setotp }) => {
   );
 };
 
-const ForgetPage = ({ forgetPassword, loading, authError }) => {
+const ForgetPage = ({
+  forgetPassword,
+  loading,
+  setloading,
+  authError,
+  sendMail,
+  setauthError,
+}) => {
+  const mailform = useRef(null);
+  const inputEmail = useRef(null);
+  const mailSend = async (e) => {
+    if (mailform.current.checkValidity()) {
+      e?.preventDefault();
+      setloading(true);
+      await sendMail(inputEmail.current.value);
+      setloading(false);
+    }
+  };
+
   return (
     <motion.div
       animate={{ opacity: forgetPassword ? 1 : 0 }}
@@ -757,28 +814,26 @@ const ForgetPage = ({ forgetPassword, loading, authError }) => {
         <h1 className="text-[30px] font-[600] leading-[25px]">
           Forget password
         </h1>
-        <form action="#" className="mt-12">
+        <form ref={mailform} action="#" className="mt-12">
           <div className="flex flex-col gap-5">
             <p className="text-[14px] font-[600]">Enter your email</p>
             <div className="flex gap-1.5 border-b border-[#E5E5E5] py-2 focus-within:border-black hover:border-black">
               <span className="flex-center w-[25px]">{email}</span>
               <input
+                ref={inputEmail}
                 type={"email"}
                 required={true}
                 placeholder={"Enter email"}
                 className="w-[16rem] text-[15px] outline-none "
+                onInput={() => setauthError(null)}
               />
             </div>
           </div>
-          <div className="mt-7 flex flex-col gap-2 ">
-            {authError && (
-              <div className="flex-center w-max gap-1.5">
-                {errorIcon}
-                <p className="text-[14px] text-pmRed">{authError}</p>
-              </div>
-            )}
+          <div className="mt-3 flex flex-col gap-2 ">
+            <AuthError authError={authError} />
             <button
               disabled={loading}
+              onClick={mailSend}
               className="w-max rounded-[10px] bg-black px-11 py-2.5 text-white disabled:cursor-not-allowed disabled:bg-gray-300"
             >
               {loading ? <LoadingIcon /> : "Reset"}
@@ -787,5 +842,194 @@ const ForgetPage = ({ forgetPassword, loading, authError }) => {
         </form>
       </div>
     </motion.div>
+  );
+};
+
+const PasswordResetPage = ({
+  enterPass,
+  authError,
+  loading,
+  setauthError,
+  PassReset,
+  setloading,
+}) => {
+  const [pass1, setpass1] = useState(false);
+  const [pass2, setpass2] = useState(false);
+
+  const passwordForm = useRef(null);
+
+  const passwordReset = async (e) => {
+    if (passwordForm.current.checkValidity()) {
+      e.preventDefault();
+      setloading(true);
+      checkPassword(
+        document.querySelector("#p-1-en").value,
+        setauthError,
+        true,
+      );
+      if (
+        document.querySelector("#p-1-en").value !==
+        document.querySelector("#p-1-ag").value
+      ) {
+        setauthError("Both Passwords must match");
+      } else {
+        await PassReset(document.querySelector("#p-1-en").value);
+      }
+      setloading(false);
+    }
+  };
+
+  return (
+    <motion.div
+      animate={{ opacity: enterPass ? 1 : 0 }}
+      transition={{ duration: 1, ease: "easeInOut" }}
+      className="flex-center flex-1 flex-grow-[0.5] flex-col"
+    >
+      <div>
+        <h1 className="text-[30px] font-[600] leading-[25px]">Set password</h1>
+        <form ref={passwordForm} action="#" className="mt-14">
+          <div className="flex w-[18rem] flex-col gap-7">
+            <CustomInput
+              type={"password"}
+              min={8}
+              svg={lock}
+              text={"Enter new Password"}
+              id={"p-1-en"}
+              setauthError={setauthError}
+              onInput={(e) => {
+                if (e.target.value.length >= 8) {
+                  setpass1(true);
+                } else {
+                  setpass1(false);
+                }
+                if (checkPassword(e.target.value, setauthError)) {
+                  setpass2(true);
+                } else {
+                  setpass2(false);
+                }
+              }}
+            />
+            <CustomInput
+              type={"password"}
+              min={8}
+              svg={lock}
+              text={"Re-enter password"}
+              id={"p-1-ag"}
+              setauthError={setauthError}
+            />
+          </div>
+          <div className="mt-[1.1rem] flex flex-col gap-1">
+            <p
+              className={`flex items-center gap-1 text-[12px] ${pass1 ? "text-[#3EB750]" : "text-pmRed"}`}
+            >
+              <SvgGiver condition={pass1} />
+              Minimum 8 character
+            </p>
+            <p
+              className={`flex items-center gap-1 text-[12px] ${pass2 ? "text-[#3EB750]" : "text-pmRed"}`}
+            >
+              <SvgGiver condition={pass2} />
+              Uppercase, lowercase letters and one number
+            </p>
+          </div>
+          <div className="mt-5 flex flex-col gap-2 ">
+            <AuthError authError={authError} />
+            <button
+              disabled={loading}
+              onClick={passwordReset}
+              className="w-max rounded-[10px] bg-black px-11 py-2.5 text-white disabled:cursor-not-allowed disabled:bg-gray-300"
+            >
+              {loading ? <LoadingIcon /> : "Done"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </motion.div>
+  );
+};
+
+function checkPassword(str, setauthError, condition) {
+  if (str.search(/[a-z]/i) < 0) {
+    condition &&
+      setauthError("Your password must contain at least one letter.");
+    return false;
+  } else if (str.search(/[0-9]/) < 0) {
+    condition && setauthError("Your password must contain at least one digit.");
+    return false;
+  } else if (str.search(/^(?=.*[A-Z]).*$/) < 0) {
+    condition &&
+      setauthError("Your password must contain at least one uppercase letter.");
+    return false;
+  } else if (str.search(/^(?=.*[a-z]).*$/) < 0) {
+    condition &&
+      setauthError("Your password must contain at least one lowercase letter.");
+    return false;
+  } else {
+    setauthError(null);
+    return true;
+  }
+}
+
+const SvgGiver = ({ condition }) => {
+  const cross2 = (
+    <svg
+      width="9"
+      height="9"
+      viewBox="0 0 9 9"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M5.29255 4.49952L8.83373 0.963581C8.93958 0.857726 8.99904 0.714155 8.99904 0.564453C8.99904 0.414751 8.93958 0.27118 8.83373 0.165324C8.72789 0.059469 8.58433 0 8.43465 0C8.28496 0 8.14141 0.059469 8.03556 0.165324L4.5 3.70689L0.964438 0.165324C0.858593 0.059469 0.715038 1.32912e-07 0.565352 1.34028e-07C0.415666 1.35143e-07 0.27211 0.059469 0.166266 0.165324C0.0604219 0.27118 0.000959402 0.414751 0.000959401 0.564453C0.0009594 0.714155 0.0604219 0.857726 0.166266 0.963581L3.70745 4.49952L0.166266 8.03546C0.113582 8.08772 0.0717656 8.14989 0.0432289 8.2184C0.0146922 8.2869 0 8.36038 0 8.43459C0 8.5088 0.0146922 8.58227 0.0432289 8.65078C0.0717656 8.71928 0.113582 8.78146 0.166266 8.83372C0.21852 8.8864 0.280688 8.92823 0.349184 8.95677C0.41768 8.98531 0.491149 9 0.565352 9C0.639555 9 0.713023 8.98531 0.78152 8.95677C0.850016 8.92823 0.912184 8.8864 0.964438 8.83372L4.5 5.29215L8.03556 8.83372C8.08782 8.8864 8.14998 8.92823 8.21848 8.95677C8.28698 8.98531 8.36045 9 8.43465 9C8.50885 9 8.58232 8.98531 8.65082 8.95677C8.71931 8.92823 8.78148 8.8864 8.83373 8.83372C8.88642 8.78146 8.92824 8.71928 8.95677 8.65078C8.98531 8.58227 9 8.5088 9 8.43459C9 8.36038 8.98531 8.2869 8.95677 8.2184C8.92824 8.14989 8.88642 8.08772 8.83373 8.03546L5.29255 4.49952Z"
+        fill="#F4062E"
+      />
+    </svg>
+  );
+
+  const tick2 = (
+    <svg
+      width="12"
+      height="9"
+      viewBox="0 0 12 9"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M11 1L4.125 8L1 4.81818"
+        stroke="#3EB750"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+
+  return (
+    <span
+      className={`${condition ? "[&_path]:stroke-[#3EB750]" : "[&_path]:fill-pmRed"}`}
+    >
+      {condition ? tick2 : cross2}
+    </span>
+  );
+};
+
+const AuthError = ({ authError }) => {
+  return (
+    <div className="h-[16px]">
+      <AnimatePresence>
+        {authError && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex-center w-max gap-1.5"
+          >
+            {errorIcon}
+            <p className="max-w-[16rem] whitespace-nowrap text-[13px] leading-[16px] text-pmRed">
+              {authError}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };

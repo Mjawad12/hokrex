@@ -1,30 +1,21 @@
-import { headers } from "next/headers";
 import ConnectDb from "../dbConnect";
-import authorize from "../Middleware/Authorize";
 import { Otpcreator, SendMail } from "../sendmail";
 import UserSchema from "../Schemas/UserSchema";
 
 export async function POST(req) {
   await ConnectDb();
-  const headerList = headers();
-  const id = await authorize(headerList.get("authToken"));
-  console.log(id);
-  if (!id) {
-    return Response.json(
-      { success: false, error: "Not Authorized" },
-      { status: 401 },
-    );
-  }
-  const user = await UserSchema.findOne({ _id: id });
-
+  const body = await req.json();
+  const user = await UserSchema.findOne({ email: body.email });
   if (!user) {
     return Response.json(
-      { success: false, error: "Not Authorized" },
-      { status: 401 },
+      { success: false, error: "User doesn't exsist with this email." },
+      { status: 404 },
     );
   }
+
   const otp = Otpcreator();
   await SendMail(user.email, otp);
-  await UserSchema.updateOne({ _id: id }, { otp: otp });
-  return Response.json({ success: true }, { status: 200 });
+  console.log(otp);
+  await UserSchema.updateOne({ _id: user._id }, { otp: otp });
+  return Response.json({ success: true, otp: true }, { status: 200 });
 }

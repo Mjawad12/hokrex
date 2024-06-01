@@ -13,6 +13,7 @@ function Mainstatestore({ children }) {
   const [verified, setverified] = useState(false);
   const [forgetPassword, setforgetPassword] = useState(false);
   const [forgetFunc, setforgetFunc] = useState(false);
+  const [enterPass, setenterPass] = useState(false);
 
   const getProducts = async () => {
     const data = await fetch(`${url}/api/getproducts`, {
@@ -80,8 +81,13 @@ function Mainstatestore({ children }) {
     });
     const parsedData = await data.json();
     if (parsedData.success) {
-      setverified(true);
-      localStorage.setItem("authToken", parsedData.authToken);
+      if (forgetFunc) {
+        setenterPass(true);
+        setotp(false);
+      } else {
+        setverified(true);
+        localStorage.setItem("authToken", parsedData.authToken);
+      }
     } else {
       setauthError(parsedData.error);
     }
@@ -103,18 +109,39 @@ function Mainstatestore({ children }) {
     }
   };
 
-  const sendMail = async () => {
-    const data = await fetch(`${url}/api/signin`, {
+  const sendMail = async (email) => {
+    const data = await fetch(`${url}/api/mailsend`, {
       method: "POST",
       cache: "no-cache",
       body: JSON.stringify({
-        email: userData.email,
-        password: userData.password,
+        email: email || userData.email,
       }),
     });
+    setuserData({ ...userData, email: email });
     const parsedData = await data.json();
     if (parsedData.success && parsedData.otp) {
       setauthError("Email sent");
+      setotp(true);
+      setforgetPassword(false);
+    } else {
+      setauthError(parsedData.error);
+    }
+  };
+
+  const PassReset = async (pass) => {
+    const data = await fetch(`${url}/api/passwordReset`, {
+      method: "POST",
+      cache: "no-cache",
+      body: JSON.stringify({
+        email: email || userData.email,
+        passwrd: pass,
+      }),
+    });
+    setuserData({ ...userData, email: email });
+    const parsedData = await data.json();
+    if (parsedData.success) {
+      setforgetPassword(false);
+      setenterPass(false);
     } else {
       setauthError(parsedData.error);
     }
@@ -153,6 +180,9 @@ function Mainstatestore({ children }) {
         forgetPassword,
         setforgetFunc,
         forgetFunc,
+        enterPass,
+        setenterPass,
+        PassReset,
       }}
     >
       {children}
