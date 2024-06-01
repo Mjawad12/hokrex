@@ -116,7 +116,7 @@ function Mainstatestore({ children }) {
         email: email || userData.email,
       }),
     });
-    setuserData({ ...userData, email: email });
+    email && setuserData({ ...userData, email: email });
     const parsedData = await data.json();
     if (parsedData.success && parsedData.otp) {
       setauthError("Email sent");
