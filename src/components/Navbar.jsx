@@ -10,7 +10,7 @@ function Navbar({ cart }) {
   const pathname = usePathname();
 
   return (
-    <div className="flex w-full items-center justify-between border-b border-[#E5E5E5] px-6 py-3 pr-12 ">
+    <nav className="flex w-full items-center justify-between border-b border-[#E5E5E5] px-6 py-3 pr-12 ">
       <Link
         href={"/"}
         className="flex flex-1 flex-grow-[0.1] items-center justify-center gap-2"
@@ -34,7 +34,7 @@ function Navbar({ cart }) {
           account={pathname.includes("account")}
         />
       </div>
-    </div>
+    </nav>
   );
 }
 

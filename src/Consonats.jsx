@@ -4854,6 +4854,33 @@ const errorIcon = (
   </svg>
 );
 
+const aboutDetails = [
+  {
+    name: "Deep Inventory",
+    des: "Growing up in Orlando Florida with such a diverse culture. Inspiration was not hard to come by. It is a city full of art, innovation,",
+  },
+  {
+    name: "Screen printing",
+    des: "Growing up in Orlando Florida with such a diverse culture. Inspiration was not hard to come by. It is a city full of art, innovation,",
+  },
+  {
+    name: "Cut & Sew",
+    des: "Growing up in Orlando Florida with such a diverse culture. Inspiration was not hard to come by. It is a city full of art, innovation,",
+  },
+  {
+    name: "Direct to grament",
+    des: "Growing up in Orlando Florida with such a diverse culture. Inspiration was not hard to come by. It is a city full of art, innovation,",
+  },
+  {
+    name: "Personalization",
+    des: "Growing up in Orlando Florida with such a diverse culture. Inspiration was not hard to come by. It is a city full of art, innovation,",
+  },
+  {
+    name: "Fulfillment",
+    des: "Growing up in Orlando Florida with such a diverse culture. Inspiration was not hard to come by. It is a city full of art, innovation,",
+  },
+];
+
 export {
   logo,
   searchIcon,
@@ -4909,4 +4936,5 @@ export {
   bigArrow,
   redCross,
   errorIcon,
+  aboutDetails,
 };

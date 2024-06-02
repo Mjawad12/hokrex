@@ -172,12 +172,6 @@ const Contact = ({ setanimating, slideLast }) => {
         y: "-50%",
       }}
       transition={{ duration: 0.6, ease: [0, 0, 0, 0.7] }}
-      // onAnimationComplete={() => {
-      //   setanimating(false);
-      // }}
-      // onAnimationStart={() => {
-      //   setanimating(true);
-      // }}
       className="flex-center absolute left-[50%] top-[50%] z-20 w-[700px] translate-x-[-50%] translate-y-[-50%] flex-col gap-20 px-5 massive:gap-10 massive:px-2"
     >
       <div className="flex-center flex-col">

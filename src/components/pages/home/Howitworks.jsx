@@ -41,7 +41,6 @@ function Howitworks() {
 
   useMotionValueEvent(slideSkip_Val, "change", (e) => {
     e && document.querySelector("#slide-1").scrollIntoView();
-    // !e && check.current.scrollIntoView();
   });
 
   return (

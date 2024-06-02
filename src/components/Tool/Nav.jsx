@@ -6,7 +6,7 @@ import React, { useState } from "react";
 function Nav({ name, type }) {
   const [tselected, settselected] = useState("Front");
   return (
-    <div className="flex-center relative z-20 w-full flex-col gap-2 ">
+    <nav className="flex-center relative z-20 w-full flex-col gap-2 ">
       <div className="flex w-full items-center justify-between bg-darkLight px-2 py-1 shadow-xl ">
         <div className="flex-center gap-3 ">
           <Link
@@ -30,7 +30,7 @@ function Nav({ name, type }) {
         </div>
       </div>
       <TopBar settselected={settselected} tselected={tselected} />
-    </div>
+    </nav>
   );
 }
 

@@ -284,3 +284,9 @@ input[type="number"] {
   z-index: 10;
   background: transparent;
 }
+
+#bg-img-ab {
+  background-image: url(../../public/aboutPage.png);
+  background-position: bottom;
+  background-size: cover;
+}
