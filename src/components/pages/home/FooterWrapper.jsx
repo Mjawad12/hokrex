@@ -9,6 +9,8 @@ function FooterWrapper({ footerPage, setanimating }) {
       initial={{ y: "100%" }}
       animate={{ y: footerPage ? 0 : "100%" }}
       transition={{ duration: 1.2, ease: "easeInOut" }}
+      onAnimationStart={() => setanimating && setanimating(true)}
+      onAnimationComplete={() => setanimating && setanimating(false)}
       className="absolute bottom-0 left-0 z-40 flex min-h-screen w-full items-end bg-[#1A1A1A]"
     >
       <Footer />

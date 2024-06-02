@@ -121,7 +121,10 @@ function page() {
               />
             )}
           </AnimatePresence>
-          <FooterWrapper footerPage={Sev_AnimState} />
+          <FooterWrapper
+            footerPage={Sev_AnimState}
+            setanimating={setanimating}
+          />
         </div>
         <span ref={animator} className="relative z-30 h-7 w-7" />
       </section>
