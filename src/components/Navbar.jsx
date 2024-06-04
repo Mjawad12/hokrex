@@ -62,7 +62,9 @@ const SmNav = ({ cart, authToken, account }) => {
           <Link href={"/products"}>
             <li>Products</li>
           </Link>
-          <li>Services</li>
+          <Link href={"/services"}>
+            <li>Services</li>
+          </Link>
           <Link href={"/about"}>
             <li>About us</li>
           </Link>
