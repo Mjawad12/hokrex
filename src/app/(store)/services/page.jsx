@@ -135,7 +135,7 @@ const LeftSlide2 = ({ img, animTracker }) => {
   const [next, setnext] = useState(0);
 
   return (
-    <div className={`relative flex flex-1 flex-grow-[0.5]`}>
+    <div className={` flex h-[627px] max-h-[627px] flex-1 flex-grow-[0.5]`}>
       <div className="h-max rotate-[-180deg]">
         <motion.p
           initial={{ y: "-70vh", opacity: 0 }}
@@ -152,17 +152,19 @@ const LeftSlide2 = ({ img, animTracker }) => {
       </div>
 
       <motion.div
+        initial={{ top: "50%", left: 55, x: 0, y: "-50%" }}
         animate={{
-          y: next < 3 ? 0 : next === 5 ? "-50%" : -8,
-          x: next < 3 ? 0 : next === 5 ? "-50%" : -8,
-          left: next === 5 ? "50%" : 0,
-          top: next === 5 ? "50%" : 0,
+          x: next === 5 ? "-50%" : 0,
+          left: next === 5 ? "50%" : 55,
+          y: "-50%",
+          top: "50%",
         }}
         transition={{
           duration: 1,
           ease: "easeInOut",
+          delay: next === 5 && 0.4,
         }}
-        className={`flex h-[627px] max-h-[627px] w-full max-w-[627px] flex-col ${next === 5 ? "absolute " : "relative w-full"}`}
+        className={`absolute left-10 top-[50%] flex h-[627px] max-h-[627px] w-full max-w-[627px] translate-y-[-50%] flex-col`}
       >
         {img.map((it, index) => {
           const animate = {
@@ -250,7 +252,7 @@ const RightSlide2 = ({ animTracker }) => {
       initial={{ y: "100vh", opacity: 0.8 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1, ease: [0, 0, 0.1, 0.9], delay: 0.15 }}
-      className={`relative flex flex-1 flex-grow-[0.5] flex-col`}
+      className={`relative flex flex-1 flex-grow-[0.5] flex-col `}
     >
       {details.map((it, index) => {
         const animate = {
