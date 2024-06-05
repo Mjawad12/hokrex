@@ -80,7 +80,7 @@ function page() {
         <span
           id="anim-tracker"
           ref={animTracker}
-          className="absolute h-5 w-5 "
+          className="absolute h-5 w-5"
         />
       </div>
     </section>
@@ -96,7 +96,6 @@ const AnimationStateGiver = ({
   children,
   counter,
 }) => {
-  console.log(offset);
   const scroll = useScroll({
     target: target,
     offset: [`start ${offset}`, "end -1"],
@@ -202,6 +201,7 @@ const LeftSlide = ({ img, animTracker, DisableScroll, Enablescroll }) => {
             duration: 1,
             ease: next > 3 ? "easeInOut" : [0, 0, 0.1, 0.9],
           }}
+          onAnimationStart={() => DisableScroll()}
           exit={{ y: "-70vh", opacity: 0 }}
           style={{ writingMode: "tb" }}
           className="h-[8.5ch] whitespace-nowrap text-[35px] font-[700] leading-[35px] "
