@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useEffect, useState } from "react";
 const ContextAnimation = createContext();
-
+import disableScroll from "disable-scroll";
 function MainStateAnimation({ children }) {
   const [animating, setanimating] = useState(false);
 
@@ -23,8 +23,17 @@ function MainStateAnimation({ children }) {
     };
   }, [animating]);
 
+  const DisableScroll = () => {
+    disableScroll.on();
+  };
+  const Enablescroll = () => {
+    disableScroll.off();
+  };
+
   return (
-    <ContextAnimation.Provider value={{ animating, setanimating }}>
+    <ContextAnimation.Provider
+      value={{ animating, setanimating, DisableScroll, Enablescroll }}
+    >
       {children}
     </ContextAnimation.Provider>
   );

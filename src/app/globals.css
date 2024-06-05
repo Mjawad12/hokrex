@@ -290,3 +290,15 @@ input[type="number"] {
   background-position: bottom;
   background-size: cover;
 }
+
+#bg-filter-blur-qoute::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  filter: blur(31px) brightness(1.7);
+  z-index: -1;
+  background: url("../../public/services/4.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}

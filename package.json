@@ -14,6 +14,7 @@
     "@react-three/drei": "^9.105.2",
     "@react-three/fiber": "^8.16.1",
     "bcrypt": "^5.1.1",
+    "disable-scroll": "^0.6.0",
     "fabric": "5.3.0-browser",
     "fabricjs-react": "^1.2.2",
     "flag-icons": "^7.2.2",

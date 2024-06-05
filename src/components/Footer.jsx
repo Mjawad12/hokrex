@@ -6,7 +6,7 @@ import { motion, useAnimate } from "framer-motion";
 const Footer = () => {
   const [scope, animate] = useAnimate();
   return (
-    <footer className="relative z-20 flex w-full flex-col bg-darkP px-7 pb-8">
+    <footer className={`relative z-20 flex w-full flex-col px-7 pb-8`}>
       <p className="relative right-4 text-[240.6px] font-[600] leading-[230.6px] text-white ">
         More
       </p>

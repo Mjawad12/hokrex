@@ -149,7 +149,7 @@ const About = ({ fir_AnimState, Sec_AnimState, setanimating }) => {
         animate={{ opacity: fir_AnimState ? 0 : 1 }}
         className="absolute bottom-0 left-0"
       >
-        <Image src={"/dots.png"} alt="dots" width={650} height={500} />
+        <Image src={"/dots.png"} alt="dots" width={650} height={650} />
       </motion.div>
 
       <motion.div

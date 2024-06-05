@@ -1537,7 +1537,7 @@ const textPositions = [
           height="5.40741"
           rx="1.08148"
           stroke="#BDC7D1"
-          stroke-width="4.32593"
+          strokeWidth="4.32593"
           mask="url(#path-1-inside-1_0_1)"
         />
         <mask id="path-2-inside-2_0_1" fill="white">
@@ -1556,14 +1556,14 @@ const textPositions = [
           height="5.40741"
           rx="1.08148"
           stroke="#BDC7D1"
-          stroke-width="4.32593"
+          strokeWidth="4.32593"
           mask="url(#path-2-inside-2_0_1)"
         />
         <path
           d="M1.97656 1.89648L1.97656 18.1187"
           stroke="#BDC7D1"
-          stroke-width="2.16296"
-          stroke-linecap="round"
+          strokeWidth="2.16296"
+          strokeLinecap="round"
         />
       </svg>
     ),
@@ -1594,7 +1594,7 @@ const textPositions = [
           height="5.40741"
           rx="1.08148"
           stroke="#BDC7D1"
-          stroke-width="4.32593"
+          strokeWidth="4.32593"
           mask="url(#path-1-inside-1_450_10263)"
         />
 
@@ -1605,26 +1605,26 @@ const textPositions = [
           height="5.40741"
           rx="1.08148"
           stroke="#BDC7D1"
-          stroke-width="4.32593"
+          strokeWidth="4.32593"
           mask="url(#path-2-inside-2_0_1)"
         />
         <path
           d="M9.29688 14.874V18.1185"
           stroke="#BDC7D1"
-          stroke-width="2.16296"
-          stroke-linecap="round"
+          strokeWidth="2.16296"
+          strokeLinecap="round"
         />
         <path
           d="M9.29688 8.38477V11.6292"
           stroke="#BDC7D1"
-          stroke-width="2.16296"
-          stroke-linecap="round"
+          strokeWidth="2.16296"
+          strokeLinecap="round"
         />
         <path
           d="M9.29688 1.89648V5.14093"
           stroke="#BDC7D1"
-          stroke-width="2.16296"
-          stroke-linecap="round"
+          strokeWidth="2.16296"
+          strokeLinecap="round"
         />
       </svg>
     ),
@@ -1701,7 +1701,7 @@ const textPositions = [
           height="5.40741"
           rx="1.08148"
           stroke="#BDC7D1"
-          stroke-width="4.32593"
+          strokeWidth="4.32593"
           mask="url(#path-1-inside-1_0_1)"
         />
         <mask id="path-2-inside-2_0_1" fill="white">
@@ -1720,14 +1720,14 @@ const textPositions = [
           height="5.40741"
           rx="1.08148"
           stroke="#BDC7D1"
-          stroke-width="4.32593"
+          strokeWidth="4.32593"
           mask="url(#path-2-inside-2_0_1)"
         />
         <path
           d="M1.97656 1.89648L1.97656 18.1187"
           stroke="#BDC7D1"
-          stroke-width="2.16296"
-          stroke-linecap="round"
+          strokeWidth="2.16296"
+          strokeLinecap="round"
         />
       </svg>
     ),
@@ -1760,7 +1760,7 @@ const textPositions = [
           rx="1.08148"
           transform="rotate(90 13 0.571289)"
           stroke="#79838C"
-          stroke-width="3.6"
+          strokeWidth="3.6"
           mask="url(#path-1-inside-1_635_15699)"
         />
         <mask id="path-2-inside-2_635_15699" fill="white">
@@ -1781,26 +1781,26 @@ const textPositions = [
           rx="1.08148"
           transform="rotate(90 7 1.57129)"
           stroke="#79838C"
-          stroke-width="3.6"
+          strokeWidth="3.6"
           mask="url(#path-2-inside-2_635_15699)"
         />
         <path
           d="M3 7.57129H1"
           stroke="#79838C"
-          stroke-width="1.8"
-          stroke-linecap="round"
+          strokeWidth="1.8"
+          strokeLinecap="round"
         />
         <path
           d="M9 7.57129H7"
           stroke="#79838C"
-          stroke-width="1.8"
-          stroke-linecap="round"
+          strokeWidth="1.8"
+          strokeLinecap="round"
         />
         <path
           d="M14 7.57129H12"
           stroke="#79838C"
-          stroke-width="1.8"
-          stroke-linecap="round"
+          strokeWidth="1.8"
+          strokeLinecap="round"
         />
       </svg>
     ),
@@ -1832,7 +1832,7 @@ const textPositions = [
           height="5.40741"
           rx="1.08148"
           stroke="#BDC7D1"
-          stroke-width="4.32593"
+          strokeWidth="4.32593"
           mask="url(#path-1-inside-1_0_1)"
         />
         <mask id="path-2-inside-2_0_1" fill="white">
@@ -1851,14 +1851,14 @@ const textPositions = [
           height="5.40741"
           rx="1.08148"
           stroke="#BDC7D1"
-          stroke-width="4.32593"
+          strokeWidth="4.32593"
           mask="url(#path-2-inside-2_0_1)"
         />
         <path
           d="M1.97656 1.89648L1.97656 18.1187"
           stroke="#BDC7D1"
-          stroke-width="2.16296"
-          stroke-linecap="round"
+          strokeWidth="2.16296"
+          strokeLinecap="round"
         />
       </svg>
     ),
@@ -1891,30 +1891,30 @@ const align = (
     <path
       d="M5 13.5713H12"
       stroke="white"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M1 9.57129H15"
       stroke="white"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M12 5.57129H5"
       stroke="white"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M1 1.57129H15"
       stroke="white"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -1945,16 +1945,16 @@ const underline = (
     <path
       d="M5 21.5713H19"
       stroke="#BDC7D1"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M5 3.57129V10.5713C5 12.4278 5.7375 14.2083 7.05025 15.521C8.36301 16.8338 10.1435 17.5713 12 17.5713C13.8565 17.5713 15.637 16.8338 16.9497 15.521C18.2625 14.2083 19 12.4278 19 10.5713V3.57129"
       stroke="#BDC7D1"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -2032,7 +2032,7 @@ const flipY = (
     <path
       d="M0.75 1.09235L13.9635 6.17878L0.75 6.17823L0.75 1.09235Z"
       stroke="#BDC7D1"
-      stroke-width="1.5"
+      strokeWidth="1.5"
     />
     <path
       d="M15.4886 8.96747C16.0058 8.76838 15.8632 8.00083 15.309 8.00085L0.499979 8.00146C0.223845 8.00147 2.93057e-07 8.22533 2.80987e-07 8.50146L3.18322e-08 14.2015C1.64917e-08 14.5524 0.3521 14.7941 0.679623 14.6681L15.4886 8.96747Z"
@@ -2051,7 +2051,7 @@ const flipX = (
     <path
       d="M1.09235 17.25L6.17878 4.0365L6.17823 17.25H1.09235Z"
       stroke="#BDC7D1"
-      stroke-width="1.5"
+      strokeWidth="1.5"
     />
     <path
       d="M8.96747 2.51137C8.76838 1.99416 8.00083 2.13681 8.00085 2.69102L8.00146 17.5C8.00147 17.7762 8.22533 18 8.50146 18H14.2015C14.5524 18 14.7941 17.6479 14.6681 17.3204L8.96747 2.51137Z"
@@ -2071,23 +2071,23 @@ const uploadsvg = (
     <path
       d="M8 10H7C5.93913 10 4.92172 10.4214 4.17157 11.1716C3.42143 11.9217 3 12.9391 3 14V17C3 18.0609 3.42143 19.0783 4.17157 19.8284C4.92172 20.5786 5.93913 21 7 21H17C18.0609 21 19.0783 20.5786 19.8284 19.8284C20.5786 19.0783 21 18.0609 21 17V14C21 12.9391 20.5786 11.9217 19.8284 11.1716C19.0783 10.4214 18.0609 10 17 10H16"
       stroke="black"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M12 16V3"
       stroke="black"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M9 6L12 3L15 6"
       stroke="black"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -4710,30 +4710,30 @@ const dublicate = (
     <path
       d="M14.168 6.66699H10.0013C8.16035 6.66699 6.66797 8.15938 6.66797 10.0003V14.167C6.66797 16.0079 8.16035 17.5003 10.0013 17.5003H14.168C16.0089 17.5003 17.5013 16.0079 17.5013 14.167V10.0003C17.5013 8.15938 16.0089 6.66699 14.168 6.66699Z"
       stroke="#BDC7D1"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M13.3333 6.66667V5.83333C13.3333 4.94928 12.9821 4.10143 12.357 3.47631C11.7319 2.85119 10.8841 2.5 10 2.5H5.83333C4.94928 2.5 4.10143 2.85119 3.47631 3.47631C2.85119 4.10143 2.5 4.94928 2.5 5.83333V10C2.5 10.8841 2.85119 11.7319 3.47631 12.357C4.10143 12.9821 4.94928 13.3333 5.83333 13.3333H6.66667"
       stroke="#BDC7D1"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M12.082 10V14.1667"
       stroke="#BDC7D1"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M14.1667 12.083H10"
       stroke="#BDC7D1"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -4749,30 +4749,30 @@ const replace = (
     <path
       d="M5.44444 1H1.88889C1.39797 1 1 1.39797 1 1.88889V5.44444C1 5.93536 1.39797 6.33333 1.88889 6.33333H5.44444C5.93536 6.33333 6.33333 5.93536 6.33333 5.44444V1.88889C6.33333 1.39797 5.93536 1 5.44444 1Z"
       stroke="#BDC7D1"
-      stroke-width="1.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M16.1124 11.667H12.5569C12.0659 11.667 11.668 12.065 11.668 12.5559V16.1114C11.668 16.6024 12.0659 17.0003 12.5569 17.0003H16.1124C16.6033 17.0003 17.0013 16.6024 17.0013 16.1114V12.5559C17.0013 12.065 16.6033 11.667 16.1124 11.667Z"
       stroke="#BDC7D1"
-      stroke-width="1.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M16.9978 8.1111V5.44444C16.9978 4.97294 16.8105 4.52076 16.4771 4.18736C16.1437 3.85396 15.6915 3.66666 15.22 3.66666H9.88672M9.88672 3.66666L12.5534 6.33333M9.88672 3.66666L12.5534 1"
       stroke="#BDC7D1"
-      stroke-width="1.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M1 9.88867V12.5553C1 13.0268 1.1873 13.479 1.5207 13.8124C1.8541 14.1458 2.30628 14.3331 2.77778 14.3331H8.1111M8.1111 14.3331L5.44444 11.6664M8.1111 14.3331L5.44444 16.9998"
       stroke="#BDC7D1"
-      stroke-width="1.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -4788,16 +4788,16 @@ const bigArrow = (
     <path
       d="M60.3988 40.7173L93.1296 49.4875L84.3594 82.2183"
       stroke="#707070"
-      stroke-width="0.798686"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="0.798686"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M93.1315 49.4871L37.7969 81.4346"
       stroke="#707070"
-      stroke-width="0.798686"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="0.798686"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -4814,16 +4814,16 @@ const redCross = (
     <path
       d="M4.26172 4.2627L10.5955 10.5964"
       stroke="white"
-      stroke-width="0.90482"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="0.90482"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M10.5955 4.2627L4.26172 10.5964"
       stroke="white"
-      stroke-width="0.90482"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="0.90482"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
