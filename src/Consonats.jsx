@@ -4881,6 +4881,26 @@ const aboutDetails = [
   },
 ];
 
+const filter = (
+  <svg
+    width="17"
+    height="16"
+    viewBox="0 0 17 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M16 1H1L7 7.86796V12.616L10 14.068V7.86796L16 1Z"
+      stroke="black"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
 export {
   logo,
   searchIcon,
@@ -4937,4 +4957,5 @@ export {
   redCross,
   errorIcon,
   aboutDetails,
+  filter,
 };
