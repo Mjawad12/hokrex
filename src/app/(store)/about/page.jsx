@@ -90,7 +90,7 @@ function page() {
   return (
     <main className="flex w-full flex-col">
       <section className="relative flex min-h-[230vh] flex-col gap-3">
-        <div className="sticky top-0 min-h-[calc(100vh-66px)] w-full ">
+        <div className="sticky top-0 min-h-[calc(100vh-73px)] w-full ">
           <About
             fir_AnimState={fir_AnimState}
             Sec_AnimState={Sec_AnimState}

@@ -1,3 +1,4 @@
+import { filter } from "@/Consonats";
 import Link from "next/link";
 import React from "react";
 
@@ -16,18 +17,20 @@ function page(slug) {
 
   return (
     <section className="min-h-[100vh] w-full">
-      <div className="flex flex-col gap-3"></div>
+      <div className="flex flex-col gap-3">
+        <TopBar liItems={liItems} slug={Slug} />
+      </div>
     </section>
   );
 }
 
 export default page;
 
-const TopBar = ({ slug }) => {
+const TopBar = ({ slug, liItems }) => {
   return (
     <div
       style={{ boxShadow: "0px 5px 20px 0px #00000003" }}
-      className="sticky top-0 flex px-10 py-5"
+      className="sticky top-0 flex items-center justify-between border-b border-[#E5E5E5] px-10 py-3 pb-2.5 "
     >
       <div className="flex gap-5">
         {liItems.map((it, index) => (
@@ -40,9 +43,9 @@ const TopBar = ({ slug }) => {
           </Link>
         ))}
       </div>
-      <div className="flex rounded-[12px] px-3 py-2">
+      <div className="flex-center cursor-pointer select-none gap-1.5 rounded-[12px] border border-[#CCCCCC] px-3 py-2 ">
         {filter}
-        <span>Filter</span>
+        <span className="text-[15px] font-[500]">Filter</span>
       </div>
     </div>
   );

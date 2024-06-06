@@ -209,7 +209,7 @@ function page() {
   }, []);
 
   return (
-    <section className="flex-center min-h-[calc(100vh-65px)] w-full">
+    <section className="flex-center min-h-[calc(100vh-73px)] w-full">
       <div className="m-auto flex w-full max-w-[1020px] flex-col gap-12">
         <h1 className="text-[35px] font-[500] leading-[40px]">My Account</h1>
         <div className="mt-3 flex flex-wrap gap-7">

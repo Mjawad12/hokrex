@@ -85,7 +85,7 @@ function page() {
   return (
     <>
       <section className="w-full px-5">
-        <div className="flex-center m-auto min-h-[calc(100vh-82px)] w-full max-w-[1200px] gap-24 ">
+        <div className="flex-center m-auto min-h-[calc(100vh-73px)] w-full max-w-[1200px] gap-24 ">
           <div className="flex flex-1 flex-grow-[0.55] flex-col">
             <div
               style={{ "box-shadow": "2px 4px 25px 0px #0000000D" }}
