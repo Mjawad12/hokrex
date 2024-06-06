@@ -5,6 +5,7 @@ const ContextStore = createContext();
 function Mainstatestore({ children }) {
   const url = process.env.NEXT_PUBLIC_URL;
   const [products, setproducts] = useState([]);
+  const [categoryProducts, setcategoryProducts] = useState([]);
   const [authError, setauthError] = useState(null);
   const [authToken, setauthToken] = useState(null);
   const [userData, setuserData] = useState(null);
@@ -14,13 +15,14 @@ function Mainstatestore({ children }) {
   const [forgetFunc, setforgetFunc] = useState(false);
   const [enterPass, setenterPass] = useState(false);
 
-  const getProducts = async () => {
+  const getProducts = async (productCategory) => {
     const data = await fetch(`${url}/api/getproducts`, {
-      method: "GET",
+      method: "POST",
       cache: "no-cache",
+      body: JSON.stringify({ productCategory: productCategory }),
     });
     const parsedDate = await data.json();
-    parsedDate.products && setproducts(parsedDate.products);
+    parsedDate.success && setcategoryProducts(parsedDate.products);
   };
 
   const signIn = async (obj) => {
@@ -182,6 +184,7 @@ function Mainstatestore({ children }) {
         enterPass,
         setenterPass,
         PassReset,
+        categoryProducts,
       }}
     >
       {children}

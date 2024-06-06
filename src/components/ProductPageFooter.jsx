@@ -1,11 +1,11 @@
 import React from "react";
-import ProductCard from "./ProductCard";
+import ProductCard from "./ProductCardTemp";
 
 function ProductPageFooter({ products }) {
   return (
     <div className="w-full bg-darkP px-9 py-10 pb-0">
-      <h3 className="font-[500] text-5xl text-white">RELATED PRODUCTS</h3>
-      <div className="grid grid-cols-3 mt-9 gap-5 gap-y-16">
+      <h3 className="text-5xl font-[500] text-white">RELATED PRODUCTS</h3>
+      <div className="mt-9 grid grid-cols-3 gap-5 gap-y-16">
         {products?.slice(0, 6).map((it, index) => (
           <ProductCard
             name={it.productName}
@@ -17,7 +17,7 @@ function ProductPageFooter({ products }) {
           />
         ))}
       </div>
-      <div className="flex justify-between items-center py-5 border-t border-gray-400 mt-20">
+      <div className="mt-20 flex items-center justify-between border-t border-gray-400 py-5">
         <span className="text-[0.8rem] font-[300] text-gray-300">
           @2024, Sublimatics Inc
         </span>

@@ -1,16 +1,19 @@
 import ConnectDb from "../dbConnect";
 import Productmodel from "../Schemas/ProductSchema";
 
-export async function GET() {
+export async function POST(req) {
   try {
-    await ConnectDb().catch((err) => console.log(err.message));
-    const products = await Productmodel.find({});
+    await ConnectDb();
+    const body = await req.json();
+    const products = await Productmodel.find({
+      productCategory: body.productCategory,
+    });
     return Response.json({ success: true, products }, { status: 200 });
   } catch (error) {
     console.log(error.message);
     return Response.json(
       { success: false, err: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

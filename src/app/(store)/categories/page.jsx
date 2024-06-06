@@ -5,25 +5,36 @@ import React from "react";
 
 function page() {
   const categories = [
+    { name: "Brand Appeal", items: "220", link: "/categories/brand-appeal" },
     { name: "Work wear", items: "220", link: "/categories/work-wear" },
-    { name: "Work wear", items: "220", link: "/categories/work-wear" },
-    { name: "Work wear", items: "220", link: "/categories/work-wear" },
-    { name: "Work wear", items: "220", link: "/categories/work-wear" },
-    { name: "Work wear", items: "220", link: "/categories/work-wear" },
-    { name: "Work wear", items: "220", link: "/categories/work-wear" },
-    { name: "Work wear", items: "220", link: "/categories/work-wear" },
-    { name: "Work wear", items: "220", link: "/categories/work-wear" },
+    {
+      name: "Home & living",
+      items: "220",
+      link: "/categories/home-and-living",
+    },
+    { name: "Personal", items: "220", link: "/categories/personal" },
+    {
+      name: "Team & Sports",
+      items: "220",
+      link: "/categories/team-and-sports",
+    },
+    {
+      name: "Pormotion items",
+      items: "220",
+      link: "/categories/pormotion-items",
+    },
+    { name: "Gift items", items: "220", link: "/categories/gift-items" },
+    {
+      name: "Print on demand",
+      items: "220",
+      link: "/categories/print-on-demand",
+    },
   ];
   return (
     <secton className="min-h-[calc(100vh-65px)] w-full">
       <div className="flex-center w-full flex-col gap-4 py-10 pb-20">
         <h1 className="text-[30px] font-[500]">Product Category</h1>
-        <div className="flex-center relative z-10 h-[3.1rem] w-[3.1rem] scale-x-[-1] cursor-pointer rounded-full border [&_svg]:h-[20px] [&_svg]:w-[20px] ">
-          <div className="flex-center relative flex rotate-[-90deg]">
-            <span className="absolute left-[-5px]">{left}</span>
-            {left}
-          </div>
-        </div>
+        <SmallArrowDown />
         <div className="mt-8 flex w-full max-w-[1300px] flex-wrap items-center justify-between gap-8">
           {categories.map((it) => (
             <CategoryCard name={it.name} items={it.items} link={it.link} />
@@ -38,7 +49,7 @@ export default page;
 
 const CategoryCard = ({ name, items, link }) => {
   return (
-    <div className="relative flex min-h-[270px] max-w-[300px] overflow-hidden rounded-[15px] [&_#overlay-effect]:hover:opacity-[1]">
+    <div className="relative flex min-h-[270px] max-w-[300px] overflow-hidden rounded-[15px] bg-[#F5F5F5] [&_#overlay-effect]:hover:opacity-[1]">
       <Image src={"/shirt.png"} width={500} height={500} alt="shirt" />
       <div
         style={{
@@ -66,3 +77,16 @@ const CategoryCard = ({ name, items, link }) => {
     </div>
   );
 };
+
+const SmallArrowDown = () => {
+  return (
+    <div className="flex-center relative z-10 h-[3.1rem] w-[3.1rem] scale-x-[-1] cursor-pointer rounded-full border [&_svg]:h-[20px] [&_svg]:w-[20px] ">
+      <div className="flex-center relative flex rotate-[-90deg]">
+        <span className="absolute left-[-5px]">{left}</span>
+        {left}
+      </div>
+    </div>
+  );
+};
+
+export { SmallArrowDown };
