@@ -43,12 +43,12 @@ const ProductCardTemp = ({
           <Link
             href={"/product/" + slug}
             style={{ boxShadow: "0px 4px 8px 0px #00000017" }}
-            className={`w-full whitespace-nowrap bg-[#FFFFFF] ${smGrid ? "rounded-[7px] px-[1.7rem] py-[0.55rem] text-[14px]" : "rounded-[10px] px-8 py-3 text-[20px]"} font-[500] hover:bg-[#000000CC] hover:text-white`}
+            className={`w-full whitespace-nowrap bg-[#FFFFFF] ${smGrid ? "rounded-[7px] px-[1.7rem] py-[0.55rem] text-[14px]" : "rounded-[10px] px-8 py-3 text-[20px] massive:px-7 massive:py-2.5 massive:text-[17px] "} font-[500] hover:bg-[#000000CC] hover:text-white`}
           >
             Quick View
           </Link>
           <button
-            className={`w-full bg-[#000000CC] ${smGrid ? "rounded-[7px] px-[1.7rem] py-[0.55rem] text-[14px]" : "rounded-[10px] px-8 py-3 text-[20px]"} font-[500] text-white`}
+            className={`w-full bg-[#000000CC] ${smGrid ? "rounded-[7px] px-[1.7rem] py-[0.55rem] text-[14px]" : "rounded-[10px] px-8 py-3 text-[20px] massive:px-7 massive:py-2.5 massive:text-[17px] "} font-[500] text-white`}
           >
             Customize
           </button>
@@ -62,5 +62,3 @@ const ProductCardTemp = ({
 };
 
 export default ProductCardTemp;
-
-// box-shadow: 0px 4px 8px 0px #00000017;

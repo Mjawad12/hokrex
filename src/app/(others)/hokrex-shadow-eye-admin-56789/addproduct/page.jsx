@@ -1,7 +1,7 @@
 "use client";
 import { addicon } from "@/Consonats";
 import CustomCheckbox from "@/components/CustomCheckbox";
-import { Context } from "@/components/Mainstate(Admin)/MainstateAdmin";
+import { ContextAdmin } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import Image from "next/image";
 import React, { useContext, useRef, useState } from "react";
 import { SketchPicker } from "react-color";
@@ -15,7 +15,7 @@ function page() {
 }
 
 const ProductFrom = () => {
-  const { addProductApi } = useContext(Context);
+  const { addProductApi } = useContext(ContextAdmin);
   const form = useRef(null);
   const imgRef = useRef(null);
   const name = useRef(null);
@@ -179,7 +179,7 @@ const ProductFrom = () => {
               className="checkoutInput hover:shadow-xl "
               placeholder="Product Heading"
               required={true}
-              maxLength={70}
+              maxLength={80}
             />
           </div>
           <div className="w-full">

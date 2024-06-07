@@ -1,5 +1,6 @@
 import React from "react";
-import ProductCard from "./ProductCardTemp";
+
+import ProductCardTemp from "./ProductCardTemp";
 
 function ProductPageFooter({ products }) {
   return (
@@ -7,7 +8,7 @@ function ProductPageFooter({ products }) {
       <h3 className="text-5xl font-[500] text-white">RELATED PRODUCTS</h3>
       <div className="mt-9 grid grid-cols-3 gap-5 gap-y-16">
         {products?.slice(0, 6).map((it, index) => (
-          <ProductCard
+          <ProductCardTemp
             name={it.productName}
             key={index}
             footerProduct={true}

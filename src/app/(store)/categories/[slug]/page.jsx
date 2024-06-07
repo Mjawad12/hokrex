@@ -15,6 +15,7 @@ function page(slug) {
   const [showingItems, setshowingItems] = useState(9);
   const slugMain = slug.params.slug;
   const liItems = [
+    { name: "All", slug: "/categories/All" },
     { name: "Brand Appeal", slug: "/categories/brand-appeal" },
     { name: "Work Wear", slug: "/categories/work-wear" },
     { name: "Home & living", slug: "/categories/home-and-living" },
@@ -36,7 +37,7 @@ function page(slug) {
   };
 
   useEffect(() => {
-    // getProducts(NameGetter());
+    getProducts(NameGetter());
   }, []);
 
   const products = [
@@ -414,17 +415,25 @@ function page(slug) {
   return (
     <section className="min-h-[100vh] w-full">
       <div className="flex flex-col gap-3">
-        <TopBar liItems={liItems} slug={slugMain} />
-        <div className="mt-6 flex items-start justify-between px-10">
+        <TopBar
+          liItems={liItems}
+          slug={slugMain}
+          filterAdd={true}
+          sticky={true}
+        />
+        <div className="mt-6 flex items-start justify-between px-11">
           <Sorting
             selectedOption={selectedOption}
             setselectedOption={setselectedOption}
           />
-          <MiddleTitle name={NameGetter()} items={products?.length || 0} />
+          <MiddleTitle
+            name={NameGetter()}
+            items={categoryProducts?.length || 0}
+          />
           <div className="mt-1 flex flex-1 flex-grow-[0.2] justify-end gap-[3rem]">
             <Pagechanger
               pageNumber={PageState}
-              totalItems={products?.length || 0}
+              totalItems={categoryProducts?.length || 0}
               smGrid={smGrid}
               pageAdder={pageAdder}
               pageRemover={pageRemover}
@@ -461,8 +470,10 @@ function page(slug) {
             </div>
           </div>
         </div>
-        <div className={`grid ${smGrid ? "grid-cols-4" : "grid-cols-3"} px-10`}>
-          {products
+        <div
+          className={`grid ${smGrid ? "grid-cols-4" : "grid-cols-3"} mt-3 px-10`}
+        >
+          {categoryProducts
             ?.slice(showingItems - (smGrid ? 12 : 9), showingItems)
             .map((it, index) => (
               <ProductCardTemp
@@ -485,7 +496,7 @@ function page(slug) {
           </span>
           <Pagechanger
             pageNumber={PageState}
-            totalItems={products?.length || 0}
+            totalItems={categoryProducts?.length || 0}
             smGrid={smGrid}
             pageAdder={pageAdder}
             pageRemover={pageRemover}
@@ -498,14 +509,14 @@ function page(slug) {
 
 export default page;
 
-const TopBar = ({ slug, liItems }) => {
+const TopBar = ({ slug, liItems, filterAdd, sticky }) => {
   return (
     <div
       style={{ boxShadow: "0px 5px 20px 0px #00000003" }}
-      className="sticky top-0 z-20 flex items-center justify-between border-b border-[#E5E5E5] bg-white px-10 py-2"
+      className={`${sticky ? "sticky" : ""} top-0 z-20 flex items-center justify-between border-b border-[#E5E5E5] bg-white px-11 py-2`}
     >
       <div className="flex gap-5">
-        {liItems.map((it, index) => (
+        {liItems?.map((it, index) => (
           <Link
             href={it.slug}
             key={index}
@@ -515,10 +526,12 @@ const TopBar = ({ slug, liItems }) => {
           </Link>
         ))}
       </div>
-      <div className="flex-center cursor-pointer select-none gap-1.5 rounded-[12px] border border-[#CCCCCC] px-3 py-[0.5rem] ">
-        {filter}
-        <span className="text-[15px] font-[500]">Filter</span>
-      </div>
+      {filterAdd && (
+        <div className="flex-center cursor-pointer select-none gap-1.5 rounded-[12px] border border-[#CCCCCC] px-3 py-[0.5rem] ">
+          {filter}
+          <span className="text-[15px] font-[500]">Filter</span>
+        </div>
+      )}
     </div>
   );
 };
@@ -627,3 +640,5 @@ const Pagechanger = ({
     </div>
   );
 };
+
+export { TopBar };

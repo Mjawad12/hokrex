@@ -5,10 +5,15 @@ export async function POST(req) {
   try {
     await ConnectDb();
     const body = await req.json();
-    const products = await Productmodel.find({
-      productCategory: body.productCategory,
-    });
-    return Response.json({ success: true, products }, { status: 200 });
+    if (body.productCategory === "All") {
+      const products = await Productmodel.find({});
+      return Response.json({ success: true, products }, { status: 200 });
+    } else {
+      const products = await Productmodel.find({
+        productCategory: body.productCategory,
+      });
+      return Response.json({ success: true, products }, { status: 200 });
+    }
   } catch (error) {
     console.log(error.message);
     return Response.json(

@@ -59,7 +59,7 @@ const SmNav = ({ cart, authToken, account }) => {
     <ul className="flex-center list-none gap-5 [&_li]:cursor-pointer  [&_li]:whitespace-nowrap [&_li]:text-[0.95rem] [&_li]:font-[500] hover:[&_li]:text-pmRed ">
       {!cart && !account && (
         <>
-          <Link href={"/products"}>
+          <Link href={"/categories"}>
             <li>Products</li>
           </Link>
           <Link href={"/services"}>

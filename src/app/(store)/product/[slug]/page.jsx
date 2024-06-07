@@ -4,25 +4,40 @@ import Image from "next/image";
 import Link from "next/link";
 import { customizeIcon } from "@/Consonats";
 import ProductShower from "@/components/ProductShower";
-import getProducts from "@/components/Funcs/getProducts";
+import { TopBar } from "../../categories/[slug]/page";
 
 export const dynamic = "force-dynamic";
 
 async function page({ params }) {
-  const products = await getProducts();
-  let product = {};
-  products.forEach((it) => {
-    if (it.slug === params.slug) {
-      product = it;
-    }
+  const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/getProduct`, {
+    method: "POST",
+    cache: "no-cache",
+    body: JSON.stringify({ slug: params.slug }),
   });
-  const similarImages = [1, 2, 3, 4, 5, 6];
 
+  const parsedData = await data.json();
+  const similarImages = [1, 2, 3, 4, 5, 6];
+  const liItems = [
+    { name: "All", slug: "/categories/All" },
+    { name: "Brand Appeal", slug: "/categories/brand-appeal" },
+    { name: "Work Wear", slug: "/categories/work-wear" },
+    { name: "Home & living", slug: "/categories/home-and-living" },
+    { name: "Personal", slug: "/categories/personal" },
+    { name: "Team & Sports", slug: "/categories/team-and-sports" },
+    { name: "Pormotion items", slug: "/categories/pormotion-items" },
+    { name: "Gift items", slug: "/categories/gift-items" },
+    { name: "Print on demand", slug: "/categories/print-on-demand" },
+  ];
   return (
     <div>
-      <TopNavigator />
-      <div className="flex justify-center gap-10 px-10 pr-0 py-20 relative pb-0">
-        <div className="flex-1 flex-grow-[0.5] flex  items-start h-[520px] ">
+      <TopBar
+        slug={params.slug}
+        liItems={liItems}
+        filterAdd={false}
+        sticky={false}
+      />
+      <div className="relative flex justify-center gap-10 px-10 pb-0 pr-0">
+        <div className="sticky top-0 flex  h-[520px] flex-1 flex-grow-[0.5] items-start py-20 ">
           <div className="flex flex-col gap-5">
             {similarImages.map((it) => (
               <div className="border border-borderP">
@@ -36,24 +51,24 @@ async function page({ params }) {
               </div>
             ))}
           </div>
-          <div className="w-full flex flex-col items-center justify-start ">
+          <div className="flex w-full flex-col items-center justify-start ">
             <Image
-              src="/TestImg2.jpg"
+              src={parsedData.product.productImg}
               alt="shirt image"
               width={500}
               height={500}
             />
             <Link
               href={"/customize/1"}
-              className={`flex-center rounded-[0.75rem] mt-6 w-[22rem] py-[0.9px] cust-btn hover:shadow-lg`}
+              className={`flex-center cust-btn mt-6 w-[22rem] rounded-[0.75rem] py-[0.9px] hover:shadow-lg`}
             >
-              <button className="w-[21.9rem] py-2 flex flex-center gap-2 bg-white text-[18px] font-[500] rounded-[0.7rem] ">
+              <button className="flex-center flex w-[21.9rem] gap-2 rounded-[0.7rem] bg-white py-2 text-[18px] font-[500] ">
                 {customizeIcon} Customize
               </button>
             </Link>
           </div>
         </div>
-        <ProductShower product={product} products={products} />
+        <ProductShower product={parsedData.product} />
       </div>
     </div>
   );

@@ -1,16 +1,16 @@
 "use client";
-import { Context } from "@/components/Mainstate(Admin)/MainstateAdmin";
+import { ContextAdmin } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import Link from "next/link";
 import React, { useContext, useEffect } from "react";
 
 function page() {
-  const { getproducts, products } = useContext(Context);
+  const { getproducts, products } = useContext(ContextAdmin);
   useEffect(() => {
     getproducts();
   }, []);
   return (
-    <div className="w-full min-h-screen bg-hoverC px-5">
-      <div className="w-full py-3 px-5 bg-Pn-dark-600 mt-5 rounded-xl flex-center justify-between">
+    <div className="min-h-screen w-full bg-hoverC px-5">
+      <div className="flex-center mt-5 w-full justify-between rounded-xl bg-Pn-dark-600 px-5 py-3">
         <h1 className="text-4xl font-[700] text-white">Products</h1>
         <span className="text-3xl font-[700] text-white">
           ({products?.length})
@@ -23,7 +23,7 @@ function page() {
 
 const Products = ({ products }) => {
   return (
-    <div className="flex flex-wrap py-10 gap-6 ">
+    <div className="flex flex-wrap gap-6 py-10 ">
       {products && products.length > 0 ? (
         products?.map((it, index) => (
           <ProductCard
@@ -35,7 +35,7 @@ const Products = ({ products }) => {
           />
         ))
       ) : (
-        <h2 className="text-3xl font-[600] text-black pl-2">No Products</h2>
+        <h2 className="pl-2 text-3xl font-[600] text-black">No Products</h2>
       )}
     </div>
   );
@@ -44,24 +44,24 @@ const Products = ({ products }) => {
 const ProductCard = ({ name, img, price, slug, category }) => {
   return (
     <Link
-      className="relative flex w-full max-w-[22rem] h-max flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md hover:shadow-xl"
+      className="relative flex h-max w-full max-w-[22rem] flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md hover:shadow-xl"
       href={"/orders/" + slug}
     >
-      <div className="relative mx-1 mt-1 flex justify-center items-center  overflow-hidden rounded-xl">
+      <div className="relative mx-1 mt-1 flex items-center justify-center overflow-hidden rounded-xl">
         <img
-          className="max-w-[320px] max-h-[287px] scale-[0.9]"
+          className="max-h-[287px] max-w-[320px] scale-[0.9]"
           src={img}
           alt="product image"
         />
       </div>
-      <div className="mt-2 px-5 py-2 border-t border-gray-200 ">
-        <h5 className="text-xl small:text-[1.1rem] tracking-tight text-slate-900">
+      <div className="mt-2 border-t border-gray-200 px-5 py-2 ">
+        <h5 className="text-xl tracking-tight text-slate-900 small:text-[1.1rem]">
           {name}
         </h5>
 
-        <div className="mt-2 mb-5 flex items-center justify-between">
+        <div className="mb-5 mt-2 flex items-center justify-between">
           <p>
-            <span className="text-3xl small:text-2xl font-bold text-slate-900">
+            <span className="text-3xl font-bold text-slate-900 small:text-2xl">
               {price}$
             </span>
           </p>

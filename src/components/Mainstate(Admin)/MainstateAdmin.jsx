@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext } from "react";
 import { useState } from "react";
-const Context = createContext();
+const ContextAdmin = createContext();
 
 function MainstateAdmin({ children }) {
   const url = process.env.NEXT_PUBLIC_URL;
@@ -9,7 +9,7 @@ function MainstateAdmin({ children }) {
 
   const getproducts = async () => {
     const data = await fetch(`${url}/api/getproducts`, {
-      method: "Get",
+      method: "POST",
       cache: "no-store",
     });
     const parseddata = await data.json();
@@ -24,7 +24,7 @@ function MainstateAdmin({ children }) {
     imgUrl,
     price,
     colors,
-    sizes
+    sizes,
   ) => {
     const data = await fetch(`${url}/api/addproduct`, {
       method: "POST",
@@ -43,12 +43,12 @@ function MainstateAdmin({ children }) {
   };
 
   return (
-    <Context.Provider value={{ getproducts, products, addProductApi }}>
+    <ContextAdmin.Provider value={{ getproducts, products, addProductApi }}>
       {children}
-    </Context.Provider>
+    </ContextAdmin.Provider>
   );
 }
 
 export default MainstateAdmin;
 
-export { Context };
+export { ContextAdmin };
