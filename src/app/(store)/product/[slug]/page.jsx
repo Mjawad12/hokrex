@@ -5,7 +5,7 @@ import Link from "next/link";
 import { customizeIcon } from "@/Consonats";
 import ProductShower from "@/components/ProductShower";
 import { TopBar } from "../../categories/[slug]/page";
-
+import { redirect } from "next/navigation";
 export const dynamic = "force-dynamic";
 
 async function page({ params }) {
@@ -16,6 +16,7 @@ async function page({ params }) {
   });
 
   const parsedData = await data.json();
+  !parsedData.success && redirect("/categories/All");
   const similarImages = [1, 2, 3, 4, 5, 6];
   const liItems = [
     { name: "All", slug: "/categories/All" },
@@ -53,7 +54,7 @@ async function page({ params }) {
           </div>
           <div className="flex w-full flex-col items-center justify-start ">
             <Image
-              src={parsedData.product.productImg}
+              src={parsedData.product?.productImg}
               alt="shirt image"
               width={500}
               height={500}

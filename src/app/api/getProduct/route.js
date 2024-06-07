@@ -6,7 +6,9 @@ export async function POST(req) {
   const body = await req.json();
   try {
     const product = await ProductSchema.findOne({ slug: body.slug });
-
+    if (!product) {
+      return Response.json({ success: false, error: "No Product Found" });
+    }
     return Response.json({ success: true, product: product });
   } catch (err) {
     return Response.json({ success: false, error: err });
