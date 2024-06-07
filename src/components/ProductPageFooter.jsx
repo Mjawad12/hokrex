@@ -1,28 +1,37 @@
-import React from "react";
+"use client";
+import React, { useContext, useEffect } from "react";
 
 import ProductCardTemp from "./ProductCardTemp";
+import { ContextStore } from "./Mainstate(store)/Mainstatestore";
 
-function ProductPageFooter({ products }) {
+function ProductPageFooter() {
+  const { categoryProducts, getProducts } = useContext(ContextStore);
+
+  useEffect(() => {
+    getProducts("All");
+  }, []);
+
   return (
-    <div className="w-full bg-darkP px-9 py-10 pb-0">
-      <h3 className="text-5xl font-[500] text-white">RELATED PRODUCTS</h3>
-      <div className="mt-9 grid grid-cols-3 gap-5 gap-y-16">
-        {products?.slice(0, 6).map((it, index) => (
+    <div className="mt-14 w-full px-9 py-10 pb-0">
+      <h3 className="text-5xl font-[600] text-black">RELATED PRODUCTS</h3>
+      <div className="mt-3 grid grid-cols-2">
+        {categoryProducts?.slice(0, 6).map((it, index) => (
           <ProductCardTemp
             name={it.productName}
             key={index}
-            footerProduct={true}
-            dark={true}
             img={it.productImg}
             slug={it.slug}
+            border={index % 2 === 0}
+            smGrid={false}
+            footer={true}
           />
         ))}
       </div>
-      <div className="mt-20 flex items-center justify-between border-t border-gray-400 py-5">
-        <span className="text-[0.8rem] font-[300] text-gray-300">
+      <div className="flex items-center justify-between py-5">
+        <span className="text-[0.8rem] font-[300] text-black">
           @2024, Sublimatics Inc
         </span>
-        <span className="text-[0.8rem] font-[300] text-gray-300">
+        <span className="text-[0.8rem] font-[300] text-black">
           Made by Hokrex
         </span>
       </div>

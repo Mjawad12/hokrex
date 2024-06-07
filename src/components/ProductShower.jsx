@@ -10,7 +10,7 @@ import { bag, check, heart, share, star } from "@/Consonats";
 
 function ProductShower({ product, products }) {
   return (
-    <div className="w-full flex-1 flex-grow-[0.56] border-l border-[#E5E5E5] py-20">
+    <div className="w-full flex-1 flex-grow-[0.56] border-l border-[#E5E5E5] pt-20">
       <div className="flex w-full max-w-[31rem] flex-col gap-5 px-10">
         <div className="flex gap-2">
           <div className="flex-center cursor-pointer rounded-[12px] border border-borderP px-2 py-2 [&_svg]:scale-[0.9]">
@@ -75,7 +75,7 @@ function ProductShower({ product, products }) {
         </div>
       </div>
       <D_R_R description={product?.productDescription} />
-      {/* <ProductPageFooter products={products} /> */}
+      <ProductPageFooter products={products} />
     </div>
   );
 }
