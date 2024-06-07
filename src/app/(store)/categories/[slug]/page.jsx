@@ -359,16 +359,56 @@ function page(slug) {
       slug: "test",
       __v: 0,
     },
+    {
+      _id: "662156e1ea8ea041afab8f24",
+      productName: "test",
+      productPrice: 250,
+      productCategory: "Brand Appeal",
+      productDescription: "testasdasdasd",
+      productHeading: "test product",
+      productImg:
+        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
+      productColors: [
+        "rgb(255, 42, 42)",
+        "rgb(2, 2, 2)",
+        "rgb(65, 17, 17)",
+        "",
+      ],
+      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
+      slug: "test",
+      __v: 0,
+    },
+    {
+      _id: "662156e1ea8ea041afab8f24",
+      productName: "test",
+      productPrice: 250,
+      productCategory: "Brand Appeal",
+      productDescription: "testasdasdasd",
+      productHeading: "test product",
+      productImg:
+        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
+      productColors: [
+        "rgb(255, 42, 42)",
+        "rgb(2, 2, 2)",
+        "rgb(65, 17, 17)",
+        "",
+      ],
+      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
+      slug: "test",
+      __v: 0,
+    },
   ];
 
   const pageAdder = () => {
     setPageState((e) => e + 1);
-    smGrid ? setshowingItems((e) => e + 11) : setshowingItems((e) => e + 9);
+    smGrid ? setshowingItems((e) => e + 12) : setshowingItems((e) => e + 9);
   };
 
   const pageRemover = () => {
-    setPageState((e) => e - 1);
-    smGrid ? setshowingItems((e) => e - 11) : setshowingItems((e) => e - 9);
+    if (PageState !== 1) {
+      setPageState((e) => e - 1);
+      smGrid ? setshowingItems((e) => e - 12) : setshowingItems((e) => e - 9);
+    }
   };
 
   return (
@@ -391,7 +431,11 @@ function page(slug) {
             />
             <div className="flex-center gap-3">
               <div
-                onClick={() => setsmGrid(false)}
+                onClick={() => {
+                  setsmGrid(false);
+                  setshowingItems(9);
+                  setPageState(1);
+                }}
                 className={`cursor-pointer ${
                   smGrid
                     ? "[&_svg]:fill-[#F5F5F5] [&_svg]:stroke-[#F5F5F5]"
@@ -401,7 +445,11 @@ function page(slug) {
                 {block4}
               </div>
               <div
-                onClick={() => setsmGrid(true)}
+                onClick={() => {
+                  setsmGrid(true);
+                  setshowingItems(12);
+                  setPageState(1);
+                }}
                 className={`cursor-pointer ${
                   smGrid
                     ? "[&_svg]:fill-black [&_svg]:stroke-black"
@@ -413,9 +461,9 @@ function page(slug) {
             </div>
           </div>
         </div>
-        <div className="flex w-full flex-wrap px-10 ">
+        <div className={`grid ${smGrid ? "grid-cols-4" : "grid-cols-3"} px-10`}>
           {products
-            ?.slice(showingItems - (smGrid ? 11 : 9), showingItems)
+            ?.slice(showingItems - (smGrid ? 12 : 9), showingItems)
             .map((it, index) => (
               <ProductCardTemp
                 name={it.productName}
@@ -423,6 +471,7 @@ function page(slug) {
                 img={it.productImg}
                 key={index}
                 border={(index + 2) % 3 === 0 && index !== 0 ? true : false}
+                smGrid={smGrid}
               />
             ))}
         </div>
@@ -540,9 +589,15 @@ const Pagechanger = ({
   pageAdder,
   pageRemover,
 }) => {
-  const totalNumbers = (totalItems / (smGrid ? 11 : 9)).toFixed();
+  var totalNumbers = totalItems / (smGrid ? 12 : 9);
+
+  totalNumbers =
+    +totalNumbers.toString().slice(1) > 0
+      ? (+totalNumbers.toString().slice(0, 1) + 1).toFixed()
+      : totalNumbers.toFixed();
+  console.log(totalNumbers);
   return (
-    <div className="flex gap-6 [&_svg]:w-[16px]">
+    <div className="flex select-none gap-6 [&_svg]:w-[16px]">
       <span
         onClick={() => {
           pageRemover();
@@ -557,7 +612,9 @@ const Pagechanger = ({
       </p>
       <span
         onClick={() => {
-          pageAdder();
+          if (pageNumber != totalNumbers) {
+            pageAdder();
+          }
         }}
         className={`rotate-[-90deg] cursor-pointer ${pageNumber == totalNumbers && "cursor-not-allowed [&_svg]:stroke-[#707070]"}`}
       >
