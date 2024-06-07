@@ -470,7 +470,11 @@ function page(slug) {
                 slug={it.slug}
                 img={it.productImg}
                 key={index}
-                border={(index + 2) % 3 === 0 && index !== 0 ? true : false}
+                border={
+                  smGrid
+                    ? (index + 1) % 4 !== 0
+                    : (index + 2) % 3 === 0 && index !== 0
+                }
                 smGrid={smGrid}
               />
             ))}

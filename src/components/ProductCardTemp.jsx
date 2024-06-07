@@ -12,9 +12,10 @@ const ProductCardTemp = ({
 }) => {
   // "max-w-[371px]" : "max-w-[520px]"
   return (
-    <Link
-      href={"/product/" + slug}
-      className={`${smGrid ? "min-h-[415px]" : "min-h-[550px]"} w-full ${smGrid ? "w-full" : "w-full"} border-b ${border ? "border-x" : ""} border-[#E5E5E5] p-3 transition-all duration-700 [&_#prod]:hover:bg-[#F5F5F5] [&_#prod_#btns-prod]:hover:opacity-[1] [&_#prod_img]:hover:scale-[0.79]`}
+    <div
+      className={`prodLk relative ${smGrid ? "min-h-[415px]" : "min-h-[550px]"} w-full ${smGrid ? "w-full" : "w-full"} 
+      border-b ${border ? (smGrid ? "border-r" : "border-x") : ""} border-[#E5E5E5] p-3 transition-all duration-700 
+      [&_#prod]:hover:bg-[#F5F5F5] [&_#prod_#btns-prod]:hover:opacity-[1] [&_#prod_img]:hover:scale-[0.79]`}
     >
       <div
         id="prod"
@@ -39,12 +40,13 @@ const ProductCardTemp = ({
           id="btns-prod"
           className={`absolute ${smGrid ? "bottom-[4rem]" : "bottom-[5.5rem]"} flex w-max items-center gap-3 opacity-0 transition-all duration-700`}
         >
-          <button
+          <Link
+            href={"/product/" + slug}
             style={{ boxShadow: "0px 4px 8px 0px #00000017" }}
             className={`w-full whitespace-nowrap bg-[#FFFFFF] ${smGrid ? "rounded-[7px] px-[1.7rem] py-[0.55rem] text-[14px]" : "rounded-[10px] px-8 py-3 text-[20px]"} font-[500] hover:bg-[#000000CC] hover:text-white`}
           >
             Quick View
-          </button>
+          </Link>
           <button
             className={`w-full bg-[#000000CC] ${smGrid ? "rounded-[7px] px-[1.7rem] py-[0.55rem] text-[14px]" : "rounded-[10px] px-8 py-3 text-[20px]"} font-[500] text-white`}
           >
@@ -55,7 +57,7 @@ const ProductCardTemp = ({
           {name}
         </p>
       </div>
-    </Link>
+    </div>
   );
 };
 
