@@ -11,7 +11,8 @@ import { bag, check, heart, share, star } from "@/Consonats";
 import { ContextCart } from "./Mainstate(cart)/Mainstatecart";
 
 function ProductShower({ product, products }) {
-  const { dispatch } = useContext(ContextCart);
+  const { dispatch, cartState } = useContext(ContextCart);
+  console.log(cartState);
   const [amount, setamount] = useState(0);
   const [error, seterror] = useState(null);
   const Addproduct = () => {
@@ -21,13 +22,24 @@ function ProductShower({ product, products }) {
         .querySelector("#err-s")
         .scrollIntoView({ behavior: "smooth", block: "center" });
     } else {
+      var sizes = [];
+      product?.productSizes.map((it, index) => {
+        sizes = [
+          ...sizes,
+          {
+            type: it,
+            val: document.querySelector(`#size-val-${index}`).value || 0,
+          },
+        ];
+      });
       dispatch({
         type: "addItem",
         item: {
           name: product?.productName,
           colors: product?.productColors,
-          sizes: product?.productSizes,
-          price: calculatePrice(),
+          sizes: sizes,
+          price: "$" + calculatePrice(),
+          src: product?.productImg,
         },
       });
     }
@@ -90,7 +102,7 @@ function ProductShower({ product, products }) {
           seterror={seterror}
         />
         <div className="mt-16 flex flex-col gap-4">
-          <BulkCalculator />
+          <BulkCalculator price={product?.productPrice} />
           <SelectMaterial />
           <input
             type="text"

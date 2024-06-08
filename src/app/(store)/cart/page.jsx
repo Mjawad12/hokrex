@@ -163,21 +163,33 @@ const CartItem = ({ name, src, price, sizes, quant, date }) => {
             <div className="flex flex-col justify-end gap-1">
               <p className="text-[20px] font-[500]">{name}</p>
               <p className="text-[16px] font-[600] text-pmRed">{price}</p>
-              <div className="flex flex-wrap gap-2">
-                {sizes?.map((it, index) => (
-                  <div
-                    className="flex-center overflow-hidden rounded-[9px] border border-borderP"
-                    key={index}
-                  >
-                    <p className="border-r border-borderP px-2 py-[0.29rem] text-[14px] font-[700]">
-                      {it.type}
-                    </p>
-                    <input
-                      className="w-[37px] py-[0.29rem] text-center text-[14px] font-[500] outline-none placeholder:text-black "
-                      defaultValue={it.val}
-                    ></input>
-                  </div>
-                ))}
+              <div className="flex max-w-[15.5rem] flex-wrap gap-2 gap-y-1">
+                {sizes?.map(
+                  (it, index) =>
+                    it.val !== 0 && (
+                      <div
+                        className="flex-center overflow-hidden rounded-[9px] border border-borderP"
+                        key={index}
+                      >
+                        <p className="border-r border-borderP px-2 py-[0.29rem] text-[14px] font-[700]">
+                          {it.type}
+                        </p>
+                        <input
+                          className="w-[37px] py-[0.29rem] text-center text-[14px] font-[500] outline-none placeholder:text-black "
+                          defaultValue={it.val}
+                          type="number"
+                          onKeyDown={(e) => {
+                            if (
+                              e.target.value.length > 1 &&
+                              e.key !== "Backspace"
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
+                        ></input>
+                      </div>
+                    ),
+                )}
               </div>
             </div>
           </div>

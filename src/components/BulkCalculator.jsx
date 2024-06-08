@@ -1,18 +1,17 @@
 "use client";
 import { arrowDown } from "@/Consonats";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, useAnimate } from "framer-motion";
 
-function BulkCalculator() {
+function BulkCalculator({ price }) {
   const [open, setopen] = useState(false);
   const [scope, animate] = useAnimate();
   const slider = useRef(null);
-  const [value, setvalue] = useState(250);
+  const [value, setvalue] = useState(1);
   const func = () => {
     const val = slider.current?.value;
     setvalue(val);
     const percent = (val / slider.current?.max) * 100;
-    console.log(percent.toFixed(0));
     slider.current.style.background = `linear-gradient(to right , black ${
       percent.toFixed(0) + "%"
     } , #d3d3d3 0%)`;
@@ -22,16 +21,20 @@ function BulkCalculator() {
       animate(
         scope.current,
         { height: 50 },
-        { duration: 0.5, ease: "easeInOut" }
+        { duration: 0.5, ease: "easeInOut" },
       );
     !open &&
       animate(
         scope.current,
         { height: scope.current.scrollHeight + "px" },
-        { duration: 0.5, ease: "easeInOut" }
+        { duration: 0.5, ease: "easeInOut" },
       );
     setopen(!open);
   };
+
+  useEffect(() => {
+    func();
+  }, []);
 
   return (
     <motion.div
@@ -39,13 +42,13 @@ function BulkCalculator() {
       initial={{
         height: 50,
       }}
-      className="w-full bg-[#F9F9F9] px-5 py-3 rounded-[12px] overflow-hidden "
+      className="w-full overflow-hidden rounded-[12px] bg-[#F9F9F9] px-5 py-3 "
     >
       <div
         onClick={opener}
-        className="flex justify-between items-center cursor-pointer"
+        className="flex cursor-pointer items-center justify-between"
       >
-        <p className="font-[600] text-[18px]">Bulk price Calculator</p>
+        <p className="text-[18px] font-[600]">Bulk price Calculator</p>
         <div
           className={`[&_svg]:w-[16px] ${
             open ? "rotate-[180deg]" : "rotate-0"
@@ -66,14 +69,19 @@ function BulkCalculator() {
             id="cs12-Sli"
             ref={slider}
             onInput={func}
+            defaultValue={1}
+            className="w-full"
           />
-          <p className="font-[500] text-[17px] whitespace-nowrap">
+          <p className="w-16 whitespace-nowrap text-[17px] font-[500]">
             {value} items
           </p>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <p className="text-[16px] font-[600]">
-            Disconted Price : <span className="font-[700]">$348</span>
+            Disconted Price :{" "}
+            <span className="font-[700]">
+              ${(value * price - value * price * (9 / 100)).toFixed(2)}
+            </span>
           </p>
           <p className="text-[16px] font-[600]">9%OFF</p>
         </div>

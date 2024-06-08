@@ -25,7 +25,7 @@ function LikeToPrint({ sizes, amount, setamount, error, seterror }) {
                 }}
                 onInput={() => {
                   let amu = 0;
-                  document.querySelectorAll("#size").forEach((it) => {
+                  document.querySelectorAll(".sizes-val").forEach((it) => {
                     if (it.value) {
                       amu += it.value && parseInt(it.value);
                     }
@@ -34,9 +34,9 @@ function LikeToPrint({ sizes, amount, setamount, error, seterror }) {
                   setamount(amu);
                   seterror(null);
                 }}
-                id="size"
+                id={`size-val-${index}`}
                 type="number"
-                className="w-[45px] appearance-none py-2 text-center text-[1.1rem] font-[500] text-pmRed outline-none "
+                className="sizes-val w-[45px] appearance-none py-2 text-center text-[1.1rem] font-[500] text-pmRed outline-none "
               />
             </div>
           ))}

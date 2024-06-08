@@ -7,10 +7,10 @@ const reducer = (state, action) => {
   const [cartitems, changeitems] = uselocalStorage();
   switch (action.type) {
     case "addItem": {
-      const cartitems = [...state.items, action.item];
-      changeitems(cartitems);
+      const cartitemsTemp = [...state.items, action.item];
+      changeitems(cartitemsTemp);
       return {
-        items: cartitems,
+        items: cartitemsTemp,
         total: state.total + 1,
         price: (state.price += action.item.price * action.item.quant),
       };
@@ -19,9 +19,8 @@ const reducer = (state, action) => {
 };
 
 function Mainstatecart({ children }) {
+  const [cartitems, changeitems] = uselocalStorage();
   const getinitialState = () => {
-    const [cartitems, changeitems] = uselocalStorage();
-
     if (cartitems?.length > 0) {
       return {
         items: cartitems,
