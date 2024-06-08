@@ -65,7 +65,7 @@ export default function page() {
       <div className="m-auto flex min-h-screen max-w-[1150px]  gap-10 px-3">
         <div className="flex w-full flex-1 flex-grow-[0.6] flex-col gap-5 py-9">
           <h1 className="text-[20px] font-[700]">My Cart</h1>
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-10 ">
             {cartState.items?.map((it, index) => (
               <CartItem
                 name={it.name}
@@ -147,13 +147,13 @@ const CartItem = ({ name, src, price, sizes, quant, date }) => {
         <div className="flex flex-col gap-[0.6rem]">
           <div className="flex gap-[0.9rem]">
             <div className="relative">
-              <div className="overflow-hidden rounded-lg">
+              <div className="h-[105px] w-[110px] overflow-hidden rounded-lg bg-[#EEEEEE]">
                 <Image
                   src={src}
                   alt="Cart item"
                   width={105}
                   height={105}
-                  className="h-[100px] w-[100px] "
+                  className="h-[105px] w-[110px] "
                 />
               </div>
               <div className="absolute -right-2 -top-2 cursor-pointer [&_path]:hover:stroke-white [&_rect]:fill-white [&_rect]:hover:fill-pmRed ">
@@ -162,8 +162,8 @@ const CartItem = ({ name, src, price, sizes, quant, date }) => {
             </div>
             <div className="flex flex-col justify-end gap-1">
               <p className="text-[20px] font-[500]">{name}</p>
-              <p className="text-[16px] font-[600] text-pmRed">{price}</p>
-              <div className="flex max-w-[15.5rem] flex-wrap gap-2 gap-y-1">
+              <p className="text-[16px] font-[600] text-pmRed">${price}</p>
+              <div className="flex w-full max-w-[16rem] flex-wrap gap-2 gap-y-1">
                 {sizes?.map(
                   (it, index) =>
                     it.val !== 0 && (
@@ -247,7 +247,9 @@ const CartItem = ({ name, src, price, sizes, quant, date }) => {
               Total units {quant}
             </p>
           </div>
-          <p className="text-[17px] font-[600] text-black ">Sub Total $130</p>
+          <p className="text-[17px] font-[600] text-black ">
+            Sub Total ${price}
+          </p>
         </div>
       </div>
     </div>

@@ -4,19 +4,18 @@ import Calender from "./Calender";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-function DateSelector() {
-  const [selectedDate, setselectedDate] = useState();
+function DateSelector({ selectedDate, setselectedDate }) {
   const [show, setshow] = useState(false);
   return (
-    <div className="w-full relative ">
+    <div className="relative w-full ">
       <div
         onClick={() => setshow(!show)}
-        className="w-full  flex justify-between items-center px-5 py-3 border border-borderP font-[500] rounded-[0.8rem] text-[18px] hover:border-black cursor-pointer  "
+        className="flex  w-full cursor-pointer items-center justify-between rounded-[0.8rem] border border-borderP px-5 py-3 text-[18px] font-[500] hover:border-black  "
       >
-        <div className="flex gap-3 items-center">
+        <div className="flex items-center gap-3">
           {selectedDate ? (
             <>
-              <span className="bg-[#12CC46] rounded-full w-5 h-5 flex-center [&_svg]:w-[10px]">
+              <span className="flex-center h-5 w-5 rounded-full bg-[#12CC46] [&_svg]:w-[10px]">
                 {check}
               </span>
               <p className="text-[17px] font-[500]">
@@ -35,7 +34,7 @@ function DateSelector() {
             animate={{ opacity: 1, x: 0, y: 0 }}
             initial={{ opacity: 0, x: 5, y: -13 }}
             exit={{ opacity: 0, x: 5, y: -13 }}
-            className="absolute top-16 right-0"
+            className="absolute right-0 top-16"
           >
             <Calender setselectedDate={setselectedDate} setshow={setshow} />
           </motion.div>

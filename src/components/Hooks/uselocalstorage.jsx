@@ -1,8 +1,5 @@
 "uce client";
 
-import { useEffect, useState } from "react";
-import React from "react";
-
 const uselocalStorage = () => {
   const changeitems = (items) => {
     if (window.localStorage) {
@@ -12,15 +9,7 @@ const uselocalStorage = () => {
     }
   };
 
-  const cartitems = () => {
-    if (window.localStorage) {
-      return JSON.parse(window.localStorage.getItem("ka_12_it_1.0"));
-    } else {
-      console.log("You Don't have Local Storage");
-    }
-  };
-
-  return [cartitems(), changeitems];
+  return [changeitems];
 };
 
 export default uselocalStorage;

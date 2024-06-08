@@ -12,6 +12,7 @@ import { ContextCart } from "./Mainstate(cart)/Mainstatecart";
 
 function ProductShower({ product, products }) {
   const { dispatch, cartState } = useContext(ContextCart);
+  const [selectedDate, setselectedDate] = useState(null);
   console.log(cartState);
   const [amount, setamount] = useState(0);
   const [error, seterror] = useState(null);
@@ -22,24 +23,18 @@ function ProductShower({ product, products }) {
         .querySelector("#err-s")
         .scrollIntoView({ behavior: "smooth", block: "center" });
     } else {
-      var sizes = [];
-      product?.productSizes.map((it, index) => {
-        sizes = [
-          ...sizes,
-          {
-            type: it,
-            val: document.querySelector(`#size-val-${index}`).value || 0,
-          },
-        ];
-      });
       dispatch({
         type: "addItem",
         item: {
           name: product?.productName,
           colors: product?.productColors,
-          sizes: sizes,
-          price: "$" + calculatePrice(),
+          sizes: getSizes(),
+          price: calculatePrice(),
           src: product?.productImg,
+          quant: amount,
+          date: selectedDate,
+          instruction: document.querySelector("#instr-prod").value,
+          customized: false,
         },
       });
     }
@@ -47,6 +42,20 @@ function ProductShower({ product, products }) {
 
   const calculatePrice = () => {
     return ((amount || 1) * product?.productPrice).toFixed(2);
+  };
+
+  const getSizes = () => {
+    var sizes = [];
+    product?.productSizes.forEach((it, index) => {
+      sizes = [
+        ...sizes,
+        {
+          type: it,
+          val: document.querySelector(`#size-val-${index}`).value || 0,
+        },
+      ];
+    });
+    return sizes;
   };
 
   return (
@@ -75,8 +84,9 @@ function ProductShower({ product, products }) {
         <div className="flex flex-col gap-3">
           <p className="text-[22px] font-[700]">Quick Colors</p>
           <div className="flex w-full max-w-[23rem] flex-wrap gap-2 gap-y-3">
-            {product?.productColors?.map((it) => (
+            {product?.productColors?.map((it, key) => (
               <div
+                key={key}
                 style={{
                   background: it,
                   boxShadow: "0px 0px 12px -5px black",
@@ -108,9 +118,13 @@ function ProductShower({ product, products }) {
             type="text"
             className="w-full rounded-[0.8rem] border border-borderP px-5 py-3 text-[18px] font-[500] outline-none hover:border-black"
             placeholder="Write instruction"
+            id="instr-prod"
           />
           <FileCapturer />
-          <DateSelector />
+          <DateSelector
+            selectedDate={selectedDate}
+            setselectedDate={setselectedDate}
+          />
         </div>
         <p className="mt-8 text-[23px] font-[600] underline underline-offset-4 ">
           Total{" "}
