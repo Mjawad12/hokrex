@@ -14,15 +14,15 @@ const ProductCardTemp = ({
   // "max-w-[371px]" : "max-w-[520px]"
   return (
     <div
-      className={`relative ${smGrid ? "min-h-[415px]" : footer ? "h-[412px]" : "min-h-[550px]"} w-full
+      className={`relative ${smGrid ? "min-h-[415px]" : footer ? "min-h-[412px]" : "min-h-[550px]"} w-full
       border-b ${border ? (smGrid ? "border-r" : footer ? "border-r" : "border-x") : ""} border-[#E5E5E5] p-2 transition-all duration-700 
       [&_#prod]:hover:bg-[#F5F5F5] [&_#prod_#btns-prod]:hover:opacity-[1] [&_#prod_img]:hover:scale-[0.79]`}
     >
       <div
         id="prod"
-        className={`flex-center relative ${smGrid ? "min-h-[415px]" : footer ? "h-[394px]" : "min-h-[550px]"} w-full flex-col transition-all duration-700`}
+        className={`flex-center relative ${smGrid ? "min-h-[415px]" : footer ? "min-h-[394px]" : "min-h-[550px]"} w-full flex-col transition-all duration-700`}
       >
-        <div className="flex w-full items-center justify-between px-5">
+        <div className="relative z-10 flex w-full items-center justify-between px-5">
           <span
             className={`rounded-[6px] bg-black p-1  ${smGrid ? "!rounded-[5px] px-2 py-0.5 text-[10px]" : footer ? "px-[0.5rem] py-[0.25rem] text-[10px]" : "px-[0.6rem] text-[12px]"} font-[400] leading-[16px] text-white`}
           >
@@ -30,13 +30,15 @@ const ProductCardTemp = ({
           </span>
           <span className="[&_svg]:hover:fill-pmRed">{heart}</span>
         </div>
-        <Image
-          src={img}
-          width={500}
-          height={500}
-          alt={"shirt" + slug}
-          className="transition-all duration-700"
-        />
+        <div className="h-[75%] w-full overflow-hidden">
+          <Image
+            src={img}
+            width={500}
+            height={500}
+            alt={"shirt" + slug}
+            className="h-full w-full transition-all duration-700"
+          />
+        </div>
         <div
           id="btns-prod"
           className={`absolute ${smGrid ? "bottom-[4rem]" : footer ? "bottom-[4.2rem]" : "bottom-[5.5rem]"} flex w-max items-center ${footer ? "gap-2" : "gap-3"} opacity-0 transition-all duration-700`}

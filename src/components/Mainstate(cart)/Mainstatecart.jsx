@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useEffect, useReducer } from "react";
 import uselocalStorage from "@/components/Hooks/uselocalstorage";
-const Context = createContext();
+const ContextCart = createContext();
 
 const reducer = (state, action) => {
   const [cartitems, changeitems] = uselocalStorage();
@@ -22,8 +22,8 @@ function Mainstatecart({ children }) {
   const getinitialState = () => {
     const [cartitems, changeitems] = uselocalStorage();
 
-    if (cartitems && cartitems.length > 0) {
-      const iniState = {
+    if (cartitems?.length > 0) {
+      return {
         items: cartitems,
         total: cartitems.length,
         price: (() => {
@@ -34,19 +34,37 @@ function Mainstatecart({ children }) {
           return totalPrice;
         })(),
       };
-      return iniState;
     } else {
       return {
-        items: [],
+        items: [
+          {
+            name: "Test Sports 1.0",
+            price: "$34.25",
+            src: "https://outfitters.com.pk/cdn/shop/files/F0465103113_2.jpg?v=1710828096",
+            sizes: [
+              { type: "SM", val: "12" },
+              { type: "LG", val: "06" },
+              { type: "MD", val: "05" },
+            ],
+            quant: 22,
+            date: "23 March , 2024",
+            colors: [],
+          },
+        ],
         total: 0,
         price: 0,
       };
     }
   };
-  const [state, dispatch] = useReducer(reducer, getinitialState());
+
+  const [cartState, dispatch] = useReducer(reducer, getinitialState());
   return (
-    <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
+    <ContextCart.Provider value={{ cartState, dispatch }}>
+      {children}
+    </ContextCart.Provider>
   );
 }
 
 export default Mainstatecart;
+
+export { ContextCart };

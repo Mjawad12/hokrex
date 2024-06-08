@@ -33,7 +33,7 @@ function Home() {
           </p>
           <div className="mt-8 flex items-center gap-6">
             <Link
-              href={"/products"}
+              href={"/categories/All"}
               className="rounded-3xl border border-black px-6 py-[0.7rem] text-[17px] font-[500] text-pmRed"
             >
               View Products

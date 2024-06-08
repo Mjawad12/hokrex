@@ -148,10 +148,10 @@ function Mainstatestore({ children }) {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(authToken);
-  //   authToken && !userData && getUserdata();
-  // }, [authToken]);
+  useEffect(() => {
+    console.log(authToken);
+    authToken && !userData && getUserdata();
+  }, [authToken]);
 
   useEffect(() => {
     setauthToken(localStorage.getItem("authToken"));

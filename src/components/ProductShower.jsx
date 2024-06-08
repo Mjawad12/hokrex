@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useContext, useState } from "react";
 import LikeToPrint from "@/components/LikeToPrint";
 import BulkCalculator from "@/components/BulkCalculator";
 import SelectMaterial from "@/components/SelectMaterial";
@@ -7,8 +8,21 @@ import DateSelector from "@/components/DateSelector";
 import D_R_R from "@/components/D_R_R";
 import ProductPageFooter from "@/components/ProductPageFooter";
 import { bag, check, heart, share, star } from "@/Consonats";
+import { ContextCart } from "./Mainstate(cart)/Mainstatecart";
 
 function ProductShower({ product, products }) {
+  const {} = useContext(ContextCart);
+  const [amount, setamount] = useState(0);
+  const [error, seterror] = useState(null);
+  const Addproduct = () => {
+    if (amount < 1) {
+      seterror("Please Select atleast one size.");
+      document
+        .querySelector("#err-s")
+        .scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
   return (
     <div className="w-full flex-1 flex-grow-[0.56] border-l border-[#E5E5E5] pt-20">
       <div className="flex w-full max-w-[31rem] flex-col gap-5 px-10">
@@ -54,7 +68,13 @@ function ProductShower({ product, products }) {
             ))}
           </div>
         </div>
-        <LikeToPrint amount={"5"} sizes={product?.productSizes} />
+        <LikeToPrint
+          amount={amount}
+          setamount={setamount}
+          sizes={product?.productSizes}
+          error={error}
+          seterror={seterror}
+        />
         <div className="mt-16 flex flex-col gap-4">
           <BulkCalculator />
           <SelectMaterial />
@@ -70,8 +90,18 @@ function ProductShower({ product, products }) {
           Total <span className="text-pmRed underline">$34.95</span>
         </p>
         <div className="flex-center mt-8 justify-start gap-3">
-          <CustomButton svg={bag} text={"Add to Cart"} color="red" />
-          <CustomButton svg={bag} text={"Check out"} color="black" />
+          <CustomButton
+            svg={bag}
+            text={"Add to Cart"}
+            color="red"
+            clickFunc={Addproduct}
+          />
+          <CustomButton
+            svg={bag}
+            text={"Check out"}
+            color="black"
+            clickFunc={() => {}}
+          />
         </div>
       </div>
       <D_R_R description={product?.productDescription} />
@@ -80,9 +110,10 @@ function ProductShower({ product, products }) {
   );
 }
 
-const CustomButton = ({ text, svg, color }) => {
+const CustomButton = ({ text, svg, color, clickFunc }) => {
   return (
     <button
+      onClick={clickFunc}
       className={`flex-center gap-[1.6rem] px-4 py-3 pr-12 text-white ${
         color === "red"
           ? `bg-[#ea0000bc] hover:bg-[#EA0000]`

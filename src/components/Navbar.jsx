@@ -22,14 +22,16 @@ function Navbar({ cart }) {
       </Link>
       <div
         className={`flex h-[2.5rem] flex-1 flex-grow-[0.75] items-center ${
-          cart || pathname.includes("account")
+          pathname.includes("cart") || pathname.includes("account")
             ? "justify-end"
             : "justify-between"
         } `}
       >
-        {!cart && !pathname.includes("account") && <SearchBar />}
+        {!pathname.includes("cart") && !pathname.includes("account") && (
+          <SearchBar />
+        )}
         <SmNav
-          cart={cart}
+          cart={pathname.includes("cart")}
           authToken={authToken}
           account={pathname.includes("account")}
         />
@@ -78,7 +80,7 @@ const SmNav = ({ cart, authToken, account }) => {
           </li>
         </>
       )}
-      <li className="flex-center gap-2 ">
+      <li className="gap-2 flex-center ">
         <Link
           href="/cart"
           className="flex-center logoStyle h-9 w-[2.4rem] border-gray-300 "

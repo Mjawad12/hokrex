@@ -2,11 +2,11 @@
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 function page() {
   const router = useRouter();
-  const { delFunc, authToken } = useContext(ContextStore);
+  const { delFunc } = useContext(ContextStore);
   const AccountDetails = [
     {
       svg: (
@@ -204,9 +204,6 @@ function page() {
       slug: "address-book",
     },
   ];
-  useEffect(() => {
-    !authToken && router.push("/");
-  }, []);
 
   return (
     <section className="flex-center min-h-[calc(100vh-73px)] w-full">
