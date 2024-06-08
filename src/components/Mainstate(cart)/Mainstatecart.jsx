@@ -49,6 +49,7 @@ function Mainstatecart({ children }) {
             quant: 22,
             date: "23 March , 2024",
             colors: [],
+            instruction: "Please make it of good quality",
           },
         ],
         total: 0,

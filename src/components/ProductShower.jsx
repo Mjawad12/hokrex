@@ -11,7 +11,7 @@ import { bag, check, heart, share, star } from "@/Consonats";
 import { ContextCart } from "./Mainstate(cart)/Mainstatecart";
 
 function ProductShower({ product, products }) {
-  const {} = useContext(ContextCart);
+  const { dispatch } = useContext(ContextCart);
   const [amount, setamount] = useState(0);
   const [error, seterror] = useState(null);
   const Addproduct = () => {
@@ -20,7 +20,21 @@ function ProductShower({ product, products }) {
       document
         .querySelector("#err-s")
         .scrollIntoView({ behavior: "smooth", block: "center" });
+    } else {
+      dispatch({
+        type: "addItem",
+        item: {
+          name: product?.productName,
+          colors: product?.productColors,
+          sizes: product?.productSizes,
+          price: calculatePrice(),
+        },
+      });
     }
+  };
+
+  const calculatePrice = () => {
+    return ((amount || 1) * product?.productPrice).toFixed(2);
   };
 
   return (
@@ -81,13 +95,14 @@ function ProductShower({ product, products }) {
           <input
             type="text"
             className="w-full rounded-[0.8rem] border border-borderP px-5 py-3 text-[18px] font-[500] outline-none hover:border-black"
-            placeholder="Write Instraction"
+            placeholder="Write instruction"
           />
           <FileCapturer />
           <DateSelector />
         </div>
         <p className="mt-8 text-[23px] font-[600] underline underline-offset-4 ">
-          Total <span className="text-pmRed underline">$34.95</span>
+          Total{" "}
+          <span className="text-pmRed underline">${calculatePrice()}</span>
         </p>
         <div className="flex-center mt-8 justify-start gap-3">
           <CustomButton
