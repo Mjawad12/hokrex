@@ -633,14 +633,27 @@ const Smcard = ({ name, sizes, qty, date, price }) => {
   );
 };
 
-const CheckoutNav = () => {
+const CheckoutNav = ({ link, name, back }) => {
   return (
-    <div className="flex w-full items-center justify-between bg-black px-4 py-2">
-      <Link href={"/cart"} className="flex-center gap-1">
-        {left2} <p className="text-[13px] text-white">Back to shopping cart</p>
+    <div
+      className={`flex w-full items-center justify-between bg-black px-4  ${back === "shopping" ? "py-4" : "py-2"}`}
+    >
+      <Link
+        href={link ?? "/cart"}
+        className="flex flex-1 flex-grow-[0.2] items-center justify-start gap-1"
+      >
+        {left2}{" "}
+        <p className="text-[13px] text-white">
+          Back to {back ? back : "shopping cart"}
+        </p>
       </Link>
-      <h1 className="text-[20px] font-[500] text-white">Checkout</h1>
-      <Link href={"/contact"} className="text-[13px] text-white">
+      <h1 className="text-[20px] font-[500] text-white">
+        {name ?? "Checkout"}
+      </h1>
+      <Link
+        href={"/contact"}
+        className="flex-1 flex-grow-[0.2] text-end text-[13px] text-white"
+      >
         Contact@hokrex.com
       </Link>
     </div>
@@ -662,3 +675,5 @@ const PayBank = ({ children, payBank, type, setpayBank }) => {
 };
 
 export default page;
+
+export { CheckoutNav };

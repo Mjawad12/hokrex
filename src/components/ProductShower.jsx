@@ -9,6 +9,9 @@ import D_R_R from "@/components/D_R_R";
 import ProductPageFooter from "@/components/ProductPageFooter";
 import { bag, check, heart, share, star } from "@/Consonats";
 import { ContextCart } from "./Mainstate(cart)/Mainstatecart";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { v4 } from "uuid";
 
 function ProductShower({ product, products }) {
   const { dispatch, cartState } = useContext(ContextCart);
@@ -26,6 +29,7 @@ function ProductShower({ product, products }) {
       dispatch({
         type: "addItem",
         item: {
+          id: v4(),
           name: product?.productName,
           colors: product?.productColors,
           sizes: getSizes(),
@@ -36,6 +40,17 @@ function ProductShower({ product, products }) {
           instruction: document.querySelector("#instr-prod").value,
           customized: false,
         },
+      });
+      toast("Product added to the cart!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "success",
       });
     }
   };
@@ -144,6 +159,9 @@ function ProductShower({ product, products }) {
             clickFunc={() => {}}
           />
         </div>
+      </div>
+      <div className="">
+        <ToastContainer />
       </div>
       <D_R_R description={product?.productDescription} />
       <ProductPageFooter products={products} />

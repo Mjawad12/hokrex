@@ -28,6 +28,22 @@ const reducer = (state, action) => {
         })(),
       };
     }
+    case "removeItem": {
+      var tempRemoved = {};
+      var cartItemsTemp = state.items;
+      cartItemsTemp.forEach((it, index) => {
+        if (it.id === action.id) {
+          cartItemsTemp.splice(index, 1);
+          tempRemoved = it;
+        }
+      });
+      changeitems(cartItemsTemp);
+      return {
+        items: cartItemsTemp,
+        total: state.total - 1,
+        price: (state.price -= tempRemoved.price * tempRemoved.quant),
+      };
+    }
   }
 };
 
@@ -63,10 +79,14 @@ function Mainstatecart({ children }) {
       };
     }
   };
-
   const [cartState, dispatch] = useReducer(reducer, getinitialState());
+
+  const removeItem = (id) => {
+    dispatch({ type: "removeItem", id: id });
+  };
+  console.log(cartState);
   return (
-    <ContextCart.Provider value={{ cartState, dispatch }}>
+    <ContextCart.Provider value={{ cartState, dispatch, removeItem }}>
       {children}
     </ContextCart.Provider>
   );

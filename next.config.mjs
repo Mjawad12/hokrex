@@ -7,6 +7,8 @@ const nextConfig = {
       "outfitters.com.pk",
       "res.cloudinary.com",
       "images.unsplash.com",
+      "lottie.host",
+      "lottiefiles.com",
     ],
   },
   webpack: (config) => {
