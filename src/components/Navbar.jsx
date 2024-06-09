@@ -80,16 +80,16 @@ const SmNav = ({ cart, authToken, account }) => {
           </li>
         </>
       )}
-      <li className="gap-2 flex-center ">
+      <li className="flex-center gap-2 ">
         <Link
           href="/cart"
-          className="flex-center logoStyle h-9 w-[2.4rem] border-gray-300 "
+          className="flex-center logoStyle h-9 w-[2.4rem] border-gray-300 hover:border-black"
         >
           {bag}
         </Link>
         <Link
           href={authToken ? "/account" : "/login"}
-          className={`flex-center logoStyle h-9 w-[2.4rem]  gap-1 border-gray-300 ${account ? "w-max px-3 pl-2 [&_svg:nth-child(1)]:fill-black [&_svg:nth-child(2)]:w-[10px]" : ""}`}
+          className={`flex-center logoStyle h-9 w-[2.4rem]  gap-1 border-gray-300 hover:border-black ${account ? "w-max px-3 pl-2 [&_svg:nth-child(1)]:fill-black [&_svg:nth-child(2)]:w-[10px]" : ""}`}
         >
           {user}
           {account && arrowDown}

@@ -1,10 +1,10 @@
 "use client";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Image from "next/image";
 import { calender, cart, cross } from "@/Consonats";
 import Link from "next/link";
 import { ContextCart } from "@/components/Mainstate(cart)/Mainstatecart";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { CheckoutNav } from "../checkout/page";
 
 export default function page() {
@@ -76,14 +76,21 @@ export default function page() {
                     Check out
                   </Link>
                 </div>
-                <div className="flex-center w-full max-w-[23rem] ">
+                <div className="flex-center h-[26px] w-full max-w-[23rem] ">
                   <p className="mr-1 text-[13px] font-[400]">Payment method</p>
-                  <Image src={"/visa.jpg"} width={35} height={35} alt="visa" />
+                  <Image
+                    src={"/visa.jpg"}
+                    width={35}
+                    height={35}
+                    alt="visa"
+                    className="h-[26px] w-[35px]"
+                  />
                   <Image
                     src={"/master.jpg"}
                     width={28}
                     height={28}
                     alt="master card"
+                    className="h-[18px] w-[28px]"
                   />
                   <Image
                     src={"/paypal.jpg"}
@@ -117,9 +124,15 @@ export default function page() {
 
 const CartItem = ({ name, src, price, sizes, quant, date, removeItem, id }) => {
   const fileRef = useRef(null);
+  const [instuctionDialog, setinstuctionDialog] = useState(false);
 
   return (
     <motion.div className="flex w-full flex-col bg-white transition-all duration-300">
+      <AnimatePresence>
+        {instuctionDialog && (
+          <InstructionDialog setinstuctionDialog={setinstuctionDialog} />
+        )}
+      </AnimatePresence>
       <div className="flex items-start justify-between">
         <div className="flex w-full max-w-[23.5rem] flex-col gap-[0.6rem]">
           <div className="flex gap-[0.9rem]">
@@ -150,14 +163,24 @@ const CartItem = ({ name, src, price, sizes, quant, date, removeItem, id }) => {
                   (it, index) =>
                     it.val !== 0 && (
                       <div
-                        className="flex-center overflow-hidden rounded-[9px] border border-borderP"
+                        className="flex-center overflow-hidden rounded-[9px] "
                         key={index}
                       >
-                        <p className="border-r border-borderP px-2 py-[0.29rem] text-[14px] font-[700]">
+                        <p
+                          style={{
+                            borderTopRightRadius: 0,
+                            borderBottomRightRadius: 0,
+                          }}
+                          className="rounded-[9px] border border-r-0 border-borderP px-2 py-[0.29rem] text-[14px] font-[700]"
+                        >
                           {it.type}
                         </p>
                         <input
-                          className="w-[37px] py-[0.29rem] text-center text-[14px] font-[500] outline-none placeholder:text-black "
+                          style={{
+                            borderTopLeftRadius: 0,
+                            borderBottomLeftRadius: 0,
+                          }}
+                          className="w-[37px] rounded-[9px] border border-borderP py-[0.29rem] text-center text-[14px] font-[500] outline-none placeholder:text-black hover:border-darkP focus:border-darkP"
                           defaultValue={it.val}
                           type="number"
                           onKeyDown={(e) => {
@@ -206,8 +229,11 @@ const CartItem = ({ name, src, price, sizes, quant, date, removeItem, id }) => {
           />
         </div>
         <div className="flex flex-col gap-3">
-          <button className="w-[8.2rem] rounded-lg border border-borderP py-[0.35rem] text-[14px] font-[500]">
-            Add Instraction
+          <button
+            onClick={() => setinstuctionDialog(!instuctionDialog)}
+            className="w-[8.2rem] rounded-lg border border-borderP py-[0.35rem] text-[14px] font-[500]"
+          >
+            Add Instruction
           </button>
           <button className="w-[8.2rem] rounded-lg border border-borderP py-[0.35rem] text-[14px] font-[500]">
             View Colors
@@ -234,6 +260,69 @@ const CartItem = ({ name, src, price, sizes, quant, date, removeItem, id }) => {
           </p>
         </div>
       </div>
+    </motion.div>
+  );
+};
+
+const InstructionDialog = ({ value, setinstuctionDialog }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      exit={{ opacity: 0 }}
+      className="flex-center absolute left-0 top-0 z-20 min-h-screen w-screen bg-[#00000066] "
+    >
+      <motion.form
+        initial={{ scale: 0.9, y: 60 }}
+        animate={{ scale: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        exit={{ scale: 0.9, y: 60 }}
+        className="relative flex min-h-[600px] w-full max-w-[390px] flex-col gap-4 rounded-[15px] bg-white px-[1.4rem] pb-7 pt-16"
+      >
+        <span
+          onClick={() => setinstuctionDialog(false)}
+          className="absolute right-[1.4rem] top-[1.1rem] cursor-pointer"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 5L19 19"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M19 5L5 19"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+        <p className="text-[21px] font-[700]">Write Instruction</p>
+
+        <textarea
+          cols={5}
+          rows={10}
+          className="h-full w-full flex-1 flex-grow-[1] resize-none rounded-[11px] border px-4 py-4 text-[14px] text-[#707070] outline-none"
+          defaultValue={value}
+          placeholder={!value && "Write any instruction if you have."}
+          maxLength={400}
+          minLength={20}
+          required
+        />
+        <button className="w-full rounded-[10px] border-none bg-black py-3 text-[17px] font-[500] text-white outline-none">
+          Done
+        </button>
+      </motion.form>
     </motion.div>
   );
 };
