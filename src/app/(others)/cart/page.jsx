@@ -6,12 +6,15 @@ import Link from "next/link";
 import { ContextCart } from "@/components/Mainstate(cart)/Mainstatecart";
 import { AnimatePresence, motion } from "framer-motion";
 import { CheckoutNav } from "../checkout/page";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function page() {
-  const { cartState, removeItem } = useContext(ContextCart);
+  const { cartState, removeItem, addInstruction } = useContext(ContextCart);
 
   return (
     <div className="min-h-[calc(100vh-64px)] w-full ">
+      <ToastContainer />
       <CheckoutNav
         link={"/categories/All"}
         name={"My cart"}
@@ -33,7 +36,9 @@ export default function page() {
                     quant={it.quant}
                     date={it.date}
                     id={it.id}
+                    instructionValue={it.instruction}
                     removeItem={removeItem}
+                    addInstruction={addInstruction}
                   />
                 ))}
               </div>
@@ -104,17 +109,28 @@ export default function page() {
             </div>
           </>
         ) : (
-          <div className="flex-center m-auto w-full max-w-[30rem] flex-col">
-            <iframe
-              className="h-[20rem] w-full"
-              src="https://lottie.host/embed/3b293139-c072-46c8-9e47-abac2ad17dee/WY2fpQOJ4j.json"
-            ></iframe>
+          <div className="flex-center m-auto w-full max-w-[30rem] flex-col gap-8">
+            <Image
+              src={"/emptyCart.gif"}
+              width={1000}
+              height={1000}
+              alt="empty cart"
+              className="h-40 w-40"
+            />
             <div className="flex flex-col gap-3">
-              <h1 className="text-center text-[38px] font-[400] ">
+              <h1 className="text-center text-[38px] font-[500] ">
                 Your Cart is Empty
               </h1>
-              <p>Looks like you haven`t added any item to your cart</p>
+              <p className="max-w-[32ch] text-center text-[18px] font-[400] text-[#707070]">
+                You have no items in your Shopping cart. Lets go buy somthing!
+              </p>
             </div>
+            <Link
+              href={"/categories/All"}
+              className="mt-6 rounded-[10px] border-none bg-pmRed px-5 py-3 text-white outline-none"
+            >
+              Continue to Shopping
+            </Link>
           </div>
         )}
       </div>
@@ -122,15 +138,32 @@ export default function page() {
   );
 }
 
-const CartItem = ({ name, src, price, sizes, quant, date, removeItem, id }) => {
+const CartItem = ({
+  name,
+  src,
+  price,
+  sizes,
+  quant,
+  date,
+  removeItem,
+  id,
+  addInstruction,
+  instructionValue,
+}) => {
   const fileRef = useRef(null);
   const [instuctionDialog, setinstuctionDialog] = useState(false);
-
+  const intructionCall = (intruct) => {
+    addInstruction(id, intruct);
+  };
   return (
     <motion.div className="flex w-full flex-col bg-white transition-all duration-300">
       <AnimatePresence>
         {instuctionDialog && (
-          <InstructionDialog setinstuctionDialog={setinstuctionDialog} />
+          <InstructionDialog
+            setinstuctionDialog={setinstuctionDialog}
+            intructionCall={intructionCall}
+            instructionValue={instructionValue}
+          />
         )}
       </AnimatePresence>
       <div className="flex items-start justify-between">
@@ -149,6 +182,17 @@ const CartItem = ({ name, src, price, sizes, quant, date, removeItem, id }) => {
               <div
                 onClick={async () => {
                   removeItem(id);
+                  toast("Product removed from the cart!", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    type: "success",
+                  });
                 }}
                 className="absolute -right-2 -top-2 cursor-pointer [&_path]:hover:stroke-white [&_rect]:fill-white [&_rect]:hover:fill-pmRed "
               >
@@ -264,16 +308,41 @@ const CartItem = ({ name, src, price, sizes, quant, date, removeItem, id }) => {
   );
 };
 
-const InstructionDialog = ({ value, setinstuctionDialog }) => {
+const InstructionDialog = ({
+  setinstuctionDialog,
+  intructionCall,
+  instructionValue,
+}) => {
+  const formRefInt = useRef(null);
+  const textAreaRef = useRef(null);
+  const Instruction = (e) => {
+    if (formRefInt.current.checkValidity()) {
+      e.preventDefault();
+      intructionCall(textAreaRef.current.value);
+      toast("Instruction added to the item!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "success",
+      });
+      setinstuctionDialog(false);
+    }
+  };
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       exit={{ opacity: 0 }}
-      className="flex-center absolute left-0 top-0 z-20 min-h-screen w-screen bg-[#00000066] "
+      className="flex-center fixed left-0 top-0 z-20 min-h-screen w-screen bg-[#00000066]"
     >
       <motion.form
+        ref={formRefInt}
         initial={{ scale: 0.9, y: 60 }}
         animate={{ scale: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -310,16 +379,22 @@ const InstructionDialog = ({ value, setinstuctionDialog }) => {
         <p className="text-[21px] font-[700]">Write Instruction</p>
 
         <textarea
+          ref={textAreaRef}
           cols={5}
           rows={10}
           className="h-full w-full flex-1 flex-grow-[1] resize-none rounded-[11px] border px-4 py-4 text-[14px] text-[#707070] outline-none"
-          defaultValue={value}
-          placeholder={!value && "Write any instruction if you have."}
+          defaultValue={instructionValue}
+          placeholder={
+            !instructionValue && "Write any instruction if you have."
+          }
           maxLength={400}
           minLength={20}
           required
         />
-        <button className="w-full rounded-[10px] border-none bg-black py-3 text-[17px] font-[500] text-white outline-none">
+        <button
+          onClick={Instruction}
+          className="w-full rounded-[10px] border-none bg-black py-3 text-[17px] font-[500] text-white outline-none"
+        >
           Done
         </button>
       </motion.form>

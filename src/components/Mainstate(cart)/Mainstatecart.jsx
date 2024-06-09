@@ -44,6 +44,19 @@ const reducer = (state, action) => {
         price: (state.price -= tempRemoved.price * tempRemoved.quant),
       };
     }
+    case "addInstruction": {
+      state.items.forEach((it) => {
+        if (it.id === action.id) {
+          it.instruction = action.instruction;
+        }
+      });
+      changeitems(state.items);
+      return {
+        items: state.items,
+        total: state.total,
+        price: state.price,
+      };
+    }
   }
 };
 
@@ -84,9 +97,18 @@ function Mainstatecart({ children }) {
   const removeItem = (id) => {
     dispatch({ type: "removeItem", id: id });
   };
-  console.log(cartState);
+
+  const addInstruction = (id, instruction) => {
+    dispatch({ type: "addInstruction", id: id, instruction: instruction });
+  };
+  useEffect(() => {
+    console.log(cartState);
+  }, [cartState]);
+
   return (
-    <ContextCart.Provider value={{ cartState, dispatch, removeItem }}>
+    <ContextCart.Provider
+      value={{ cartState, dispatch, removeItem, addInstruction }}
+    >
       {children}
     </ContextCart.Provider>
   );
