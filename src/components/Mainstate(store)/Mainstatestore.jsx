@@ -5,7 +5,7 @@ const ContextStore = createContext();
 function Mainstatestore({ children }) {
   const url = process.env.NEXT_PUBLIC_URL;
   const [products, setproducts] = useState([]);
-  const [categoryProducts, setcategoryProducts] = useState([]);
+  const [categoryProducts, setcategoryProducts] = useState(null);
   const [authError, setauthError] = useState(null);
   const [authToken, setauthToken] = useState(null);
   const [userData, setuserData] = useState(null);

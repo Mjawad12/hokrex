@@ -6,6 +6,7 @@ import { SmallArrowDown } from "../page";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 // import ProductCard from "@/components/ProductCard";
 import ProductCardTemp from "@/components/ProductCardTemp";
+import LoadingCard from "@/components/LoadingCard";
 
 function page(slug) {
   const { getProducts, categoryProducts } = useContext(ContextStore);
@@ -401,12 +402,14 @@ function page(slug) {
   ];
 
   const pageAdder = () => {
-    setPageState((e) => e + 1);
-    smGrid ? setshowingItems((e) => e + 12) : setshowingItems((e) => e + 9);
+    if (categoryProducts) {
+      setPageState((e) => e + 1);
+      smGrid ? setshowingItems((e) => e + 12) : setshowingItems((e) => e + 9);
+    }
   };
 
   const pageRemover = () => {
-    if (PageState !== 1) {
+    if (PageState !== 1 && categoryProducts) {
       setPageState((e) => e - 1);
       smGrid ? setshowingItems((e) => e - 12) : setshowingItems((e) => e - 9);
     }
@@ -474,21 +477,35 @@ function page(slug) {
           className={`grid ${smGrid ? "grid-cols-4" : "grid-cols-3"} mt-3 px-10`}
         >
           {categoryProducts
-            ?.slice(showingItems - (smGrid ? 12 : 9), showingItems)
-            .map((it, index) => (
-              <ProductCardTemp
-                name={it.productName}
-                slug={it.slug}
-                img={it.productImg}
-                key={index}
-                border={
-                  smGrid
-                    ? (index + 1) % 4 !== 0
-                    : (index + 2) % 3 === 0 && index !== 0
-                }
-                smGrid={smGrid}
-              />
-            ))}
+            ? categoryProducts
+                ?.slice(showingItems - (smGrid ? 12 : 9), showingItems)
+                .map((it, index) => (
+                  <ProductCardTemp
+                    name={it.productName}
+                    slug={it.slug}
+                    img={it.productImg}
+                    key={index}
+                    border={
+                      smGrid
+                        ? (index + 1) % 4 !== 0
+                        : (index + 2) % 3 === 0 && index !== 0
+                    }
+                    smGrid={smGrid}
+                  />
+                ))
+            : [1, 2, 3, 4, 5, 6, 7, 8, 9].map((it, index) => (
+                <LoadingCard
+                  key={index}
+                  height={"500px"}
+                  width={"100%"}
+                  border={
+                    smGrid
+                      ? (index + 1) % 4 !== 0
+                      : (index + 2) % 3 === 0 && index !== 0
+                  }
+                  smGrid={smGrid}
+                />
+              ))}
         </div>
         <footer className="mb-10 flex w-full items-center justify-between border-b border-[#E5E5E5] px-10 py-5">
           <span className="text-[14px] font-[300]">
