@@ -39,6 +39,7 @@ function ProductShower({ product, products }) {
           date: selectedDate,
           instruction: document.querySelector("#instr-prod").value,
           customized: false,
+          slug: product?.slug,
         },
       });
       toast("Product added to the cart!", {

@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { calender, cart, cross } from "@/Consonats";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function page() {
   const { cartState, removeItem, addInstruction } = useContext(ContextCart);
+  const [totalPrice, settotalPrice] = useState(0);
 
   return (
     <div className="min-h-[calc(100vh-64px)] w-full ">
@@ -39,6 +40,10 @@ export default function page() {
                     instructionValue={it.instruction}
                     removeItem={removeItem}
                     addInstruction={addInstruction}
+                    slug={it.slug}
+                    colors={it.colors}
+                    index={index}
+                    settotalPrice={settotalPrice}
                   />
                 ))}
               </div>
@@ -57,7 +62,7 @@ export default function page() {
                     <div className="flex w-full items-center justify-between">
                       <p className="text-[14px] font-[600]">Sub Total</p>
                       <span className="text-[14px] font-[400] text-pmGray ">
-                        ${cartState.price.toFixed(2)}
+                        ${totalPrice ? totalPrice?.toFixed(2) : 0}
                       </span>
                     </div>
                     <div className="flex w-full items-center justify-between">
@@ -70,7 +75,7 @@ export default function page() {
                   <div className="border-border-p flex items-center justify-between border-y py-3">
                     <p className="text-[14px] font-[600]">Total price</p>
                     <span className="text-[17px] font-[600] text-pmRed">
-                      ${cartState.price.toFixed(2)}
+                      ${totalPrice ? totalPrice?.toFixed(2) : 0}
                     </span>
                   </div>
                   <Link
@@ -149,12 +154,42 @@ const CartItem = ({
   id,
   addInstruction,
   instructionValue,
+  slug,
+  colors,
+  index,
+  settotalPrice,
 }) => {
   const fileRef = useRef(null);
   const [instuctionDialog, setinstuctionDialog] = useState(false);
+  const [cartDialog, setcartDialog] = useState(false);
+  const [itemPrice, setitemPrice] = useState(quant * price);
   const intructionCall = (intruct) => {
     addInstruction(id, intruct);
   };
+  const calculatePrice = (val) => {
+    let cal_Price = 0;
+    document.querySelectorAll(`#inp-size-quant-${index}`).forEach((it) => {
+      if (it.value !== "") {
+        cal_Price = cal_Price + price * it.value;
+      }
+    });
+    setitemPrice(cal_Price);
+  };
+  const totalPriceCal = () => {
+    let cal_price = 0;
+    document.querySelectorAll("#sub-total-price").forEach((it) => {
+      console.log(it.innerText.slice(it.innerText.lastIndexOf("$")));
+      cal_price =
+        cal_price +
+        parseInt(it.innerText.slice(it.innerText.lastIndexOf("$") + 1));
+    });
+    settotalPrice(cal_price);
+  };
+
+  useEffect(() => {
+    totalPriceCal();
+  }, [itemPrice]);
+
   return (
     <motion.div className="flex w-full flex-col bg-white transition-all duration-300">
       <AnimatePresence>
@@ -166,6 +201,15 @@ const CartItem = ({
           />
         )}
       </AnimatePresence>
+
+      {cartDialog && (
+        <ColorDialog
+          setcartDialog={setcartDialog}
+          img={src}
+          slug={slug}
+          colors={colors}
+        />
+      )}
       <div className="flex items-start justify-between">
         <div className="flex w-full max-w-[23.5rem] flex-col gap-[0.6rem]">
           <div className="flex gap-[0.9rem]">
@@ -193,6 +237,9 @@ const CartItem = ({
                     theme: "light",
                     type: "success",
                   });
+                  setTimeout(() => {
+                    totalPriceCal();
+                  }, 100);
                 }}
                 className="absolute -right-2 -top-2 cursor-pointer [&_path]:hover:stroke-white [&_rect]:fill-white [&_rect]:hover:fill-pmRed "
               >
@@ -204,11 +251,11 @@ const CartItem = ({
               <p className="text-[16px] font-[600] text-pmRed">${price}</p>
               <div className="flex w-full flex-wrap gap-2 gap-y-1">
                 {sizes?.map(
-                  (it, index) =>
+                  (it, ind) =>
                     it.val !== 0 && (
                       <div
                         className="flex-center overflow-hidden rounded-[9px] "
-                        key={index}
+                        key={ind}
                       >
                         <p
                           style={{
@@ -220,6 +267,7 @@ const CartItem = ({
                           {it.type}
                         </p>
                         <input
+                          id={`inp-size-quant-${index}`}
                           style={{
                             borderTopLeftRadius: 0,
                             borderBottomLeftRadius: 0,
@@ -235,6 +283,7 @@ const CartItem = ({
                               e.preventDefault();
                             }
                           }}
+                          onInput={calculatePrice}
                         ></input>
                       </div>
                     ),
@@ -279,7 +328,10 @@ const CartItem = ({
           >
             Add Instruction
           </button>
-          <button className="w-[8.2rem] rounded-lg border border-borderP py-[0.35rem] text-[14px] font-[500]">
+          <button
+            onClick={() => setcartDialog(!cartDialog)}
+            className="w-[8.2rem] rounded-lg border border-borderP py-[0.35rem] text-[14px] font-[500]"
+          >
             View Colors
           </button>
         </div>
@@ -299,8 +351,11 @@ const CartItem = ({
               Total units {quant}
             </p>
           </div>
-          <p className="text-[17px] font-[600] text-black ">
-            Sub Total ${price}
+          <p
+            id="sub-total-price"
+            className="text-[17px] font-[600] text-black "
+          >
+            Sub Total ${itemPrice.toFixed(2)}
           </p>
         </div>
       </div>
@@ -349,33 +404,8 @@ const InstructionDialog = ({
         exit={{ scale: 0.9, y: 60 }}
         className="relative flex min-h-[600px] w-full max-w-[390px] flex-col gap-4 rounded-[15px] bg-white px-[1.4rem] pb-7 pt-16"
       >
-        <span
-          onClick={() => setinstuctionDialog(false)}
-          className="absolute right-[1.4rem] top-[1.1rem] cursor-pointer"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5 5L19 19"
-              stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M19 5L5 19"
-              stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </span>
+        <Cross clickFunc={() => setinstuctionDialog(false)} />
+
         <p className="text-[21px] font-[700]">Write Instruction</p>
 
         <textarea
@@ -399,5 +429,110 @@ const InstructionDialog = ({
         </button>
       </motion.form>
     </motion.div>
+  );
+};
+
+const ColorDialog = ({ img, colors, setcartDialog, slug }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      exit={{ opacity: 0 }}
+      className="flex-center fixed left-0 top-0 z-20 min-h-screen w-screen bg-[#00000066] px-5"
+    >
+      <div className="relative flex min-h-[700px] w-full max-w-[1400px] rounded-[20px] bg-white px-7 massive:min-h-max ">
+        <Cross clickFunc={() => setcartDialog(false)} />
+        <span
+          style={{ boxShadow: "2px 4px 14px 0px #0000000D" }}
+          className="absolute left-7 top-5 rounded-[10px] border border-[#E5E5E5] bg-white px-2 py-1 text-[13px] font-[700]"
+        >
+          Customized
+        </span>
+        <div className="relative flex flex-1 flex-grow-[0.45] py-20">
+          <div className="flex flex-col gap-5">
+            {[0, 1, 2, 3, 4, 5].map((it) => (
+              <div className="overflow-hidden rounded-[9px] border border-borderP">
+                <Image
+                  key={it}
+                  width={60}
+                  height={60}
+                  alt="More images"
+                  src={"/TestImg2.jpg"}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="flex-center w-full">
+            <Image src={img} alt="cart item" width={500} height={500} />
+            <Link
+              href={slug ? "/product/" + slug : "/categories/All"}
+              style={{ boxShadow: "2px 4px 14px 0px #0000000D" }}
+              className="absolute bottom-7 left-[50%] translate-x-[-40%] rounded-[10px] border border-[#E5E5E5] bg-white px-2 py-[0.2rem] text-[13px] font-[700]"
+            >
+              View Original Product
+            </Link>
+          </div>
+        </div>
+        <div className="flex flex-1 flex-grow-[0.55] items-start justify-start border-l border-[#E5E5E5] px-10 py-20">
+          <div className="flex w-full flex-wrap items-start justify-start gap-2.5">
+            {colors.map((it, index) => (
+              <ColorGiver color={it} key={index} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const Cross = ({ clickFunc }) => {
+  return (
+    <span
+      onClick={clickFunc}
+      className="absolute right-[1.4rem] top-[1.1rem] cursor-pointer"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5 5L19 19"
+          stroke="black"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M19 5L5 19"
+          stroke="black"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </span>
+  );
+};
+
+const ColorGiver = ({ color }) => {
+  return (
+    <div
+      style={{ boxShadow: "2px 2px 8px 0px #00000014" }}
+      className="flex h-9 max-w-max items-center gap-1 rounded-[10px] border border-[#707070] px-1"
+    >
+      <div
+        style={{ background: color, boxShadow: "0px 2px 8px 0px #00000014" }}
+        className="h-7 w-7 rounded-full "
+      ></div>
+      <div className="border-l border-[#e5e5e5] p-[0.34rem] ">
+        <span className="whitespace-nowrap text-[13px] font-[500]">
+          {color}
+        </span>
+      </div>
+    </div>
   );
 };
