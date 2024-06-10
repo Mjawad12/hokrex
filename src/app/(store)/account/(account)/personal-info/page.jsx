@@ -1,66 +1,83 @@
 "use client";
 import { motion, useAnimate } from "framer-motion";
-import React, { useContext, useEffect, useState } from "react";
+import React, { use, useContext, useEffect, useRef, useState } from "react";
 import { CountrySelect, StateSelect } from "react-country-state-city/dist/cjs";
 import "react-country-state-city/dist/react-country-state-city.css";
 import "/node_modules/flag-icons/css/flag-icons.min.css";
-import { arrowDown } from "@/Consonats";
+import { arrowDown, email } from "@/Consonats";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function page() {
-  const { setuserData, userData } = useContext(ContextStore);
+  const notificationCaller = (success, message) => {
+    if (success) {
+      toast(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "success",
+      });
+    } else {
+      toast("Some Error occured!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "error",
+      });
+    }
+  };
+  const {
+    setuserData,
+    userData,
+    changeName,
+    changeEmail,
+    changeAddress,
+    changePhone,
+  } = useContext(ContextStore);
+  const [loading, setloading] = useState(false);
   const values = [
     {
       type: "Name",
       value: userData?.name,
       openState:
         "This is the name on your travel document, which could be a license or a passport.",
-      children: function Name() {
-        return (
-          <form className="flex flex-col gap-7 py-6">
-            <div className="flex w-full gap-3">
-              <input
-                type="text"
-                placeholder="First name"
-                className="checkoutInput w-full !rounded-[0.6rem] !pl-4"
-                maxLength={20}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Last name"
-                className="checkoutInput w-full !rounded-[0.6rem] !pl-4"
-                maxLength={20}
-                required
-              />
-            </div>
-            <button className="w-max rounded-[10px] bg-black px-6 py-2.5 text-white">
-              Save
-            </button>
-          </form>
-        );
-      },
+      children: (
+        <NameComponent
+          changeName={changeName}
+          loading={loading}
+          setloading={setloading}
+          username={userData?.name}
+          notificationCaller={notificationCaller}
+          setuserData={setuserData}
+        />
+      ),
     },
     {
       type: "Email address",
 
       value: userData?.email,
       openState: "Use an address you’ll always have access to.",
-      children: function Email() {
-        return (
-          <form className="flex flex-col gap-6 py-6">
-            <input
-              type="email"
-              placeholder="First name"
-              className="checkoutInput w-full !rounded-[0.6rem] !pl-4"
-              required
-            />
-            <button className="w-max rounded-[10px] bg-black px-6 py-2.5 text-white">
-              Save
-            </button>
-          </form>
-        );
-      },
+      children: (
+        <Email
+          changeEmail={changeEmail}
+          loading={loading}
+          setloading={setloading}
+          useremail={userData?.email}
+          notificationCaller={notificationCaller}
+          setuserData={setuserData}
+        />
+      ),
     },
     {
       type: "Phone",
@@ -69,28 +86,17 @@ function page() {
           ? "Please provide your phone number"
           : userData?.phone,
       openState: "For Verification and conrdination",
-      children: function Phone() {
-        return (
-          <form className="flex flex-col gap-7 py-6">
-            <div className="flex w-full gap-3">
-              <input
-                type="number"
-                placeholder="Phone"
-                className="checkoutInput w-full !rounded-[0.6rem] !pl-4"
-                required
-              />
-              <input
-                type="number"
-                placeholder="Add Other"
-                className="checkoutInput w-full !rounded-[0.6rem] !pl-4"
-              />
-            </div>
-            <button className="w-max rounded-[10px] bg-black px-6 py-2.5 text-white">
-              Save
-            </button>
-          </form>
-        );
-      },
+      children: (
+        <Phone
+          changePhone={changePhone}
+          loading={loading}
+          setloading={setloading}
+          userphone={userData?.phone}
+          userotherphone={userData?.otherphone}
+          notificationCaller={notificationCaller}
+          setuserData={setuserData}
+        />
+      ),
     },
     {
       type: "Address",
@@ -98,86 +104,25 @@ function page() {
         ? userData?.address
         : "Please provide your Address",
       openState: "Use a permanent address where you can receive mail.",
-      children: function Address() {
-        const [country, setcountry] = useState({ iso2: "PK" });
-        const [states, setstates] = useState();
-
-        useEffect(() => {
-          document
-            .querySelectorAll(".stdropdown-input input")
-            .forEach((it) => (it.required = true));
-
-          // console.log(flags["PK"]());
-        }, []);
-        return (
-          <form className="flex flex-col gap-3 py-5 pb-20">
-            <div className="flex w-full flex-col gap-2 [&_input:nth-child(1)]:!border-none [&_input]:!outline-none">
-              <div
-                id="cs-pi"
-                className="relative flex w-full rounded-[10px] border pl-1 [&>div:nth-child(1)]:flex-1 [&_.stdropdown-container]:!border-none [&_.stdropdown-tools]:!hidden focus:[&_input]:border-black"
-              >
-                <CountrySelect
-                  required={true}
-                  onChange={(val) => {
-                    console.log(val);
-                    setcountry(val);
-                  }}
-                  placeHolder="Country/region"
-                />
-                <div className="flex-center absolute right-2 top-[50%] w-max translate-y-[-50%] gap-2 [&_svg]:w-[10px] ">
-                  <span
-                    style={{ backgroundSize: "cover" }}
-                    className={`fi fi-${country?.iso2.toLowerCase()} !h-[26px] !w-[33px] rounded-[4px] border border-black `}
-                  ></span>
-                  {arrowDown}
-                </div>
-              </div>
-              <input
-                // ref={address}
-                required
-                type="text"
-                className="checkoutInput mt-2 !rounded-[10px]"
-                placeholder="Street Address"
-              />
-              <p className="text-[14px] font-[400]">
-                Add a house number if you have one
-              </p>
-            </div>
-            <div className="flex gap-4">
-              <input
-                type="text"
-                required
-                className="checkoutInput rounded-[10px]"
-                placeholder="City"
-              />
-              <div className="[&_select]:checkoutInput w-full [&_input]:!border-none [&_input]:!outline-none ">
-                <StateSelect
-                  countryid={country?.id}
-                  value={states}
-                  onChange={(val) => setstates(val)}
-                  placeHolder="State"
-                />
-              </div>
-              <input
-                // ref={zipcode}
-                type="text"
-                className="checkoutInput rounded-[10px]"
-                placeholder="Zipcode"
-              />
-            </div>
-            <button className="mt-3 w-max rounded-[10px] bg-black px-6 py-2.5 text-white">
-              Save
-            </button>
-          </form>
-        );
-      },
+      children: (
+        <Address
+          changeAddress={changeAddress}
+          loading={loading}
+          setloading={setloading}
+          userAddress={userData?.address}
+          notificationCaller={notificationCaller}
+          setuserData={setuserData}
+        />
+      ),
     },
   ];
+
   const [opened, setopened] = useState(null);
   const [blur, setblur] = useState(false);
 
   return (
-    <div className="mt-7 flex w-full flex-col gap-3">
+    <div className="mt-4 flex w-full flex-col gap-3">
+      <ToastContainer />
       {values.map((it, index) => (
         <Editcomponent
           type={it.type}
@@ -191,7 +136,7 @@ function page() {
           setblur={setblur}
           blur={blur}
         >
-          {it.children()}
+          {it.children}
         </Editcomponent>
       ))}
     </div>
@@ -249,3 +194,352 @@ const Editcomponent = ({
     </motion.div>
   );
 };
+
+const NameComponent = ({
+  changeName,
+  loading,
+  setloading,
+  username,
+  notificationCaller,
+  setuserData,
+}) => {
+  const formRef = useRef(null);
+  const [error, seterror] = useState(null);
+  const Submit = async (e) => {
+    if (formRef.current.checkValidity()) {
+      e.preventDefault();
+      setloading(true);
+      seterror(null);
+      const name =
+        document.querySelector("#fir-name-chn").value +
+        " " +
+        document.querySelector("#sec-name-chn").value;
+      if (name === username) {
+        seterror("Entered name is same as previous name!");
+      } else {
+        const success = await changeName(name);
+
+        notificationCaller(success, "Name successfully changed!");
+        setuserData((e) => {
+          return { ...e, name: name };
+        });
+      }
+      setloading(false);
+    }
+  };
+
+  return (
+    <form ref={formRef} className="flex flex-col gap-[0.33rem] py-6">
+      <div className="flex w-full gap-3">
+        <input
+          type="text"
+          placeholder="First name"
+          className="checkoutInput w-full !rounded-[0.6rem] !pl-4"
+          maxLength={20}
+          required
+          id="fir-name-chn"
+        />
+        <input
+          type="text"
+          placeholder="Last name"
+          className="checkoutInput w-full !rounded-[0.6rem] !pl-4"
+          maxLength={20}
+          required
+          id="sec-name-chn"
+        />
+      </div>
+      <span className="flex h-[18px] items-center">
+        {error && (
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="whitespace-nowrap text-[12px] text-pmRed"
+          >
+            {error ? error : ""}
+          </motion.span>
+        )}
+      </span>
+      <button
+        disabled={loading}
+        onClick={Submit}
+        className="w-max rounded-[10px] bg-black px-6 py-2.5 text-white transition-all duration-200 disabled:bg-gray-300"
+      >
+        Save
+      </button>
+    </form>
+  );
+};
+
+function Email({
+  useremail,
+  setloading,
+  notificationCaller,
+  setuserData,
+  changeEmail,
+  loading,
+}) {
+  const formRef = useRef(null);
+  const [error, seterror] = useState(null);
+  const Submit = async (e) => {
+    if (formRef.current.checkValidity()) {
+      e.preventDefault();
+      setloading(true);
+      seterror(null);
+      const email = document.querySelector("#email-chn").value;
+
+      if (email === useremail) {
+        seterror("Entered email is same as previous email!");
+      } else {
+        const success = await changeEmail(email);
+
+        notificationCaller(success, "Email successfully changed!");
+        setuserData((e) => {
+          return { ...e, email: email };
+        });
+      }
+      setloading(false);
+    }
+  };
+  return (
+    <form ref={formRef} className="flex flex-col gap-[0.33rem] py-6">
+      <input
+        type="email"
+        placeholder="First name"
+        className="checkoutInput w-full !rounded-[0.6rem] !pl-4"
+        required
+        id="email-chn"
+      />
+      <span className="flex h-[18px] items-center">
+        {error && (
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="whitespace-nowrap text-[13px] text-pmRed"
+          >
+            {error ? error : ""}
+          </motion.span>
+        )}
+      </span>
+      <button
+        onClick={Submit}
+        disabled={loading}
+        className="w-max rounded-[10px] bg-black px-6 py-2.5 text-white disabled:bg-gray-300"
+      >
+        Save
+      </button>
+    </form>
+  );
+}
+
+function Phone({
+  userphone,
+  userotherphone,
+  setloading,
+  loading,
+  notificationCaller,
+  setuserData,
+  changePhone,
+}) {
+  const formRef = useRef(null);
+  const [error, seterror] = useState(null);
+  const Submit = async (e) => {
+    if (formRef.current.checkValidity()) {
+      e.preventDefault();
+      setloading(true);
+      seterror(null);
+      const phone = document.querySelector("#phone-chn").value;
+      const otherphone = document.querySelector("#other-chn").value;
+
+      if (phone == userphone) {
+        seterror("Entered phone number is same as previous phone number!");
+      } else {
+        const success = await changePhone(phone, otherphone);
+
+        notificationCaller(success, "Phone number successfully changed!");
+        setuserData((e) => {
+          return { ...e, phone: phone, otherphone: otherphone };
+        });
+      }
+      setloading(false);
+    }
+  };
+  return (
+    <form ref={formRef} className="flex flex-col gap-[0.33rem] py-6">
+      <div className="flex w-full gap-3">
+        <input
+          type="number"
+          placeholder="Phone"
+          className="checkoutInput w-full !rounded-[0.6rem] !pl-4"
+          required
+          id="phone-chn"
+        />
+        <input
+          type="number"
+          placeholder="Add Other"
+          className="checkoutInput w-full !rounded-[0.6rem] !pl-4"
+          id="other-chn"
+        />
+      </div>
+      <span className="flex h-[18px] items-center">
+        {error && (
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="whitespace-nowrap text-[13px] text-pmRed"
+          >
+            {error ? error : ""}
+          </motion.span>
+        )}
+      </span>
+      <button
+        onClick={Submit}
+        disabled={loading}
+        className="w-max rounded-[10px] bg-black px-6 py-2.5 text-white disabled:bg-gray-300"
+      >
+        Save
+      </button>
+    </form>
+  );
+}
+
+function Address({
+  userAddress,
+  setloading,
+  notificationCaller,
+  setuserData,
+  changeAddress,
+  loading,
+}) {
+  const [country, setcountry] = useState({ iso2: "PK" });
+  const [states, setstates] = useState();
+
+  useEffect(() => {
+    document
+      .querySelectorAll(".stdropdown-input input")
+      .forEach((it) => (it.required = true));
+  }, []);
+
+  const formRef = useRef(null);
+  const [error, seterror] = useState(null);
+  const Submit = async (e) => {
+    if (formRef.current.checkValidity()) {
+      e.preventDefault();
+      setloading(true);
+      seterror(null);
+
+      const address =
+        document.querySelector("#st-address").value +
+        " " +
+        document.querySelector("#city-chn").value +
+        ` ${country.name} ${states.name} ` +
+        document.querySelector("#zip-chn").value;
+      if (address === userAddress) {
+        seterror("Entered address is same as previous address!");
+      } else {
+        const success = await changeAddress(address);
+        console.log(success);
+        notificationCaller(success, "Address successfully changed!");
+        setuserData((e) => {
+          return { ...e, address: address };
+        });
+      }
+
+      setloading(false);
+    }
+  };
+  useEffect(() => {
+    document.querySelector("#st-chn input").required = false;
+  }, []);
+  return (
+    <form ref={formRef} className="flex flex-col gap-3 py-5 pb-20">
+      <div className="flex w-full flex-col gap-2 [&_input:nth-child(1)]:!border-none [&_input]:!outline-none">
+        <div
+          id="cs-pi"
+          className="relative flex w-full rounded-[10px] border pl-1 [&>div:nth-child(1)]:flex-1 [&_.stdropdown-container]:!border-none [&_.stdropdown-tools]:!hidden focus:[&_input]:border-black"
+        >
+          <CountrySelect
+            required={true}
+            onChange={(val) => {
+              setcountry(val);
+            }}
+            placeHolder="Country/region"
+          />
+          <div className="flex-center absolute right-2 top-[50%] w-max translate-y-[-50%] gap-2 [&_svg]:w-[10px] ">
+            <span
+              style={{ backgroundSize: "cover" }}
+              className={`fi fi-${country?.iso2.toLowerCase()} !h-[26px] !w-[33px] rounded-[4px] border border-black `}
+            ></span>
+            {arrowDown}
+          </div>
+        </div>
+        <input
+          required
+          type="text"
+          className="checkoutInput mt-2 !rounded-[10px]"
+          placeholder="Street Address"
+          id="st-address"
+        />
+        <p className="text-[14px] font-[400]">
+          Add a house number if you have one
+        </p>
+      </div>
+      <div className="flex gap-4">
+        <input
+          type="text"
+          required
+          className="checkoutInput rounded-[10px]"
+          placeholder="City"
+          id="city-chn"
+        />
+        <div
+          id="st-chn"
+          className="[&_select]:checkoutInput w-full [&_input]:!border-none [&_input]:!outline-none "
+        >
+          <StateSelect
+            required={false}
+            countryid={country?.id}
+            value={states}
+            onChange={(val) => {
+              setstates(val);
+            }}
+            placeHolder="State"
+          />
+        </div>
+        <input
+          type="text"
+          className="checkoutInput rounded-[10px]"
+          placeholder="Zipcode"
+          id="zip-chn"
+        />
+      </div>
+      <div className="flex translate-y-[-8px] flex-col">
+        <span className=" flex h-[18px] items-center">
+          {error && (
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+              className="whitespace-nowrap text-[13px] text-pmRed"
+            >
+              {error ? error : ""}
+            </motion.span>
+          )}
+        </span>
+        <button
+          onClick={Submit}
+          disabled={loading}
+          className=" mt-[6px] w-max rounded-[10px] bg-black px-6 py-2.5 text-white disabled:bg-gray-300"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  );
+}

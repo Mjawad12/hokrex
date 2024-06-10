@@ -107,6 +107,7 @@ function Mainstatestore({ children }) {
     const parsedData = await data.json();
     if (parsedData.success) {
       setuserData(parsedData.userdata);
+      console.log(parsedData.userdata);
     }
   };
 
@@ -148,6 +149,47 @@ function Mainstatestore({ children }) {
     }
   };
 
+  const changeName = async (name) => {
+    const data = await fetch(`${url}/api/changeName`, {
+      method: "POST",
+      cache: "no-cache",
+      body: JSON.stringify({ name: name }),
+      headers: { authToken: authToken || localStorage.getItem("authToken") },
+    });
+    const parsedData = await data.json();
+    return parsedData.success;
+  };
+  const changeEmail = async (email) => {
+    const data = await fetch(`${url}/api/changeEmail`, {
+      method: "POST",
+      cache: "no-cache",
+      body: JSON.stringify({ email: email }),
+      headers: { authToken: authToken || localStorage.getItem("authToken") },
+    });
+    const parsedData = await data.json();
+    return parsedData.success;
+  };
+  const changePhone = async (phone, otherphone) => {
+    const data = await fetch(`${url}/api/changePhone`, {
+      method: "POST",
+      cache: "no-cache",
+      body: JSON.stringify({ phone: phone, otherphone: otherphone }),
+      headers: { authToken: authToken || localStorage.getItem("authToken") },
+    });
+    const parsedData = await data.json();
+    return parsedData.success;
+  };
+  const changeAddress = async (address) => {
+    const data = await fetch(`${url}/api/changeAddress`, {
+      method: "POST",
+      cache: "no-cache",
+      body: JSON.stringify({ address: address }),
+      headers: { authToken: authToken || localStorage.getItem("authToken") },
+    });
+    const parsedData = await data.json();
+    return parsedData.success;
+  };
+
   useEffect(() => {
     console.log(authToken);
     authToken && !userData && getUserdata();
@@ -185,6 +227,10 @@ function Mainstatestore({ children }) {
         setenterPass,
         PassReset,
         categoryProducts,
+        changeName,
+        changeEmail,
+        changeAddress,
+        changePhone,
       }}
     >
       {children}
