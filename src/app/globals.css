@@ -302,3 +302,7 @@ input[type="number"] {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+.Toastify__toast-body {
+  line-height: 18px;
+}

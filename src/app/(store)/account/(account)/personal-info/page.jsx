@@ -4,7 +4,7 @@ import React, { use, useContext, useEffect, useRef, useState } from "react";
 import { CountrySelect, StateSelect } from "react-country-state-city/dist/cjs";
 import "react-country-state-city/dist/react-country-state-city.css";
 import "/node_modules/flag-icons/css/flag-icons.min.css";
-import { arrowDown, email } from "@/Consonats";
+import { arrowDown, email, errorIcon } from "@/Consonats";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +24,7 @@ function page() {
         type: "success",
       });
     } else {
-      toast("Some Error occured!", {
+      toast(message || "Some Error occured!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -216,10 +216,14 @@ const NameComponent = ({
         document.querySelector("#sec-name-chn").value;
       if (name === username) {
         seterror("Entered name is same as previous name!");
+        notificationCaller(false, "Entered name is same as previous name!");
       } else {
         const success = await changeName(name);
 
-        notificationCaller(success, "Name successfully changed!");
+        notificationCaller(
+          success,
+          success ? "Name successfully changed!" : "Some error occured!",
+        );
         setuserData((e) => {
           return { ...e, name: name };
         });
@@ -249,17 +253,7 @@ const NameComponent = ({
         />
       </div>
       <span className="flex h-[18px] items-center">
-        {error && (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="whitespace-nowrap text-[12px] text-pmRed"
-          >
-            {error ? error : ""}
-          </motion.span>
-        )}
+        {error && <ErrorP error={error} />}
       </span>
       <BtnAccount Submit={Submit} loading={loading} />
     </form>
@@ -285,9 +279,13 @@ function Email({
 
       if (email === useremail) {
         seterror("Entered email is same as previous email!");
+        notificationCaller(false, "Entered email is same as previous email!");
       } else {
         const success = await changeEmail(email);
-        notificationCaller(success, "Email successfully changed!");
+        notificationCaller(
+          success,
+          success ? "Email successfully changed!" : "Some error occured!",
+        );
         setuserData((e) => {
           return { ...e, email: email, verification: false };
         });
@@ -305,17 +303,7 @@ function Email({
         id="email-chn"
       />
       <span className="flex h-[18px] items-center">
-        {error && (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="whitespace-nowrap text-[13px] text-pmRed"
-          >
-            {error ? error : ""}
-          </motion.span>
-        )}
+        {error && <ErrorP error={error} />}
       </span>
       <BtnAccount Submit={Submit} loading={loading} />
     </form>
@@ -343,10 +331,18 @@ function Phone({
 
       if (phone == userphone) {
         seterror("Entered phone number is same as previous phone number!");
+        notificationCaller(
+          false,
+          "Entered phone number is same as previous phone number!",
+        );
       } else {
         const success = await changePhone(phone, otherphone);
-
-        notificationCaller(success, "Phone number successfully changed!");
+        notificationCaller(
+          success,
+          success
+            ? "Phone number successfully changed!"
+            : "Some error occured!",
+        );
         setuserData((e) => {
           return { ...e, phone: phone, otherphone: otherphone };
         });
@@ -354,6 +350,7 @@ function Phone({
       setloading(false);
     }
   };
+
   return (
     <form ref={formRef} className="flex flex-col gap-[0.33rem] py-6">
       <div className="flex w-full gap-3">
@@ -372,17 +369,7 @@ function Phone({
         />
       </div>
       <span className="flex h-[18px] items-center">
-        {error && (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="whitespace-nowrap text-[13px] text-pmRed"
-          >
-            {error ? error : ""}
-          </motion.span>
-        )}
+        {error && <ErrorP error={error} />}
       </span>
       <BtnAccount Submit={Submit} loading={loading} />
     </form>
@@ -422,10 +409,17 @@ function Address({
         document.querySelector("#zip-chn").value;
       if (address === userAddress) {
         seterror("Entered address is same as previous address!");
+        notificationCaller(
+          false,
+          "Entered address is same as previous address!",
+        );
       } else {
         const success = await changeAddress(address);
         console.log(success);
-        notificationCaller(success, "Address successfully changed!");
+        notificationCaller(
+          success,
+          success ? "Address successfully changed!" : "Some error occured!",
+        );
         setuserData((e) => {
           return { ...e, address: address };
         });
@@ -500,18 +494,8 @@ function Address({
         />
       </div>
       <div className="flex translate-y-[-8px] flex-col">
-        <span className=" flex h-[18px] items-center">
-          {error && (
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="whitespace-nowrap text-[13px] text-pmRed"
-            >
-              {error ? error : ""}
-            </motion.span>
-          )}
+        <span className="flex h-[18px] items-center">
+          {error && <ErrorP error={error} />}
         </span>
         <BtnAccount Submit={Submit} loading={loading} />
       </div>
@@ -532,3 +516,18 @@ const BtnAccount = ({ Submit, loading, name }) => {
 };
 
 export { BtnAccount };
+
+const ErrorP = ({ error }) => {
+  return (
+    <motion.span
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1.2, ease: "easeInOut" }}
+      className="flex-center gap-[0.4rem]"
+    >
+      {errorIcon}
+      <p className="whitespace-nowrap text-[13px] text-pmRed">{error}</p>
+    </motion.span>
+  );
+};
