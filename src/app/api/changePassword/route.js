@@ -23,19 +23,19 @@ export async function POST(req) {
       if (!passwordChecker) {
         return Response.json({ success: false, error: "Wrong Password" });
       } else {
-        await PasswordStore(body.newPassword);
+        await PasswordStore(body.newPassword, id);
         return Response.json({ success: true });
       }
     } else {
-      await PasswordStore(body.newPassword);
+      await PasswordStore(body.newPassword, id);
       return Response.json({ success: true });
     }
   } catch (err) {
-    return Response.json({ success: false, error: err });
+    return Response.json({ success: false, error: err.message });
   }
 }
 
-const PasswordStore = async (password) => {
+const PasswordStore = async (password, id) => {
   const gensalts = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, gensalts);
   await UserSchema.updateOne(

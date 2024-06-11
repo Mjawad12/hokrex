@@ -5,6 +5,7 @@ import { motion, useAnimate } from "framer-motion";
 import { BtnAccount } from "../personal-info/page";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { errorIcon } from "@/Consonats";
 
 function page() {
   const [opened, setopened] = useState(null);
@@ -12,6 +13,7 @@ function page() {
   const formRef = useRef(null);
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState(false);
+
   const Submit = async (e) => {
     if (formRef.current.checkValidity()) {
       e.preventDefault();
@@ -21,7 +23,10 @@ function page() {
       const confirmPassword = document.querySelector("#conf-pass").value;
       if (newPassword !== confirmPassword) {
         seterror("Both password must match!");
-        toast("Both password must match!", {
+        notificationCaller(false, "Both password must match!");
+      } else if (currentPassword === newPassword) {
+        seterror("New password is same as previous password!");
+        toast("New password is same as previous password!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -33,8 +38,12 @@ function page() {
           type: "error",
         });
       } else {
-        const success = await changePassword(currentPassword, newPassword);
-        notificationCaller(success, "Password changed successfully!");
+        const result = await changePassword(currentPassword, newPassword);
+        if (result.success) {
+          notificationCaller(result.success, "Password changed successfully!");
+        } else {
+          notificationCaller(result.success, result.error);
+        }
       }
     }
     setloading(false);
@@ -54,7 +63,7 @@ function page() {
         type: "success",
       });
     } else {
-      toast("Some Error occured!", {
+      toast(message, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -82,13 +91,26 @@ function page() {
           <form ref={formRef} className="mt-1.5 flex flex-col gap-4">
             {!userData?.verification && (
               <div className="flex flex-col gap-1.5">
-                <InputC name={"Current password"} id={"curr-pass"} />
+                <InputC
+                  name={"Current password"}
+                  id={"curr-pass"}
+                  seterror={seterror}
+                />
                 <p className="text-[13px] text-pmRed">Need a new password?</p>
               </div>
             )}
             <div className="mt-4 flex flex-col gap-[0.7rem]">
-              <InputC name={"New password"} id={"new-pass"} error={error} />
-              <InputC name={"Confirm password"} id={"conf-pass"} />
+              <InputC
+                name={"New password"}
+                id={"new-pass"}
+                error={error}
+                seterror={seterror}
+              />
+              <InputC
+                name={"Confirm password"}
+                id={"conf-pass"}
+                seterror={seterror}
+              />
             </div>
             <BtnAccount
               Submit={Submit}
@@ -164,18 +186,19 @@ const Editcomponent = ({
 const InputC = ({ name, id, error, seterror }) => {
   return (
     <div className="gap-1.2 flex flex-col gap-2.5">
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         <p className="text-[14px] leading-[18px] text-[#707070] ">{name}</p>
         {error && (
-          <motion.p
+          <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="text-[13px] leading-[18px] text-pmRed "
+            className="flex gap-1"
           >
-            {error}
-          </motion.p>
+            {errorIcon}
+            <p className="text-[13px] leading-[18px] text-pmRed ">{error}</p>
+          </motion.span>
         )}
       </div>
 

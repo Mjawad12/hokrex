@@ -200,7 +200,7 @@ function Mainstatestore({ children }) {
       headers: { authToken: authToken || localStorage.getItem("authToken") },
     });
     const parsedData = await data.json();
-    return parsedData.success;
+    return parsedData;
   };
 
   useEffect(() => {
