@@ -189,6 +189,19 @@ function Mainstatestore({ children }) {
     const parsedData = await data.json();
     return parsedData.success;
   };
+  const changePassword = async (currentPassword, newPassword) => {
+    const data = await fetch(`${url}/api/changePassword`, {
+      method: "POST",
+      cache: "no-cache",
+      body: JSON.stringify({
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      }),
+      headers: { authToken: authToken || localStorage.getItem("authToken") },
+    });
+    const parsedData = await data.json();
+    return parsedData.success;
+  };
 
   useEffect(() => {
     console.log(authToken);
@@ -231,6 +244,7 @@ function Mainstatestore({ children }) {
         changeEmail,
         changeAddress,
         changePhone,
+        changePassword,
       }}
     >
       {children}

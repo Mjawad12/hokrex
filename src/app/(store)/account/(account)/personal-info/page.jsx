@@ -261,13 +261,7 @@ const NameComponent = ({
           </motion.span>
         )}
       </span>
-      <button
-        disabled={loading}
-        onClick={Submit}
-        className="w-max rounded-[10px] bg-black px-6 py-2.5 text-white transition-all duration-200 disabled:bg-gray-300"
-      >
-        Save
-      </button>
+      <BtnAccount Submit={Submit} loading={loading} />
     </form>
   );
 };
@@ -293,10 +287,9 @@ function Email({
         seterror("Entered email is same as previous email!");
       } else {
         const success = await changeEmail(email);
-
         notificationCaller(success, "Email successfully changed!");
         setuserData((e) => {
-          return { ...e, email: email };
+          return { ...e, email: email, verification: false };
         });
       }
       setloading(false);
@@ -324,13 +317,7 @@ function Email({
           </motion.span>
         )}
       </span>
-      <button
-        onClick={Submit}
-        disabled={loading}
-        className="w-max rounded-[10px] bg-black px-6 py-2.5 text-white disabled:bg-gray-300"
-      >
-        Save
-      </button>
+      <BtnAccount Submit={Submit} loading={loading} />
     </form>
   );
 }
@@ -397,13 +384,7 @@ function Phone({
           </motion.span>
         )}
       </span>
-      <button
-        onClick={Submit}
-        disabled={loading}
-        className="w-max rounded-[10px] bg-black px-6 py-2.5 text-white disabled:bg-gray-300"
-      >
-        Save
-      </button>
+      <BtnAccount Submit={Submit} loading={loading} />
     </form>
   );
 }
@@ -532,14 +513,22 @@ function Address({
             </motion.span>
           )}
         </span>
-        <button
-          onClick={Submit}
-          disabled={loading}
-          className=" mt-[6px] w-max rounded-[10px] bg-black px-6 py-2.5 text-white disabled:bg-gray-300"
-        >
-          Save
-        </button>
+        <BtnAccount Submit={Submit} loading={loading} />
       </div>
     </form>
   );
 }
+
+const BtnAccount = ({ Submit, loading, name }) => {
+  return (
+    <button
+      onClick={Submit}
+      disabled={loading}
+      className={`w-max rounded-[10px] bg-black px-6 py-2.5 text-white disabled:bg-gray-300 ${name ? "py-3" : ""}`}
+    >
+      {name ? name : "Save"}
+    </button>
+  );
+};
+
+export { BtnAccount };
