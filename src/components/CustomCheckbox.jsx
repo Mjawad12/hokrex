@@ -9,6 +9,7 @@ const CustomCheckbox = ({
   admin,
   type,
   textColor,
+  borderGray,
 }) => {
   const [checked, setchecked] = useState(false);
   useEffect(() => {
@@ -26,7 +27,11 @@ const CustomCheckbox = ({
       <span
         className={`flex h-[1.3rem] w-[1.3rem] items-center 
         justify-center ${checked && "bg-black"} border ${
-          checked ? "border-black" : "border-[#E5E5E5]"
+          checked
+            ? "border-black"
+            : borderGray
+              ? "border-[#707070]"
+              : "border-[#E5E5E5]"
         }  rounded-[5px]  ${admin ? "border-gray-300" : ""} ${type === "small" ? "!h-[0.95rem] !w-[0.9rem]" : ""}  `}
       >
         <span

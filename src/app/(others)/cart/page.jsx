@@ -536,3 +536,5 @@ const ColorGiver = ({ color }) => {
     </div>
   );
 };
+
+export { Cross };
