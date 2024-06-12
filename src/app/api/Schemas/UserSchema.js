@@ -16,7 +16,16 @@ const Schema = new mongoose.Schema({
     default: new Date().toDateString(),
   },
   address: String,
-  paymentMethods: Array,
+  paymentMethods: {
+    type: Array,
+    method: {
+      type: Object,
+      name: String,
+      cvc: String,
+      cardNumber: Number,
+      expiryDate: String,
+    },
+  },
   verification: { type: Boolean, default: false },
   otp: Number,
 });

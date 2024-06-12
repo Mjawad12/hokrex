@@ -4900,6 +4900,67 @@ const filter = (
     />
   </svg>
 );
+const masterCard = (
+  <svg
+    width="51"
+    height="33"
+    viewBox="0 0 51 33"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M50.9627 16.7049C50.9627 25.4226 43.909 32.4897 35.2078 32.4897C26.5066 32.4897 19.4529 25.4226 19.4529 16.7049C19.4529 7.98724 26.5066 0.920166 35.2078 0.920166C43.909 0.920166 50.9627 7.98724 50.9627 16.7049Z"
+      fill="#F79F1A"
+    />
+    <path
+      d="M31.5267 16.7049C31.5267 25.4226 24.473 32.4897 15.7718 32.4897C7.07056 32.4897 0.0168457 25.4226 0.0168457 16.7049C0.0168457 7.98724 7.07056 0.920166 15.7718 0.920166C24.473 0.920166 31.5267 7.98724 31.5267 16.7049Z"
+      fill="#EA001B"
+    />
+    <path
+      d="M25.4898 4.27905C21.8138 7.16873 19.4541 11.6591 19.4541 16.7034C19.4541 21.7478 21.8138 26.2416 25.4898 29.1313C29.1658 26.2416 31.5255 21.7478 31.5255 16.7034C31.5255 11.6591 29.1658 7.16873 25.4898 4.27905Z"
+      fill="#FF5F01"
+    />
+  </svg>
+);
+
+const card = (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M18 5H6C4.34315 5 3 6.34315 3 8V16C3 17.6569 4.34315 19 6 19H18C19.6569 19 21 17.6569 21 16V8C21 6.34315 19.6569 5 18 5Z"
+      stroke="black"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M3 10H21"
+      stroke="black"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M15 15H11.5"
+      stroke="black"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M8 15H7"
+      stroke="black"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
 
 export {
   logo,
@@ -4958,4 +5019,6 @@ export {
   errorIcon,
   aboutDetails,
   filter,
+  masterCard,
+  card,
 };
