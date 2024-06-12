@@ -24,6 +24,8 @@ const Schema = new mongoose.Schema({
       cvc: String,
       cardNumber: Number,
       expiryDate: String,
+      def: Boolean,
+      bankName: String,
     },
   },
   verification: { type: Boolean, default: false },

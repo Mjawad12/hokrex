@@ -203,6 +203,19 @@ function Mainstatestore({ children }) {
     return parsedData;
   };
 
+  const paymentAdder = async (paymentMethod) => {
+    const data = await fetch(`${url}/api/paymentEdit`, {
+      method: "POST",
+      cache: "no-cache",
+      body: JSON.stringify({
+        method: paymentMethod,
+      }),
+      headers: { authToken: authToken || localStorage.getItem("authToken") },
+    });
+    const parsedData = await data.json();
+    return parsedData;
+  };
+
   useEffect(() => {
     console.log(authToken);
     authToken && !userData && getUserdata();
@@ -245,6 +258,7 @@ function Mainstatestore({ children }) {
         changeAddress,
         changePhone,
         changePassword,
+        paymentAdder,
       }}
     >
       {children}

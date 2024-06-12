@@ -6,10 +6,11 @@ import { BtnAccount } from "../personal-info/page";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { errorIcon } from "@/Consonats";
+import notificationCaller from "@/components/NotificationCaller";
 
 function page() {
   const [opened, setopened] = useState(null);
-  const { setuserData, userData, changePassword } = useContext(ContextStore);
+  const { userData, changePassword } = useContext(ContextStore);
   const formRef = useRef(null);
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState(false);
@@ -23,7 +24,7 @@ function page() {
       const confirmPassword = document.querySelector("#conf-pass").value;
       if (newPassword !== confirmPassword) {
         seterror("Both password must match!");
-        notificationCaller(false, "Both password must match!");
+        notificationCaller(false, "Both password must match!", toast);
       } else if (currentPassword === newPassword) {
         seterror("New password is same as previous password!");
         toast("New password is same as previous password!", {
@@ -47,34 +48,6 @@ function page() {
       }
     }
     setloading(false);
-  };
-
-  const notificationCaller = (success, message) => {
-    if (success) {
-      toast(message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        type: "success",
-      });
-    } else {
-      toast(message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        type: "error",
-      });
-    }
   };
 
   return (

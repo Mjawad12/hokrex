@@ -2,11 +2,17 @@
 import { card, masterCard, trash } from "@/Consonats";
 import { Cross } from "@/app/(others)/cart/page";
 import CustomCheckbox from "@/components/CustomCheckbox";
-import React, { useState } from "react";
+import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
+import notificationCaller from "@/components/NotificationCaller";
+import { motion } from "framer-motion";
+import React, { useContext, useEffect, useState } from "react";
 import { useRef } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function page() {
-  const [cardAdder, setcardAdder] = useState(true);
+  const { userData, paymentAdder, setuserData } = useContext(ContextStore);
+  const [cardAdder, setcardAdder] = useState(false);
   const cardDetails = [
     {
       bankName: "Meezan bank ltd.",
@@ -23,21 +29,30 @@ function page() {
       expiryDate: "03/28",
     },
   ];
+
   return (
     <div className="m-auto mt-10 flex w-full max-w-[1020px] flex-col gap-7 pb-10">
-      {cardAdder && <CardAdder setcardAdder={setcardAdder} />}
+      <ToastContainer />
+      {cardAdder && (
+        <CardAdder
+          setcardAdder={setcardAdder}
+          paymentAdder={paymentAdder}
+          setuserData={setuserData}
+        />
+      )}
       <h2 className="text-[24px] font-[700]">Payment methods</h2>
       <div className="flex w-full flex-wrap gap-6">
-        {cardDetails?.map((it, index) => (
-          <CardDetails
-            bankName={it.bankName}
-            cardNumber={it.cardNumber}
-            def={it.def}
-            expiryDate={it.expiryDate}
-            name={it.name}
-            key={index}
-          />
-        ))}
+        {userData &&
+          userData?.paymentMethods?.map((it, index) => (
+            <CardDetails
+              bankName={it.bankName}
+              cardNumber={it.cardNumber}
+              def={it.def}
+              expiryDate={it.expiryDate}
+              name={it.name}
+              key={index}
+            />
+          ))}
 
         <div
           style={{ borderStyle: "dashed" }}
@@ -83,7 +98,7 @@ const CardDetails = ({ bankName, def, cardNumber, name, expiryDate }) => {
         <Blank />
         <Blank />
         <Blank />
-        <p className="text-[25px] font-[400]">{cardNumber.slice(-4)}</p>
+        <p className="text-[25px] font-[400]">{cardNumber?.slice(-4)}</p>
       </div>
 
       <div className="flex items-center justify-between">
@@ -154,8 +169,8 @@ const cards = {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M27.9476 5.76376C27.9168 8.20753 30.108 9.57134 31.7586 10.3821C33.4546 11.2141 34.0242 11.7476 34.0177 12.4915C34.0048 13.6301 32.6649 14.1326 31.4107 14.1522C29.2819 14.1855 28.0202 13.5903 27.0219 13.1193L26.9394 13.0804L26.1513 16.7982C27.166 17.2697 29.0448 17.6808 30.9932 17.6987C35.5664 17.6987 38.5586 15.423 38.5748 11.8944C38.5854 9.21544 36.3843 8.0504 34.6229 7.11811C33.44 6.49201 32.4554 5.97088 32.4723 5.16669C32.4869 4.55982 33.0613 3.91218 34.3204 3.74741C34.9434 3.66421 36.6636 3.60059 38.6136 4.50599L39.3791 0.908859C38.3304 0.523861 36.9824 0.155176 35.3043 0.155176C30.9997 0.155176 27.9719 2.46191 27.9476 5.76376ZM46.7339 0.464825C45.8988 0.464825 45.1949 0.95586 44.8809 1.70955L38.348 17.4341H42.918L43.8274 14.9007L49.4121 14.9007L49.9397 17.4341H53.9675L50.4527 0.464825H46.7339ZM48.6927 11.421L47.3738 5.0489L45.0807 11.421L48.6927 11.421ZM22.4065 0.464825L18.8042 17.4341H23.159L26.7596 0.464825H22.4065ZM11.4316 12.0148L15.9644 0.464825H20.5376L13.482 17.4341H8.87959L5.40677 3.89229C5.19639 3.05867 5.01353 2.75198 4.37269 2.40124C3.32567 1.827 1.59735 1.29029 0.0761719 0.957493L0.179741 0.464825H7.58982C8.53328 0.464825 9.38287 1.09779 9.5981 2.19406L11.4316 12.0148Z"
         fill="url(#paint0_linear_3343_4383)"
       />
@@ -168,8 +183,8 @@ const cards = {
           y2="-15.9023"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#222357" />
-          <stop offset="1" stop-color="#254AA5" />
+          <stop stopColor="#222357" />
+          <stop offset="1" stopColor="#254AA5" />
         </linearGradient>
       </defs>
     </svg>
@@ -202,30 +217,57 @@ const cards = {
   jcb: /^(?:2131|1800|35\d{3})\d{11}$/,
 };
 
-const InputCard = ({ name, center, onKeyDown }) => {
+const InputCard = ({ name, center, onKeyDown, id }) => {
   return (
     <div className="flex flex-col gap-1.5">
       <p className="text-[12px] font-[600] leading-[14px]">{name}</p>
       <input
+        id={id}
         onKeyDown={onKeyDown && onKeyDown}
         required
         className={`w-full rounded-[10px] border border-[#E5E5E5] px-4 py-3 outline-none ${center ? "text-center" : ""}`}
-        maxLength={name === "Card number" ? "19" : undefined}
+        maxLength={name === "Card number" ? 19 : undefined}
+        minLength={name === "Card number" ? 19 : undefined}
       />
     </div>
   );
 };
 
-const CardAdder = ({ setcardAdder }) => {
+const CardAdder = ({ setcardAdder, paymentAdder, setuserData }) => {
   const [defaultCard, setdefaultCard] = useState(false);
+  const [loading, setloading] = useState(false);
   const formRef = useRef(null);
-  const Submit = (e) => {
+  const Submit = async (e) => {
     if (formRef.current.checkValidity()) {
       e.preventDefault();
+      setloading(true);
+      const paymentMethod = {
+        name: document.querySelector("#name-card").value,
+        cvc: document.querySelector("#cvc").value,
+        cardNumber: document.querySelector("#card-number").value,
+        expiryDate: document.querySelector("#ex-date").value,
+        def: defaultCard,
+        bankName: document.querySelector("#bank-name").value,
+      };
+      const result = await paymentAdder(paymentMethod);
+      if (result.success) {
+        notificationCaller(true, "Payment method added Successfully!", toast);
+        setcardAdder(false);
+        setuserData((e) => {
+          return { ...e, paymentMethods: [...e.paymentMethods, paymentMethod] };
+        });
+      }
     }
+    setloading(false);
   };
   return (
-    <div className="flex-center fixed inset-0 left-0 top-0 bg-[#00000066]">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      exit={{ opacity: 0 }}
+      className="flex-center fixed inset-0 left-0 top-0 bg-[#00000066]"
+    >
       <form
         ref={formRef}
         className="relative flex w-full max-w-[380px] flex-col gap-5 rounded-[21px] bg-white px-[1.3rem] pb-5 pt-16"
@@ -243,8 +285,8 @@ const CardAdder = ({ setcardAdder }) => {
           </span>
         </div>
         <div className="flex flex-col gap-5">
-          <InputCard name={"Bank name"} />
-          <InputCard name={"Name on card"} />
+          <InputCard name={"Bank name"} id={"bank-name"} />
+          <InputCard name={"Name on card"} id={"name-card"} />
           <InputCard
             onKeyDown={(e) => {
               if (
@@ -263,10 +305,11 @@ const CardAdder = ({ setcardAdder }) => {
               }
             }}
             name={"Card number"}
+            id={"card-number"}
           />
           <div className="flex w-[180px] gap-2">
-            <InputCard name={"Expire"} center={true} />
-            <InputCard name={"CVC"} />
+            <InputCard name={"Expire"} center={true} id={"ex-date"} />
+            <InputCard name={"CVC"} id={"cvc"} />
           </div>
         </div>
         <CustomCheckbox
@@ -277,12 +320,13 @@ const CardAdder = ({ setcardAdder }) => {
           setOuter={setdefaultCard}
         />
         <button
-          onClick={() => {}}
-          className="w-full rounded-[10px] border-none bg-black py-3 text-[17px] font-[500] text-white outline-none"
+          onClick={Submit}
+          disabled={loading}
+          className="w-full rounded-[10px] border-none bg-black py-3 text-[17px] font-[500] text-white outline-none transition-all duration-300 disabled:bg-gray-300"
         >
           Done
         </button>
       </form>
-    </div>
+    </motion.div>
   );
 };
