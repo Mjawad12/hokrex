@@ -1,6 +1,7 @@
 "use client";
 import { card, masterCard, trash } from "@/Consonats";
 import { Cross } from "@/app/(others)/cart/page";
+import BasicDateCalendar from "@/components/Calender";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 import notificationCaller from "@/components/NotificationCaller";
@@ -142,7 +143,8 @@ const CardDetails = ({
           <div className="flex flex-col gap-1">
             <p className="text-[12px] font-[500] leading-[13px]">Expire Date</p>
             <p className="text-[16px] font-[400] leading-[20px]">
-              {expiryDate}
+              {expiryDate.slice(0, 3) +
+                expiryDate.slice(expiryDate.indexOf(" "))}
             </p>
           </div>
         </div>
@@ -251,7 +253,7 @@ const cards = {
 
 const InputCard = ({ name, center, onKeyDown, id }) => {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex w-full flex-col gap-1.5">
       <p className="text-[12px] font-[600] leading-[14px]">{name}</p>
       <input
         id={id}
@@ -268,6 +270,8 @@ const InputCard = ({ name, center, onKeyDown, id }) => {
 const CardAdder = ({ setcardAdder, paymentAdder, setuserData }) => {
   const [defaultCard, setdefaultCard] = useState(false);
   const [loading, setloading] = useState(false);
+  const [Date, setDate] = useState(false);
+  const [show, setshow] = useState(false);
   const formRef = useRef(null);
   const Submit = async (e) => {
     if (formRef.current.checkValidity()) {
@@ -277,7 +281,7 @@ const CardAdder = ({ setcardAdder, paymentAdder, setuserData }) => {
         name: document.querySelector("#name-card").value,
         cvc: document.querySelector("#cvc").value,
         cardNumber: document.querySelector("#card-number").value,
-        expiryDate: document.querySelector("#ex-date").value,
+        expiryDate: Date,
         def: defaultCard,
         bankName: document.querySelector("#bank-name").value,
       };
@@ -340,7 +344,33 @@ const CardAdder = ({ setcardAdder, paymentAdder, setuserData }) => {
             id={"card-number"}
           />
           <div className="flex w-[180px] gap-2">
-            <InputCard name={"Expire"} center={true} id={"ex-date"} />
+            <div className="flex w-full flex-col gap-1.5">
+              <p className="text-[12px] font-[600] leading-[14px]">
+                Expiry date
+              </p>
+              <div
+                onClick={() => {
+                  setshow(true);
+                }}
+                className={`relative h-full w-full cursor-pointer rounded-[10px] border border-[#E5E5E5] px-2`}
+              >
+                {Date}
+                {show && (
+                  <motion.div
+                    animate={{ opacity: 1, x: "-50%", scale: 0.85 }}
+                    initial={{ opacity: 0, x: "-50%", scale: 0.85 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    className="absolute bottom-6  left-[50%] w-[336px] scale-[0.9] select-none"
+                  >
+                    <BasicDateCalendar
+                      setselectedDate={setDate}
+                      setshow={setshow}
+                    />
+                  </motion.div>
+                )}
+              </div>
+            </div>
             <InputCard name={"CVC"} id={"cvc"} />
           </div>
         </div>
