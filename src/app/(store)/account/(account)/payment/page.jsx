@@ -11,7 +11,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function page() {
-  const { userData, paymentAdder, setuserData } = useContext(ContextStore);
+  const { userData, paymentAdder, setuserData, paymentDele } =
+    useContext(ContextStore);
   const [cardAdder, setcardAdder] = useState(false);
   const cardDetails = [
     {
@@ -51,6 +52,8 @@ function page() {
               expiryDate={it.expiryDate}
               name={it.name}
               key={index}
+              paymentDele={paymentDele}
+              setuserData={setuserData}
             />
           ))}
 
@@ -74,7 +77,15 @@ function page() {
 
 export default page;
 
-const CardDetails = ({ bankName, def, cardNumber, name, expiryDate }) => {
+const CardDetails = ({
+  bankName,
+  def,
+  cardNumber,
+  name,
+  expiryDate,
+  paymentDele,
+  setuserData,
+}) => {
   return (
     <div
       style={{ boxShadow: "2px 4px 8px 0px #0000000D" }}
@@ -88,7 +99,28 @@ const CardDetails = ({ bankName, def, cardNumber, name, expiryDate }) => {
               Default
             </span>
           )}
-          <span className="flex-center h-[30px] w-[30px] rounded-[7px] bg-[#F9F9F9]">
+          <span
+            onClick={async () => {
+              setuserData((e) => {
+                let paymentMethods = e.paymentMethods;
+                paymentMethods.forEach((it, index) => {
+                  if (it.cardNumber === cardNumber) {
+                    paymentMethods.splice(index, 1);
+                  }
+                });
+                return { ...e, paymentMethods };
+              });
+              const result = await paymentDele(cardNumber);
+              notificationCaller(
+                result.success,
+                result.success
+                  ? "Payment method removed!"
+                  : "Some error occured!",
+                toast,
+              );
+            }}
+            className="flex-center h-[30px] w-[30px] cursor-pointer rounded-[7px] bg-[#F9F9F9]"
+          >
             {trash}
           </span>
         </div>

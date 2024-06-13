@@ -20,3 +20,21 @@ export async function POST(req) {
   );
   return Response.json({ success: true }, { status: 200 });
 }
+
+export async function DELETE(req) {
+  await ConnectDb();
+  const headersList = headers();
+  const body = await req.json();
+  const id = await authorize(headersList.get("authToken"));
+  if (!id) {
+    return Response.json(
+      { success: false, error: "Not Authorized" },
+      { status: 401 },
+    );
+  }
+  await UserSchema.updateOne(
+    { _id: id },
+    { $pull: { paymentMethods: { cardNumber: body.cardNumber } } },
+  );
+  return Response.json({ success: true });
+}
