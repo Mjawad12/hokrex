@@ -15,22 +15,6 @@ function page() {
   const { userData, paymentAdder, setuserData, paymentDele } =
     useContext(ContextStore);
   const [cardAdder, setcardAdder] = useState(false);
-  const cardDetails = [
-    {
-      bankName: "Meezan bank ltd.",
-      def: true,
-      cardNumber: "5105105105105100",
-      name: "Jamshed Ali",
-      expiryDate: "03/28",
-    },
-    {
-      bankName: "Meezan bank ltd.",
-      def: false,
-      cardNumber: "4012886888881881",
-      name: "Jamshed Ali",
-      expiryDate: "03/28",
-    },
-  ];
 
   return (
     <div className="m-auto mt-10 flex w-full max-w-[1020px] flex-col gap-7 pb-10">
@@ -352,9 +336,9 @@ const CardAdder = ({ setcardAdder, paymentAdder, setuserData }) => {
                 onClick={() => {
                   setshow(true);
                 }}
-                className={`relative h-full w-full cursor-pointer rounded-[10px] border border-[#E5E5E5] px-2`}
+                className={`flex-center relative h-full w-full cursor-pointer rounded-[10px] border border-[#E5E5E5] px-2 text-[12px]`}
               >
-                {Date}
+                {Date && Date.slice(0, 3) + Date.slice(Date.indexOf(" "))}
                 {show && (
                   <motion.div
                     animate={{ opacity: 1, x: "-50%", scale: 0.85 }}
