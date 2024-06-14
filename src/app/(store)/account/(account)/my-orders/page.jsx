@@ -1,16 +1,17 @@
 "use client";
-import { calender } from "@/Consonats";
+import { calender, order } from "@/Consonats";
 import { ColorDialog, InstructionDialog } from "@/app/(others)/cart/page";
 import { Sorting } from "@/app/(store)/categories/[slug]/page";
 import DropDown from "@/components/DropDown";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { BtnAccount } from "../personal-info/page";
 
 function page() {
-  const [navState, setnavState] = useState(0);
+  const [navState, setnavState] = useState("Active orders");
   const [selectedTimeline, setselectedTimeline] = useState("last 1 month");
-
+  const [selectedOrders, setselectedOrders] = useState([]);
   const orders = [
     {
       type: "Active orders",
@@ -45,6 +46,70 @@ function page() {
       },
     },
     {
+      type: "Shipped",
+      active: true,
+      product: {
+        colors: [
+          "rgb(248, 231, 28)",
+          "rgb(65, 117, 5)",
+          "rgb(95, 95, 95)",
+          "rgb(144, 19, 254)",
+          "rgb(131, 114, 146)",
+        ],
+        customized: false,
+        date: "23 march,2024",
+        id: "c780acac-d46f-4e06-ad45-6b3e0e96a7d7",
+        instruction: "",
+        name: "Hood",
+        price: "145.00",
+        quant: 5,
+        sizes: [
+          { type: "XS", val: "5" },
+          { type: "SM", val: "5" },
+          { type: "MD", val: 0 },
+          { type: "2XL", val: 0 },
+          { type: "XL", val: 0 },
+          { type: "LG", val: 0 },
+          { type: "3XL", val: 0 },
+        ],
+        slug: "hood",
+        src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
+        orderId: "#2340343451",
+      },
+    },
+    {
+      type: "Canceled",
+      active: true,
+      product: {
+        colors: [
+          "rgb(248, 231, 28)",
+          "rgb(65, 117, 5)",
+          "rgb(95, 95, 95)",
+          "rgb(144, 19, 254)",
+          "rgb(131, 114, 146)",
+        ],
+        customized: false,
+        date: "23 march,2024",
+        id: "c780acac-d46f-4e06-ad45-6b3e0e96a7d7",
+        instruction: "",
+        name: "Hood",
+        price: "145.00",
+        quant: 5,
+        sizes: [
+          { type: "XS", val: "5" },
+          { type: "SM", val: "5" },
+          { type: "MD", val: 0 },
+          { type: "2XL", val: 0 },
+          { type: "XL", val: 0 },
+          { type: "LG", val: 0 },
+          { type: "3XL", val: 0 },
+        ],
+        slug: "hood",
+        src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
+        orderId: "#2340343451",
+      },
+    },
+    {
       type: "Active orders",
       active: true,
       product: {
@@ -108,7 +173,51 @@ function page() {
         orderId: "#2340343451",
       },
     },
+    {
+      type: "Processing",
+      active: true,
+      product: {
+        colors: [
+          "rgb(248, 231, 28)",
+          "rgb(65, 117, 5)",
+          "rgb(95, 95, 95)",
+          "rgb(144, 19, 254)",
+          "rgb(131, 114, 146)",
+        ],
+        customized: false,
+        date: "23 march,2024",
+        id: "c780acac-d46f-4e06-ad45-6b3e0e96a7d7",
+        instruction: "",
+        name: "Hood",
+        price: "145.00",
+        quant: 5,
+        sizes: [
+          { type: "XS", val: "5" },
+          { type: "SM", val: "5" },
+          { type: "MD", val: 0 },
+          { type: "2XL", val: 0 },
+          { type: "XL", val: 0 },
+          { type: "LG", val: 0 },
+          { type: "3XL", val: 0 },
+        ],
+        slug: "hood",
+        src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
+        orderId: "#2340343451",
+      },
+      unpaidAmmount: "400",
+    },
   ];
+
+  useEffect(() => {
+    let ordersSelected = [];
+    orders?.map((it) => {
+      if (it.type === navState) {
+        ordersSelected = [...ordersSelected, it];
+      }
+    });
+    console.log(ordersSelected);
+    setselectedOrders(ordersSelected);
+  }, [navState]);
 
   return (
     <section className="min-h-[calc(100vh-65px)] w-full select-none">
@@ -116,7 +225,7 @@ function page() {
         <NavOrders navState={navState} setnavState={setnavState} />
         <div className="flex items-center gap-2">
           <p className="text-[15px] font-[500]">
-            {orders.length} orders placed in last
+            {orders.length} orders placed in
           </p>
           <Sorting
             sorting={["last 1 month", "last 2 months", "last 6 months"]}
@@ -125,8 +234,8 @@ function page() {
             small={true}
           />
         </div>
-        <div className="flex w-full flex-col gap-7">
-          {orders?.map((it, index) => (
+        <div className="flex w-full flex-col gap-8">
+          {selectedOrders?.map((it, index) => (
             <OrderCard
               name={it.product.name}
               price={it.product.price}
@@ -142,6 +251,8 @@ function page() {
               index={index}
               orderid={it.product.orderId}
               active={it.active}
+              navState={navState}
+              unpaidAmmount={it.unpaidAmmount}
             />
           ))}
         </div>
@@ -167,12 +278,12 @@ const NavOrders = ({ setnavState, navState }) => {
           return (
             <li
               key={index}
-              onClick={() => setnavState(index)}
-              className={`relative cursor-default pb-3.5 text-[16px] font-[500]  ${navState === index ? "text-black" : "text-pmGray"}`}
+              onClick={() => setnavState(items[index])}
+              className={`relative pb-3.5 text-[16px] font-[500]  ${navState === items[index] ? "text-black" : "text-pmGray"} cursor-pointer`}
             >
               {it}
               <span
-                className={`absolute bottom-0 left-0 h-[1px] w-full ${navState === index ? "bg-black" : "bg-transparent"}`}
+                className={`absolute bottom-0 left-0 h-[1px] w-full ${navState === items[index] ? "bg-black" : "bg-transparent"}`}
               />
             </li>
           );
@@ -196,6 +307,8 @@ const OrderCard = ({
   index,
   orderid,
   active,
+  navState,
+  unpaidAmmount,
 }) => {
   const [instuctionDialog, setinstuctionDialog] = useState(false);
   const [cartDialog, setcartDialog] = useState(false);
@@ -343,6 +456,30 @@ const OrderCard = ({
           </div>
         </div>
       </div>
+      {navState === "Processing" && (
+        <div className="flex items-center justify-between">
+          <div className="flex-center w-full max-w-[180px]">
+            <span
+              style={{ boxShadow: "2px 4px 14px 0px #0000000D" }}
+              className="cursor-pointer rounded-[10px] border border-[#E5E5E5] bg-white p-1 px-2 text-[13px] font-[700]"
+            >
+              View Original Product
+            </span>
+          </div>
+          <div className="flex w-full flex-1 flex-grow-[0.98] items-center justify-between rounded-[10px] border border-[#E5E5E5] px-6 py-2.5 pr-2.5">
+            <div className="flex flex-col">
+              <p className="text-[12px] font-[500] text-pmGray">
+                Delivery charges
+              </p>
+              <span className="text-[20px] font-[600]">
+                Total ${unpaidAmmount}/
+                <span className="text-pmRed">unpaid</span>
+              </span>
+            </div>
+            <BtnAccount Submit={() => {}} name={"Pay now"} />
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 };
