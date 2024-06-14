@@ -1,15 +1,17 @@
 "use client";
-import { calender, order } from "@/Consonats";
+import { calender, copy, fed, order } from "@/Consonats";
 import { ColorDialog, InstructionDialog } from "@/app/(others)/cart/page";
 import { Sorting } from "@/app/(store)/categories/[slug]/page";
-import DropDown from "@/components/DropDown";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { BtnAccount } from "../personal-info/page";
+import notificationCaller from "@/components/NotificationCaller";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function page() {
-  const [navState, setnavState] = useState("Active orders");
+  const [navState, setnavState] = useState("Shipped");
   const [selectedTimeline, setselectedTimeline] = useState("last 1 month");
   const [selectedOrders, setselectedOrders] = useState([]);
   const orders = [
@@ -76,6 +78,7 @@ function page() {
         src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
         orderId: "#2340343451",
       },
+      trackingID: 58029582224,
     },
     {
       type: "Canceled",
@@ -221,6 +224,7 @@ function page() {
 
   return (
     <section className="min-h-[calc(100vh-65px)] w-full select-none">
+      <ToastContainer />
       <div className="m-auto flex w-full max-w-[1020px] flex-col gap-12">
         <NavOrders navState={navState} setnavState={setnavState} />
         <div className="flex items-center gap-2">
@@ -253,6 +257,7 @@ function page() {
               active={it.active}
               navState={navState}
               unpaidAmmount={it.unpaidAmmount}
+              trackingID={it.trackingID}
             />
           ))}
         </div>
@@ -309,6 +314,7 @@ const OrderCard = ({
   active,
   navState,
   unpaidAmmount,
+  trackingID,
 }) => {
   const [instuctionDialog, setinstuctionDialog] = useState(false);
   const [cartDialog, setcartDialog] = useState(false);
@@ -477,6 +483,54 @@ const OrderCard = ({
               </span>
             </div>
             <BtnAccount Submit={() => {}} name={"Pay now"} />
+          </div>
+        </div>
+      )}
+
+      {navState === "Shipped" && (
+        <div className="flex items-center justify-between">
+          <div className="flex-center w-full max-w-[180px]">
+            <span
+              style={{ boxShadow: "2px 4px 14px 0px #0000000D" }}
+              className="cursor-pointer rounded-[10px] border border-[#E5E5E5] bg-white p-1 px-2 text-[13px] font-[700]"
+            >
+              View Original Product
+            </span>
+          </div>
+
+          <div className="flex w-full flex-1 flex-grow-[0.98] items-center justify-between rounded-[10px] ">
+            <div className="flex-center gap-3.5">
+              <div className="flex items-end gap-3 rounded-[10px] border border-[#EEEEEE] py-2.5 pl-6 pr-4">
+                <div className="flex flex-col">
+                  <p className="text-[12px] font-[500] text-pmGray">
+                    Tracking ID
+                  </p>
+                  <span className="text-[20px] font-[600]">#{trackingID}</span>
+                </div>
+                <span
+                  onClick={() => {
+                    navigator.clipboard.writeText(trackingID);
+                    notificationCaller(true, "Traking id Copied!", toast);
+                  }}
+                  className="cursor-pointer rounded-full bg-[#F9F9F9] p-[0.6rem]"
+                >
+                  {copy}
+                </span>
+              </div>
+
+              <div className="flex rounded-[10px] border border-[#EEEEEE] px-8 ">
+                <Image
+                  src={"/fed.png"}
+                  width={1000}
+                  height={1000}
+                  className="h-[70px] w-[127px]"
+                  alt="fedex"
+                />
+              </div>
+            </div>
+            <button className="btn-Primary !rounded-[10px]">
+              View Tacking Status
+            </button>
           </div>
         </div>
       )}
