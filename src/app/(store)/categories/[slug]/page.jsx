@@ -428,6 +428,12 @@ function page(slug) {
           <Sorting
             selectedOption={selectedOption}
             setselectedOption={setselectedOption}
+            sorting={[
+              "Default Sorting",
+              "Popularity",
+              "Low to High",
+              "High to Low",
+            ]}
           />
           <MiddleTitle
             name={NameGetter()}
@@ -553,20 +559,15 @@ const TopBar = ({ slug, liItems, filterAdd, sticky }) => {
   );
 };
 
-const Sorting = ({ selectedOption, setselectedOption }) => {
+const Sorting = ({ selectedOption, setselectedOption, sorting, small }) => {
   const [show, setshow] = useState(false);
-  const sorting = [
-    "Default Sorting",
-    "Popularity",
-    "Low to High",
-    "High to Low",
-  ];
+
   return (
     <div className="flex-1 flex-grow-[0.2]">
       <div
         onClick={() => setshow(!show)}
-        className={`relative flex h-[2.25rem] w-[10.5rem] cursor-pointer items-center justify-between rounded-[0.4rem] border border-[#DDDDDD] px-[0.85rem] outline-none
-        transition duration-[100ms] hover:shadow-xl focus:border-black focus:text-black  ${
+        className={`relative flex h-[2.25rem] w-[10.5rem] ${small ? "h-[2.1rem] rounded-[0.5rem]" : "rounded-[0.4rem]"} z-50 cursor-pointer items-center justify-between border border-[#DDDDDD] px-[0.85rem]
+        outline-none transition duration-[100ms] hover:shadow-xl focus:border-black focus:text-black  ${
           show ? "rounded-bl-[0] rounded-br-[0] border-b-0" : ""
         } `}
       >
@@ -583,7 +584,7 @@ const Sorting = ({ selectedOption, setselectedOption }) => {
         <div
           className={`absolute ${
             show ? "flex" : "hidden"
-          } left-[-1px] top-[35px] flex w-[10.5rem] flex-col items-start justify-start overflow-hidden rounded-bl-[0.3rem] rounded-br-[0.3rem] border border-[#DDDDDD] bg-white`}
+          } ${small ? "left-[-0.5px] top-[33px]" : "left-[-1px] top-[35px]"} flex w-[10.5rem] flex-col items-start justify-start overflow-hidden rounded-bl-[0.3rem] rounded-br-[0.3rem] border border-[#DDDDDD] bg-white`}
         >
           {sorting.map((it, index) => (
             <span
@@ -658,4 +659,4 @@ const Pagechanger = ({
   );
 };
 
-export { TopBar };
+export { TopBar, Sorting };

@@ -10,12 +10,12 @@ function MainstateAdmin({ children }) {
   const getproducts = async () => {
     const data = await fetch(`${url}/api/getproducts`, {
       method: "POST",
-      cache: "no-store",
+      cache: "no-cache",
+      body: JSON.stringify({ productCategory: "All" }),
     });
-    const parseddata = await data.json();
-    setproducts(parseddata.products);
+    const parsedDate = await data.json();
+    parsedDate.success && setproducts(parsedDate.products);
   };
-
   const addProductApi = async (
     name,
     category,

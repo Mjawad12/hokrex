@@ -21,7 +21,7 @@ function Navbar({ cart }) {
         <h1 className="text-4xl font-[500]">Hokrex</h1>
       </Link>
       <div
-        className={`flex h-[2.5rem] flex-1 flex-grow-[0.75] items-center ${
+        className={`flex h-[2.5rem] flex-1 flex-grow-[0.75] items-center massive:flex-grow-[0.8] ${
           pathname.includes("cart") || pathname.includes("account")
             ? "justify-end"
             : "justify-between"
@@ -80,7 +80,7 @@ const SmNav = ({ cart, authToken, account }) => {
           </li>
         </>
       )}
-      <li className="flex-center gap-2 ">
+      <li className="gap-2 flex-center ">
         <Link
           href="/cart"
           className="flex-center logoStyle h-9 w-[2.4rem] border-gray-300 hover:border-black"

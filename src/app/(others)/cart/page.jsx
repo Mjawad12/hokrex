@@ -537,4 +537,4 @@ const ColorGiver = ({ color }) => {
   );
 };
 
-export { Cross };
+export { Cross, InstructionDialog, ColorDialog };
