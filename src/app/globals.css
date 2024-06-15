@@ -21,6 +21,15 @@
   .animateH1 {
     @apply text-[204px] font-[700] leading-[204px];
   }
+  .btn {
+    @apply h-[3rem] w-full max-w-[6.5rem] rounded-xl bg-black font-light text-white transition-all duration-300;
+  }
+  .formp {
+    @apply text-[1rem] font-[700] leading-[21.78px];
+  }
+  .forminput {
+    @apply h-[3.5rem] w-full rounded-xl border border-[#F2F2F2] px-7  font-[500] outline-none transition duration-[100ms] hover:shadow-xl  focus:border-black focus:text-black small:h-[3.5rem];
+  }
 }
 
 /* html {

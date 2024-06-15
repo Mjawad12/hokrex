@@ -10,6 +10,16 @@ const Schema = new mongoose.Schema({
   orders: {
     type: Array,
     default: [],
+    order: {
+      type: Object,
+      orderType: String,
+      active: Boolean,
+      trackingID: Number,
+      deliveryCharges: Number,
+      unpaidAmount: Number,
+      unpaidAmount: Number,
+      product: Number,
+    },
   },
   Date: {
     type: String,
