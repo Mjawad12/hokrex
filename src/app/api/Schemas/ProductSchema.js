@@ -10,6 +10,15 @@ const Schema = new mongoose.Schema({
   productColors: { type: Array, require: true },
   productSizes: { type: Array, require: true },
   slug: { type: String },
+  reviews: {
+    type: Array,
+    name: String,
+    designation: String,
+    phone: String,
+    email: String,
+    rating: Number,
+    review: String,
+  },
 });
 
 export default mongoose.models.Product || mongoose.model("Product", Schema);

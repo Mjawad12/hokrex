@@ -1,8 +1,10 @@
 "use client";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
+import ProductPageFooter from "@/components/ProductPageFooter";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
+import { FooterBlack } from "../contact/page";
 
 function page() {
   const router = useRouter();
@@ -206,7 +208,7 @@ function page() {
   ];
 
   return (
-    <section className="flex-center min-h-[calc(100vh-73px)] w-full">
+    <section className="flex-center relative min-h-[calc(100vh-73px)] w-full">
       <div className="m-auto flex w-full max-w-[1020px] flex-col gap-12">
         <h1 className="text-[35px] font-[500] leading-[40px]">My Account</h1>
         <div className="mt-3 flex flex-wrap gap-7">
@@ -229,6 +231,9 @@ function page() {
         >
           Logout
         </button>
+      </div>
+      <div className="absolute bottom-0 left-0 w-full">
+        <FooterBlack slideLast={true} nav={false} />
       </div>
     </section>
   );

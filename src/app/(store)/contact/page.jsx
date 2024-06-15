@@ -147,7 +147,7 @@ function page() {
               {bigArrow}
             </motion.span>
 
-            <FooterBlack slideLast={slideLast} />
+            <FooterBlack slideLast={slideLast} nav={true} />
           </>
         )}
       </div>
@@ -301,7 +301,7 @@ const Holder = ({ type, val1, val2, redVal, text }) => {
   );
 };
 
-const FooterBlack = ({ slideLast }) => {
+const FooterBlack = ({ slideLast, nav }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -310,19 +310,23 @@ const FooterBlack = ({ slideLast }) => {
       className="absolute bottom-0 left-0 flex w-full items-center justify-between bg-black px-7 py-2.5"
     >
       <span className="text-[12px] text-white ">©2024, Sublimatics Inc.</span>
-      <ul className="flex-center list-none gap-5 [&_li]:cursor-pointer  [&_li]:whitespace-nowrap  [&_li]:text-[14px] [&_li]:font-[500] [&_li]:text-white hover:[&_li]:text-pmRed ">
-        <Link href={"/products"}>
-          <li>Products</li>
-        </Link>
-        <li>Services</li>
-        <Link href={"/about"}>
-          <li>About us</li>
-        </Link>
-        <Link href={"/contact"}>
-          <li>Contact us</li>
-        </Link>
-      </ul>
+      {nav && (
+        <ul className="flex-center list-none gap-5 [&_li]:cursor-pointer  [&_li]:whitespace-nowrap  [&_li]:text-[14px] [&_li]:font-[500] [&_li]:text-white hover:[&_li]:text-pmRed ">
+          <Link href={"/products"}>
+            <li>Products</li>
+          </Link>
+          <li>Services</li>
+          <Link href={"/about"}>
+            <li>About us</li>
+          </Link>
+          <Link href={"/contact"}>
+            <li>Contact us</li>
+          </Link>
+        </ul>
+      )}
       <span className="text-[12px] text-white">Made by Hokrex</span>
     </motion.div>
   );
 };
+
+export { FooterBlack };

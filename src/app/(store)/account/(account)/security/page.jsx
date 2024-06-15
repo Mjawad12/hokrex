@@ -51,7 +51,7 @@ function page() {
   };
 
   return (
-    <section className="min-h-[calc(100vh-65px)] w-full">
+    <section className="w-full">
       <ToastContainer />
       <div className="m-auto flex w-full max-w-[1020px] flex-col gap-12">
         <Editcomponent

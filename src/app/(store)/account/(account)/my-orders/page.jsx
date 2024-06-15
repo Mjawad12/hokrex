@@ -265,7 +265,7 @@ function page() {
   }, [navState]);
 
   return (
-    <section className="min-h-[calc(100vh-65px)] w-full select-none">
+    <section className="w-full select-none pb-10">
       <ToastContainer />
       <div className="m-auto flex w-full max-w-[1020px] flex-col gap-12">
         <NavOrders navState={navState} setnavState={setnavState} />
