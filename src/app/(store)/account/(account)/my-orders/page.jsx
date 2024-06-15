@@ -1,5 +1,5 @@
 "use client";
-import { calender, copy, fed, order } from "@/Consonats";
+import { calender, copy } from "@/Consonats";
 import { ColorDialog, InstructionDialog } from "@/app/(others)/cart/page";
 import { Sorting } from "@/app/(store)/categories/[slug]/page";
 import { AnimatePresence, motion } from "framer-motion";
@@ -61,7 +61,7 @@ function page() {
         customized: false,
         date: "23 march,2024",
         id: "c780acac-d46f-4e06-ad45-6b3e0e96a7d7",
-        instruction: "",
+        instruction: "asdddddddddddddddddasdasd",
         name: "Hood",
         price: "145.00",
         quant: 5,
@@ -335,7 +335,6 @@ const OrderCard = ({
         {instuctionDialog && (
           <InstructionDialog
             setinstuctionDialog={setinstuctionDialog}
-            intructionCall={intructionCall}
             instructionValue={instructionValue}
           />
         )}

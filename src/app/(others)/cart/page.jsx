@@ -371,7 +371,7 @@ const InstructionDialog = ({
   const formRefInt = useRef(null);
   const textAreaRef = useRef(null);
   const Instruction = (e) => {
-    if (formRefInt.current.checkValidity()) {
+    if (formRefInt.current.checkValidity() && intructionCall) {
       e.preventDefault();
       intructionCall(textAreaRef.current.value);
       toast("Instruction added to the item!", {
@@ -394,7 +394,7 @@ const InstructionDialog = ({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       exit={{ opacity: 0 }}
-      className="flex-center fixed left-0 top-0 z-20 min-h-screen w-screen bg-[#00000066]"
+      className="flex-center fixed left-0 top-0 z-50 min-h-screen w-screen bg-[#00000066]"
     >
       <motion.form
         ref={formRefInt}
@@ -420,13 +420,18 @@ const InstructionDialog = ({
           maxLength={400}
           minLength={20}
           required
+          onFocus={(e) => {
+            !intructionCall && e.target.blur();
+          }}
         />
-        <button
-          onClick={Instruction}
-          className="w-full rounded-[10px] border-none bg-black py-3 text-[17px] font-[500] text-white outline-none"
-        >
-          Done
-        </button>
+        {intructionCall && (
+          <button
+            onClick={Instruction}
+            className="w-full rounded-[10px] border-none bg-black py-3 text-[17px] font-[500] text-white outline-none"
+          >
+            Done
+          </button>
+        )}
       </motion.form>
     </motion.div>
   );
@@ -439,7 +444,7 @@ const ColorDialog = ({ img, colors, setcartDialog, slug }) => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       exit={{ opacity: 0 }}
-      className="flex-center fixed left-0 top-0 z-20 min-h-screen w-screen bg-[#00000066] px-5"
+      className="flex-center fixed left-0 top-0 z-50 min-h-screen w-screen bg-[#00000066] px-5"
     >
       <div className="relative flex min-h-[700px] w-full max-w-[1400px] rounded-[20px] bg-white px-7 massive:min-h-max ">
         <Cross clickFunc={() => setcartDialog(false)} />
