@@ -65,10 +65,6 @@ const ProductCardTemp = ({
     });
   }, [userData]);
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
   return (
     <div
       className={`relative ${smGrid ? "min-h-[415px]" : footer ? "min-h-[412px]" : "min-h-[550px]"} w-full

@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import LikeToPrint from "@/components/LikeToPrint";
 import BulkCalculator from "@/components/BulkCalculator";
 import SelectMaterial from "@/components/SelectMaterial";
@@ -7,18 +7,25 @@ import FileCapturer from "@/components/FileCapturer";
 import DateSelector from "@/components/DateSelector";
 import D_R_R from "@/components/D_R_R";
 import ProductPageFooter from "@/components/ProductPageFooter";
-import { bag, check, heart, share, star } from "@/Consonats";
+import { bag, check, heart, heartRed, share, star } from "@/Consonats";
 import { ContextCart } from "./Mainstate(cart)/Mainstatecart";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 } from "uuid";
+import { ContextStore } from "./Mainstate(store)/Mainstatestore";
+import { useRouter } from "next/navigation";
+import notificationCaller from "./NotificationCaller";
 
 function ProductShower({ product, products }) {
-  const { dispatch, cartState } = useContext(ContextCart);
+  const { dispatch } = useContext(ContextCart);
+  const { authToken, setuserData, userData, wishlistAdd, wishlistDele } =
+    useContext(ContextStore);
   const [selectedDate, setselectedDate] = useState(null);
-  console.log(cartState);
   const [amount, setamount] = useState(0);
   const [error, seterror] = useState(null);
+  const [InWhishlist, setInWhishlist] = useState(false);
+  const router = useRouter();
+
   const Addproduct = () => {
     if (amount < 1) {
       seterror("Please Select atleast one size.");
@@ -38,7 +45,7 @@ function ProductShower({ product, products }) {
           quant: amount,
           date: selectedDate,
           instruction: document.querySelector("#instr-prod").value,
-          customized: false,
+          customized: product?.customizable,
           slug: product?.slug,
         },
       });
@@ -74,12 +81,66 @@ function ProductShower({ product, products }) {
     return sizes;
   };
 
+  useEffect(() => {
+    userData?.wishlist.forEach((it) => {
+      if (it.slug === product?.slug) {
+        setInWhishlist(true);
+      }
+    });
+  }, [userData]);
+
+  const wishlistEdit = async () => {
+    if (!authToken) {
+      router.push("/login");
+    } else {
+      if (InWhishlist) {
+        setuserData((e) => {
+          const temp_wishlist = e.wishlist;
+          e.wishlist.forEach((it, index) => {
+            if (it.slug === product?.slug) {
+              temp_wishlist.splice(index, 1);
+            }
+          });
+          return { ...e, wishlist: temp_wishlist };
+        });
+        setInWhishlist(false);
+        const result = await wishlistDele(product?.slug);
+        notificationCaller(
+          result.success,
+          result.success ? "Item removed from the wishlist." : result.error,
+          toast,
+        );
+      } else {
+        setInWhishlist(true);
+        const wish = {
+          productName: product?.productName,
+          productImg: product?.productImg,
+          slug: product?.slug,
+          customizable: product?.customizable,
+        };
+        setuserData((e) => {
+          return { ...e, wishlist: [...e.wishlist, wish] };
+        });
+        const result = await wishlistAdd(wish);
+
+        notificationCaller(
+          result.success,
+          result.success ? "Item added to the wishlist." : result.error,
+          toast,
+        );
+      }
+    }
+  };
+
   return (
     <div className="w-full flex-1 flex-grow-[0.56] border-l border-[#E5E5E5] pt-20">
       <div className="flex w-full max-w-[31rem] flex-col gap-5 px-10">
         <div className="flex gap-2">
-          <div className="flex-center cursor-pointer rounded-[12px] border border-borderP px-2 py-2 [&_svg]:scale-[0.9]">
-            {heart}
+          <div
+            onClick={wishlistEdit}
+            className="flex-center cursor-pointer rounded-[12px] border border-borderP px-2 py-2 [&_svg]:scale-[0.9]"
+          >
+            {InWhishlist ? heartRed : heart}
           </div>
           <div className="flex-center cursor-pointer rounded-[12px] border border-borderP px-2 py-2 [&_svg]:scale-[0.9]">
             {share}
