@@ -18,6 +18,7 @@ export async function POST(req) {
   return Response.json({ success: true }, { status: 200 });
 }
 
+// -----------------------------------------Delete--------------------------------------------------------//
 export async function DELETE(req) {
   await ConnectDb();
   const headersList = headers();

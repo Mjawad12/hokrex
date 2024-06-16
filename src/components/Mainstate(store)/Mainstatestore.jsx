@@ -231,6 +231,31 @@ function Mainstatestore({ children }) {
 
   const Addreviews = async () => {};
 
+  const wishlistAdd = async (wish) => {
+    const data = await fetch(`${url}/api/wishlistEdit`, {
+      method: "POST",
+      cache: "no-cache",
+      body: JSON.stringify({
+        wish: wish,
+      }),
+      headers: { authToken: authToken || localStorage.getItem("authToken") },
+    });
+    const parsedData = await data.json();
+    return parsedData;
+  };
+  const wishlistDele = async (slug) => {
+    const data = await fetch(`${url}/api/wishlistEdit`, {
+      method: "DELETE",
+      cache: "no-cache",
+      body: JSON.stringify({
+        slug: slug,
+      }),
+      headers: { authToken: authToken || localStorage.getItem("authToken") },
+    });
+    const parsedData = await data.json();
+    return parsedData;
+  };
+
   useEffect(() => {
     console.log(authToken);
     authToken && !userData && getUserdata();
@@ -275,6 +300,8 @@ function Mainstatestore({ children }) {
         changePassword,
         paymentAdder,
         paymentDele,
+        wishlistAdd,
+        wishlistDele,
       }}
     >
       {children}

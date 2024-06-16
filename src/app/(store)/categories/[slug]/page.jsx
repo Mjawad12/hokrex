@@ -7,6 +7,9 @@ import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 // import ProductCard from "@/components/ProductCard";
 import ProductCardTemp from "@/components/ProductCardTemp";
 import LoadingCard from "@/components/LoadingCard";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import notificationCaller from "@/components/NotificationCaller";
 
 function page(slug) {
   const { getProducts, categoryProducts } = useContext(ContextStore);
@@ -414,9 +417,17 @@ function page(slug) {
       smGrid ? setshowingItems((e) => e - 12) : setshowingItems((e) => e - 9);
     }
   };
+  const notificationCall = (result, message) => {
+    notificationCaller(
+      result.success,
+      result.success ? message : result.error,
+      toast,
+    );
+  };
 
   return (
     <section className="min-h-[100vh] w-full">
+      <ToastContainer />
       <div className="flex flex-col gap-3">
         <TopBar
           liItems={liItems}
@@ -497,6 +508,8 @@ function page(slug) {
                         : (index + 2) % 3 === 0 && index !== 0
                     }
                     smGrid={smGrid}
+                    customizable={it.customizable}
+                    notificationCall={notificationCall}
                   />
                 ))
             : [1, 2, 3, 4, 5, 6, 7, 8, 9].map((it, index) => (
