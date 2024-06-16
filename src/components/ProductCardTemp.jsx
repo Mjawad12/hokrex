@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { heart } from "@/Consonats";
+import { heart, heartRed } from "@/Consonats";
 import Link from "next/link";
 const ProductCardTemp = ({
   name,
@@ -10,6 +10,7 @@ const ProductCardTemp = ({
   border,
   smGrid,
   footer,
+  wishlist,
 }) => {
   // "max-w-[371px]" : "max-w-[520px]"
   return (
@@ -28,7 +29,9 @@ const ProductCardTemp = ({
           >
             Customizable
           </span>
-          <span className="[&_svg]:hover:fill-pmRed">{heart}</span>
+          <span className="cursor-pointer [&_svg]:hover:fill-pmRed">
+            {wishlist ? heartRed : heart}
+          </span>
         </div>
         <div className="h-[75%] w-full overflow-hidden">
           <Image

@@ -19,6 +19,7 @@ const Schema = new mongoose.Schema({
     rating: Number,
     review: String,
   },
+  customizable: Boolean,
 });
 
 export default mongoose.models.Product || mongoose.model("Product", Schema);

@@ -22,13 +22,20 @@ function AccountNav() {
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full gap-5 font-[500] ">
-        <Link href="/account">Account</Link>
-        <span className="flex-center [&_svg]:w-[11px] [&_svg]:rotate-[-90deg]">
+        <Link
+          href="/account"
+          className="hover:underline hover:underline-offset-2"
+        >
+          Account
+        </Link>
+        <span className="flex-center [&_svg]:w-[11px] [&_svg]:rotate-[-90deg] ">
           {arrowDown}
         </span>
-        <p>{path}</p>
+        <p className="cursor-pointer hover:underline hover:underline-offset-2">
+          {path}
+        </p>
       </div>
-      <h1 className="text-[32px] font-[700]">{path}</h1>
+      <h1 className="text-[32px] font-[700] ">{path}</h1>
     </div>
   );
 }

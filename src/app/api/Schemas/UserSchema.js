@@ -38,6 +38,16 @@ const Schema = new mongoose.Schema({
       bankName: String,
     },
   },
+  wishlist: {
+    type: Array,
+    wish: {
+      type: Object,
+      productName: String,
+      productImg: String,
+      slug: { type: String },
+      customizable: Boolean,
+    },
+  },
   verification: { type: Boolean, default: false },
   otp: Number,
 });
