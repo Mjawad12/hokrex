@@ -142,7 +142,21 @@ function ProductShower({ product, products }) {
           >
             {InWhishlist ? heartRed : heart}
           </div>
-          <div className="flex-center cursor-pointer rounded-[12px] border border-borderP px-2 py-2 [&_svg]:scale-[0.9]">
+          <div
+            onClick={() => {
+              navigator.clipboard?.writeText(location.href);
+              notificationCaller(true, "Link copied to clipboard!", toast);
+              const data = {
+                title: `PrintODS - ${product.productName}`,
+                text: product.productHeading,
+                url: location.href,
+                file: [],
+              };
+              window.navigator?.share(data);
+              notificationCaller(true, "Sharing...", toast);
+            }}
+            className="flex-center cursor-pointer rounded-[12px] border border-borderP px-2 py-2 [&_svg]:scale-[0.9]"
+          >
             {share}
           </div>
         </div>
