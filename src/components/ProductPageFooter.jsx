@@ -3,6 +3,8 @@ import React, { useContext, useEffect } from "react";
 
 import ProductCardTemp from "./ProductCardTemp";
 import { ContextStore } from "./Mainstate(store)/Mainstatestore";
+import { toast } from "react-toastify";
+import notificationCaller from "./NotificationCaller";
 
 function ProductPageFooter() {
   const { categoryProducts, getProducts } = useContext(ContextStore);
@@ -24,6 +26,13 @@ function ProductPageFooter() {
             border={index % 2 === 0}
             smGrid={false}
             footer={true}
+            notificationCall={(result, message) => {
+              notificationCaller(
+                result.success,
+                result.success ? message : result.error,
+                toast,
+              );
+            }}
           />
         ))}
       </div>
