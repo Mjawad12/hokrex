@@ -19,6 +19,7 @@ const Schema = new mongoose.Schema({
       unpaidAmount: Number,
       unpaidAmount: Number,
       product: Number,
+      deliveryDate: String,
     },
   },
   Date: {

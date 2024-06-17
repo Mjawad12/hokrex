@@ -1,5 +1,5 @@
 "use client";
-import { addicon } from "@/Consonats";
+import { addicon, bigArrowLeft, cross, redCross } from "@/Consonats";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { ContextAdmin } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import Image from "next/image";
@@ -23,10 +23,13 @@ const ProductFrom = () => {
   const price = useRef(null);
   const category = useRef(null);
   const description = useRef(null);
+  const salePercent = useRef(null);
   const [currentfile, setcurrentfile] = useState(null);
   const [error, seterror] = useState(null);
   const [added, setadded] = useState(false);
   const [selectedsizes, setselectedsizes] = useState([]);
+  const [customizable, setcustomizable] = useState(false);
+  const [materials, setmaterials] = useState([]);
 
   const liItems = [
     "Brand Appeal",
@@ -79,6 +82,9 @@ const ProductFrom = () => {
           price.current.value,
           colors,
           selectedsizes,
+          customizable,
+          salePercent.current.value,
+          materials,
         ).catch((err) => seterror("An error occured"));
         setadded(true);
         form.current.lastChild.disabled = false;
@@ -218,31 +224,114 @@ const ProductFrom = () => {
               ))}
             </select>
           </div>
-          <div className="flex w-full flex-col ">
-            <p
-              htmlFor="price"
-              className="mb-2 text-lg font-medium text-gray-900 "
-            >
-              Sizes
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {sizes.map((it, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    let currentSizes = selectedsizes;
-                    if (selectedsizes.includes(it)) {
-                      currentSizes = currentSizes.filter((ele) => ele != it);
-                      console.log(currentSizes);
-                    } else {
-                      currentSizes.push(it);
-                    }
-                    setselectedsizes(currentSizes);
-                  }}
-                >
-                  <CustomCheckbox text={it} admin={true} />
+          <div className="flex flex-col gap-5">
+            <div className="flex w-full flex-col ">
+              <p
+                htmlFor="price"
+                className="mb-2 text-lg font-medium text-gray-900 "
+              >
+                Sizes
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {sizes.map((it, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      let currentSizes = selectedsizes;
+                      if (selectedsizes.includes(it)) {
+                        currentSizes = currentSizes.filter((ele) => ele != it);
+                        console.log(currentSizes);
+                      } else {
+                        currentSizes.push(it);
+                      }
+                      setselectedsizes(currentSizes);
+                    }}
+                  >
+                    <CustomCheckbox text={it} admin={true} />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p
+                htmlFor="price"
+                className="mb-2 text-lg font-medium text-gray-900 "
+              >
+                Customizable
+              </p>
+              <CustomCheckbox
+                text={"Customizable"}
+                setOuter={setcustomizable}
+              />
+            </div>
+            <div className="">
+              <p
+                htmlFor="price"
+                className="mb-2 text-lg font-medium text-gray-900 "
+              >
+                Materials
+              </p>
+              <div className="flex flex-wrap items-center gap-3 ">
+                {materials.length > 0 &&
+                  materials.map((it, index) => (
+                    <span
+                      key={index}
+                      className="relative w-max min-w-[100px] rounded-[10px] border border-pmGray bg-white py-1 text-center text-[15px] font-[700]"
+                    >
+                      <span
+                        onClick={() => {
+                          let tempMat = materials;
+                          tempMat.splice(index, 1);
+                          setmaterials([...tempMat]);
+                        }}
+                        className="absolute -right-2 -top-2 z-20 cursor-pointer"
+                      >
+                        {redCross}
+                      </span>
+                      {it}
+                    </span>
+                  ))}
+                <div className="flex gap-1 rounded-[10px] border border-pmGray bg-white px-3 py-2">
+                  <input
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        setmaterials([...materials, e.target.value]);
+                        e.target.value = "";
+                      }
+                    }}
+                    maxLength={20}
+                    className="w-full max-w-[140px] bg-transparent px-1 text-[14px] font-[500] outline-none"
+                  />
+                  <span
+                    onClick={(e) => {
+                      setmaterials([
+                        ...materials,
+                        e.target.previousElementSibling.value,
+                      ]);
+                      e.target.previousElementSibling.value = "";
+                    }}
+                    className="cursor-pointer rounded-full bg-[#12CC46] p-0.5 [&_svg]:pointer-events-none [&_svg]:h-[20px] [&_svg]:w-[20px] [&_svg]:rotate-180 [&_svg]:stroke-white"
+                  >
+                    {bigArrowLeft}
+                  </span>
                 </div>
-              ))}
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="name"
+                className="mb-2 block text-lg font-medium text-gray-900 "
+              >
+                Sale Percent
+              </label>
+              <input
+                type="number"
+                id="name"
+                className="checkoutInput hover:shadow-xl "
+                placeholder="Percent off on Product"
+                required={true}
+              />
             </div>
           </div>
           <ColorsPalet />
