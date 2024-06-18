@@ -211,7 +211,7 @@ function ProductShower({ product, products }) {
             price={product?.productPrice}
             salePercent={product?.salePercent}
           />
-          <SelectMaterial />
+          <SelectMaterial materials={product?.materials || []} />
           <input
             type="text"
             className="w-full rounded-[0.8rem] border border-borderP px-5 py-3 text-[18px] font-[500] outline-none hover:border-black"

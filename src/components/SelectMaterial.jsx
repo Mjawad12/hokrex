@@ -3,7 +3,7 @@ import { arrowDown } from "@/Consonats";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useAnimate } from "framer-motion";
 
-function SelectMaterial() {
+function SelectMaterial({ materials }) {
   const [open, setopen] = useState(false);
   const [scope, animate] = useAnimate();
   const slider = useRef(null);
@@ -22,13 +22,13 @@ function SelectMaterial() {
       animate(
         scope.current,
         { height: 50 },
-        { duration: 0.5, ease: "easeInOut" }
+        { duration: 0.5, ease: "easeInOut" },
       );
     !open &&
       animate(
         scope.current,
         { height: scope.current.scrollHeight + "px" },
-        { duration: 0.5, ease: "easeInOut" }
+        { duration: 0.5, ease: "easeInOut" },
       );
     setopen(!open);
   };
@@ -39,13 +39,13 @@ function SelectMaterial() {
       initial={{
         height: 50,
       }}
-      className="w-full bg-[#F9F9F9] px-5 py-3 rounded-[12px] overflow-hidden "
+      className="w-full overflow-hidden rounded-[12px] bg-[#F9F9F9] px-5 py-3 "
     >
       <div
         onClick={opener}
-        className="flex justify-between items-center cursor-pointer"
+        className="flex cursor-pointer items-center justify-between"
       >
-        <p className="font-[600] text-[18px]">Select Material</p>
+        <p className="text-[18px] font-[600]">Select Material</p>
         <div
           className={`[&_svg]:w-[16px] ${
             open ? "rotate-[180deg]" : "rotate-0"
@@ -54,6 +54,7 @@ function SelectMaterial() {
           {arrowDown}
         </div>
       </div>
+      {materials.map((it) => {})}
     </motion.div>
   );
 }

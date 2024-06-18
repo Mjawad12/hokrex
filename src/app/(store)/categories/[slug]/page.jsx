@@ -13,6 +13,7 @@ import notificationCaller from "@/components/NotificationCaller";
 
 function page(slug) {
   const { getProducts, categoryProducts } = useContext(ContextStore);
+  const [products, setproducts] = useState([]);
   const [selectedOption, setselectedOption] = useState("Default Sorting");
   const [smGrid, setsmGrid] = useState(false);
   const [PageState, setPageState] = useState(1);
@@ -44,366 +45,6 @@ function page(slug) {
     getProducts(NameGetter());
   }, []);
 
-  const products = [
-    {
-      productColors: [],
-      productSizes: [],
-      _id: "662009b4d9edf8c7e70e6187",
-      productName: "Black Shirt",
-      productPrice: 80,
-      productCategory: "Brand Appeal",
-      productDescription:
-        "Our black shirt is made from premium cotton fabric, offering exceptional comfort and breathability. Its timeless black color pairs effortlessly with any bottoms, while its tailored fit ensures a polished look. Whether you're dressing up for a night out or keeping it casual for brunch, our black shirt is the perfect choice.",
-      productHeading:
-        "Elevate your wardrobe with our sleek black shirt, a versatile essentia",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713375666/z2hgmsp2vtrpsz3hxhst.jpg",
-      __v: 0,
-      slug: "black-shirt",
-    },
-    {
-      productColors: [],
-      productSizes: [],
-      _id: "66200a37d9edf8c7e70e618f",
-      productName: "Winter Cap",
-      productPrice: 58,
-      productCategory: "Brand Appeal",
-      productDescription:
-        "Our winter cap is made from soft, insulating materials to keep you warm during the coldest months. Its classic design features ear flaps for extra protection, while its adjustable chin strap ensures a secure fit. Whether you're hitting the slopes or shoveling snow in the driveway, our winter cap will keep you cozy and stylish all season long.",
-      productHeading:
-        "Beat the cold in style with our cozy winter cap, designed for warmth a",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713375799/tdjuur5crcvmdjcnmnbi.jpg",
-      __v: 0,
-      slug: "winter-cap",
-    },
-    {
-      _id: "662139c849e9a9792eb6b1eb",
-      productName: "Half Sleeve Shirt",
-      productPrice: 155,
-      productCategory: "Brand Appeal",
-      productDescription:
-        "Our white half sleeve shirt is made from premium cotton fabric, offering superior comfort and breathability. Its classic design features a tailored fit and a versatile half sleeve length, making it ideal for both casual and formal occasions. Whether you're heading to the office or meeting friends for dinner, our white shirt will keep you looking sharp and stylish.",
-      productHeading:
-        "Add a touch of sophistication to your wardrobe with our crisp white ha",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713453506/xayv4wl2tkfdvbjbbzss.jpg",
-      productColors: [
-        "rgb(255, 10, 10)",
-        "rgb(189, 16, 224)",
-        "rgb(248, 231, 28)",
-        "rgb(0, 0, 0)",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      __v: 0,
-      slug: "half-sleeve-shirt",
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-    {
-      _id: "662156e1ea8ea041afab8f24",
-      productName: "test",
-      productPrice: 250,
-      productCategory: "Brand Appeal",
-      productDescription: "testasdasdasd",
-      productHeading: "test product",
-      productImg:
-        "http://res.cloudinary.com/dsqtzewyx/image/upload/v1713460960/b2mdzwcxqqpoyohutogq.jpg",
-      productColors: [
-        "rgb(255, 42, 42)",
-        "rgb(2, 2, 2)",
-        "rgb(65, 17, 17)",
-        "",
-      ],
-      productSizes: ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"],
-      slug: "test",
-      __v: 0,
-    },
-  ];
-
   const pageAdder = () => {
     if (categoryProducts) {
       setPageState((e) => e + 1);
@@ -424,6 +65,44 @@ function page(slug) {
       toast,
     );
   };
+
+  useEffect(() => {
+    if (categoryProducts) {
+      if (selectedOption === "Default Sorting") {
+        setproducts([...categoryProducts]);
+      } else if (selectedOption === "Low to High") {
+        let tempProducts = [...categoryProducts];
+        let tempVal;
+        for (let k = 0; k < tempProducts.length; k++) {
+          for (let i = 0; i < tempProducts.length; i++) {
+            if (
+              tempProducts[i].productPrice > tempProducts[i + 1]?.productPrice
+            ) {
+              tempVal = tempProducts[i + 1];
+              tempProducts[i + 1] = tempProducts[i];
+              tempProducts[i] = tempVal;
+            }
+          }
+        }
+        setproducts([...tempProducts]);
+      } else if (selectedOption === "High to Low") {
+        let tempProducts = [...categoryProducts];
+        let tempVal;
+        for (let k = 0; k < tempProducts.length; k++) {
+          for (let i = 0; i < tempProducts.length; i++) {
+            if (
+              tempProducts[i].productPrice < tempProducts[i + 1]?.productPrice
+            ) {
+              tempVal = tempProducts[i + 1];
+              tempProducts[i + 1] = tempProducts[i];
+              tempProducts[i] = tempVal;
+            }
+          }
+        }
+        setproducts([...tempProducts]);
+      }
+    }
+  }, [selectedOption, categoryProducts]);
 
   return (
     <section className="min-h-[100vh] w-full">
@@ -494,7 +173,7 @@ function page(slug) {
           className={`grid ${smGrid ? "grid-cols-4" : "grid-cols-3"} mt-3 px-10`}
         >
           {categoryProducts
-            ? categoryProducts
+            ? products
                 ?.slice(showingItems - (smGrid ? 12 : 9), showingItems)
                 .map((it, index) => (
                   <ProductCardTemp

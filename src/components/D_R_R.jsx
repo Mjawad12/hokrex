@@ -1,6 +1,6 @@
 "use client";
 import { arrowDown, starBlack } from "@/Consonats";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 
@@ -85,6 +85,8 @@ const OpnerCompoent = ({ text, children }) => {
 
 const Review = ({ name, date, review, rating }) => {
   const [full, setfull] = useState(false);
+  let arr = [];
+  arr.length = rating.tofixed(0);
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full items-start justify-between">
@@ -98,18 +100,19 @@ const Review = ({ name, date, review, rating }) => {
           </div>
         </div>
         <div className="flex-center gap-1 [&_svg]:w-[15px]">
-          {starBlack}
-          {starBlack}
-          {starBlack}
-          {starBlack}
-          {starBlack}
+          {arr.map((it, index) => (
+            <Fragment key={index}>{starBlack}</Fragment>
+          ))}
         </div>
       </div>
       <p className="mt-4 text-[17px] font-[400]">
         {full ? review : review.slice(0, 300) + "..."}
       </p>
-      <span className="mt-3 text-[18px] font-[600] underline underline-offset-4">
-        More
+      <span
+        onClick={() => setfull(!full)}
+        className="mt-3 text-[18px] font-[600] underline underline-offset-4"
+      >
+        {full ? "Less" : "More"}
       </span>
     </div>
   );
