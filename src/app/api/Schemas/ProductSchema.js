@@ -18,6 +18,7 @@ const Schema = new mongoose.Schema({
     email: String,
     rating: Number,
     review: String,
+    date: { type: String, default: new Date().toISOString() },
   },
   customizable: Boolean,
   salePercent: Number,

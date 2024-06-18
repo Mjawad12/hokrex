@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import notificationCaller from "./NotificationCaller";
 
 function ProductShower({ product, products }) {
+  console.log(product);
   const { dispatch } = useContext(ContextCart);
   const { authToken, setuserData, userData, wishlistAdd, wishlistDele } =
     useContext(ContextStore);
@@ -175,24 +176,27 @@ function ProductShower({ product, products }) {
         <div className="flex flex-col gap-3">
           <p className="text-[22px] font-[700]">Quick Colors</p>
           <div className="flex w-full max-w-[23rem] flex-wrap gap-2 gap-y-3">
-            {product?.productColors?.map((it, key) => (
-              <div
-                key={key}
-                style={{
-                  background: it,
-                  boxShadow: "0px 0px 12px -5px black",
-                }}
-                className={`flex-center h-7 w-7 cursor-pointer rounded-full [&_span]:hidden [&_span]:hover:flex`}
-              >
-                <span
-                  className={`transition-all duration-500 ${
-                    it === "#FFFFFF" ? "[&_svg]:stroke-black" : ""
-                  }`}
-                >
-                  {check}
-                </span>
-              </div>
-            ))}
+            {product?.productColors?.map(
+              (it, key) =>
+                it !== "" && (
+                  <div
+                    key={key}
+                    style={{
+                      background: it,
+                      boxShadow: "0px 0px 12px -5px black",
+                    }}
+                    className={`flex-center h-7 w-7 cursor-pointer rounded-full [&_span]:hidden [&_span]:hover:flex`}
+                  >
+                    <span
+                      className={`transition-all duration-500 ${
+                        it === "#FFFFFF" ? "[&_svg]:stroke-black" : ""
+                      }`}
+                    >
+                      {check}
+                    </span>
+                  </div>
+                ),
+            )}
           </div>
         </div>
         <LikeToPrint
@@ -203,7 +207,10 @@ function ProductShower({ product, products }) {
           seterror={seterror}
         />
         <div className="mt-16 flex flex-col gap-4">
-          <BulkCalculator price={product?.productPrice} />
+          <BulkCalculator
+            price={product?.productPrice}
+            salePercent={product?.salePercent}
+          />
           <SelectMaterial />
           <input
             type="text"
@@ -239,7 +246,10 @@ function ProductShower({ product, products }) {
       <div className="">
         <ToastContainer />
       </div>
-      <D_R_R description={product?.productDescription} />
+      <D_R_R
+        description={product?.productDescription}
+        reviews={product?.reviews}
+      />
       <ProductPageFooter products={products} />
     </div>
   );

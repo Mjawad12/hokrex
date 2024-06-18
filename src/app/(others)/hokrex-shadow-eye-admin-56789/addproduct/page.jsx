@@ -326,6 +326,7 @@ const ProductFrom = () => {
                 Sale Percent
               </label>
               <input
+                ref={salePercent}
                 type="number"
                 id="name"
                 className="checkoutInput hover:shadow-xl "

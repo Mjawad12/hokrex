@@ -3,7 +3,7 @@ import { arrowDown } from "@/Consonats";
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useAnimate } from "framer-motion";
 
-function BulkCalculator({ price }) {
+function BulkCalculator({ price, salePercent }) {
   const [open, setopen] = useState(false);
   const [scope, animate] = useAnimate();
   const slider = useRef(null);
@@ -80,10 +80,13 @@ function BulkCalculator({ price }) {
           <p className="text-[16px] font-[600]">
             Disconted Price :{" "}
             <span className="font-[700]">
-              ${(value * price - value * price * (9 / 100)).toFixed(2)}
+              $
+              {(value * price - value * price * (+salePercent / 100)).toFixed(
+                2,
+              )}
             </span>
           </p>
-          <p className="text-[16px] font-[600]">9%OFF</p>
+          <p className="text-[16px] font-[600]">{salePercent}%OFF</p>
         </div>
       </div>
     </motion.div>
