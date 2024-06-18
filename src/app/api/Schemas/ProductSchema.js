@@ -23,6 +23,7 @@ const Schema = new mongoose.Schema({
   customizable: Boolean,
   salePercent: Number,
   Materials: Array,
+  sideImages: Array,
 });
 
 export default mongoose.models.Product || mongoose.model("Product", Schema);

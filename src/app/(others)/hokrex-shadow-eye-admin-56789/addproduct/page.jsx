@@ -1,11 +1,12 @@
 "use client";
-import { addicon, bigArrowLeft, cross, redCross } from "@/Consonats";
+import { addicon, bigArrowLeft, redCross, uploadImg } from "@/Consonats";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { ContextAdmin } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import Image from "next/image";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SketchPicker } from "react-color";
-
+import rgbHex from "rgb-hex";
+import { useDropzone } from "react-dropzone";
 function page() {
   return (
     <div className="min-h-screen w-full bg-hoverC px-5">
@@ -30,6 +31,7 @@ const ProductFrom = () => {
   const [selectedsizes, setselectedsizes] = useState([]);
   const [customizable, setcustomizable] = useState(false);
   const [materials, setmaterials] = useState([]);
+  const [SideImages, setSideImages] = useState([]);
 
   const liItems = [
     "Brand Appeal",
@@ -58,7 +60,14 @@ const ProductFrom = () => {
     const parsedData = await data.json();
     return parsedData.url;
   };
-
+  const uploadMultiple = async () => {
+    let sideImagesUrl = [];
+    for (let i = 0; i < SideImages.length; i++) {
+      const url = await Upload(SideImages[i]);
+      sideImagesUrl = [...sideImagesUrl, url];
+    }
+    return sideImagesUrl;
+  };
   const addProductFunc = async (e) => {
     if (form.current.checkValidity()) {
       if (selectedsizes.length < 1) {
@@ -69,6 +78,7 @@ const ProductFrom = () => {
         form.current.lastChild.disabled = true;
         seterror(null);
         const url = await Upload(currentfile);
+        let sideImagesUrl = await uploadMultiple();
         let colors = [];
         document.querySelectorAll("#clr-d-s").forEach((it) => {
           colors.push(it.style.backgroundColor);
@@ -85,6 +95,7 @@ const ProductFrom = () => {
           customizable,
           salePercent.current.value,
           materials,
+          sideImagesUrl,
         ).catch((err) => seterror("An error occured"));
         setadded(true);
         form.current.lastChild.disabled = false;
@@ -93,6 +104,23 @@ const ProductFrom = () => {
   };
 
   const sizes = ["XS", "SM", "MD", "LG", "XL", "2XL", "3XL"];
+
+  const urlCreator = (file) => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      return url;
+    }
+  };
+  const imageGiverFunc = (id, e, index) => {
+    const Selectedimg = document.querySelector(id);
+
+    Selectedimg.parentElement.childNodes.forEach((it) =>
+      it.classList.add("hidden"),
+    );
+    Selectedimg.src = urlCreator(e.target.files[0]);
+    setSideImages([...SideImages, e.target.files[0]]);
+    Selectedimg.classList.remove("hidden");
+  };
 
   return added ? (
     <div className="flex-center min-h-screen w-full">
@@ -351,6 +379,28 @@ const ProductFrom = () => {
               placeholder="Your description here"
             ></textarea>
           </div>
+          <div className="col-span-2 flex flex-col gap-4">
+            <label
+              htmlFor="description"
+              className="mb-2 block text-lg font-medium text-gray-900 "
+            >
+              Side Images
+            </label>
+            <div className="flex w-full gap-3">
+              {[0, 1, 2, 3, 4, 5].map((it, index) => {
+                return (
+                  <FileInput
+                    key={index}
+                    height={10}
+                    width={12}
+                    id={`shopimages-${index}`}
+                    imageGiverFunc={imageGiverFunc}
+                    fotP={true}
+                  />
+                );
+              })}
+            </div>
+          </div>
           <div className="col-span-2">
             <div className="flex w-full items-center justify-center">
               <label
@@ -432,8 +482,9 @@ const ColorsPalet = () => {
         <SketchPicker
           color={currentColor}
           onChange={(e) => {
-            setcurrentColor(e.hex);
-            document.querySelectorAll("#clr-d-s")[sC].style.background = e.hex;
+            const clr = "#" + rgbHex(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb.a);
+            setcurrentColor(clr);
+            document.querySelectorAll("#clr-d-s")[sC].style.background = clr;
           }}
         />
         <div className="flex h-[4rem] w-full max-w-[17rem] flex-wrap items-start justify-start gap-4">
@@ -459,6 +510,47 @@ const ColorsPalet = () => {
           )}
         </div>
       </div>
+    </div>
+  );
+};
+
+const FileInput = ({ id, imageGiverFunc, width, height, inputFunc, fotP }) => {
+  const onDrop = (acceptedFiles) => {
+    const fileInput = document.querySelector(`#${id}`);
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(acceptedFiles[0]);
+    fileInput.files = dataTransfer.files;
+    fileInput.dispatchEvent(
+      new Event("input", {
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  return (
+    <div
+      {...getRootProps()}
+      style={{ height: height + "rem" }}
+      className={`rounded-[20px] border border-black max-w-[${width}rem] relative  flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden`}
+    >
+      <img src="" className="hidden w-full max-w-[11rem]" id={id + "img"} />
+      <input
+        onInput={(e) => {
+          imageGiverFunc("#" + id + "img", e);
+          inputFunc && inputFunc();
+        }}
+        type="file"
+        accept="image/*"
+        className={`hidden w-full ${fotP ? "shopImages" : ""}`}
+        id={id}
+        {...getInputProps()}
+      />
+      {uploadImg}
+      <p className="formp font-med underline underline-offset-4">
+        {isDragActive ? "Drop Now" : fotP ? "Add Image" : "Drag & Upload"}
+      </p>
     </div>
   );
 };

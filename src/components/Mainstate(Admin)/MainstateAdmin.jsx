@@ -28,6 +28,7 @@ function MainstateAdmin({ children }) {
     customizable,
     salePercent,
     Materials,
+    sideImagesUrl,
   ) => {
     const data = await fetch(`${url}/api/addproduct`, {
       method: "POST",
@@ -43,6 +44,7 @@ function MainstateAdmin({ children }) {
         customizable: customizable,
         salePercent: salePercent,
         Materials: Materials,
+        sideImages: sideImagesUrl,
       }),
     });
     const parsedData = await data.json();

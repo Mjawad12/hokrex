@@ -19,6 +19,7 @@ export async function POST(req) {
       customizable: body.customizable,
       salePercent: body.salePercent,
       Materials: body.Materials,
+      sideImages: body.sideImages,
     });
     return Response.json({ success: true, product }, { status: 200 });
   } catch (error) {
