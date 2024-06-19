@@ -7,45 +7,41 @@ import { Icons, logo } from "@/Consonats";
 import { ContextAdmin } from "../Mainstate(Admin)/MainstateAdmin";
 
 function SideBar2() {
-  const { approved } = useContext(ContextAdmin);
   const [selected, setselected] = useState(0);
   const [scope, animate] = useAnimate();
 
   useEffect(() => {
-    approved &&
-      animate("li", { x: 0, opacity: 1 }, { duration: 1, delay: stagger(0.2) });
-  }, [approved]);
+    animate("li", { x: 0, opacity: 1 }, { duration: 1, delay: stagger(0.2) });
+  }, []);
 
   return (
-    approved && (
-      <div className="flex min-h-screen w-full  max-w-[300px] select-none flex-col items-center justify-start gap-20 bg-white px-[0.5rem] py-[2rem]">
-        <motion.div
-          animate={{ y: 0, opacity: 1 }}
-          initial={{ y: 50, opacity: 0 }}
-          className="flex items-center justify-center gap-1"
-        >
-          <div className="flex h-[3rem] w-[3rem] items-center justify-center overflow-hidden rounded-full">
-            <div className="flex h-10 w-10 items-center justify-center rounded-[0.7rem] border-[0.5px] border-gray-500">
-              {logo}
-            </div>
+    <div className="flex min-h-screen w-full  max-w-[300px] select-none flex-col items-center justify-start gap-20 bg-white px-[0.5rem] py-[2rem]">
+      <motion.div
+        animate={{ y: 0, opacity: 1 }}
+        initial={{ y: 50, opacity: 0 }}
+        className="flex items-center justify-center gap-1"
+      >
+        <div className="flex h-[3rem] w-[3rem] items-center justify-center overflow-hidden rounded-full">
+          <div className="flex h-10 w-10 items-center justify-center rounded-[0.7rem] border-[0.5px] border-gray-500">
+            {logo}
           </div>
-          <h1 className="text-4xl font-[500]">Hokrex</h1>
-        </motion.div>
-        <motion.ul ref={scope} className="w-full max-w-[250px] ">
-          {Icons.map((it, index) => (
-            <Navitem
-              name={it.name}
-              svg={it.svg}
-              key={index}
-              ind={index}
-              selected={selected}
-              setselected={setselected}
-              slug={it.slug}
-            />
-          ))}
-        </motion.ul>
-      </div>
-    )
+        </div>
+        <h1 className="text-4xl font-[500]">Hokrex</h1>
+      </motion.div>
+      <motion.ul ref={scope} className="w-full max-w-[250px] ">
+        {Icons.map((it, index) => (
+          <Navitem
+            name={it.name}
+            svg={it.svg}
+            key={index}
+            ind={index}
+            selected={selected}
+            setselected={setselected}
+            slug={it.slug}
+          />
+        ))}
+      </motion.ul>
+    </div>
   );
 }
 

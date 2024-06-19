@@ -4,8 +4,23 @@ import { ContextAdmin } from "../Mainstate(Admin)/MainstateAdmin";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import notificationCaller from "../NotificationCaller";
+import SideBar2 from "./Sidebar";
 
-function Signin() {
+function MainAdmin({ children }) {
+  const { approved } = useContext(ContextAdmin);
+  return !approved ? (
+    <Signin />
+  ) : (
+    <>
+      <SideBar2 />
+      {children}
+    </>
+  );
+}
+
+export default MainAdmin;
+
+const Signin = () => {
   const { setapproved } = useContext(ContextAdmin);
   const formRef = useRef(null);
   const username = useRef(null);
@@ -90,6 +105,4 @@ function Signin() {
       </section>
     </div>
   );
-}
-
-export default Signin;
+};

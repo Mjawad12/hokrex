@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "../../globals.css";
 import MainstateAdmin from "@/components/Mainstate(Admin)/MainstateAdmin";
-import SideBar2 from "@/components/Admin/Sidebar";
+import MainAdmin from "@/components/Admin/Main";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,8 +16,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <div className="flex w-full ">
           <MainstateAdmin>
-            <SideBar2 />
-            {children}
+            <MainAdmin children={children} />
           </MainstateAdmin>
         </div>
       </body>
