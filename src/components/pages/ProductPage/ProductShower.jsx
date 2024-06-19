@@ -8,13 +8,13 @@ import DateSelector from "@/components/DateSelector";
 import D_R_R from "@/components/D_R_R";
 import ProductPageFooter from "@/components/ProductPageFooter";
 import { bag, check, heart, heartRed, share, star } from "@/Consonats";
-import { ContextCart } from "./Mainstate(cart)/Mainstatecart";
+import { ContextCart } from "../../Mainstate(cart)/Mainstatecart";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 } from "uuid";
-import { ContextStore } from "./Mainstate(store)/Mainstatestore";
+import { ContextStore } from "../../Mainstate(store)/Mainstatestore";
 import { useRouter } from "next/navigation";
-import notificationCaller from "./NotificationCaller";
+import notificationCaller from "../../NotificationCaller";
 
 function ProductShower({ product, products }) {
   console.log(product);

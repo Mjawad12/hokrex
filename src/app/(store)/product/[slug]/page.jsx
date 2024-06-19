@@ -1,11 +1,8 @@
-import TopNavigator from "@/components/TopNavigator";
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { customizeIcon } from "@/Consonats";
-import ProductShower from "@/components/ProductShower";
+import ProductShower from "@/components/pages/ProductPage/ProductShower";
 import { TopBar } from "../../categories/[slug]/page";
 import { redirect } from "next/navigation";
+import ProductImageShower from "@/components/pages/ProductPage/ProductImageShower";
 export const dynamic = "force-dynamic";
 
 async function page({ params }) {
@@ -17,7 +14,6 @@ async function page({ params }) {
 
   const parsedData = await data.json();
   !parsedData.success && redirect("/categories/All");
-  const similarImages = [1, 2, 3, 4, 5, 6];
   const liItems = [
     { name: "All", slug: "/categories/All" },
     { name: "Brand Appeal", slug: "/categories/brand-appeal" },
@@ -38,37 +34,7 @@ async function page({ params }) {
         sticky={false}
       />
       <div className="relative flex justify-center gap-10 px-10 pb-0 pr-0">
-        <div className="sticky top-0 flex  h-[520px] flex-1 flex-grow-[0.5] items-start py-20 ">
-          <div className="flex flex-col gap-5">
-            {similarImages.map((it) => (
-              <div className="border border-borderP">
-                <Image
-                  key={it}
-                  width={60}
-                  height={60}
-                  alt="More images"
-                  src={"/TestImg2.jpg"}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="flex w-full flex-col items-center justify-start ">
-            <Image
-              src={parsedData.product?.productImg}
-              alt="shirt image"
-              width={500}
-              height={500}
-            />
-            <Link
-              href={"/customize/1"}
-              className={`flex-center cust-btn mt-6 w-[22rem] rounded-[0.75rem] py-[0.9px] hover:shadow-lg`}
-            >
-              <button className="flex-center flex w-[21.9rem] gap-2 rounded-[0.7rem] bg-white py-2 text-[18px] font-[500] ">
-                {customizeIcon} Customize
-              </button>
-            </Link>
-          </div>
-        </div>
+        <ProductImageShower parsedData={parsedData} />
         <ProductShower product={parsedData.product} />
       </div>
     </div>
