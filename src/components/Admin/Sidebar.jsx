@@ -1,100 +1,88 @@
-import React from "react";
-import { logo } from "@/Consonats";
+"use client";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-function Sidebar() {
+import { motion, stagger, useAnimate } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { Icons, logo } from "@/Consonats";
+import { ContextAdmin } from "../Mainstate(Admin)/MainstateAdmin";
+
+function SideBar2() {
+  const { approved } = useContext(ContextAdmin);
+  const [selected, setselected] = useState(0);
+  const [scope, animate] = useAnimate();
+
+  useEffect(() => {
+    approved &&
+      animate("li", { x: 0, opacity: 1 }, { duration: 1, delay: stagger(0.2) });
+  }, [approved]);
+
   return (
-    <div className="w-[400px] sm:relative bg-adminBlueDark shadow md:h-full flex-col justify-between  sm:flex min-h-screen">
-      <div className="px-8">
-        <div className="w-full flex flex-col items-center pt-10 gap-2">
-          <Link
-            href={"/"}
-            className="flex-1 flex-grow-[0.1] flex justify-center items-center gap-2"
-          >
-            <div className="w-10 h-10 flex justify-center items-center border-gray-500 border-[0.5px] rounded-[0.7rem]  ">
+    approved && (
+      <div className="flex min-h-screen w-full  max-w-[300px] select-none flex-col items-center justify-start gap-20 bg-white px-[0.5rem] py-[2rem]">
+        <motion.div
+          animate={{ y: 0, opacity: 1 }}
+          initial={{ y: 50, opacity: 0 }}
+          className="flex items-center justify-center gap-1"
+        >
+          <div className="flex h-[3rem] w-[3rem] items-center justify-center overflow-hidden rounded-full">
+            <div className="flex h-10 w-10 items-center justify-center rounded-[0.7rem] border-[0.5px] border-gray-500">
               {logo}
             </div>
-            <h1 className="text-4xl font-[500] text-white">Hokrex</h1>
-          </Link>
-          <h1 className="text-[16px] text-gray-300">Admin Panel</h1>
-        </div>
-        <ul className="mt-12">
-          <li className="flex w-full justify-between text-gray-300 cursor-pointer items-center mb-6">
-            <a
-              href="/hokrex-shadow-eye-admin-56789/"
-              className="flex items-center focus:outline-none focus:ring-2 focus:ring-white"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-grid"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z"></path>
-                <rect x="4" y="4" width="6" height="6" rx="1"></rect>
-                <rect x="14" y="4" width="6" height="6" rx="1"></rect>
-                <rect x="4" y="14" width="6" height="6" rx="1"></rect>
-                <rect x="14" y="14" width="6" height="6" rx="1"></rect>
-              </svg>
-              <span className="text-sm ml-2">Products</span>
-            </a>
-          </li>
-          <li className="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-            <a
-              href="/hokrex-shadow-eye-admin-56789/addproduct"
-              className="flex items-center focus:outline-none focus:ring-2 focus:ring-white"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-puzzle"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z"></path>
-                <path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"></path>
-              </svg>
-              <span className="text-sm ml-2">Add Products</span>
-            </a>
-          </li>
-          <li className="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-            <a
-              href="/hokrex-shadow-eye-admin-56789/orders"
-              className="flex items-center focus:outline-none focus:ring-2 focus:ring-white"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-compass"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z"></path>
-                <polyline points="8 16 10 10 16 8 14 14 8 16"></polyline>
-                <circle cx="12" cy="12" r="9"></circle>
-              </svg>
-              <span className="text-sm ml-2">Orders</span>
-            </a>
-          </li>
-        </ul>
+          </div>
+          <h1 className="text-4xl font-[500]">Hokrex</h1>
+        </motion.div>
+        <motion.ul ref={scope} className="w-full max-w-[250px] ">
+          {Icons.map((it, index) => (
+            <Navitem
+              name={it.name}
+              svg={it.svg}
+              key={index}
+              ind={index}
+              selected={selected}
+              setselected={setselected}
+              slug={it.slug}
+            />
+          ))}
+        </motion.ul>
       </div>
-    </div>
+    )
   );
 }
 
-export default Sidebar;
+const Navitem = ({ name, svg, ind, selected, setselected, slug }) => {
+  const path = usePathname();
+  useEffect(() => {
+    if (path.includes(slug)) {
+      setselected(ind);
+    }
+  }, []);
+
+  return (
+    <motion.li
+      initial={{ opacity: 0, x: -100 }}
+      onClick={() => setselected(ind)}
+    >
+      <Link
+        className={`navLi group flex w-full cursor-pointer items-center justify-start gap-5 rounded-xl px-6 py-4  hover:bg-hoverC ${
+          selected === ind ? "bg-hoverC" : "bg-transparent"
+        }`}
+        href={slug}
+      >
+        <div
+          className={selected === ind ? "*:stroke-black" : "*:stroke-[#8E92BC]"}
+        >
+          {svg}
+        </div>
+        <h2
+          className={`font-pm font-semi text-[1.2rem]  group-hover:text-black ${
+            selected === ind ? "text-black" : "text-dullC"
+          }  `}
+        >
+          {name}
+        </h2>
+      </Link>
+    </motion.li>
+  );
+};
+
+export default SideBar2;

@@ -6,6 +6,7 @@ const ContextAdmin = createContext();
 function MainstateAdmin({ children }) {
   const url = process.env.NEXT_PUBLIC_URL;
   const [products, setproducts] = useState([]);
+  const [approved, setapproved] = useState(false);
 
   const getproducts = async () => {
     const data = await fetch(`${url}/api/getproducts`, {
@@ -16,6 +17,7 @@ function MainstateAdmin({ children }) {
     const parsedDate = await data.json();
     parsedDate.success && setproducts(parsedDate.products);
   };
+
   const addProductApi = async (
     name,
     category,
@@ -51,7 +53,9 @@ function MainstateAdmin({ children }) {
   };
 
   return (
-    <ContextAdmin.Provider value={{ getproducts, products, addProductApi }}>
+    <ContextAdmin.Provider
+      value={{ getproducts, products, addProductApi, setapproved, approved }}
+    >
       {children}
     </ContextAdmin.Provider>
   );

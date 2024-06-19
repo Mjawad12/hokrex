@@ -1,14 +1,16 @@
 "use client";
+import Signin from "@/components/Admin/Signin";
 import { ContextAdmin } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import Link from "next/link";
 import React, { useContext, useEffect } from "react";
 
 function page() {
-  const { getproducts, products } = useContext(ContextAdmin);
+  const { getproducts, products, approved, setapproved } =
+    useContext(ContextAdmin);
   useEffect(() => {
     getproducts();
   }, []);
-  return (
+  return approved ? (
     <div className="min-h-screen w-full bg-hoverC px-5">
       <div className="flex-center mt-5 w-full justify-between rounded-xl bg-Pn-dark-600 px-5 py-3">
         <h1 className="text-4xl font-[700] text-white">Products</h1>
@@ -18,6 +20,8 @@ function page() {
       </div>
       <Products products={products} />
     </div>
+  ) : (
+    <Signin />
   );
 }
 
