@@ -28,6 +28,13 @@ function ProductShower({ product, products }) {
   const router = useRouter();
   const [uploadedFiles, setuploadedFiles] = useState([]);
   const [loading, setloading] = useState(false);
+  const [reviewNumber, setreviewNumber] = useState({
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+  });
 
   const Addproduct = async () => {
     setloading(true);
@@ -159,6 +166,15 @@ function ProductShower({ product, products }) {
     return files_upload;
   };
 
+  useEffect(() => {
+    product?.reviews.forEach((it) => {
+      let rate = it.rating;
+      let tempReview = reviewNumber;
+      reviewNumber[+rate] += 1;
+      setreviewNumber({ ...tempReview });
+    });
+  }, []);
+
   return (
     <div className="w-full flex-1 flex-grow-[0.56] border-l border-[#E5E5E5] pt-20">
       <div className="flex w-full max-w-[31rem] flex-col gap-5 px-10">
@@ -192,7 +208,15 @@ function ProductShower({ product, products }) {
             ${product?.productPrice}
           </p>
           <div className="flex-center gap-1 rounded-2xl border border-borderP px-3 text-[18px] font-[600] [&_svg]:relative [&_svg]:bottom-[1px]">
-            {star} 5.0
+            {star}{" "}
+            {(
+              (1 * +reviewNumber[1] +
+                2 * +reviewNumber[2] +
+                3 * +reviewNumber[3] +
+                4 * +reviewNumber[4] +
+                5 * +reviewNumber[5]) /
+                +product?.reviews?.length || 5.0
+            ).toFixed(1)}
           </div>
         </div>
         <h3 className="text-4xl font-[500]">{product?.productName}</h3>
@@ -279,6 +303,8 @@ function ProductShower({ product, products }) {
       <D_R_R
         description={product?.productDescription}
         reviews={product?.reviews}
+        setreviewNumber={setreviewNumber}
+        reviewNumber={reviewNumber}
       />
       <ProductPageFooter products={products} />
     </div>

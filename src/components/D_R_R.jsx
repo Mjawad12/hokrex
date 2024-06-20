@@ -1,17 +1,16 @@
 "use client";
 import { arrowDown, starBlack } from "@/Consonats";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 
-function D_R_R({ description, reviews }) {
-  const [showingReviews, setshowingReviews] = useState(2);
+function D_R_R({ description, reviews, reviewNumber }) {
   return (
     <div className="mt-14 flex w-full flex-col px-10">
       <OpnerCompoent text={"Description"}>
         <p className="text-[16px] font-[400] text-[#707070]">{description}</p>
       </OpnerCompoent>
-      <OpnerCompoent text={`Reviews(${reviews?.length})`}>
+      <OpnerCompoent text={`Reviews(${reviews?.length})`} id={"rev-l"}>
         <div className="flex items-end gap-3">
           <div className="flex-center gap-1">
             {starBlack}
@@ -20,14 +19,32 @@ function D_R_R({ description, reviews }) {
             {starBlack}
             {starBlack}
           </div>
-          <span className="text-[20px] font-[500] leading-4">4.9 stars</span>
+          <span className="text-[20px] font-[500] leading-4">
+            {(
+              (1 * +reviewNumber[1] +
+                2 * +reviewNumber[2] +
+                3 * +reviewNumber[3] +
+                4 * +reviewNumber[4] +
+                5 * +reviewNumber[5]) /
+                +reviews.length || 5.0
+            ).toFixed(1)}{" "}
+            stars
+          </span>
         </div>
         <div className="mt-9 flex w-full flex-col gap-10 ">
           {reviews.length > 0 ? (
-            reviews?.map((it, index) => <Review key={index} />)
+            reviews?.map((it, index) => (
+              <Review
+                key={index}
+                date={it.date}
+                name={it.name}
+                rating={it.rating}
+                review={it.review}
+              />
+            ))
           ) : (
-            <p className="text-[25px] font-[700] leading-[25px]">
-              No Reviews Yet!
+            <p className="text-[17px] font-[500] leading-[25px] text-black">
+              Be the first to to review this item!
             </p>
           )}
         </div>
@@ -39,22 +56,24 @@ function D_R_R({ description, reviews }) {
 
 export default D_R_R;
 
-const OpnerCompoent = ({ text, children }) => {
+const OpnerCompoent = ({ text, children, id }) => {
   const [open, setopen] = useState(false);
   const [scope, animate] = useAnimate();
-  const opener = () => {
+  const opener = async () => {
     open &&
       animate(
         scope.current,
         { height: 75 },
-        { duration: 0.5, ease: "easeInOut" },
+        { duration: 0.5, ease: "easeInOut", delay: 0.2 },
       );
+
     !open &&
       animate(
         scope.current,
         { height: scope.current.scrollHeight + "px" },
         { duration: 0.5, ease: "easeInOut" },
       );
+
     setopen(!open);
   };
   return (
@@ -63,6 +82,7 @@ const OpnerCompoent = ({ text, children }) => {
       initial={{
         height: 75,
       }}
+      id={id && id}
       className="w-full overflow-hidden border-y border-borderP px-2 py-6 "
     >
       <div
@@ -85,8 +105,7 @@ const OpnerCompoent = ({ text, children }) => {
 
 const Review = ({ name, date, review, rating }) => {
   const [full, setfull] = useState(false);
-  let arr = [];
-  arr.length = rating.tofixed(0);
+
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full items-start justify-between">
@@ -99,18 +118,32 @@ const Review = ({ name, date, review, rating }) => {
             <p className="text-[15px] font-[500] text-[#707070]">{date}</p>
           </div>
         </div>
-        <div className="flex-center gap-1 [&_svg]:w-[15px]">
-          {arr.map((it, index) => (
-            <Fragment key={index}>{starBlack}</Fragment>
+        <div id="str-i" className="flex-center gap-1 [&_svg]:w-[15px]">
+          {Array.from({ length: rating }).map((_, i) => (
+            <Fragment key={i}>{starBlack}</Fragment>
           ))}
         </div>
       </div>
       <p className="mt-4 text-[17px] font-[400]">
-        {full ? review : review.slice(0, 300) + "..."}
+        {full ? review : review.slice(0, 100) + "..."}
       </p>
       <span
-        onClick={() => setfull(!full)}
-        className="mt-3 text-[18px] font-[600] underline underline-offset-4"
+        onClick={(e) => {
+          let ele = document.querySelector("#rev-l");
+          setfull(!full);
+          if (!full) {
+            ele.style.height =
+              ele.scrollHeight +
+              e.target.previousElementSibling.scrollHeight +
+              "px";
+          } else {
+            ele.style.height =
+              ele.scrollHeight -
+              (e.target.previousElementSibling.scrollHeight - 20) +
+              "px";
+          }
+        }}
+        className="mt-3 cursor-pointer text-[18px] font-[600] underline underline-offset-4"
       >
         {full ? "Less" : "More"}
       </span>

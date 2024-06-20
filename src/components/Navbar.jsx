@@ -1,6 +1,13 @@
 "use client";
 import React, { use, useContext, useEffect } from "react";
-import { arrowDown, bag, logo, searchIcon, user } from "../Consonats.jsx";
+import {
+  arrowDown,
+  bag,
+  hamburger,
+  logo,
+  searchIcon,
+  user,
+} from "../Consonats.jsx";
 import Link from "next/link.js";
 import { ContextStore } from "./Mainstate(store)/Mainstatestore.jsx";
 import { usePathname } from "next/navigation.js";
@@ -10,18 +17,18 @@ function Navbar({ cart }) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex w-full items-center justify-between border-b border-[#E5E5E5] px-6 py-3 pb-5 pr-12 ">
+    <nav className="flex w-full items-center justify-between gap-3 border-b border-[#E5E5E5] px-6 py-3 pb-5 pr-12 large:pr-6 small:pb-2 smaller:pr-5">
       <Link
         href={"/"}
         className="flex flex-1 flex-grow-[0.1] items-center justify-center gap-2"
       >
-        <div className="flex h-10 w-10 items-center justify-center rounded-[0.7rem] border-[0.5px] border-gray-500  ">
+        <span className="flex h-10 w-10 items-center justify-center rounded-[0.7rem] border-[0.5px] border-gray-500 small:h-9 small:w-9  ">
           {logo}
-        </div>
-        <h1 className="text-4xl font-[500]">Hokrex</h1>
+        </span>
+        <h1 className="text-4xl font-[500] small:text-[34px]">Hokrex</h1>
       </Link>
       <div
-        className={`flex h-[2.5rem] flex-1 flex-grow-[0.75] items-center massive:flex-grow-[0.8] ${
+        className={`flex h-[2.5rem] flex-1 flex-grow-[0.75] items-center gap-5 massive:flex-grow-[0.8] large:flex-grow-[1] small:justify-end ${
           pathname.includes("cart") || pathname.includes("account")
             ? "justify-end"
             : "justify-between"
@@ -43,8 +50,8 @@ function Navbar({ cart }) {
 const SearchBar = () => {
   return (
     <div
-      className="flex w-full max-w-[28rem] items-center 
-      rounded-[0.7rem] border border-gray-200 py-[0.45rem] pr-3 "
+      className="flex w-full max-w-[28rem] items-center gap-1
+      rounded-[0.7rem] border border-gray-200 py-[0.45rem] pr-3 small:hidden"
     >
       <input
         type="text"
@@ -58,7 +65,7 @@ const SearchBar = () => {
 
 const SmNav = ({ cart, authToken, account }) => {
   return (
-    <ul className="flex-center list-none gap-5 [&_li]:cursor-pointer  [&_li]:whitespace-nowrap [&_li]:text-[0.95rem] [&_li]:font-[500] hover:[&_li]:text-pmRed ">
+    <ul className="flex-center list-none gap-5 small:[&>a]:hidden  [&_li]:cursor-pointer [&_li]:whitespace-nowrap [&_li]:text-[0.95rem] [&_li]:font-[500] hover:[&_li]:text-pmRed">
       {!cart && !account && (
         <>
           <Link href={"/categories"}>
@@ -73,14 +80,14 @@ const SmNav = ({ cart, authToken, account }) => {
           <Link href={"/contact"}>
             <li>Contact us</li>
           </Link>
-          <li className={` flex-center w-[165px] !text-[1rem]`}>
+          <li className={` flex-center w-[165px] !text-[1rem] smaller:hidden`}>
             <Link className="w-[160px]" href={"/qoute"}>
               <Dealerbtn />
             </Link>
           </li>
         </>
       )}
-      <li className="gap-2 flex-center ">
+      <li className="flex-center gap-2 ">
         <Link
           href="/cart"
           className="flex-center logoStyle h-9 w-[2.4rem] border-gray-300 hover:border-black"
@@ -89,11 +96,14 @@ const SmNav = ({ cart, authToken, account }) => {
         </Link>
         <Link
           href={authToken ? "/account" : "/login"}
-          className={`flex-center logoStyle h-9 w-[2.4rem]  gap-1 border-gray-300 hover:border-black ${account ? "w-max px-3 pl-2 [&_svg:nth-child(1)]:fill-black [&_svg:nth-child(2)]:w-[10px]" : ""}`}
+          className={`flex-center logoStyle h-9 w-[2.4rem] gap-1 border-gray-300 hover:border-black small:hidden ${account ? "w-max px-3 pl-2 [&_svg:nth-child(1)]:fill-black [&_svg:nth-child(2)]:w-[10px]" : ""}`}
         >
           {user}
           {account && arrowDown}
         </Link>
+        <span className="small:flex-center logoStyle hidden h-9 w-[2.4rem] rounded-[11px] border-none bg-[#FAFAFA]">
+          {hamburger}
+        </span>
       </li>
     </ul>
   );

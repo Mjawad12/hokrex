@@ -182,7 +182,6 @@ const CartItem = ({
   const totalPriceCal = () => {
     let cal_price = 0;
     document.querySelectorAll("#sub-total-price").forEach((it) => {
-      console.log(it.innerText.slice(it.innerText.lastIndexOf("$")));
       cal_price =
         cal_price +
         parseInt(it.innerText.slice(it.innerText.lastIndexOf("$") + 1));
@@ -314,9 +313,6 @@ const CartItem = ({
                       10;
                     i++
                   ) {
-                    console.log(
-                      document.querySelectorAll(`#fil-sp-${index} span`),
-                    );
                     i === 0 && nfs.current?.classList.add("hidden");
                     const span = document.createElement("span");
                     span.innerText = e.target.files[i].name;

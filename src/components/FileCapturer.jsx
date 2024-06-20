@@ -27,7 +27,11 @@ function FileCapturer({ setuploadedFiles, uploadedFiles }) {
   return (
     <div className="flex select-none flex-col gap-5">
       {images?.length > 0 && (
-        <UploadedShower images={images} setimages={setimages} />
+        <UploadedShower
+          images={images}
+          setimages={setimages}
+          setuploadedFiles={setuploadedFiles}
+        />
       )}
       {images?.length < 10 && (
         <div
@@ -63,7 +67,7 @@ function FileCapturer({ setuploadedFiles, uploadedFiles }) {
 
 export default FileCapturer;
 
-const UploadedShower = ({ images, setimages }) => {
+const UploadedShower = ({ images, setimages, setuploadedFiles }) => {
   return (
     <div className="flex flex-wrap justify-center gap-2 gap-y-3 rounded-[10px] border border-[#EEEEEE] p-2">
       {images.map((it, index) => (
@@ -82,7 +86,12 @@ const UploadedShower = ({ images, setimages }) => {
               setimages((e) => {
                 let files = e;
                 files.splice(index, 1);
-                setimages([...files]);
+                return [...files];
+              });
+              setuploadedFiles((e) => {
+                let files = e;
+                files.splice(index, 1);
+                return [...files];
               });
             }}
             className="flex-center absolute right-0.5 top-0.5 cursor-pointer [&_rect]:stroke-none [&_svg]:h-[30px] [&_svg]:w-[30px]"
