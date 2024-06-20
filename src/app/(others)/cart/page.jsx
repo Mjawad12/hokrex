@@ -44,6 +44,7 @@ export default function page() {
                     colors={it.colors}
                     index={index}
                     settotalPrice={settotalPrice}
+                    files={it?.files || []}
                   />
                 ))}
               </div>
@@ -158,11 +159,14 @@ const CartItem = ({
   colors,
   index,
   settotalPrice,
+  files,
 }) => {
   const fileRef = useRef(null);
+  const nfs = useRef(null);
   const [instuctionDialog, setinstuctionDialog] = useState(false);
   const [cartDialog, setcartDialog] = useState(false);
   const [itemPrice, setitemPrice] = useState(quant * price);
+
   const intructionCall = (intruct) => {
     addInstruction(id, intruct);
   };
@@ -297,23 +301,56 @@ const CartItem = ({
               type="file"
               accept="image/*"
               className="hidden"
+              multiple
               onInput={(e) => {
-                console.log(e.target.files);
-                if (e.target.files.length > 0) {
-                  e.target.nextElementSibling.nextElementSibling.innerText =
-                    e.target.files[0].name;
+                if (
+                  e.target.files.length > 0 &&
+                  document.querySelectorAll(`#fil-sp-${index} span`).length < 10
+                ) {
+                  for (
+                    let i = 0;
+                    i < e.target.files.length &&
+                    document.querySelectorAll(`#fil-sp-${index} span`)?.length <
+                      10;
+                    i++
+                  ) {
+                    console.log(
+                      document.querySelectorAll(`#fil-sp-${index} span`),
+                    );
+                    i === 0 && nfs.current?.classList.add("hidden");
+                    const span = document.createElement("span");
+                    span.innerText = e.target.files[i].name;
+                    span.className = "text-[14px] font-[500]";
+                    e.target.nextElementSibling.nextElementSibling.appendChild(
+                      span,
+                    );
+                  }
                 }
               }}
             />
-            <button className="cs-in-1" onClick={() => fileRef.current.click()}>
-              Choose File
-            </button>
-            <p
-              className="text-[14px] font-[500]"
+            <button
+              className="cs-in-1 whitespace-nowrap"
               onClick={() => fileRef.current.click()}
             >
-              No File selected
-            </p>
+              Choose File
+            </button>
+            <div id={`fil-sp-${index}`} className="flex flex-col">
+              {files.length > 0 ? (
+                files.map((it, index) => (
+                  <span key={index} className="text-[14px] font-[500]">
+                    {it.slice(it.lastIndexOf("/") + 1)}
+                  </span>
+                ))
+              ) : (
+                <p
+                  className="text-[14px] font-[500]"
+                  ref={nfs}
+                  onClick={() => fileRef.current.click()}
+                >
+                  No File selected
+                </p>
+              )}
+            </div>
           </div>
           <input
             type="text"
