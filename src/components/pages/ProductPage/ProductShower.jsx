@@ -15,9 +15,9 @@ import { v4 } from "uuid";
 import { ContextStore } from "../../Mainstate(store)/Mainstatestore";
 import { useRouter } from "next/navigation";
 import notificationCaller from "../../NotificationCaller";
+import { Upload } from "@/app/(others)/hokrex-shadow-eye-admin-56789/addproduct/page";
 
 function ProductShower({ product, products }) {
-  console.log(product);
   const { dispatch } = useContext(ContextCart);
   const { authToken, setuserData, userData, wishlistAdd, wishlistDele } =
     useContext(ContextStore);
@@ -26,14 +26,18 @@ function ProductShower({ product, products }) {
   const [error, seterror] = useState(null);
   const [InWhishlist, setInWhishlist] = useState(false);
   const router = useRouter();
+  const [uploadedFiles, setuploadedFiles] = useState([]);
+  const [loading, setloading] = useState(false);
 
-  const Addproduct = () => {
+  const Addproduct = async () => {
+    setloading(true);
     if (amount < 1) {
       seterror("Please Select atleast one size.");
       document
         .querySelector("#err-s")
         .scrollIntoView({ behavior: "smooth", block: "center" });
     } else {
+      let files = await uploadFiles();
       dispatch({
         type: "addItem",
         item: {
@@ -48,6 +52,7 @@ function ProductShower({ product, products }) {
           instruction: document.querySelector("#instr-prod").value,
           customized: product?.customizable,
           slug: product?.slug,
+          files: files,
         },
       });
       toast("Product added to the cart!", {
@@ -62,6 +67,7 @@ function ProductShower({ product, products }) {
         type: "success",
       });
     }
+    setloading(false);
   };
 
   const calculatePrice = () => {
@@ -131,6 +137,26 @@ function ProductShower({ product, products }) {
         );
       }
     }
+  };
+
+  const uploadFiles = async () => {
+    let files_upload = [];
+    for (let i = 0; i < uploadedFiles.length; i++) {
+      toast(`Uploading file ${i + 1}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "info",
+      });
+      const url = await Upload(uploadedFiles[i]);
+      files_upload = [...files_upload, url];
+    }
+    return files_upload;
   };
 
   return (
@@ -218,7 +244,10 @@ function ProductShower({ product, products }) {
             placeholder="Write instruction"
             id="instr-prod"
           />
-          <FileCapturer />
+          <FileCapturer
+            setuploadedFiles={setuploadedFiles}
+            uploadedFiles={uploadedFiles}
+          />
           <DateSelector
             selectedDate={selectedDate}
             setselectedDate={setselectedDate}
@@ -234,6 +263,7 @@ function ProductShower({ product, products }) {
             text={"Add to Cart"}
             color="red"
             clickFunc={Addproduct}
+            loading={loading}
           />
           <CustomButton
             svg={bag}
@@ -243,9 +273,9 @@ function ProductShower({ product, products }) {
           />
         </div>
       </div>
-      <div className="">
-        <ToastContainer />
-      </div>
+
+      <ToastContainer />
+
       <D_R_R
         description={product?.productDescription}
         reviews={product?.reviews}
@@ -255,16 +285,17 @@ function ProductShower({ product, products }) {
   );
 }
 
-const CustomButton = ({ text, svg, color, clickFunc }) => {
+const CustomButton = ({ text, svg, color, clickFunc, loading }) => {
   return (
     <button
       onClick={clickFunc}
+      disabled={loading}
       className={`flex-center gap-[1.6rem] px-4 py-3 pr-12 text-white ${
         color === "red"
           ? `bg-[#ea0000bc] hover:bg-[#EA0000]`
           : "bg-[#000000B2] hover:bg-[black]"
       }
-    rounded-[0.8rem] text-[17px] font-[500] [&_svg]:stroke-white `}
+    rounded-[0.8rem] text-[17px] font-[500] disabled:cursor-not-allowed disabled:bg-[#EA0000] [&_svg]:stroke-white`}
     >
       {svg}
       {text}

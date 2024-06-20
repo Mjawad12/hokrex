@@ -3,7 +3,7 @@ import { addicon, bigArrowLeft, redCross, uploadImg } from "@/Consonats";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { ContextAdmin } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import Image from "next/image";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { SketchPicker } from "react-color";
 import rgbHex from "rgb-hex";
 import { useDropzone } from "react-dropzone";
@@ -14,7 +14,22 @@ function page() {
     </div>
   );
 }
+const Upload = async (file) => {
+  const form = new FormData();
+  form.append("file", file);
+  form.append("upload_preset", "hokrex");
+  form.append("cloud_name", "dsqtzewyx");
 
+  const data = await fetch(
+    "https://api.cloudinary.com/v1_1/dsqtzewyx/image/upload",
+    {
+      method: "POST",
+      body: form,
+    },
+  );
+  const parsedData = await data.json();
+  return parsedData.url;
+};
 const ProductFrom = () => {
   const { addProductApi } = useContext(ContextAdmin);
   const form = useRef(null);
@@ -44,22 +59,6 @@ const ProductFrom = () => {
     "Print on demand",
   ];
 
-  const Upload = async (file) => {
-    const form = new FormData();
-    form.append("file", file);
-    form.append("upload_preset", "hokrex");
-    form.append("cloud_name", "dsqtzewyx");
-
-    const data = await fetch(
-      "https://api.cloudinary.com/v1_1/dsqtzewyx/image/upload",
-      {
-        method: "POST",
-        body: form,
-      },
-    );
-    const parsedData = await data.json();
-    return parsedData.url;
-  };
   const uploadMultiple = async () => {
     let sideImagesUrl = [];
     for (let i = 0; i < SideImages.length; i++) {
@@ -556,3 +555,5 @@ const FileInput = ({ id, imageGiverFunc, width, height, inputFunc, fotP }) => {
 };
 
 export default page;
+
+export { Upload };
