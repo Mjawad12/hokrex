@@ -8,12 +8,13 @@ import {
 import { Sorting } from "@/app/(store)/categories/[slug]/page";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { BtnAccount } from "../personal-info/page";
 import notificationCaller from "@/components/NotificationCaller";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SubmittedDialog from "@/components/SubmittedDialog";
+import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 
 function page() {
   const [navState, setnavState] = useState("Active orders");
@@ -230,7 +231,7 @@ function page() {
         ],
         customized: false,
         date: "23 march,2024",
-        id: "c780acac-d46f-4e06-ad45-6b3e0e96a7d7",
+        id: "6671b7b209cb33d02610260b",
         instruction: "asdddddddddddddddddasdasd",
         name: "Hood",
         price: "145.00",
@@ -410,7 +411,7 @@ const OrderCard = ({
       </AnimatePresence>
       <AnimatePresence>
         {ReviewDialogstate && (
-          <ReviewDialog setReviewDialogstate={setReviewDialogstate} />
+          <ReviewDialog setReviewDialogstate={setReviewDialogstate} id={id} />
         )}
       </AnimatePresence>
 
@@ -718,32 +719,34 @@ const ShippingDetails = ({
   );
 };
 
-const ReviewDialog = ({ setReviewDialogstate }) => {
+const ReviewDialog = ({ setReviewDialogstate, id }) => {
   const formRef = useRef(null);
   const [loading, setloading] = useState(false);
   const [submiited, setsubmiited] = useState(false);
   const [selectedReview, setselectedReview] = useState(4);
+  const { ReviewAdd } = useContext(ContextStore);
 
   const handleReviewSubmit = async (e) => {
     if (formRef.current.checkValidity()) {
       e.preventDefault();
       setloading(true);
-      setsubmiited(true);
-
-      // const data = {
-      //   name: document.querySelector("input#name").value,
-      //   designation: document.querySelector("input#designation").value,
-      //   phone: document.querySelector("input#phone")?.value ?? "unkonwn",
-      //   email: document.querySelector("input#email")?.value ?? "unkonwn",
-      //   rating: +selectedReview + 1,
-      //   image: parsedimageData?.url ?? "https://kabariya.pk/reviewUserImp.png",
-      //   review: document.querySelector("#rev-cl").value,
-      // };
-      // const dt = fetch(`${process.env.NEXT_PUBLIC_PORT}/api/postReview`, {
-      //   body: JSON.stringify(data),
-      //   method: "POST",
-      // });
+      const review = {
+        name: document.querySelector("#name").value,
+        designation: document.querySelector("#designation").value,
+        phone: document.querySelector("#phone").value || "",
+        email: document.querySelector("#email").value || "",
+        rating: selectedReview + 1,
+        review: document.querySelector("#rev-cl").value,
+        productId: id,
+      };
+      const res = await ReviewAdd(review);
+      notificationCaller(
+        res.success,
+        res.success ? "Review added for the product!" : res.err,
+        toast,
+      );
       setloading(false);
+      setsubmiited(res.success);
     }
   };
 
@@ -758,7 +761,10 @@ const ReviewDialog = ({ setReviewDialogstate }) => {
       <div className="relative flex w-full max-w-[600px] flex-col gap-2 rounded-[15px] bg-white pb-5 pt-9">
         <Cross clickFunc={() => setReviewDialogstate(false)} />
         {submiited && (
-          <SubmittedDialog loading={loading} setsubmitted={setsubmiited} />
+          <SubmittedDialog
+            loading={loading}
+            setsubmitted={setReviewDialogstate}
+          />
         )}
         <div className={`${submiited ? "hidden" : "flex flex-col"}`}>
           <h2 className="font-pm px-11 text-[30px] font-[700]">Write Review</h2>
@@ -816,7 +822,8 @@ const ReviewDialog = ({ setReviewDialogstate }) => {
               </div>
               <button
                 onClick={handleReviewSubmit}
-                className="btn max-w-[10rem] rounded-[0.65rem] px-4"
+                disabled={loading}
+                className="btn max-w-[10rem] rounded-[0.65rem] px-4 transition-all disabled:cursor-not-allowed disabled:bg-pmGray"
               >
                 Submit Review
               </button>

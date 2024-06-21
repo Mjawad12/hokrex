@@ -229,7 +229,18 @@ function Mainstatestore({ children }) {
     return parsedData;
   };
 
-  const Addreviews = async () => {};
+  const ReviewAdd = async (review) => {
+    const data = await fetch(`${url}/api/ReviewEdit`, {
+      method: "POST",
+      cache: "no-cache",
+      body: JSON.stringify({
+        review: review,
+      }),
+      headers: { authToken: authToken || localStorage.getItem("authToken") },
+    });
+    const parsedData = await data.json();
+    return parsedData;
+  };
 
   const wishlistAdd = async (wish) => {
     const data = await fetch(`${url}/api/wishlistEdit`, {
@@ -302,6 +313,8 @@ function Mainstatestore({ children }) {
         paymentDele,
         wishlistAdd,
         wishlistDele,
+        ReviewAdd,
+        ReviewAdd,
       }}
     >
       {children}

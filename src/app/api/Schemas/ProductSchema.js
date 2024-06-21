@@ -19,6 +19,7 @@ const Schema = new mongoose.Schema({
     rating: Number,
     review: String,
     date: { type: String, default: new Date().toLocaleDateString() },
+    reviewerId: mongoose.Types.ObjectId,
   },
   customizable: Boolean,
   salePercent: Number,
