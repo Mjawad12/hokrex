@@ -1,10 +1,9 @@
 "use client";
-import { arrowDown, block4, block6, filter } from "@/Consonats";
+import { arrowDown, block4, block6, filter, searchIcon } from "@/Consonats";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import { SmallArrowDown } from "../page";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
-// import ProductCard from "@/components/ProductCard";
 import ProductCardTemp from "@/components/ProductCardTemp";
 import LoadingCard from "@/components/LoadingCard";
 import { ToastContainer, toast } from "react-toastify";
@@ -28,7 +27,7 @@ function page(slug) {
     { name: "Team & Sports", slug: "/categories/team-and-sports" },
     { name: "Pormotion items", slug: "/categories/pormotion-items" },
     { name: "Gift items", slug: "/categories/gift-items" },
-    { name: "Print on demand", slug: "/categories/print-on-demand" },
+    { name: "On Demand Service (ODS)", slug: "/categories/on-demand-service" },
   ];
 
   const NameGetter = () => {
@@ -107,14 +106,15 @@ function page(slug) {
   return (
     <section className="min-h-[100vh] w-full">
       <ToastContainer />
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 ">
         <TopBar
           liItems={liItems}
           slug={slugMain}
           filterAdd={true}
           sticky={true}
         />
-        <div className="mt-6 flex items-start justify-between px-11">
+        <SearchFilter />
+        <div className="flex items-start justify-between mt-6 small:flex-center px-11 small:mt-2">
           <Sorting
             selectedOption={selectedOption}
             setselectedOption={setselectedOption}
@@ -129,7 +129,7 @@ function page(slug) {
             name={NameGetter()}
             items={categoryProducts?.length || 0}
           />
-          <div className="mt-1 flex flex-1 flex-grow-[0.2] justify-end gap-[3rem]">
+          <div className="mt-1 flex flex-1 flex-grow-[0.2] justify-end gap-[3rem] small:hidden">
             <Pagechanger
               pageNumber={PageState}
               totalItems={categoryProducts?.length || 0}
@@ -137,7 +137,7 @@ function page(slug) {
               pageAdder={pageAdder}
               pageRemover={pageRemover}
             />
-            <div className="flex-center gap-3">
+            <div className="gap-3 flex-center">
               <div
                 onClick={() => {
                   setsmGrid(false);
@@ -170,7 +170,7 @@ function page(slug) {
           </div>
         </div>
         <div
-          className={`grid ${smGrid ? "grid-cols-4" : "grid-cols-3"} mt-3 px-10`}
+          className={`grid ${smGrid ? "grid-cols-4" : "grid-cols-3"} mt-3 px-10 small:mt-1 smo:grid-cols-1 smo:px-5`}
         >
           {categoryProducts
             ? products
@@ -205,8 +205,8 @@ function page(slug) {
                 />
               ))}
         </div>
-        <footer className="mb-10 flex w-full items-center justify-between border-b border-[#E5E5E5] px-10 py-5">
-          <span className="text-[14px] font-[300]">
+        <footer className="mb-10 flex w-full items-center justify-between border-b border-[#E5E5E5] px-10 py-5 smo:mb-1 smo:border-y smo:px-3">
+          <span className="text-[14px] font-[300] smo:text-[13px]">
             ©2024, Sublimatics Inc. Made by Hokrex
           </span>
           <Pagechanger
@@ -228,21 +228,26 @@ const TopBar = ({ slug, liItems, filterAdd, sticky }) => {
   return (
     <div
       style={{ boxShadow: "0px 5px 20px 0px #00000003" }}
-      className={`${sticky ? "sticky" : ""} top-0 z-20 flex items-center justify-between border-b border-[#E5E5E5] bg-white px-11 py-2`}
+      className={`${sticky ? "sticky smo:relative" : ""} top-0 z-20 flex items-center justify-between border-b border-[#E5E5E5] bg-white py-2 pl-5 pr-11 med:w-full med:overflow-y-scroll med:pr-5 smo:py-0`}
+      id="scroll-none"
     >
       <div className="flex gap-5">
         {liItems?.map((it, index) => (
           <Link
             href={it.slug}
             key={index}
-            className={`text-[17px] font-[500] ${it.slug.includes(slug) ? "text-pmRed" : " text-black hover:text-pmRed "} `}
+            className={`relative text-[17px] font-[500] larger:text-[15px] ${it.slug.includes(slug) ? "text-pmRed smo:text-black" : " text-black hover:text-pmRed "} whitespace-nowrap py-2 large:py-4 `}
           >
             {it.name}
+
+            <span
+              className={`absolute bottom-0 hidden h-[1.5px] w-full  smo:flex ${it.slug.includes(slug) ? "bg-black" : "bg-transparent"}`}
+            ></span>
           </Link>
         ))}
       </div>
       {filterAdd && (
-        <div className="flex-center cursor-pointer select-none gap-1.5 rounded-[12px] border border-[#CCCCCC] px-3 py-[0.5rem] ">
+        <div className="flex-center cursor-pointer select-none gap-1.5 rounded-[12px] border border-[#CCCCCC] px-3 py-[0.5rem] large:hidden ">
           {filter}
           <span className="text-[15px] font-[500]">Filter</span>
         </div>
@@ -255,7 +260,7 @@ const Sorting = ({ selectedOption, setselectedOption, sorting, small }) => {
   const [show, setshow] = useState(false);
 
   return (
-    <div className="flex-1 flex-grow-[0.2]">
+    <div className="flex-1 flex-grow-[0.2] small:hidden">
       <div
         onClick={() => setshow(!show)}
         className={`relative flex h-[2.25rem] w-[10.5rem] ${small ? "h-[2.1rem] rounded-[0.5rem]" : "rounded-[0.4rem]"} z-50 cursor-pointer items-center justify-between border border-[#DDDDDD] px-[0.85rem]
@@ -297,9 +302,11 @@ const Sorting = ({ selectedOption, setselectedOption, sorting, small }) => {
 
 const MiddleTitle = ({ name, items }) => {
   return (
-    <div className="flex-center flex-col gap-4 ">
-      <div className="flex-center flex-col ">
-        <h1 className="text-[30px] font-[500] leading-[30px]">{name}</h1>
+    <div className="flex-col gap-4 flex-center small:gap-1 ">
+      <div className="flex-col flex-center ">
+        <h1 className="text-[30px] font-[500] leading-[30px] smo:text-[26px]">
+          {name}
+        </h1>
         <span className="text-[17px] font-[400]">{items} item found</span>
       </div>
       <div className="scale-[0.8]">
@@ -352,3 +359,24 @@ const Pagechanger = ({
 };
 
 export { TopBar, Sorting };
+
+const SearchFilter = () => {
+  return (
+    <div className="small:flex-center top-0 z-[60] hidden w-full gap-6 bg-white px-5 pb-3.5 pt-1 smo:sticky smo:gap-2">
+      <div
+        className="flex w-full max-w-[28rem] items-center gap-1
+      rounded-[0.7rem] border border-gray-200 py-[0.45rem] pr-3"
+      >
+        <input
+          type="text"
+          className="w-full border-none pl-4 outline-none placeholder:text-[0.8rem] placeholder:text-gray-300 "
+          placeholder="Search for product"
+        />
+        <div className="cursor-pointer">{searchIcon}</div>
+      </div>
+      <span className="flex-center rounded-[12px] border border-[#E8E8E8] p-[0.7rem] [&_svg]:translate-y-[1.5px] ">
+        {filter}
+      </span>
+    </div>
+  );
+};
