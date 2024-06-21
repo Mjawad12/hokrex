@@ -29,7 +29,8 @@ const ProductCardTemp = ({
   const router = useRouter();
 
   // "max-w-[371px]" : "max-w-[520px]"
-  const wishlistEdit = async () => {
+  const wishlistEdit = async (e) => {
+    e.stopPropagation();
     if (!authToken) {
       router.push("/login");
     } else {
@@ -77,7 +78,7 @@ const ProductCardTemp = ({
     <>
       {mobBtns && <BtnsMob slug={slug} setmobBtns={setmobBtns} />}
       <div
-        onClick={() => {
+        onClick={(e) => {
           if (window.innerWidth <= 968) {
             setmobBtns(true);
           }
@@ -101,8 +102,9 @@ const ProductCardTemp = ({
             </span>
 
             <span
+              id="hrt-wish"
               onClick={wishlistEdit}
-              className="cursor-pointer [&_svg]:hover:fill-pmRed"
+              className="cursor-pointer [&_svg]:pointer-events-none [&_svg]:hover:fill-pmRed "
             >
               {InWhishlist ? heartRed : heart}
             </span>
