@@ -3,20 +3,20 @@ import React from "react";
 function LoadingCard({ smGrid, footer, border }) {
   return (
     <div
-      className={`relative ${smGrid ? "min-h-[415px]" : footer ? "min-h-[412px]" : "min-h-[550px]"} w-full
+      className={`relative ${smGrid ? "min-h-[415px] larger:min-h-[350px] large:min-h-[300px] med:min-h-[200px] " : footer ? "min-h-[412px]" : "min-h-[550px] larger:min-h-[400px] large:min-h-[400px] med:min-h-[350px]  small:min-h-[300px]"} w-full
       border-b ${border ? (smGrid ? "border-r" : footer ? "border-r" : "border-x") : ""} animate-pulse border-[#E5E5E5] p-2 transition-all 
       duration-700 [&_#prod]:hover:bg-[#F5F5F5] [&_#prod_#btns-prod]:hover:opacity-[1] [&_#prod_img]:hover:scale-[0.79]`}
     >
       <div
         id="prod"
-        className={`flex-center relative ${smGrid ? "min-h-[415px]" : footer ? "min-h-[394px]" : "min-h-[550px]"} w-full flex-col gap-3 transition-all duration-700`}
+        className={`flex-center relative ${smGrid ? "min-h-[415px] larger:min-h-[350px] large:min-h-[300px] med:min-h-[200px] " : footer ? "min-h-[394px]" : "min-h-[550px] larger:min-h-[400px] large:min-h-[400px] med:min-h-[350px]  small:min-h-[300px]"} w-full flex-col gap-3 transition-all duration-700`}
       >
-        <div className="relative z-10 flex w-full items-center justify-between px-4">
+        <div className="relative z-10 flex items-center justify-between w-full px-4">
           <div class="h-5 w-24 rounded bg-gray-300"></div>
           <div class="h-10 w-10 rounded-full bg-gray-300"></div>
         </div>
         <div
-          className={`flex-center h-[75%] w-full overflow-hidden bg-gray-300  ${smGrid ? "min-h-[calc(415px-150px)]" : footer ? "min-h-[calc(394px-100px)]" : "min-h-[calc(550px-150px)]"} `}
+          className={`flex-center  w-full flex-1 flex-grow-[0.9] overflow-hidden bg-gray-300 `}
         >
           <svg
             class="h-12 w-12 text-gray-200"

@@ -5,7 +5,12 @@ import { heart, heartRed } from "@/Consonats";
 import Link from "next/link";
 import { ContextStore } from "./Mainstate(store)/Mainstatestore";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import {
+  motion,
+  useAnimate,
+  useDragControls,
+  useMotionValue,
+} from "framer-motion";
 const ProductCardTemp = ({
   name,
   img = "/shirt.png",
@@ -22,6 +27,7 @@ const ProductCardTemp = ({
   const [InWhishlist, setInWhishlist] = useState(false);
   const [mobBtns, setmobBtns] = useState(false);
   const router = useRouter();
+
   // "max-w-[371px]" : "max-w-[520px]"
   const wishlistEdit = async () => {
     if (!authToken) {
@@ -69,7 +75,7 @@ const ProductCardTemp = ({
 
   return (
     <>
-      {mobBtns && <BtnsMob slug={slug} />}
+      {mobBtns && <BtnsMob slug={slug} setmobBtns={setmobBtns} />}
       <div
         onClick={() => {
           if (window.innerWidth <= 968) {
@@ -138,24 +144,66 @@ const ProductCardTemp = ({
   );
 };
 
-const BtnsMob = ({ slug }) => {
+const BtnsMob = ({ slug, setmobBtns }) => {
+  const controls = useDragControls();
+  const y = useMotionValue(0);
+  const [scope, animate] = useAnimate();
+
+  const close = async () => {
+    animate(
+      "#drawer",
+      {
+        y: 500,
+      },
+      { duration: 1, ease: "easeInOut" },
+    );
+    await animate(
+      scope.current,
+      { opacity: 0 },
+      { duration: 1, ease: "easeInOut" },
+    );
+    setmobBtns(false);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
+      ref={scope}
       style={{ backdropFilter: "blur(4.5px)" }}
-      className="fixed inset-0 left-0 top-0 z-[80] hidden items-center justify-end bg-[#84848499] smo:flex"
+      className="fixed inset-0 left-0 top-0 z-[80] hidden items-end justify-end bg-[#84848499] smo:flex"
     >
       <motion.div
-        initial={{ y: "500%" }}
+        id="drawer"
+        initial={{ y: 500 }}
         animate={{ y: 0 }}
+        dragControls={controls}
         transition={{ duration: 0.8, ease: "easeInOut" }}
-        style={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
-        className="flex min-h-[155px] w-full flex-col items-center justify-between rounded-[14px] bg-[#F5F5F5] py-2 pb-4"
+        style={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0, y }}
+        className="flex min-h-[155px] w-full select-none flex-col items-center justify-between rounded-[14px] bg-[#F5F5F5] py-2 pb-4"
         drag="y"
+        dragListener={false}
+        dragConstraints={{
+          top: 0,
+          bottom: 0,
+        }}
+        dragElastic={{
+          top: 0.05,
+          bottom: 1,
+        }}
+        onDragEnd={() => {
+          if (y.get() > 50) {
+            close();
+          }
+        }}
       >
-        <span className="h-[4px] w-[39px] cursor-grab touch-none rounded-full  bg-[#D4D2D2] active:cursor-grabbing "></span>
+        <span
+          onPointerDown={(e) => {
+            controls.start(e);
+          }}
+          className="h-[4px] w-[39px] cursor-grab touch-none rounded-full  bg-[#D4D2D2] active:cursor-grabbing "
+        ></span>
         <div className="flex flex-col items-center w-full gap-4 px-5">
           <Link
             href={"/product/" + slug}
