@@ -184,9 +184,9 @@ function ProductShower({ product, products }) {
   }, []);
 
   return (
-    <div className="w-full flex-1 flex-grow-[0.56] border-l border-[#E5E5E5] pt-20">
-      <div className="flex w-full max-w-[31rem] flex-col gap-5 px-10">
-        <div className="flex gap-2">
+    <div className="w-full flex-1 flex-grow-[0.56] border-l border-[#E5E5E5] pt-20 small:border-none small:pt-2">
+      <div className="flex w-full max-w-[31rem] flex-col gap-5 px-10 small:m-auto smo:px-2">
+        <div className="flex gap-2 small:hidden">
           <div
             onClick={wishlistEdit}
             className="flex-center cursor-pointer rounded-[12px] border border-borderP px-2 py-2 [&_svg]:scale-[0.9]"
@@ -211,7 +211,7 @@ function ProductShower({ product, products }) {
             {share}
           </div>
         </div>
-        <div className="flex gap-5">
+        <div className="small:gao-3 flex gap-5">
           <p className="text-[22px] font-[600] text-pmRed">
             ${product?.productPrice}
           </p>
@@ -264,7 +264,7 @@ function ProductShower({ product, products }) {
           error={error}
           seterror={seterror}
         />
-        <div className="mt-16 flex flex-col gap-4">
+        <div className="mt-16 flex flex-col gap-4 small:mt-3">
           <BulkCalculator
             price={product?.productPrice}
             salePercent={product?.salePercent}

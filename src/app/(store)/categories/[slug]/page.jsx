@@ -114,7 +114,7 @@ function page(slug) {
           sticky={true}
         />
         <SearchFilter />
-        <div className="flex items-start justify-between mt-6 small:flex-center px-11 small:mt-2">
+        <div className="small:flex-center mt-6 flex items-start justify-between px-11 small:mt-2">
           <Sorting
             selectedOption={selectedOption}
             setselectedOption={setselectedOption}
@@ -137,7 +137,7 @@ function page(slug) {
               pageAdder={pageAdder}
               pageRemover={pageRemover}
             />
-            <div className="gap-3 flex-center">
+            <div className="flex-center gap-3">
               <div
                 onClick={() => {
                   setsmGrid(false);
@@ -228,7 +228,7 @@ const TopBar = ({ slug, liItems, filterAdd, sticky }) => {
   return (
     <div
       style={{ boxShadow: "0px 5px 20px 0px #00000003" }}
-      className={`${sticky ? "sticky smo:relative" : ""} top-0 z-20 flex items-center justify-between border-b border-[#E5E5E5] bg-white py-2 pl-5 pr-11 med:w-full med:overflow-y-scroll med:pr-5 smo:py-0`}
+      className={`${sticky ? "sticky smo:relative" : ""} top-0 z-20 flex items-center justify-between border-b border-[#E5E5E5] bg-white py-2 pl-5 pr-11 large:py-0 med:w-full med:overflow-y-scroll med:pr-5`}
       id="scroll-none"
     >
       <div className="flex gap-5">
@@ -302,8 +302,8 @@ const Sorting = ({ selectedOption, setselectedOption, sorting, small }) => {
 
 const MiddleTitle = ({ name, items }) => {
   return (
-    <div className="flex-col gap-4 flex-center small:gap-1 ">
-      <div className="flex-col flex-center ">
+    <div className="flex-center flex-col gap-4 small:gap-1 ">
+      <div className="flex-center flex-col ">
         <h1 className="text-[30px] font-[500] leading-[30px] smo:text-[26px]">
           {name}
         </h1>

@@ -90,7 +90,7 @@ const ProductCardTemp = ({
           id="prod"
           className={`flex-center relative ${smGrid ? "min-h-[415px] larger:min-h-[350px] large:min-h-[300px] med:min-h-[200px] " : footer ? "min-h-[394px]" : "min-h-[550px] larger:min-h-[450px] large:min-h-[400px] med:min-h-[350px]  small:min-h-[220px]"} w-full flex-col transition-all duration-700`}
         >
-          <div className="relative z-10 flex items-center justify-between w-full px-5 small:px-0">
+          <div className="relative z-10 flex w-full items-center justify-between px-5 small:px-0">
             <span className="flex-center">
               {customizable && (
                 <span
@@ -115,7 +115,7 @@ const ProductCardTemp = ({
               width={500}
               height={500}
               alt={"shirt" + slug}
-              className="w-full h-full transition-all duration-700"
+              className="h-full w-full transition-all duration-700"
             />
           </div>
           <div
@@ -174,7 +174,7 @@ const BtnsMob = ({ slug, setmobBtns }) => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
       ref={scope}
       style={{ backdropFilter: "blur(4.5px)" }}
-      className="fixed inset-0 left-0 top-0 z-[80] hidden items-end justify-end bg-[#84848499] smo:flex"
+      className="fixed inset-0 left-0 top-0 z-[80] hidden items-end justify-end bg-[#84848499] small:flex"
     >
       <motion.div
         id="drawer"
@@ -206,7 +206,7 @@ const BtnsMob = ({ slug, setmobBtns }) => {
           }}
           className="h-[4px] w-[39px] cursor-grab touch-none rounded-full  bg-[#D4D2D2] active:cursor-grabbing "
         ></span>
-        <div className="flex flex-col items-center w-full gap-4 px-5">
+        <div className="flex w-full flex-col items-center gap-4 px-5">
           <Link
             href={"/product/" + slug}
             style={{ boxShadow: "0px 3px 6px 0px #00000017" }}

@@ -71,8 +71,8 @@ const UploadedShower = ({ images, setimages, setuploadedFiles }) => {
   return (
     <div className="flex flex-wrap justify-center gap-2 gap-y-3 rounded-[10px] border border-[#EEEEEE] p-2">
       {images.map((it, index) => (
-        <div className="flex-center relative h-[180px] w-full max-w-[190px] rounded-[6px] bg-[#F4F1F2] p-1 ">
-          <div className="flex-center h-[180px] w-full max-w-[190px] overflow-hidden">
+        <div className="flex-center relative h-[180px] w-full max-w-[190px] rounded-[6px] bg-[#F4F1F2] p-1 small:h-[150px] small:max-w-[150px] ">
+          <div className="flex-center h-[180px] w-full max-w-[190px] overflow-hidden small:h-[150px] small:max-w-[150px]">
             <Image
               src={it}
               alt="uploaded"

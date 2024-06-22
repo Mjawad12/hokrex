@@ -101,27 +101,27 @@ export default function BasicDateCalendar({ setselectedDate, setshow }) {
     <>
       <div
         style={{ boxShadow: "0px 0px 10px -1mm gray" }}
-        className="max-w-[21rem] larger:max-w-[16rem] med:max-w-[15rem] small:max-w-full w-full flex justify-start items-center bg-white rounded-3xl  py-5 px-5 "
+        className="flex   w-[21rem] items-center justify-start rounded-3xl bg-white  px-5 py-5 "
       >
-        <div className="w-full max-w-[18.5rem] larger:max-w-[16rem] med:max-w-[15rem] small:max-w-full  small:h-auto relative flex justify-start flex-col items-center ">
-          <header className="flex justify-between items-center calendar-navigation w-full relative">
+        <div className="relative flex w-[18.5rem] flex-col items-center justify-start small:h-auto ">
+          <header className="calendar-navigation relative flex w-full items-center justify-between">
             <span
               id="calendar-prev"
-              className=" flex justify-center items-center w-7 h-7 rounded-full cursor-pointer"
+              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full"
             >
               {left}
             </span>
-            <p className="calendar-current-date font-pm font-med text-[0.95rem] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]  "></p>
+            <p className="calendar-current-date font-pm font-med absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] text-[0.95rem]  "></p>
             <span
               id="calendar-next"
-              className="flex justify-center items-center w-7 h-7 rounded-full  scale-[-1] cursor-pointer"
+              className="flex h-7 w-7 scale-[-1] cursor-pointer items-center  justify-center rounded-full"
             >
               {left}
             </span>
           </header>
 
-          <div className="calendar-body w-full flex flex-col justify-center items-center">
-            <ul className="flex w-full justify-between items-center font-pm [&>li]:text-[0.9rem] [&>li]:text-gray-500 text-center gap-0 [&>li]:w-5 px-1 mt-4 ">
+          <div className="calendar-body flex w-full flex-col items-center justify-center">
+            <ul className="font-pm mt-4 flex w-full items-center justify-between gap-0 px-1 text-center [&>li]:w-5 [&>li]:text-[0.9rem] [&>li]:text-gray-500 ">
               <li>S</li>
               <li>M</li>
               <li>T</li>
@@ -131,9 +131,9 @@ export default function BasicDateCalendar({ setselectedDate, setshow }) {
               <li>S</li>
             </ul>
             <ul
-              className="calendar-dates flex justify-start items-center flex-wrap 
-            [&>li]:text-[0.9rem] [&>li]:font-med text-center gap-[1.53rem] med:gap-[0.95rem] mt-3 gap-y-[0.9rem] larger:gap-y-[0.3rem] med:gap-y-[0.7rem] [&>li]:w-5 px-1 
-            hover:[&>li]:!text-white  small:gap-x-0 small:w-full
+              className="calendar-dates [&>li]:font-med mt-3 flex flex-wrap 
+            items-center justify-start gap-[1.53rem] gap-y-[0.9rem] px-1 text-center larger:gap-y-[0.3rem] med:gap-y-[0.7rem] 
+            [&>li]:w-5  [&>li]:text-[0.9rem] hover:[&>li]:!text-white
             "
             ></ul>
           </div>

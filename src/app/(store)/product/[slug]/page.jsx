@@ -33,7 +33,7 @@ async function page({ params }) {
         filterAdd={false}
         sticky={false}
       />
-      <div className="relative flex justify-center gap-10 px-10 pb-0 pr-0">
+      <div className="relative flex justify-center gap-10 px-10 pb-0 pr-0 small:flex-col small:gap-9 small:px-5">
         <ProductImageShower parsedData={parsedData} />
         <ProductShower product={parsedData.product} />
       </div>
