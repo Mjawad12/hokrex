@@ -77,8 +77,8 @@ function BulkCalculator({ price, salePercent }) {
           </p>
         </div>
         <div className="flex items-center justify-between">
-          <p className="text-[16px] font-[600]">
-            Disconted Price :{" "}
+          <p className="text-[16px] font-[600] smo:text-[15px]">
+            Disconted Price :
             <span className="font-[700]">
               $
               {(value * price - value * price * (+salePercent / 100)).toFixed(
