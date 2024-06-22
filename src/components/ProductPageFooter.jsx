@@ -14,9 +14,11 @@ function ProductPageFooter() {
   }, []);
 
   return (
-    <div className="mt-14 w-full px-9 py-10 pb-0">
-      <h3 className="text-5xl font-[600] text-black">RELATED PRODUCTS</h3>
-      <div className="mt-3 grid grid-cols-2">
+    <div className="mt-14 w-full px-9 py-10 pb-0 large:mt-0 small:px-2">
+      <h3 className="text-5xl font-[600] leading-[22px] text-black large:text-[22px] large:font-[700]">
+        RELATED PRODUCTS
+      </h3>
+      <div className="mt-3 grid grid-cols-2 smo:grid-cols-1">
         {categoryProducts?.slice(0, 6).map((it, index) => (
           <ProductCardTemp
             name={it.productName}

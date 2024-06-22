@@ -6,7 +6,7 @@ import Image from "next/image";
 
 function D_R_R({ description, reviews, reviewNumber }) {
   return (
-    <div className="mt-14 flex w-full flex-col px-10">
+    <div className="mt-14 flex w-full flex-col px-10 small:mt-10 small:px-0">
       <OpnerCompoent text={"Description"}>
         <p className="text-[16px] font-[400] text-[#707070]">{description}</p>
       </OpnerCompoent>

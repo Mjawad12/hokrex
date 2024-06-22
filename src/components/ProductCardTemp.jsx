@@ -83,12 +83,12 @@ const ProductCardTemp = ({
             setmobBtns(true);
           }
         }}
-        className={`relative ${smGrid ? "min-h-[415px] larger:min-h-[350px] large:min-h-[300px] med:min-h-[200px]  " : footer ? "min-h-[412px]" : "min-h-[550px] larger:min-h-[450px] large:min-h-[400px] med:min-h-[350px]  small:min-h-[220px]"} w-full
-      border-b ${border ? (smGrid ? "border-r" : footer ? "border-r" : border_r ? "border-r" : "border-x") : ""} border-[#E5E5E5] p-2 transition-all duration-700 smo:border-0 smo:!border-t  smo:px-0 smo:py-4 [&_#prod]:hover:bg-[#F5F5F5] smo:[&_#prod]:hover:bg-transparent [&_#prod_#btns-prod]:hover:opacity-[1] [&_#prod_img]:hover:scale-[0.79] smo:[&_#prod_img]:hover:scale-[1]`}
+        className={`relative ${smGrid ? "min-h-[415px] larger:min-h-[350px] large:min-h-[300px] med:min-h-[200px]  " : footer ? "min-h-[412px] larger:min-h-[350px] large:min-h-[300px] med:min-h-[200px] " : "min-h-[550px] larger:min-h-[450px] large:min-h-[400px] med:min-h-[350px]  small:min-h-[220px]"} w-full
+      border-b ${border ? (smGrid ? "border-r" : footer ? "border-r smo:!border-0 smo:!border-b" : border_r ? "border-r" : "border-x") : ""} border-[#E5E5E5] p-2 transition-all duration-700 smo:border-0 smo:!border-t  smo:px-0 smo:py-4 [&_#prod]:hover:bg-[#F5F5F5] smo:[&_#prod]:hover:bg-transparent [&_#prod_#btns-prod]:hover:opacity-[1] [&_#prod_img]:hover:scale-[0.79] smo:[&_#prod_img]:hover:scale-[1]`}
       >
         <div
           id="prod"
-          className={`flex-center relative ${smGrid ? "min-h-[415px] larger:min-h-[350px] large:min-h-[300px] med:min-h-[200px] " : footer ? "min-h-[394px]" : "min-h-[550px] larger:min-h-[450px] large:min-h-[400px] med:min-h-[350px]  small:min-h-[220px]"} w-full flex-col transition-all duration-700`}
+          className={`flex-center relative ${smGrid ? "min-h-[415px] larger:min-h-[350px] large:min-h-[300px] med:min-h-[200px] " : footer ? "min-h-[394px] larger:min-h-[350px] large:min-h-[300px] med:min-h-[200px]" : "min-h-[550px] larger:min-h-[450px] large:min-h-[400px] med:min-h-[350px]  small:min-h-[220px]"} w-full flex-col transition-all duration-700`}
         >
           <div className="relative z-10 flex w-full items-center justify-between px-5 small:px-0">
             <span className="flex-center">
@@ -125,12 +125,12 @@ const ProductCardTemp = ({
             <Link
               href={"/product/" + slug}
               style={{ boxShadow: "0px 4px 8px 0px #00000017" }}
-              className={`w-full whitespace-nowrap bg-[#FFFFFF] ${smGrid ? "rounded-[7px] px-[1.7rem] py-[0.55rem] text-[14px] large:px-[1.3rem] large:py-[0.4rem] med:px-[1.1rem] med:text-[13px] " : footer ? "rounded-[7px] px-7 py-2.5 text-[14px]" : "rounded-[10px] px-8 py-3 text-[20px] massive:px-7 massive:py-2.5 massive:text-[17px] med:px-6 med:text-[16px] "} font-[500] hover:bg-[#000000CC] hover:text-white`}
+              className={`w-full whitespace-nowrap bg-[#FFFFFF] ${smGrid ? "rounded-[7px] px-[1.7rem] py-[0.55rem] text-[14px] large:px-[1.3rem] large:py-[0.4rem] med:px-[1.1rem] med:text-[13px] " : footer ? "rounded-[7px] px-7 py-2.5 text-[14px] large:px-[1.3rem] large:py-[0.4rem] med:px-[1.1rem] med:text-[13px]" : "rounded-[10px] px-8 py-3 text-[20px] massive:px-7 massive:py-2.5 massive:text-[17px] med:px-6 med:text-[16px] "} font-[500] hover:bg-[#000000CC] hover:text-white`}
             >
               Quick View
             </Link>
             <button
-              className={`w-full bg-[#000000CC] ${smGrid ? "rounded-[7px] px-[1.7rem] py-[0.55rem] text-[14px] large:px-[1.3rem] large:py-[0.4rem] med:px-[1.1rem] med:text-[13px] " : footer ? "rounded-[7px] px-7 py-2.5 text-[14px]" : "rounded-[10px] px-8 py-3 text-[20px] massive:px-7 massive:py-2.5 massive:text-[17px] med:px-6 med:text-[16px]  "} font-[500] text-white`}
+              className={`w-full bg-[#000000CC] ${smGrid ? "rounded-[7px] px-[1.7rem] py-[0.55rem] text-[14px] large:px-[1.3rem] large:py-[0.4rem] med:px-[1.1rem] med:text-[13px] " : footer ? "rounded-[7px] px-7 py-2.5 text-[14px] large:px-[1.3rem] large:py-[0.4rem] med:px-[1.1rem] med:text-[13px]" : "rounded-[10px] px-8 py-3 text-[20px] massive:px-7 massive:py-2.5 massive:text-[17px] med:px-6 med:text-[16px]  "} font-[500] text-white`}
             >
               Customize
             </button>

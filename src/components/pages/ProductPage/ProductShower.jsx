@@ -7,7 +7,16 @@ import FileCapturer from "@/components/FileCapturer";
 import DateSelector from "@/components/DateSelector";
 import D_R_R from "@/components/D_R_R";
 import ProductPageFooter from "@/components/ProductPageFooter";
-import { bag, check, heart, heartRed, share, star } from "@/Consonats";
+import {
+  arrowDown,
+  bag,
+  cart,
+  check,
+  heart,
+  heartRed,
+  share,
+  star,
+} from "@/Consonats";
 import { ContextCart } from "../../Mainstate(cart)/Mainstatecart";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,13 +28,9 @@ import { Upload } from "@/app/(others)/hokrex-shadow-eye-admin-56789/addproduct/
 
 function ProductShower({ product, products }) {
   const { dispatch } = useContext(ContextCart);
-  const { authToken, setuserData, userData, wishlistAdd, wishlistDele } =
-    useContext(ContextStore);
   const [selectedDate, setselectedDate] = useState(null);
   const [amount, setamount] = useState(0);
   const [error, seterror] = useState(null);
-  const [InWhishlist, setInWhishlist] = useState(false);
-  const router = useRouter();
   const [uploadedFiles, setuploadedFiles] = useState([]);
   const [loading, setloading] = useState(false);
   const [reviewNumber, setreviewNumber] = useState({
@@ -103,57 +108,6 @@ function ProductShower({ product, products }) {
     return sizes;
   };
 
-  useEffect(() => {
-    userData?.wishlist.forEach((it) => {
-      if (it.slug === product?.slug) {
-        setInWhishlist(true);
-      }
-    });
-  }, [userData]);
-
-  const wishlistEdit = async () => {
-    if (!authToken) {
-      router.push("/login");
-    } else {
-      if (InWhishlist) {
-        setuserData((e) => {
-          const temp_wishlist = e.wishlist;
-          e.wishlist.forEach((it, index) => {
-            if (it.slug === product?.slug) {
-              temp_wishlist.splice(index, 1);
-            }
-          });
-          return { ...e, wishlist: temp_wishlist };
-        });
-        setInWhishlist(false);
-        const result = await wishlistDele(product?.slug);
-        notificationCaller(
-          result.success,
-          result.success ? "Item removed from the wishlist." : result.error,
-          toast,
-        );
-      } else {
-        setInWhishlist(true);
-        const wish = {
-          productName: product?.productName,
-          productImg: product?.productImg,
-          slug: product?.slug,
-          customizable: product?.customizable,
-        };
-        setuserData((e) => {
-          return { ...e, wishlist: [...e.wishlist, wish] };
-        });
-        const result = await wishlistAdd(wish);
-
-        notificationCaller(
-          result.success,
-          result.success ? "Item added to the wishlist." : result.error,
-          toast,
-        );
-      }
-    }
-  };
-
   const uploadFiles = async () => {
     let files_upload = [];
     for (let i = 0; i < uploadedFiles.length; i++) {
@@ -185,32 +139,8 @@ function ProductShower({ product, products }) {
 
   return (
     <div className="w-full flex-1 flex-grow-[0.56] border-l border-[#E5E5E5] pt-20 small:border-none small:pt-2">
-      <div className="flex w-full max-w-[31rem] flex-col gap-5 px-10 small:m-auto smo:px-2">
-        <div className="flex gap-2 small:hidden">
-          <div
-            onClick={wishlistEdit}
-            className="flex-center cursor-pointer rounded-[12px] border border-borderP px-2 py-2 [&_svg]:scale-[0.9]"
-          >
-            {InWhishlist ? heartRed : heart}
-          </div>
-          <div
-            onClick={() => {
-              navigator.clipboard?.writeText(location.href);
-              notificationCaller(true, "Link copied to clipboard!", toast);
-              const data = {
-                title: `PrintODS - ${product.productName}`,
-                text: product.productHeading,
-                url: location.href,
-                file: [],
-              };
-              window.navigator?.share(data);
-              notificationCaller(true, "Sharing...", toast);
-            }}
-            className="flex-center cursor-pointer rounded-[12px] border border-borderP px-2 py-2 [&_svg]:scale-[0.9]"
-          >
-            {share}
-          </div>
-        </div>
+      <div className="flex w-full max-w-[31rem] flex-col gap-5 px-10 small:m-auto smo:px-0">
+        <TopBTNs hidden={true} product={product} />
         <div className="small:gao-3 flex gap-5">
           <p className="text-[22px] font-[600] text-pmRed">
             ${product?.productPrice}
@@ -293,7 +223,7 @@ function ProductShower({ product, products }) {
           Total{" "}
           <span className="text-pmRed underline">${calculatePrice()}</span>
         </p>
-        <div className="flex-center mt-8 justify-start gap-3">
+        <div className="flex-center mt-8 justify-start gap-3 small:mt-2 smo:gap-1.5">
           <CustomButton
             svg={bag}
             text={"Add to Cart"}
@@ -302,7 +232,7 @@ function ProductShower({ product, products }) {
             loading={loading}
           />
           <CustomButton
-            svg={bag}
+            svg={cart}
             text={"Check out"}
             color="black"
             clickFunc={() => {}}
@@ -328,10 +258,10 @@ const CustomButton = ({ text, svg, color, clickFunc, loading }) => {
     <button
       onClick={clickFunc}
       disabled={loading}
-      className={`flex-center gap-[1.6rem] px-4 py-3 pr-12 text-white ${
+      className={`flex-center gap-[1.6rem] whitespace-nowrap px-4 py-3 pr-12 text-white small:gap-[0.8rem] small:pr-5 ${
         color === "red"
           ? `bg-[#ea0000bc] hover:bg-[#EA0000]`
-          : "bg-[#000000B2] hover:bg-[black]"
+          : "bg-[#000000B2] hover:bg-[black] small:bg-black"
       }
     rounded-[0.8rem] text-[17px] font-[500] disabled:cursor-not-allowed disabled:bg-[#EA0000] [&_svg]:stroke-white`}
     >
@@ -342,3 +272,110 @@ const CustomButton = ({ text, svg, color, clickFunc, loading }) => {
 };
 
 export default ProductShower;
+
+const TopBTNs = ({ hidden, product }) => {
+  const { authToken, setuserData, userData, wishlistAdd, wishlistDele } =
+    useContext(ContextStore);
+  const router = useRouter();
+
+  const [InWhishlist, setInWhishlist] = useState(false);
+
+  useEffect(() => {
+    userData?.wishlist.forEach((it) => {
+      if (it.slug === product?.slug) {
+        setInWhishlist(true);
+      }
+    });
+  }, [userData]);
+
+  const wishlistEdit = async () => {
+    if (!authToken) {
+      router.push("/login");
+    } else {
+      if (InWhishlist) {
+        setuserData((e) => {
+          const temp_wishlist = e.wishlist;
+          e.wishlist.forEach((it, index) => {
+            if (it.slug === product?.slug) {
+              temp_wishlist.splice(index, 1);
+            }
+          });
+          return { ...e, wishlist: temp_wishlist };
+        });
+        setInWhishlist(false);
+        const result = await wishlistDele(product?.slug);
+        notificationCaller(
+          result.success,
+          result.success ? "Item removed from the wishlist." : result.error,
+          toast,
+        );
+      } else {
+        setInWhishlist(true);
+        const wish = {
+          productName: product?.productName,
+          productImg: product?.productImg,
+          slug: product?.slug,
+          customizable: product?.customizable,
+        };
+        setuserData((e) => {
+          return { ...e, wishlist: [...e.wishlist, wish] };
+        });
+        const result = await wishlistAdd(wish);
+
+        notificationCaller(
+          result.success,
+          result.success ? "Item added to the wishlist." : result.error,
+          toast,
+        );
+      }
+    }
+  };
+
+  return (
+    <div
+      className={`flex gap-2 ${hidden ? "small:hidden" : "hidden smo:flex"}`}
+    >
+      <div
+        onClick={wishlistEdit}
+        className="flex-center cursor-pointer rounded-[12px] border border-borderP px-2 py-2 [&_svg]:scale-[0.9]"
+      >
+        {InWhishlist ? heartRed : heart}
+      </div>
+      <div
+        onClick={() => {
+          navigator.clipboard?.writeText(location.href);
+          notificationCaller(true, "Link copied to clipboard!", toast);
+          const data = {
+            title: `PrintODS - ${product.productName}`,
+            text: product.productHeading,
+            url: location.href,
+            file: [],
+          };
+          window.navigator?.share(data);
+          notificationCaller(true, "Sharing...", toast);
+        }}
+        className="flex-center cursor-pointer rounded-[12px] border border-borderP px-2 py-2 [&_svg]:scale-[0.9]"
+      >
+        {share}
+      </div>
+    </div>
+  );
+};
+
+export { TopBTNs, MobBar };
+
+const MobBar = ({ product }) => {
+  const router = useRouter();
+  return (
+    <div className="hidden w-full items-center justify-between px-5 py-3 smo:flex">
+      <div
+        onClick={() => router.back()}
+        className="flex-center [&_svg]:w-10 [&_svg]:rotate-[90deg]"
+      >
+        {arrowDown}
+        <span className="text-[16px] font-[400]">Back</span>
+      </div>
+      <TopBTNs hidden={false} product={product} />
+    </div>
+  );
+};

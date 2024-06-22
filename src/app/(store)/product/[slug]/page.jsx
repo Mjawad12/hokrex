@@ -1,5 +1,7 @@
 import React from "react";
-import ProductShower from "@/components/pages/ProductPage/ProductShower";
+import ProductShower, {
+  MobBar,
+} from "@/components/pages/ProductPage/ProductShower";
 import { TopBar } from "../../categories/[slug]/page";
 import { redirect } from "next/navigation";
 import ProductImageShower from "@/components/pages/ProductPage/ProductImageShower";
@@ -27,12 +29,15 @@ async function page({ params }) {
   ];
   return (
     <div>
-      <TopBar
-        slug={params.slug}
-        liItems={liItems}
-        filterAdd={false}
-        sticky={false}
-      />
+      <div className="w-full smo:hidden">
+        <TopBar
+          slug={params.slug}
+          liItems={liItems}
+          filterAdd={false}
+          sticky={false}
+        />
+      </div>
+      <MobBar product={parsedData.product} />
       <div className="relative flex justify-center gap-10 px-10 pb-0 pr-0 small:flex-col small:gap-9 small:px-5">
         <ProductImageShower parsedData={parsedData} />
         <ProductShower product={parsedData.product} />

@@ -18,7 +18,7 @@ function DateSelector({ selectedDate, setselectedDate }) {
               <span className="flex-center h-5 w-5 rounded-full bg-[#12CC46] [&_svg]:w-[10px]">
                 {check}
               </span>
-              <p className="text-[17px] font-[500]">
+              <p className="text-[17px] font-[500] mob:text-[15px]">
                 Arrives by {selectedDate}
               </p>
             </>
