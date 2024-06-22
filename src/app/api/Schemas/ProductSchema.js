@@ -23,7 +23,7 @@ const Schema = new mongoose.Schema({
   },
   customizable: Boolean,
   salePercent: Number,
-  Materials: Array,
+  materials: Array,
   sideImages: Array,
 });
 

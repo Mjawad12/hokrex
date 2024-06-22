@@ -11,10 +11,10 @@ import { bag, check, heart, heartRed, share, star } from "@/Consonats";
 import { ContextCart } from "../../Mainstate(cart)/Mainstatecart";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import notificationCaller from "../../NotificationCaller";
 import { v4 } from "uuid";
 import { ContextStore } from "../../Mainstate(store)/Mainstatestore";
 import { useRouter } from "next/navigation";
-import notificationCaller from "../../NotificationCaller";
 import { Upload } from "@/app/(others)/hokrex-shadow-eye-admin-56789/addproduct/page";
 
 function ProductShower({ product, products }) {
@@ -35,6 +35,7 @@ function ProductShower({ product, products }) {
     4: 0,
     5: 0,
   });
+  const [selectedType, setselectedType] = useState(null);
 
   const Addproduct = async () => {
     setloading(true);
@@ -42,6 +43,12 @@ function ProductShower({ product, products }) {
       seterror("Please Select atleast one size.");
       document
         .querySelector("#err-s")
+        .scrollIntoView({ behavior: "smooth", block: "center" });
+    } else if (!selectedType) {
+      notificationCaller(false, "Please Select a material.", toast);
+      document.querySelector("#mat-select").click();
+      document
+        .querySelector("#mat-select")
         .scrollIntoView({ behavior: "smooth", block: "center" });
     } else {
       let files = await uploadFiles();
@@ -60,6 +67,7 @@ function ProductShower({ product, products }) {
           customized: product?.customizable,
           slug: product?.slug,
           files: files,
+          material: selectedType,
         },
       });
       toast("Product added to the cart!", {
@@ -261,7 +269,11 @@ function ProductShower({ product, products }) {
             price={product?.productPrice}
             salePercent={product?.salePercent}
           />
-          <SelectMaterial materials={product?.materials || []} />
+          <SelectMaterial
+            materials={product?.materials || []}
+            selectedType={selectedType}
+            setselectedType={setselectedType}
+          />
           <input
             type="text"
             className="w-full rounded-[0.8rem] border border-borderP px-5 py-3 text-[18px] font-[500] outline-none hover:border-black"
