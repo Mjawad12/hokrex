@@ -24,8 +24,7 @@ export default function page() {
       <div className="m-auto flex min-h-[calc(100vh-64px)] max-w-[1150px] gap-10 px-3 small:flex-col small:gap-2 small:px-5">
         {cartState?.items?.length > 0 ? (
           <>
-            <div className="flex w-full flex-1 flex-grow-[0.6] flex-col gap-5 py-9 small:py-5 small:pb-0">
-              <h1 className="text-[20px] font-[700] small:hidden">My Cart</h1>
+            <div className="flex w-full flex-1 flex-grow-[0.6] flex-col gap-5 border-r border-[#E5E5E5] py-12 pr-10 small:border-r-0 small:py-5 small:pb-0 small:pr-0">
               <div className="flex flex-col gap-10 small:gap-5 ">
                 {cartState?.items?.map((it, index) => (
                   <CartItem
@@ -50,47 +49,45 @@ export default function page() {
                 ))}
               </div>
             </div>
-            <div className="flex w-full flex-1 flex-grow-[0.4] flex-col gap-2 small:pb-24">
+            <div className="flex w-full flex-1 flex-grow-[0.45] flex-col gap-2 small:pb-24">
               <div className="sticky left-0 top-0 flex flex-col gap-2 py-9 small:relative small:py-0">
-                <div className="flex w-full max-w-[23rem] flex-col gap-5 rounded-lg border border-borderP px-[1.3rem] py-5 hover:border-black small:max-w-[100%] small:border-0 small:p-0 small:pt-4">
+                <div className="flex w-full max-w-[23rem] flex-col gap-5 rounded-lg px-[1.3rem] pt-5 hover:border-black small:max-w-[100%] small:p-0 small:pt-4">
                   <p className="text-[20px] font-[500] ">Summary</p>
-                  <div className="flex w-full flex-col gap-[0.6rem]">
+                  <div className="flex w-full flex-col gap-[0.1rem]">
                     <div className="flex w-full items-center justify-between">
-                      <p className="text-[15px] font-[600]">Total unit</p>
-                      <span className="text-[15px] font-[400] text-black ">
+                      <p className="text-[15px] font-[500]">Total unit</p>
+                      <span className="text-[15px] font-[500] text-black ">
                         {cartState.total}
                       </span>
                     </div>
                     <div className="flex w-full items-center justify-between">
-                      <p className="text-[15px] font-[600]">Sub Total</p>
-                      <span className="text-[15px] font-[400] text-pmGray ">
+                      <p className="text-[15px] font-[500]">Sub Total</p>
+                      <span className="text-[15px] font-[500] text-black ">
                         ${totalPrice ? totalPrice?.toFixed(2) : 0}
                       </span>
                     </div>
                     <div className="flex w-full items-center justify-between">
-                      <p className="text-[15px] font-[600]">Shipping</p>
-                      <span className="text-[15px] font-[400] text-pmGray ">
+                      <p className="text-[15px] font-[500]">Shipping</p>
+                      <span className="text-[15px] font-[500] text-black ">
                         Calculated at checkout
                       </span>
                     </div>
+                    <div className="mt-1.5 flex items-center justify-between border-b border-[#E5E5E5] pb-5 small:mt-5 small:border-b-0">
+                      <p className="text-[15px] font-[700]">Total price</p>
+                      <span className="text-[17px] font-[600] text-pmRed">
+                        ${totalPrice ? totalPrice?.toFixed(2) : 0}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between border-y border-borderP py-3 small:border-0 small:p-0">
-                    <p className="text-[15px] font-[600] small:font-[700]">
-                      Total price
-                    </p>
-                    <span className="text-[17px] font-[600] text-pmRed">
-                      ${totalPrice ? totalPrice?.toFixed(2) : 0}
-                    </span>
-                  </div>
+
                   <Link
                     href="/checkout"
-                    className="flex-center relative w-full gap-1 rounded-2xl bg-black px-4 py-[0.8rem] text-[18px] font-[500] text-white small:hidden"
+                    className="flex-center relative w-full gap-1 rounded-[10px] border border-black px-4 py-[0.6rem] text-[18px] font-[500] small:hidden"
                   >
-                    <span className="absolute left-5">{cart}</span>
-                    Check out
+                    Continue to Checkout
                   </Link>
                 </div>
-                <div className="flex-center h-[26px] w-full max-w-[23rem] small:max-w-max ">
+                <div className="flex-center h-[26px] w-full max-w-[23rem] small:hidden small:max-w-max ">
                   <p className="mr-1 text-[13px] font-[400]">Payment method</p>
                   <Image
                     src={"/visa.jpg"}
