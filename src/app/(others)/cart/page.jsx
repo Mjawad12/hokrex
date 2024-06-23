@@ -21,10 +21,10 @@ export default function page() {
         name={"My cart"}
         back={"shopping"}
       />
-      <div className="m-auto flex min-h-[calc(100vh-64px)] max-w-[1150px] gap-10 px-3">
+      <div className="m-auto flex min-h-[calc(100vh-64px)] max-w-[1150px] gap-10 px-3 small:flex-col small:gap-2 small:px-5">
         {cartState?.items?.length > 0 ? (
           <>
-            <div className="flex w-full flex-1 flex-grow-[0.6] flex-col gap-5 py-9">
+            <div className="flex w-full flex-1 flex-grow-[0.6] flex-col gap-5 py-9 small:py-2">
               <h1 className="text-[20px] font-[700]">My Cart</h1>
               <div className="flex flex-col gap-10 ">
                 {cartState?.items?.map((it, index) => (
@@ -45,49 +45,52 @@ export default function page() {
                     index={index}
                     settotalPrice={settotalPrice}
                     files={it?.files || []}
+                    customized={it.customized}
                   />
                 ))}
               </div>
             </div>
             <div className="flex w-full flex-1 flex-grow-[0.4] flex-col gap-2">
-              <div className="sticky left-0 top-0 flex flex-col gap-2 py-9">
-                <div className="flex w-full max-w-[23rem] flex-col gap-5 rounded-lg border  border-borderP px-[1.3rem] py-5 hover:border-black ">
+              <div className="sticky left-0 top-0 flex flex-col gap-2 py-9 small:relative small:py-0">
+                <div className="flex w-full max-w-[23rem] flex-col gap-5 rounded-lg border border-borderP px-[1.3rem] py-5 hover:border-black small:max-w-[100%] small:border-0 small:!border-t small:p-0 small:pt-4">
                   <p className="text-[20px] font-[500] ">Summary</p>
                   <div className="flex w-full flex-col gap-[0.6rem]">
                     <div className="flex w-full items-center justify-between">
-                      <p className="text-[14px] font-[600]">Total unit</p>
-                      <span className="text-[14px] font-[400] text-black ">
+                      <p className="text-[15px] font-[600]">Total unit</p>
+                      <span className="text-[15px] font-[400] text-black ">
                         {cartState.total}
                       </span>
                     </div>
                     <div className="flex w-full items-center justify-between">
-                      <p className="text-[14px] font-[600]">Sub Total</p>
-                      <span className="text-[14px] font-[400] text-pmGray ">
+                      <p className="text-[15px] font-[600]">Sub Total</p>
+                      <span className="text-[15px] font-[400] text-pmGray ">
                         ${totalPrice ? totalPrice?.toFixed(2) : 0}
                       </span>
                     </div>
                     <div className="flex w-full items-center justify-between">
-                      <p className="text-[14px] font-[600]">Shipping</p>
-                      <span className="text-[14px] font-[400] text-pmGray ">
+                      <p className="text-[15px] font-[600]">Shipping</p>
+                      <span className="text-[15px] font-[400] text-pmGray ">
                         Calculated at checkout
                       </span>
                     </div>
                   </div>
-                  <div className="border-border-p flex items-center justify-between border-y py-3">
-                    <p className="text-[14px] font-[600]">Total price</p>
+                  <div className="flex items-center justify-between border-y border-borderP py-3 small:border-0 small:p-0">
+                    <p className="text-[15px] font-[600] small:font-[700]">
+                      Total price
+                    </p>
                     <span className="text-[17px] font-[600] text-pmRed">
                       ${totalPrice ? totalPrice?.toFixed(2) : 0}
                     </span>
                   </div>
                   <Link
                     href="/checkout"
-                    className="flex-center relative w-full gap-1 rounded-2xl bg-black px-4 py-[0.8rem] text-[18px] font-[500] text-white"
+                    className="flex-center relative w-full gap-1 rounded-2xl bg-black px-4 py-[0.8rem] text-[18px] font-[500] text-white small:hidden"
                   >
                     <span className="absolute left-5">{cart}</span>
                     Check out
                   </Link>
                 </div>
-                <div className="flex-center h-[26px] w-full max-w-[23rem] ">
+                <div className="flex-center h-[26px] w-full max-w-[23rem] small:max-w-max ">
                   <p className="mr-1 text-[13px] font-[400]">Payment method</p>
                   <Image
                     src={"/visa.jpg"}
@@ -160,6 +163,7 @@ const CartItem = ({
   index,
   settotalPrice,
   files,
+  customized,
 }) => {
   const fileRef = useRef(null);
   const nfs = useRef(null);
@@ -214,7 +218,8 @@ const CartItem = ({
         />
       )}
       <div className="flex items-start justify-between">
-        <div className="flex w-full max-w-[23.5rem] flex-col gap-[0.6rem]">
+        {/*  */}
+        <div className="flex w-full max-w-[23.5rem] flex-col gap-[0.6rem] small:max-w-full ">
           <div className="flex gap-[0.9rem]">
             <div className="relative">
               <div className="h-[105px] w-[110px] overflow-hidden rounded-lg bg-[#EEEEEE]">
@@ -249,10 +254,17 @@ const CartItem = ({
                 {cross}
               </div>
             </div>
-            <div className="flex flex-col justify-end gap-1">
-              <p className="text-[20px] font-[500]">{name}</p>
+            <div className="flex flex-col justify-end gap-1 small:justify-center">
+              <div className="flex-center gap-2 small:flex-col-reverse small:items-start small:gap-1">
+                <p className="text-[20px] font-[500]">{name}</p>
+                {customized && (
+                  <span className="rounded-[7px] bg-black px-[7px] py-[3px] text-[9px] font-[500] text-white small:rounded-[6px] small:py-[4px] small:text-[10px] small:leading-[12px] ">
+                    Customized
+                  </span>
+                )}
+              </div>
               <p className="text-[16px] font-[600] text-pmRed">${price}</p>
-              <div className="flex w-full flex-wrap gap-2 gap-y-1">
+              <div className="flex w-full flex-wrap gap-2 gap-y-1 small:hidden ">
                 {sizes?.map(
                   (it, ind) =>
                     it.val !== 0 && (
@@ -294,58 +306,101 @@ const CartItem = ({
               </div>
             </div>
           </div>
-          <div className="flex-center mt-1 justify-start gap-4 ">
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              multiple
-              onInput={(e) => {
-                if (
-                  e.target.files.length > 0 &&
-                  document.querySelectorAll(`#fil-sp-${index} span`).length < 10
-                ) {
-                  for (
-                    let i = 0;
-                    i < e.target.files.length &&
-                    document.querySelectorAll(`#fil-sp-${index} span`)?.length <
-                      10;
-                    i++
-                  ) {
-                    i === 0 && nfs.current?.classList.add("hidden");
-                    const span = document.createElement("span");
-                    span.innerText = e.target.files[i].name;
-                    span.className = "text-[14px] font-[500]";
-                    e.target.nextElementSibling.nextElementSibling.appendChild(
-                      span,
-                    );
-                  }
-                }
-              }}
-            />
-            <button
-              className="cs-in-1 whitespace-nowrap"
-              onClick={() => fileRef.current.click()}
-            >
-              Choose File
-            </button>
-            <div id={`fil-sp-${index}`} className="flex flex-col">
-              {files.length > 0 ? (
-                files.map((it, index) => (
-                  <span key={index} className="text-[14px] font-[500]">
-                    {it.slice(it.lastIndexOf("/") + 1)}
-                  </span>
-                ))
-              ) : (
-                <p
-                  className="text-[14px] font-[500]"
-                  ref={nfs}
-                  onClick={() => fileRef.current.click()}
-                >
-                  No File selected
-                </p>
+          <div className="flex flex-col gap-2 small:mt-0.5">
+            <div className="hidden w-full flex-wrap gap-2 gap-y-1 small:flex">
+              {sizes?.map(
+                (it, ind) =>
+                  it.val !== 0 && (
+                    <div
+                      className="flex-center overflow-hidden rounded-[9px] "
+                      key={ind}
+                    >
+                      <p
+                        style={{
+                          borderTopRightRadius: 0,
+                          borderBottomRightRadius: 0,
+                        }}
+                        className="rounded-[9px] border border-r-0 border-borderP px-2 py-[0.29rem] text-[14px] font-[700]"
+                      >
+                        {it.type}
+                      </p>
+                      <input
+                        id={`inp-size-quant-${index}`}
+                        style={{
+                          borderTopLeftRadius: 0,
+                          borderBottomLeftRadius: 0,
+                        }}
+                        className="w-[37px] rounded-[9px] border border-borderP py-[0.29rem] text-center text-[14px] font-[500] outline-none placeholder:text-black hover:border-darkP focus:border-darkP"
+                        defaultValue={it.val}
+                        type="number"
+                        onKeyDown={(e) => {
+                          if (
+                            e.target.value.length > 1 &&
+                            e.key !== "Backspace"
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
+                        onInput={calculatePrice}
+                      ></input>
+                    </div>
+                  ),
               )}
+            </div>
+            <div className="flex-center mt-1 justify-start gap-4 small:gap-3">
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                multiple
+                onInput={(e) => {
+                  if (
+                    e.target.files.length > 0 &&
+                    document.querySelectorAll(`#fil-sp-${index} span`).length <
+                      10
+                  ) {
+                    for (
+                      let i = 0;
+                      i < e.target.files.length &&
+                      document.querySelectorAll(`#fil-sp-${index} span`)
+                        ?.length < 10;
+                      i++
+                    ) {
+                      i === 0 && nfs.current?.classList.add("hidden");
+                      const span = document.createElement("span");
+                      span.innerText = e.target.files[i].name;
+                      span.className = "text-[14px] font-[500]";
+                      e.target.nextElementSibling.nextElementSibling.appendChild(
+                        span,
+                      );
+                    }
+                  }
+                }}
+              />
+              <button
+                className="cs-in-1 whitespace-nowrap"
+                onClick={() => fileRef.current.click()}
+              >
+                Choose File
+              </button>
+              <div id={`fil-sp-${index}`} className="flex flex-col">
+                {files.length > 0 ? (
+                  files.map((it, index) => (
+                    <span key={index} className="text-[14px] font-[500]">
+                      {it.slice(it.lastIndexOf("/") + 1)}
+                    </span>
+                  ))
+                ) : (
+                  <p
+                    className="text-[14px] font-[500]"
+                    ref={nfs}
+                    onClick={() => fileRef.current.click()}
+                  >
+                    No File selected
+                  </p>
+                )}
+              </div>
             </div>
           </div>
           <input
@@ -354,7 +409,9 @@ const CartItem = ({
             className="w-full rounded-xl border border-borderP px-4 py-2 text-[14px] font-[500] outline-none"
           />
         </div>
-        <div className="flex flex-col gap-3">
+        {/*  */}
+
+        <div className="flex flex-col gap-3 small:hidden">
           <button
             onClick={() => setinstuctionDialog(!instuctionDialog)}
             className="w-[8.2rem] rounded-lg border border-borderP py-[0.35rem] text-[14px] font-[500]"
@@ -369,11 +426,28 @@ const CartItem = ({
           </button>
         </div>
       </div>
+
       <div className="mt-2 flex flex-col gap-2 ">
-        <p className="text-[13px] font-[500]">
+        <p className="text-[13px] font-[500] small:text-[12px]">
           If The File Is Larger Than 256mb, Please Provide A Dropbox Or Other
           Link For Download Below
         </p>
+
+        <div className="hidden gap-3 small:flex">
+          <button
+            onClick={() => setinstuctionDialog(!instuctionDialog)}
+            className="w-[8.2rem] rounded-lg border border-borderP py-[0.4rem] text-[14px] font-[500] small:w-[9rem] "
+          >
+            Add Instruction
+          </button>
+          <button
+            onClick={() => setcartDialog(!cartDialog)}
+            className="w-[8.2rem] rounded-lg border border-borderP py-[0.4rem] text-[14px] font-[500] small:w-[9rem] "
+          >
+            View Colors
+          </button>
+        </div>
+
         <div className="flex items-center justify-between border-y border-black py-[0.7rem]">
           <div className="flex-center gap-3">
             <div className="flex-center gap-2 border-r-2 border-pmGray pr-3 ">

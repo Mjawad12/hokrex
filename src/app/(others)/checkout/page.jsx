@@ -1,5 +1,5 @@
 "use client";
-import { google, left2, lock } from "@/Consonats";
+import { arrowDown, google, left2, lock } from "@/Consonats";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import "react-country-state-city/dist/react-country-state-city.css";
@@ -636,23 +636,26 @@ const Smcard = ({ name, sizes, qty, date, price }) => {
 const CheckoutNav = ({ link, name, back }) => {
   return (
     <div
-      className={`flex w-full items-center justify-between bg-black px-4  ${back === "shopping" ? "py-4" : "py-2"}`}
+      className={`flex w-full items-center justify-between bg-black px-4 small:border-b small:border-[#D0D0D0] small:bg-white  ${back === "shopping" ? "py-4" : "py-2"} small:justify-center`}
     >
+      <span className="small:flex-center absolute left-3 hidden rotate-[90deg] [&_svg]:w-[20px]">
+        {arrowDown}
+      </span>
       <Link
         href={link ?? "/cart"}
-        className="flex flex-1 flex-grow-[0.2] items-center justify-start gap-1"
+        className="flex flex-1 flex-grow-[0.2] items-center justify-start gap-1 small:hidden"
       >
         {left2}{" "}
         <p className="text-[13px] text-white">
           Back to {back ? back : "shopping cart"}
         </p>
       </Link>
-      <h1 className="text-[20px] font-[500] text-white">
+      <h1 className="text-[20px] font-[500] text-white small:text-black">
         {name ?? "Checkout"}
       </h1>
       <Link
         href={"/contact"}
-        className="flex-1 flex-grow-[0.2] text-end text-[13px] text-white"
+        className="flex-1 flex-grow-[0.2] text-end text-[13px] text-white small:hidden"
       >
         Contact@hokrex.com
       </Link>
