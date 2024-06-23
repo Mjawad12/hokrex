@@ -8,6 +8,7 @@ import PhoneInput from "react-phone-number-input";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { OpnerCompoent } from "@/components/D_R_R";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 function page() {
   const [pages, setpages] = useState(0);
@@ -634,11 +635,15 @@ const Smcard = ({ name, sizes, qty, date, price }) => {
 };
 
 const CheckoutNav = ({ link, name, back }) => {
+  const router = useRouter();
   return (
     <div
       className={`flex w-full items-center justify-between bg-black px-4 small:border-b small:border-[#D0D0D0] small:bg-white  ${back === "shopping" ? "py-4" : "py-2"} small:justify-center`}
     >
-      <span className="small:flex-center absolute left-3 hidden rotate-[90deg] [&_svg]:w-[20px]">
+      <span
+        onClick={() => router.back()}
+        className="small:flex-center absolute left-3 hidden rotate-[90deg] [&_svg]:w-[20px]"
+      >
         {arrowDown}
       </span>
       <Link

@@ -24,9 +24,9 @@ export default function page() {
       <div className="m-auto flex min-h-[calc(100vh-64px)] max-w-[1150px] gap-10 px-3 small:flex-col small:gap-2 small:px-5">
         {cartState?.items?.length > 0 ? (
           <>
-            <div className="flex w-full flex-1 flex-grow-[0.6] flex-col gap-5 py-9 small:py-2">
-              <h1 className="text-[20px] font-[700]">My Cart</h1>
-              <div className="flex flex-col gap-10 ">
+            <div className="flex w-full flex-1 flex-grow-[0.6] flex-col gap-5 py-9 small:py-5 small:pb-0">
+              <h1 className="text-[20px] font-[700] small:hidden">My Cart</h1>
+              <div className="flex flex-col gap-10 small:gap-5 ">
                 {cartState?.items?.map((it, index) => (
                   <CartItem
                     name={it.name}
@@ -50,9 +50,9 @@ export default function page() {
                 ))}
               </div>
             </div>
-            <div className="flex w-full flex-1 flex-grow-[0.4] flex-col gap-2">
+            <div className="flex w-full flex-1 flex-grow-[0.4] flex-col gap-2 small:pb-24">
               <div className="sticky left-0 top-0 flex flex-col gap-2 py-9 small:relative small:py-0">
-                <div className="flex w-full max-w-[23rem] flex-col gap-5 rounded-lg border border-borderP px-[1.3rem] py-5 hover:border-black small:max-w-[100%] small:border-0 small:!border-t small:p-0 small:pt-4">
+                <div className="flex w-full max-w-[23rem] flex-col gap-5 rounded-lg border border-borderP px-[1.3rem] py-5 hover:border-black small:max-w-[100%] small:border-0 small:p-0 small:pt-4">
                   <p className="text-[20px] font-[500] ">Summary</p>
                   <div className="flex w-full flex-col gap-[0.6rem]">
                     <div className="flex w-full items-center justify-between">
@@ -116,6 +116,7 @@ export default function page() {
                 </div>
               </div>
             </div>
+            <MobCheckOutBtn />
           </>
         ) : (
           <div className="flex-center m-auto w-full max-w-[30rem] flex-col gap-8">
@@ -175,22 +176,44 @@ const CartItem = ({
     addInstruction(id, intruct);
   };
   const calculatePrice = (val) => {
-    let cal_Price = 0;
-    document.querySelectorAll(`#inp-size-quant-${index}`).forEach((it) => {
-      if (it.value !== "") {
-        cal_Price = cal_Price + price * it.value;
-      }
-    });
-    setitemPrice(cal_Price);
+    if (window.innerWidth < 968) {
+      let cal_Price = 0;
+      document
+        .querySelectorAll(`#inp-size-quant-mob-${index}`)
+        .forEach((it) => {
+          if (it.value !== "") {
+            cal_Price = cal_Price + price * it.value;
+          }
+        });
+      setitemPrice(cal_Price);
+    } else {
+      let cal_Price = 0;
+      document.querySelectorAll(`#inp-size-quant-${index}`).forEach((it) => {
+        if (it.value !== "") {
+          cal_Price = cal_Price + price * it.value;
+        }
+      });
+      setitemPrice(cal_Price);
+    }
   };
   const totalPriceCal = () => {
-    let cal_price = 0;
-    document.querySelectorAll("#sub-total-price").forEach((it) => {
-      cal_price =
-        cal_price +
-        parseInt(it.innerText.slice(it.innerText.lastIndexOf("$") + 1));
-    });
-    settotalPrice(cal_price);
+    if (window.innerWidth < 968) {
+      let cal_price = 0;
+      document.querySelectorAll("#sub-total-price-mob").forEach((it) => {
+        cal_price =
+          cal_price +
+          parseInt(it.innerText.slice(it.innerText.lastIndexOf("$") + 1));
+      });
+      settotalPrice(cal_price);
+    } else {
+      let cal_price = 0;
+      document.querySelectorAll("#sub-total-price").forEach((it) => {
+        cal_price =
+          cal_price +
+          parseInt(it.innerText.slice(it.innerText.lastIndexOf("$") + 1));
+      });
+      settotalPrice(cal_price);
+    }
   };
 
   useEffect(() => {
@@ -198,7 +221,7 @@ const CartItem = ({
   }, [itemPrice]);
 
   return (
-    <motion.div className="flex w-full flex-col bg-white transition-all duration-300">
+    <motion.div className="flex w-full flex-col bg-white transition-all duration-300 small:border-b small:border-[#E5E5E5] small:pb-5">
       <AnimatePresence>
         {instuctionDialog && (
           <InstructionDialog
@@ -325,7 +348,7 @@ const CartItem = ({
                         {it.type}
                       </p>
                       <input
-                        id={`inp-size-quant-${index}`}
+                        id={`inp-size-quant-mob-${index}`}
                         style={{
                           borderTopLeftRadius: 0,
                           borderBottomLeftRadius: 0,
@@ -433,22 +456,22 @@ const CartItem = ({
           Link For Download Below
         </p>
 
-        <div className="hidden gap-3 small:flex">
+        <div className="mt-1.5 hidden gap-3 small:flex small:gap-2.5">
           <button
             onClick={() => setinstuctionDialog(!instuctionDialog)}
-            className="w-[8.2rem] rounded-lg border border-borderP py-[0.4rem] text-[14px] font-[500] small:w-[9rem] "
+            className="w-[8.2rem] rounded-[10px] border border-borderP py-[0.5rem] text-[14px] font-[500] small:w-[9rem] "
           >
             Add Instruction
           </button>
           <button
             onClick={() => setcartDialog(!cartDialog)}
-            className="w-[8.2rem] rounded-lg border border-borderP py-[0.4rem] text-[14px] font-[500] small:w-[9rem] "
+            className="w-[8.2rem] rounded-[10px] border border-borderP py-[0.5rem] text-[14px] font-[500] small:w-[9rem] "
           >
             View Colors
           </button>
         </div>
 
-        <div className="flex items-center justify-between border-y border-black py-[0.7rem]">
+        <div className="flex items-center justify-between border-y border-black py-[0.7rem] small:hidden">
           <div className="flex-center gap-3">
             <div className="flex-center gap-2 border-r-2 border-pmGray pr-3 ">
               {calender}
@@ -464,6 +487,26 @@ const CartItem = ({
           >
             Sub Total ${itemPrice.toFixed(2)}
           </p>
+        </div>
+
+        <div className="mt-2 hidden flex-col gap-3 small:flex">
+          <div className="flex items-center justify-between ">
+            <div className="flex-center gap-2">
+              {calender}
+              <p className="text-[14px] font-[400] text-pmGray">{date}</p>
+            </div>
+            <p className="text-[14px] font-[500] text-pmGray ">
+              Total units {quant}
+            </p>
+          </div>
+          <span className="w-full rounded-[10px] border border-black px-2.5 py-2">
+            <p
+              id="sub-total-price-mob"
+              className="text-[20px] font-[600] text-black "
+            >
+              Sub Total ${itemPrice.toFixed(2)}
+            </p>
+          </span>
         </div>
       </div>
     </motion.div>
@@ -501,7 +544,7 @@ const InstructionDialog = ({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       exit={{ opacity: 0 }}
-      className="flex-center fixed left-0 top-0 z-50 min-h-screen w-screen bg-[#00000066]"
+      className="flex-center fixed left-0 top-0 z-50 min-h-screen w-screen bg-[#00000066] px-5"
     >
       <motion.form
         ref={formRefInt}
@@ -650,3 +693,17 @@ const ColorGiver = ({ color }) => {
 };
 
 export { Cross, InstructionDialog, ColorDialog };
+
+const MobCheckOutBtn = () => {
+  return (
+    <div className="small:flex-center fixed bottom-0 left-0 z-[20] hidden w-full flex-col gap-5 border border-[#E5E5E5] bg-white px-5 py-2 pt-3">
+      <Link
+        href={"/checkout"}
+        className="rounded-[10px] bg-black px-10 py-2 text-[17px] font-[500] text-white active:bg-pmGray"
+      >
+        Continue to Checkout
+      </Link>
+      <span className="h-[5px] w-[135px] rounded-full bg-black"></span>
+    </div>
+  );
+};
