@@ -14,14 +14,14 @@ export default function page() {
   const [totalPrice, settotalPrice] = useState(0);
 
   return (
-    <div className="min-h-[calc(100vh-64px)] w-full ">
+    <div className="relative min-h-[calc(100vh-64px)] w-full ">
       <ToastContainer />
       <CheckoutNav
         link={"/categories/All"}
         name={"My cart"}
         back={"shopping"}
       />
-      <div className="m-auto flex min-h-[calc(100vh-64px)] max-w-[1150px] gap-10 px-3 small:flex-col small:gap-2 small:px-5">
+      <div className="m-auto flex min-h-[calc(100vh-64px)] max-w-[1150px] gap-10 px-3 pb-6 small:flex-col small:gap-2 small:px-5 small:pb-0">
         {cartState?.items?.length > 0 ? (
           <>
             <div className="flex w-full flex-1 flex-grow-[0.6] flex-col gap-5 border-r border-[#E5E5E5] py-12 pr-10 small:border-r-0 small:py-5 small:pb-0 small:pr-0">
@@ -51,8 +51,8 @@ export default function page() {
             </div>
             <div className="flex w-full flex-1 flex-grow-[0.45] flex-col gap-2 small:pb-24">
               <div className="sticky left-0 top-0 flex flex-col gap-2 py-9 small:relative small:py-0">
-                <div className="flex w-full max-w-[23rem] flex-col gap-5 rounded-lg px-[1.3rem] pt-5 hover:border-black small:max-w-[100%] small:p-0 small:pt-4">
-                  <p className="text-[20px] font-[500] ">Summary</p>
+                <div className="flex w-full max-w-[23rem] flex-col gap-5 rounded-lg px-[1.3rem] pt-5 hover:border-black small:max-w-[100%] small:p-0 small:pt-2.5">
+                  <p className="text-[21px] font-[500] ">Summary</p>
                   <div className="flex w-full flex-col gap-[0.1rem]">
                     <div className="flex w-full items-center justify-between">
                       <p className="text-[15px] font-[500]">Total unit</p>
@@ -141,6 +141,7 @@ export default function page() {
           </div>
         )}
       </div>
+      <FooterCart />
     </div>
   );
 }
@@ -218,7 +219,7 @@ const CartItem = ({
   }, [itemPrice]);
 
   return (
-    <motion.div className="flex w-full flex-col bg-white transition-all duration-300 small:border-b small:border-[#E5E5E5] small:pb-5">
+    <motion.div className="flex w-full flex-col bg-white transition-all duration-300 small:border-b small:border-[#E5E5E5] small:pb-6">
       <AnimatePresence>
         {instuctionDialog && (
           <InstructionDialog
@@ -702,5 +703,16 @@ const MobCheckOutBtn = () => {
       </Link>
       <span className="h-[5px] w-[135px] rounded-full bg-black"></span>
     </div>
+  );
+};
+
+const FooterCart = () => {
+  return (
+    <footer className="absolute bottom-0 left-0 w-full bg-white px-6 small:hidden">
+      <div className="flex items-center justify-between  border-t border-[#E5E5E5] px-5 py-4">
+        <span className="text-[14px] font-[300]">©2024, Sublimatics Inc.</span>
+        <span className="text-[14px] font-[300]">Made by Hokrex</span>
+      </div>
+    </footer>
   );
 };
