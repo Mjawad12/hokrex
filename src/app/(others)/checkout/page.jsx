@@ -1,7 +1,7 @@
 "use client";
 import { arrowDown, google, left2, lock } from "@/Consonats";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "react-country-state-city/dist/react-country-state-city.css";
 import { CountrySelect, StateSelect } from "react-country-state-city";
 import PhoneInput from "react-phone-number-input";
@@ -9,10 +9,13 @@ import CustomCheckbox from "@/components/CustomCheckbox";
 import { OpnerCompoent } from "@/components/D_R_R";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { ContextCart } from "@/components/Mainstate(cart)/Mainstatecart";
 
 function page() {
-  const [pages, setpages] = useState(0);
+  const [pages, setpages] = useState(2);
   const [value, setValue] = useState();
+  const [totalquant, settotalquant] = useState();
+  const [totalPrice, settotalPrice] = useState();
   const [country, setcountry] = useState();
   const [states, setstates] = useState();
   const fileRef = useRef(null);
@@ -22,6 +25,8 @@ function page() {
   const zipcode = useRef(null);
   const [paytype, setpaytype] = useState("now");
   const [payBank, setpayBank] = useState("paypal");
+
+  const { cartState } = useContext(ContextCart);
 
   const cartItems = [
     {
@@ -85,12 +90,22 @@ function page() {
       date: "23 March,2024",
     },
   ];
+  useEffect(() => {
+    let quant = 0;
+    let price = 0;
+    cartState.items.forEach((it) => {
+      quant += it.quant;
+      price += it.quant * it.price;
+    });
+    settotalquant(quant);
+    settotalPrice(price);
+  }, [cartState]);
 
   return (
     <div className="min-h-screen w-full">
       <CheckoutNav />
-      <div className="m-auto flex min-h-screen max-w-[1080px] gap-12 px-3">
-        <div className="w-full flex-1 flex-grow-[0.6] py-16">
+      <div className="small:flex-center m-auto flex min-h-screen max-w-[1080px] gap-12 overflow-hidden px-5">
+        <div className="w-full flex-1 flex-grow-[0.6]  py-16 small:flex-grow-[1] small:py-6">
           <div
             className={`flex w-full flex-col gap-3 ${
               pages === 0 ? "block" : "hidden"
@@ -146,11 +161,12 @@ function page() {
               phoneno={value}
               payBank={payBank}
               setpayBank={setpayBank}
+              totalPrice={totalPrice}
             />
           </div>
         </div>
 
-        <div className="w-full flex-1 flex-grow-[0.45] border-l border-borderP">
+        <div className="w-full flex-1 flex-grow-[0.45] border-l border-borderP small:hidden">
           <div className="flex flex-col gap-5 px-14 py-16">
             <div className="flex items-center justify-between">
               <h2 className="text-[22px] font-[500]  ">In your Cart</h2>
@@ -164,12 +180,14 @@ function page() {
             <div className="flex w-full flex-col gap-[0.6rem]">
               <div className="flex w-full items-center justify-between">
                 <p className="text-[14px] font-[600]">Total unit</p>
-                <span className="text-[14px] font-[400] text-black ">67</span>
+                <span className="text-[14px] font-[400] text-black ">
+                  {totalquant}
+                </span>
               </div>
               <div className="flex w-full items-center justify-between">
                 <p className="text-[14px] font-[600]">Sub Total</p>
                 <span className="text-[14px] font-[400] text-pmGray ">
-                  $600.90
+                  ${totalPrice}
                 </span>
               </div>
               <div className="flex w-full items-center justify-between">
@@ -181,17 +199,20 @@ function page() {
             </div>
             <div className="flex items-center justify-between">
               <p className="text-[14px] font-[700]">Total</p>
-              <span className="text-[17px] font-[600]">$1200.67</span>
+              <span className="text-[17px] font-[600]">
+                ${parseFloat(totalPrice).toFixed(2)}
+              </span>
             </div>
             <div className="flex w-full flex-col gap-6 border-t border-borderP py-6 ">
-              {cartItems.map((it, index) => (
+              {cartState.items.map((it, index) => (
                 <Smcard
                   key={index}
                   name={it.name}
                   sizes={it.sizes}
-                  qty={it.Qty}
+                  qty={it.quant}
                   date={it.date}
                   price={it.price}
+                  img={it.src}
                 />
               ))}
             </div>
@@ -230,7 +251,7 @@ const Page1 = ({
       <div className="flex w-full flex-col gap-5">
         <h2 className="text-[26px] font-[700]">Shiping & Details</h2>
         <div className="flex flex-col gap-4 ">
-          <div className="flex-center gap-4">
+          <div className="flex-center gap-4 small:flex-col small:gap-4">
             <input
               type="email"
               className="checkoutInput"
@@ -252,7 +273,7 @@ const Page1 = ({
               placeHolder="Select Country"
             />
           </div>
-          <div className="flex-center gap-4">
+          <div className="flex-center gap-4 small:flex-col small:gap-4">
             <input
               type="text"
               className="checkoutInput"
@@ -272,18 +293,18 @@ const Page1 = ({
               className="checkoutInput "
               placeholder="Address(optional)"
             />
-            <p className="text-[14px] font-[400]">
+            <p className="text-[14px] font-[400] small:hidden ">
               Add a house number if you have one
             </p>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 small:flex-col">
             <input type="text" className="checkoutInput" placeholder="City" />
             <div className="[&_select]:checkoutInput w-full [&_input]:!border-none [&_input]:!outline-none ">
               <StateSelect
                 countryid={country?.id}
                 value={states}
                 onChange={(val) => setstates(val)}
-                placeholder={"State"}
+                placeHolder={"State"}
               />
             </div>
             <input
@@ -343,11 +364,11 @@ const Page1 = ({
           </div>
           <button
             onClick={() => setpages((val) => val + 1)}
-            className={`mt-5 w-max  rounded-[0.8rem] bg-[black] px-5 py-3 text-[17px] font-[500] text-white`}
+            className={`mt-5 w-max rounded-[0.8rem]  bg-[black] px-5 py-3 text-[17px] font-[500] text-white small:mt-3`}
           >
             Continue to pay
           </button>
-          <div className="mt-8">
+          <div className="mt-8 small:mt-2">
             <OpnerCompoent text={"Paymet"}></OpnerCompoent>
           </div>
         </div>
@@ -419,11 +440,11 @@ const Page2 = ({
       </div>
       <button
         onClick={() => setpages((val) => val + 1)}
-        className={`mt-5 w-max  rounded-[0.8rem] bg-[black] px-5 py-3 text-[17px] font-[500] text-white`}
+        className={`mt-5 w-max rounded-[0.8rem]  bg-[black] px-5 py-3 text-[17px] font-[500] text-white small:mt-3`}
       >
         Continue to pay
       </button>
-      <div className="mt-8">
+      <div className="mt-8 small:hidden">
         <OpnerCompoent text={"Paymet"}></OpnerCompoent>
       </div>
     </>
@@ -442,8 +463,8 @@ const Page3 = ({
   paytype,
   payBank,
   setpayBank,
+  totalPrice,
 }) => {
-  const total = "1200.95";
   return (
     <>
       <h1 className="text-[22px] font-[600]">Shiping Address</h1>
@@ -473,8 +494,10 @@ const Page3 = ({
           </p>
         </div>
         <div className="mt-4 flex items-center justify-between ">
-          <p className="font-[700]">${total}</p>
-          <p className="text-[15px] font-[400] text-pmGray">Due amount $0.00</p>
+          <p className="font-[700]">${totalPrice}</p>
+          <p className="text-[15px] font-[400] text-pmGray">
+            Due amount ${totalPrice}
+          </p>
         </div>
       </div>
       <div className="mt-4 flex flex-col gap-5 border-b border-borderP pb-6">
@@ -489,11 +512,13 @@ const Page3 = ({
             </span>
           </div>
         </div>
-        <CustomCheckbox
-          text={"Do you have a Voucher or Promo code?"}
-          fontSize={"sm"}
-        />
-        <div className="mt-5 flex flex-col gap-4">
+        <div className="w-full small:py-3">
+          <CustomCheckbox
+            text={"Do you have a Voucher or Promo code?"}
+            fontSize={"sm"}
+          />
+        </div>
+        <div className="mt-5 flex flex-col gap-4 small:mt-1">
           <h3 className="text-[15px] font-[500]">Select payment method</h3>
           <div className="flex gap-8">
             <PayBank payBank={payBank} setpayBank={setpayBank} type={"paypal"}>
@@ -512,8 +537,8 @@ const Page3 = ({
             </PayBank>
           </div>
           <div>
-            <div className="flex-center mt-5 w-full gap-[0.6rem]">
-              <div className="checkoutInput flex-center w-full max-w-[17.5rem] px-4">
+            <div className="flex-center mt-5 w-full gap-[0.6rem] small:flex-wrap small:justify-start">
+              <div className="checkoutInput flex-center w-full max-w-[17.5rem] px-4 small:max-w-[100%]">
                 <input
                   type="passowrd"
                   placeholder="Card Number"
@@ -521,15 +546,16 @@ const Page3 = ({
                 />
                 {lock}
               </div>
+
               <input
                 type="text"
                 placeholder="MM/YY"
-                className="checkoutInput !max-w-[8.6rem] px-4 pr-1"
+                className="checkoutInput !max-w-[8.6rem] px-4 pr-1 "
               />
               <input
                 type="text"
                 placeholder="CVC"
-                className="checkoutInput !max-w-[8.6rem] pl-4 pr-0"
+                className="checkoutInput !max-w-[8.6rem] pl-4 pr-0 "
               />
             </div>
             <div className="mt-3 flex items-center">
@@ -583,9 +609,9 @@ const PayType = ({
             paytype === type ? "border-[7.5px] hover:border-[7.5px]" : ""
           } `}
         />
-        <div className="flex flex-col">
+        <div className="flex w-full max-w-max flex-col">
           <p className="text-[15px] font-[500]">{text}</p>
-          <p className="max-w-[50ch] whitespace-nowrap text-[14px] text-pmGray">
+          <p className="w-full max-w-[50ch] whitespace-nowrap text-[14px] text-pmGray small:whitespace-pre-wrap">
             {subtext}
           </p>
         </div>
@@ -595,29 +621,34 @@ const PayType = ({
   );
 };
 
-const Smcard = ({ name, sizes, qty, date, price }) => {
+const Smcard = ({ name, sizes, qty, date, price, img }) => {
   return (
-    <div className="flex w-full gap-3 ">
+    <div className="flex w-full items-center gap-3 ">
       <Image
-        src={"/Testimg.jpg"}
+        src={img}
         alt="cart item"
         width={100}
         height={90}
-        className="h-[95px] w-[100px] rounded-xl"
+        className="h-[95px] w-[100px] rounded-[12px] bg-[#F5F5F5] "
       />
       <div className="flex flex-col gap-2">
         <h3 className="text-[17px] font-[600]">{name}</h3>
         <div className="flex flex-col ">
-          <div className="flex gap-1">
+          <div className="flex flex-wrap gap-[0.3rem] gap-y-0">
             <span className="text-[14px] text-[#707070]">Size: </span>
-            <div className="flex gap-[0.3rem]">
-              {sizes.map((it, index) => (
-                <span key={index} className="text-[14px] text-[#707070]">
-                  {it.type} {it.val},
-                </span>
-              ))}
-            </div>
+            {sizes.map(
+              (it, index) =>
+                it.val !== 0 && (
+                  <span
+                    key={index}
+                    className="whitespace-nowrap text-[14px] text-[#707070]"
+                  >
+                    {it.type} {it.val},
+                  </span>
+                ),
+            )}
           </div>
+
           <div className="flex gap-3">
             <span className="text-[14px] text-[#707070]">Qty : {qty}</span>,
             <span className="text-[14px] text-[#707070]">@ ${price}</span>
@@ -626,7 +657,9 @@ const Smcard = ({ name, sizes, qty, date, price }) => {
             <span className="text-[14px] text-[#707070]">
               ${(price * qty).toFixed(2)}
             </span>
-            <span className="text-[14px] text-[#707070]">Date: {date}</span>
+            <span className="whitespace-nowrap text-[14px] text-[#707070]">
+              Date: {date}
+            </span>
           </div>
         </div>
       </div>
