@@ -266,6 +266,15 @@ function Mainstatestore({ children }) {
     const parsedData = await data.json();
     return parsedData;
   };
+  const ContactEmail = async (details) => {
+    const data = await fetch(`${url}/api/contactEmail`, {
+      method: "POST",
+      cache: "no-cache",
+      headers: {
+        Origin: "https://localhost:9000",
+      },
+    });
+  };
 
   useEffect(() => {
     console.log(authToken);
@@ -315,6 +324,7 @@ function Mainstatestore({ children }) {
         wishlistDele,
         ReviewAdd,
         ReviewAdd,
+        ContactEmail,
       }}
     >
       {children}

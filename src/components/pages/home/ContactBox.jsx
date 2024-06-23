@@ -1,10 +1,20 @@
 "use client";
 import { left } from "@/Consonats";
 import CustomCheckbox from "@/components/CustomCheckbox";
+import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useContext, useRef } from "react";
 
 function ContactBox({ about }) {
+  const { ContactEmail } = useContext(ContextStore);
+  const formRef = useRef(null);
+  const submitContactForm = async (e) => {
+    if (formRef.current.checkValidity()) {
+      e.preventDefault();
+      ContactEmail();
+    }
+  };
+
   return (
     <motion.div
       transition={{ duration: 1.2, ease: "easeInOut" }}
@@ -32,6 +42,7 @@ function ContactBox({ about }) {
         </motion.h3>
       </div>
       <motion.form
+        ref={formRef}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -112,6 +123,7 @@ function ContactBox({ about }) {
           initial={{ y: about ? 60 : 0 }}
           animate={{ y: 0 }}
           transition={{ duration: 1.2, ease: "easeInOut", delay: 0.25 }}
+          onClick={submitContactForm}
           className="mt-10 w-[11rem] rounded-3xl border border-black px-6 py-[0.65rem] text-[17px] font-[500] text-black"
         >
           Submit request
