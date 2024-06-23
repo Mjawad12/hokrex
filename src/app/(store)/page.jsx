@@ -11,7 +11,6 @@ export default async function page() {
         <div className="relative ">
           <Home />
           <Howitworks />
-          {/* <FooterWrapper /> */}
         </div>
       </MainStateAnimation>
     </>

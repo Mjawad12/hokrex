@@ -266,14 +266,14 @@ function Mainstatestore({ children }) {
     const parsedData = await data.json();
     return parsedData;
   };
-  const ContactEmail = async (details) => {
+  const ContactEmail = async (firName, lastName, email, message, phone) => {
     const data = await fetch(`${url}/api/contactEmail`, {
       method: "POST",
       cache: "no-cache",
-      headers: {
-        Origin: "https://localhost:9000",
-      },
+      body: JSON.stringify({ firName, lastName, email, message, phone }),
     });
+    const parsedData = await data.json();
+    return parsedData;
   };
 
   useEffect(() => {

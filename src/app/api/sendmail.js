@@ -41,7 +41,41 @@ const SendMail = async (clientMail, otp) => {
   }
 };
 
+const sendContactMedia = async (firName, lastName, email, message, phone) => {
+  try {
+    const transport = await nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "hokrexofficial@gmail.com",
+        pass: "wvba xpiy drki nuup",
+      },
+    });
+
+    const mailoptions = {
+      from: "PrintODS 👕 <hokrexofficial@gmail.com> ",
+      to: "kingbull13578@gmail.com",
+      subject: "PrintODS - Some one Contacted You",
+      text: `Some one Contacted You`,
+      html: `<h1>PrintODS</h1>
+   <h4>First Name : ${firName},</h4>
+   <h4>Last Name : ${lastName},</h4>
+   <h4>Phone : ${phone},</h4>
+   <h4>Email : ${email},</h4>
+   <h4>Message : ${message},</h4>
+   <p>Best regards. <p/>
+   <h5>PrintODS - Official</h5>
+   `,
+    };
+
+    const res = await transport.sendMail(mailoptions);
+    console.log(res);
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 module.exports = {
   SendMail: SendMail,
   Otpcreator: Otpcreator,
+  sendContactMedia: sendContactMedia,
 };

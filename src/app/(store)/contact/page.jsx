@@ -2,6 +2,8 @@
 import { bigArrow, bigArrowLeft, left } from "@/Consonats";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { ContextAnimation } from "@/components/Mainstate(Animation)/MainStateAnimation";
+import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
+import notificationCaller from "@/components/NotificationCaller";
 import {
   AnimatePresence,
   motion,
@@ -11,7 +13,9 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function page() {
   const { setanimating, animating } = useContext(ContextAnimation);
@@ -152,11 +156,8 @@ function page() {
         )}
       </div>
 
-      <div
-        ref={contactSlider}
-        id="contactSlider"
-        className="h-3 w-3 bg-pmRed "
-      />
+      <div ref={contactSlider} id="contactSlider" className="h-3 w-3" />
+      <ToastContainer />
     </section>
   );
 }
@@ -164,6 +165,53 @@ function page() {
 export default page;
 
 const Contact = ({ setanimating, slideLast }) => {
+  const { ContactEmail } = useContext(ContextStore);
+  const formRef = useRef(null);
+  const [save, setsave] = useState(false);
+  const [loading, setloading] = useState(false);
+  const submitContactForm = async (e) => {
+    if (formRef.current.checkValidity()) {
+      e.preventDefault();
+      setloading(true);
+      save && saveInformation();
+      const res = await ContactEmail(
+        document.querySelector("#firName").value || "",
+        document.querySelector("#lastName").value || "",
+        document.querySelector("#email-contact").value || "",
+        document.querySelector("#message-contact").value || "",
+        document.querySelector("#ph-contact").value || "",
+      );
+      notificationCaller(res.success, res.msg || res.error, toast);
+      setloading(false);
+      if (res.success) {
+        document.querySelector("#firName").value = "";
+        document.querySelector("#lastName").value = "";
+        document.querySelector("#email-contact").value = "";
+        document.querySelector("#message-contact").value = "";
+        document.querySelector("#ph-contact").value = "";
+      }
+    }
+  };
+
+  const saveInformation = () => {
+    const details = {
+      firName: document.querySelector("#firName").value || "",
+      lastName: document.querySelector("#lastName").value || "",
+      emailContact: document.querySelector("#email-contact").value || "",
+      phContact: document.querySelector("#ph-contact").value || "",
+    };
+    localStorage.setItem("con-fo-temp", JSON.stringify(details));
+  };
+
+  useEffect(() => {
+    const details = JSON.parse(localStorage.getItem("con-fo-temp"));
+    if (details) {
+      document.querySelector("#firName").value = details.firName;
+      document.querySelector("#lastName").value = details.lastName;
+      document.querySelector("#email-contact").value = details.emailContact;
+      document.querySelector("#ph-contact").value = details.phContact;
+    }
+  }, []);
   return (
     <motion.div
       animate={{
@@ -204,6 +252,7 @@ const Contact = ({ setanimating, slideLast }) => {
         </motion.h3>
       </div>
       <motion.form
+        ref={formRef}
         action={"#"}
         className="flex-center w-full max-w-[500px] flex-col gap-3 "
       >
@@ -215,6 +264,7 @@ const Contact = ({ setanimating, slideLast }) => {
             type="text"
             required={true}
             placeholder="First Name"
+            id="firName"
             className="w-[15rem] border-b border-[#E5E5E5] py-1 pl-2 text-[16px] outline-none hover:border-black focus:border-black "
           />
           <motion.input
@@ -224,6 +274,7 @@ const Contact = ({ setanimating, slideLast }) => {
             type="text"
             required={true}
             placeholder="Last Name"
+            id="lastName"
             className="w-[15rem] border-b border-[#E5E5E5] py-1 pl-2 text-[16px] outline-none hover:border-black focus:border-black "
           />
 
@@ -234,6 +285,7 @@ const Contact = ({ setanimating, slideLast }) => {
             type="email"
             required={true}
             placeholder="Email"
+            id="email-contact"
             className="w-[15rem] border-b border-[#E5E5E5] py-1 pl-2 text-[16px] outline-none hover:border-black focus:border-black "
           />
           <motion.input
@@ -245,6 +297,12 @@ const Contact = ({ setanimating, slideLast }) => {
             minLength={7}
             required={true}
             placeholder="Phone"
+            id="ph-contact"
+            onKeyDown={(e) => {
+              if (e.target.value.length >= 15 && e.key !== "Backspace") {
+                e.preventDefault();
+              }
+            }}
             className="w-[15rem] border-b border-[#E5E5E5] py-1 pl-2 text-[16px] outline-none hover:border-black focus:border-black "
           />
           <motion.textarea
@@ -256,6 +314,7 @@ const Contact = ({ setanimating, slideLast }) => {
             className="w-full resize-none border-b border-[#E5E5E5] py-1 pl-2 outline-none hover:border-black focus:border-black "
             required={true}
             placeholder="Message."
+            id="message-contact"
           />
         </div>
         <motion.div
@@ -268,13 +327,16 @@ const Contact = ({ setanimating, slideLast }) => {
             fontSize={"sm"}
             type="small"
             textColor="#707070"
+            setOuter={setsave}
           />
         </motion.div>
         <motion.button
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0, 0, 0.1, 0.7], delay: 1 }}
-          className="mt-10 w-[11rem] rounded-3xl border border-black px-6 py-[0.65rem] text-[17px] font-[500] text-black"
+          onClick={submitContactForm}
+          className="mt-10 w-[11rem] rounded-3xl border border-black px-6 py-[0.65rem] text-[17px] font-[500] text-black transition-all duration-300 disabled:cursor-not-allowed disabled:bg-gray-300"
+          disabled={loading}
         >
           Submit request
         </motion.button>

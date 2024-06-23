@@ -1,10 +1,10 @@
 "use client";
 import { motion, useAnimate } from "framer-motion";
-import React, { use, useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { CountrySelect, StateSelect } from "react-country-state-city/dist/cjs";
 import "react-country-state-city/dist/react-country-state-city.css";
 import "/node_modules/flag-icons/css/flag-icons.min.css";
-import { arrowDown, email, errorIcon } from "@/Consonats";
+import { arrowDown, errorIcon } from "@/Consonats";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
