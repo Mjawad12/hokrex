@@ -8,7 +8,7 @@ export default async function page() {
   return (
     <>
       <MainStateAnimation>
-        <div className="relative ">
+        <div className="relative small:overflow-hidden ">
           <Home />
           <Howitworks />
         </div>

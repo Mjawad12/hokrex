@@ -45,7 +45,7 @@ function Howitworks() {
 
   return (
     <>
-      <section id="v-c-h" className="relative w-full ">
+      <section id="v-c-h" className="relative w-full overflow-hidden px-5 ">
         <div className="flex-center m-auto w-full max-w-[1220px] flex-col gap-24 pt-28 ">
           <div className="flex-center flex-col gap-3">
             <motion.p
@@ -68,8 +68,8 @@ function Howitworks() {
               Get your Custom printed product in just 4 easy steps.
             </motion.h2>
           </div>
-          <div className="flex w-full items-center justify-between">
-            <motion.div className="relative z-10 flex flex-1 flex-grow-[0.8] flex-wrap justify-start gap-4 gap-y-8">
+          <div className="flex w-full items-center justify-between small:flex-col small:gap-5">
+            <motion.div className="small:flex-center relative z-10 flex flex-1 flex-grow-[0.8] flex-wrap justify-start gap-4 gap-y-8">
               {content.map((it, index) => (
                 <Card
                   des={it.des}

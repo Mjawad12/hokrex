@@ -7,31 +7,31 @@ import { left2, prods, star } from "@/Consonats";
 function Home() {
   const images = [0, 1, 2, 3];
   return (
-    <section className="m-auto flex min-h-[calc(100vh-65px)] max-w-[1450px] px-5 ">
+    <section className="small:flex-center m-auto flex min-h-[calc(100vh-65px)] max-w-[1450px] px-5 small:flex-col small:gap-10  small:pt-8">
       <div className="flex flex-1 flex-grow-[0.43] flex-col justify-center gap-[7rem]">
         <motion.div
           initial={{ y: "60px", opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
-          className="flex flex-col gap-3"
+          className="small:flex-center flex flex-col gap-3 small:gap-1"
         >
           <motion.p
             initial={{ scale: 1.1 }}
             whileInView={{ scale: 1 }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="text-[22px] font-[700] tracking-[5px] "
+            className="text-[22px] font-[700] tracking-[5px] smo:text-[16px] "
           >
             UNLEASH YOUR
           </motion.p>
-          <h1 className="text-[75px] font-[700] leading-[55px]">
+          <h1 className="text-[75px] font-[700] leading-[55px] small:text-center small:leading-[70px] smo:text-[60px]">
             Creative <span className="text-pmRed">Power</span>
           </h1>
-          <p className="mt-6 max-w-[50ch] text-[18px] font-[500] leading-[20px]">
+          <p className="mt-6 max-w-[50ch] text-[18px] font-[500] leading-[20px] small:text-center">
             From personalized apparel to unique home decor, Print on Demand
             empowers you to bring your creative visions to life and captivate
             customers with one-of-a-kind products.
           </p>
-          <div className="mt-8 flex items-center gap-6">
+          <div className="mt-8 flex items-center gap-6 small:mt-5 smo:flex-col ">
             <Link
               href={"/categories/All"}
               className="rounded-3xl border border-black px-6 py-[0.7rem] text-[17px] font-[500] text-pmRed"
@@ -56,7 +56,7 @@ function Home() {
           initial={{ y: "30px", opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
-          className="flex w-full items-center"
+          className="flex w-full items-center small:hidden"
         >
           <motion.div
             initial={{ y: "40px", opacity: 0 }}
@@ -98,32 +98,34 @@ function Home() {
           </div>
         </motion.div>
       </div>
-      <div className="flex-center flex-1 flex-grow-[0.6] ">
+      <div className="flex-center flex-1 flex-grow-[0.6] small:w-full small:flex-grow-[1] ">
         <div className="flex-center relative w-full max-w-[48rem] flex-col">
           <motion.div
             initial={{ y: "50px", opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="absolute right-[5.9rem] top-[-16px] flex w-full justify-end "
+            className="absolute right-[5.9rem] top-[-16px] flex w-full justify-end small:right-[133px] small:top-[-11px]"
           >
             <Image
               src={"/homepage/label2.webp"}
               width={150}
               height={150}
               alt="label"
+              className=""
             />
           </motion.div>
           <motion.div
-            initial={{ y: "180px", opacity: 0 }}
+            initial={{ y: "150px", opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="absolute bottom-0 left-[3rem] z-10 w-full"
+            className="absolute bottom-0 left-[3rem] z-10 w-full small:left-[109px]"
           >
             <Image
               src={"/homepage/label1.webp"}
               width={180}
               height={180}
               alt="label"
+              className="w-[150px]"
             />
           </motion.div>
           <motion.div
