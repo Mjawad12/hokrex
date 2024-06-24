@@ -24,7 +24,7 @@ function Customization({ isView, slide1 }) {
         ease: [0, 0, 0, 1],
         delay: isView ? 0 : 0.6,
       }}
-      className="fixed left-0 top-0  flex min-h-[500vh] w-full flex-col bg-white"
+      className="fixed left-0 top-0 flex min-h-[500vh] w-full flex-col bg-white "
     >
       <motion.div
         animate={{
@@ -35,7 +35,7 @@ function Customization({ isView, slide1 }) {
           duration: 1.2,
           ease: "easeInOut",
         }}
-        className="flex-center relative min-h-screen w-full flex-col overflow-hidden bg-black "
+        className="flex-center relative min-h-[calc(100vh+18px)] w-full flex-col overflow-hidden bg-black "
       >
         <motion.div
           animate={{ opacity: isView ? 1 : 0, x: isView ? 0 : 60 }}

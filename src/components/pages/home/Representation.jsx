@@ -81,7 +81,7 @@ function Representation({ imgRef, slide1 }) {
     <div
       ref={imgRef}
       id="slide-1"
-      className="relative z-20 min-h-[300vh] w-full"
+      className="relative z-20 min-h-[300vh] w-full px-5"
     >
       <Slides
         view={view}
@@ -157,7 +157,7 @@ const Slides = ({
           >
             <motion.img
               animate={{
-                minWidth: view2 ? "600px" : "1200px",
+                // minWidth: view2 ? "600px" : "78.21vw",
                 width: view2 ? "600px" : "1200px",
                 x: view2 ? -40 : 0,
                 y: slide1 ? "0" : "100%",
@@ -173,7 +173,7 @@ const Slides = ({
               alt="tool"
               width={1200}
               height={1200}
-              className="h-max"
+              className="h-max max-w-[100vw]"
             />
           </motion.div>
           <div className="flex max-w-[640px] flex-col gap-5 py-5">

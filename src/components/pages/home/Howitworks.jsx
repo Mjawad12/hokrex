@@ -17,6 +17,7 @@ function Howitworks() {
   const [slide1, setslide1] = useState(false);
   const check = useRef(null);
   const imgRef = useRef(null);
+
   var isView = useInView(check, { amount: "some" });
   const { scrollYProgress } = useScroll({
     target: imgRef,
@@ -45,8 +46,8 @@ function Howitworks() {
 
   return (
     <>
-      <section id="v-c-h" className="relative w-full px-5 ">
-        <div className="flex-center m-auto w-full max-w-[1220px] flex-col gap-24 pt-28 small:gap-16 small:pt-20 ">
+      <section id="v-c-h" className="relative w-full">
+        <div className="flex-center m-auto w-full max-w-[1220px] flex-col gap-24 overflow-hidden pt-28 small:gap-16 small:pt-20 ">
           <div className="flex-center flex-col gap-3 small:gap-0">
             <motion.p
               initial={{ scale: 1.3, opacity: 0 }}
