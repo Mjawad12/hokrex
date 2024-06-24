@@ -70,7 +70,7 @@ function Customization({ isView, slide1 }) {
           onAnimationStart={() => {
             setanimating(true);
           }}
-          className="mt-20 text-[210px] font-[700] leading-[180px] text-white"
+          className="mt-20 text-[13.7vw] font-[700] leading-[11.7vw] text-white"
         >
           Customization
         </motion.h3>
@@ -85,7 +85,7 @@ function Customization({ isView, slide1 }) {
               ease: "easeInOut",
               delay: !isView ? 0 : 1,
             }}
-            className="text-[210px] font-[700] leading-[180px] text-white"
+            className="text-[13.6vw] font-[700] leading-[11.7vw] text-white"
           >
             tool{" "}
           </motion.h3>
@@ -99,7 +99,7 @@ function Customization({ isView, slide1 }) {
               ease: "easeInOut",
               delay: !isView ? 0 : 1,
             }}
-            className="text-[210px] font-[700] leading-[180px] text-pmRed"
+            className="text-[13.6vw] font-[700] leading-[11.7vw] text-pmRed"
           >
             overview
           </motion.h3>

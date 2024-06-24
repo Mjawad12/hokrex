@@ -45,15 +45,15 @@ function Howitworks() {
 
   return (
     <>
-      <section id="v-c-h" className="relative w-full overflow-hidden px-5 ">
-        <div className="flex-center m-auto w-full max-w-[1220px] flex-col gap-24 pt-28 ">
-          <div className="flex-center flex-col gap-3">
+      <section id="v-c-h" className="relative w-full px-5 ">
+        <div className="flex-center m-auto w-full max-w-[1220px] flex-col gap-24 pt-28 small:gap-16 small:pt-20 ">
+          <div className="flex-center flex-col gap-3 small:gap-0">
             <motion.p
               initial={{ scale: 1.3, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
               viewport={{ amount: "50px" }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="text-[26px] font-[700] tracking-[3px]"
+              className="text-[26px] font-[700] tracking-[3px] small:leading-[26px]"
             >
               HOW IT WORK
             </motion.p>
