@@ -50,8 +50,10 @@ function page() {
         settotalPrice={settotalPrice}
         totalquant={totalquant}
       />
-      <div className="small:flex-center m-auto flex min-h-screen max-w-[1080px] gap-12 overflow-hidden px-5 ">
-        <div className="w-full flex-1 flex-grow-[0.6]  py-16 small:flex-grow-[1] small:py-5">
+      <div className="small:flex-center m-auto flex max-w-[1080px] gap-12 overflow-hidden px-5 ">
+        <div
+          className={`w-full flex-1 flex-grow-[0.6]  py-16 small:flex-grow-[1] small:py-5 `}
+        >
           <div
             className={`flex w-full flex-col gap-3 ${
               pages === 0 ? "block" : "hidden"
@@ -88,6 +90,7 @@ function page() {
               zipcode={zipcode.current?.value}
               setpages={setpages}
               phoneno={value}
+              totalPrice={totalPrice}
             />
           </div>
           <div
@@ -334,11 +337,11 @@ const Page2 = ({
   setpages,
   paytype,
   setpaytype,
+  totalPrice,
 }) => {
-  const total = "1200.95";
   return (
     <>
-      <h1 className="text-[22px] font-[600]">Shiping Address</h1>
+      <h1 className="text-[22px] font-[700]">Shiping Address</h1>
       <div className="mt-2 flex flex-col border-b border-borderP pb-8">
         <div className="flex w-full items-center justify-between pr-5">
           <h2 className="text-[15px] text-black">Shiping Address</h2>
@@ -364,19 +367,20 @@ const Page2 = ({
           paytype={paytype}
           setpaytype={setpaytype}
           type={"now"}
+          total={totalPrice}
         />
         <PayType
-          total={(total / 2).toFixed(2)}
+          total={(totalPrice / 2).toFixed(2)}
           text={"Pay Part now, part later"}
-          subtext={`Pay (${(total / 2).toFixed(2)}) now. and the rest ($${(
-            total / 2
+          subtext={`Pay (${(totalPrice / 2).toFixed(2)}) now. and the rest ($${(
+            totalPrice / 2
           ).toFixed(2)}) will be pay after completed the order.`}
           paytype={paytype}
           setpaytype={setpaytype}
           type={"half"}
         />
         <PayType
-          total={"1.00"}
+          total={totalPrice}
           text={"Pay later"}
           subtext="Pay later by same payment method."
           paytype={paytype}
@@ -413,7 +417,7 @@ const Page3 = ({
 }) => {
   return (
     <>
-      <h1 className="text-[22px] font-[600]">Shiping Address</h1>
+      <h2 className="text-[26px] font-[700]">Shiping & Details</h2>
       <div className="mt-2 flex flex-col border-b border-borderP pb-8">
         <div className="flex w-full items-center justify-between pr-5">
           <h2 className="text-[15px] text-black">Shiping Address</h2>
