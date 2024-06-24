@@ -10,9 +10,11 @@ import { OpnerCompoent } from "@/components/D_R_R";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ContextCart } from "@/components/Mainstate(cart)/Mainstatecart";
+import { motion, useAnimate } from "framer-motion";
+import { CartItem } from "../cart/page";
 
 function page() {
-  const [pages, setpages] = useState(2);
+  const [pages, setpages] = useState(0);
   const [value, setValue] = useState();
   const [totalquant, settotalquant] = useState();
   const [totalPrice, settotalPrice] = useState();
@@ -28,68 +30,6 @@ function page() {
 
   const { cartState } = useContext(ContextCart);
 
-  const cartItems = [
-    {
-      name: "Test Sports 1.0",
-      price: "34.25",
-      src: "https://outfitters.com.pk/cdn/shop/files/F0465103113_2.jpg?v=1710828096",
-      sizes: [
-        { type: "SM", val: "12" },
-        { type: "LG", val: "06" },
-        { type: "MD", val: "05" },
-      ],
-      Qty: "50",
-      date: "23 March,2024",
-    },
-    {
-      name: "Test Sports 1.0",
-      price: "34.25",
-      src: "https://outfitters.com.pk/cdn/shop/files/F0465103113_2.jpg?v=1710828096",
-      sizes: [
-        { type: "SM", val: "12" },
-        { type: "LG", val: "06" },
-        { type: "MD", val: "05" },
-      ],
-      Qty: "50",
-      date: "23 March,2024",
-    },
-    {
-      name: "Test Sports 1.0",
-      price: "34.25",
-      src: "https://outfitters.com.pk/cdn/shop/files/F0465103113_2.jpg?v=1710828096",
-      sizes: [
-        { type: "SM", val: "12" },
-        { type: "LG", val: "06" },
-        { type: "MD", val: "05" },
-      ],
-      Qty: "50",
-      date: "23 March,2024",
-    },
-    {
-      name: "Test Sports 1.0",
-      price: "34.25",
-      src: "https://outfitters.com.pk/cdn/shop/files/F0465103113_2.jpg?v=1710828096",
-      sizes: [
-        { type: "SM", val: "12" },
-        { type: "LG", val: "06" },
-        { type: "MD", val: "05" },
-      ],
-      Qty: "50",
-      date: "23 March,2024",
-    },
-    {
-      name: "Test Sports 1.0",
-      price: "34.25",
-      src: "https://outfitters.com.pk/cdn/shop/files/F0465103113_2.jpg?v=1710828096",
-      sizes: [
-        { type: "SM", val: "12" },
-        { type: "LG", val: "06" },
-        { type: "MD", val: "05" },
-      ],
-      Qty: "50",
-      date: "23 March,2024",
-    },
-  ];
   useEffect(() => {
     let quant = 0;
     let price = 0;
@@ -104,8 +44,14 @@ function page() {
   return (
     <div className="min-h-screen w-full">
       <CheckoutNav />
-      <div className="small:flex-center m-auto flex min-h-screen max-w-[1080px] gap-12 overflow-hidden px-5">
-        <div className="w-full flex-1 flex-grow-[0.6]  py-16 small:flex-grow-[1] small:py-6">
+      <CartShower
+        cartState={cartState}
+        totalPrice={totalPrice}
+        settotalPrice={settotalPrice}
+        totalquant={totalquant}
+      />
+      <div className="small:flex-center m-auto flex min-h-screen max-w-[1080px] gap-12 overflow-hidden px-5 ">
+        <div className="w-full flex-1 flex-grow-[0.6]  py-16 small:flex-grow-[1] small:py-5">
           <div
             className={`flex w-full flex-col gap-3 ${
               pages === 0 ? "block" : "hidden"
@@ -718,3 +664,137 @@ const PayBank = ({ children, payBank, type, setpayBank }) => {
 export default page;
 
 export { CheckoutNav };
+
+const CartShower = ({ cartState, totalPrice, settotalPrice, totalquant }) => {
+  const [open, setopen] = useState(false);
+  const [scope, animate] = useAnimate();
+
+  const AnimationFunc = async () => {
+    if (!open) {
+      animate(scope.current, {
+        height: document.querySelector("body").scrollHeight + "px",
+      });
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    } else {
+      animate(scope.current, {
+        height: 50,
+      });
+    }
+    setopen(!open);
+  };
+
+  return (
+    <motion.div
+      ref={scope}
+      initial={{ height: 50 }}
+      className={`z-[99] hidden w-full flex-col  overflow-hidden bg-[#00000066] small:flex ${open ? "absolute top-[48px]" : "sticky top-0"}`}
+    >
+      <div id="cont-anim" className="relative flex flex-col bg-white">
+        <div className="flex items-center justify-between border-b border-[#D0D0D0] bg-white px-5 py-2">
+          <p className="text-[22px] font-[500]">Summary</p>
+          <span className="flex-center gap-2 text-[16px] font-[600]">
+            <span>
+              ${totalPrice} ({totalquant}items)
+            </span>
+            <span
+              className={`[&_svg]:w-[15px] ${open ? "[&_svg]:rotate-[180deg]" : "[&_svg]:rotate-0"} [&_svg]:duration-400 [&_svg]:transition-all`}
+              onClick={AnimationFunc}
+            >
+              {arrowDown}
+            </span>
+          </span>
+        </div>
+        <div className="flex w-full flex-1 flex-grow-[0.6] flex-col gap-5 px-5 py-12 small:py-5 small:pb-0 ">
+          <div className="flex flex-col gap-10 small:gap-5 ">
+            {cartState?.items?.map((it, index) => (
+              <CartItem
+                name={it.name}
+                price={it.price}
+                sizes={it.sizes}
+                src={it.src}
+                key={index}
+                quant={it.quant}
+                date={it.date}
+                id={it.id}
+                instructionValue={it.instruction}
+                slug={it.slug}
+                colors={it.colors}
+                index={index}
+                settotalPrice={settotalPrice}
+                files={it?.files || []}
+                customized={it.customized}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="flex w-full flex-1 flex-grow-[0.45] flex-col gap-2 px-5">
+          <div className="flex flex-col gap-2 py-0 ">
+            <div className="flex w-full flex-col gap-5 rounded-lg pt-2.5 hover:border-black">
+              <p className="text-[21px] font-[500] ">Summary</p>
+              <div className="flex w-full flex-col gap-[0.1rem]">
+                <div className="flex w-full items-center justify-between">
+                  <p className="text-[15px] font-[500]">Total unit</p>
+                  <span className="text-[15px] font-[500] text-black ">
+                    {cartState.total}
+                  </span>
+                </div>
+                <div className="flex w-full items-center justify-between">
+                  <p className="text-[15px] font-[500]">Sub Total</p>
+                  <span className="text-[15px] font-[500] text-black ">
+                    ${totalPrice ? totalPrice?.toFixed(2) : 0}
+                  </span>
+                </div>
+                <div className="flex w-full items-center justify-between">
+                  <p className="text-[15px] font-[500]">Shipping</p>
+                  <span className="text-[15px] font-[500] text-black ">
+                    Calculated at checkout
+                  </span>
+                </div>
+                <div className="mt-5 flex items-center justify-between pb-5">
+                  <p className="text-[15px] font-[700]">Total price</p>
+                  <span className="text-[17px] font-[600] text-pmRed">
+                    ${totalPrice ? totalPrice?.toFixed(2) : 0}
+                  </span>
+                </div>
+              </div>
+
+              <Link
+                href="/checkout"
+                className="flex-center relative w-full gap-1 rounded-[10px] border border-black px-4 py-[0.6rem] text-[18px] font-[500] small:hidden"
+              >
+                Continue to Checkout
+              </Link>
+            </div>
+            <div className="flex-center h-[26px] w-full max-w-[23rem] small:hidden small:max-w-max ">
+              <p className="mr-1 text-[13px] font-[400]">Payment method</p>
+              <Image
+                src={"/visa.jpg"}
+                width={35}
+                height={35}
+                alt="visa"
+                className="h-[26px] w-[35px]"
+              />
+              <Image
+                src={"/master.jpg"}
+                width={28}
+                height={28}
+                alt="master card"
+                className="h-[18px] w-[28px]"
+              />
+              <Image
+                src={"/paypal.jpg"}
+                width={40}
+                height={40}
+                alt="paypal"
+                className="ml-1"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};

@@ -690,7 +690,7 @@ const ColorGiver = ({ color }) => {
   );
 };
 
-export { Cross, InstructionDialog, ColorDialog };
+export { Cross, InstructionDialog, ColorDialog, CartItem };
 
 const MobCheckOutBtn = () => {
   return (
