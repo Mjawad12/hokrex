@@ -211,6 +211,9 @@ canvas {
     border-radius: 3px;
   }
 }
+.PhoneInputCountry select {
+  width: 20px;
+}
 
 .PhoneInputInput:focus .ph-in {
   border: 1px solid #707072 !important;
@@ -244,7 +247,7 @@ input#size::-webkit-inner-spin-button {
 }
 
 .chrome-picker > div:nth-child(2) > .flexbox-fix:nth-child(2) {
-  @apply items-start flex-center;
+  @apply flex-center items-start;
 }
 .chrome-picker svg {
   fill: white !important;
