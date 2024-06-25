@@ -98,8 +98,12 @@ function Home() {
           </div>
         </motion.div>
       </div>
-      <div className="flex-center flex-1 flex-grow-[0.6] small:w-full small:flex-grow-[1] ">
-        <div className="flex-center relative w-full max-w-[48rem] flex-col overflow-hidden">
+
+      <div
+        id="mn-overflow"
+        className="flex-center flex-1 flex-grow-[0.6] overflow-hidden small:w-full small:flex-grow-[1] small:overflow-visible"
+      >
+        <div className="flex-center relative w-full max-w-[48rem] flex-col   ">
           <motion.div
             initial={{ y: "50px", opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}

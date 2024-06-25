@@ -163,7 +163,9 @@ const Editcomponent = ({
     setblur(!blur);
     opened === null ? setopened(index) : setopened(null);
     !open
-      ? animate(scope.current, { height: scope.current.scrollHeight + "px" })
+      ? animate(scope.current, {
+          height: scope.current.scrollHeight + "px",
+        })
       : animate(scope.current, { height: "88px" });
   };
 
@@ -464,7 +466,7 @@ function Address({
           Add a house number if you have one
         </p>
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 small:flex-col">
         <input
           type="text"
           required

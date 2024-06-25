@@ -286,11 +286,12 @@ const CardAdder = ({ setcardAdder, paymentAdder, setuserData }) => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       exit={{ opacity: 0 }}
-      className="flex-center fixed inset-0 left-0 top-0 bg-[#00000066]"
+      className="flex-center fixed inset-0 left-0 top-0 bg-[#00000066] px-5"
     >
       <form
         ref={formRef}
-        className="relative flex w-full max-w-[380px] flex-col gap-5 rounded-[21px] bg-white px-[1.3rem] pb-5 pt-16"
+        id="scroll-none"
+        className="relative flex w-full max-w-[380px] scroll-m-0 flex-col gap-5 rounded-[21px] bg-white px-[1.3rem] pb-5 pt-16 small:max-h-screen small:overflow-y-scroll small:pt-5"
       >
         <Cross clickFunc={() => setcardAdder(false)} />
         <h3 className="text-[21px] font-[700] leading-[21px]">

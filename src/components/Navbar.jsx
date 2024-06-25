@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import {
   arrowDown,
   bag,
@@ -11,9 +11,11 @@ import {
 import Link from "next/link.js";
 import { ContextStore } from "./Mainstate(store)/Mainstatestore.jsx";
 import { usePathname } from "next/navigation.js";
+import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/navigation.js";
 
 function Navbar({ cart }) {
-  const { authToken } = useContext(ContextStore);
+  const { authToken, delFunc } = useContext(ContextStore);
   const pathname = usePathname();
 
   return (
@@ -41,6 +43,7 @@ function Navbar({ cart }) {
           cart={pathname.includes("cart")}
           authToken={authToken}
           account={pathname.includes("account")}
+          delFunc={delFunc}
         />
       </div>
     </nav>
@@ -63,9 +66,11 @@ const SearchBar = () => {
   );
 };
 
-const SmNav = ({ cart, authToken, account }) => {
+const SmNav = ({ cart, authToken, account, delFunc }) => {
+  const [smNavState, setsmNavState] = useState(false);
+  const router = useRouter();
   return (
-    <ul className="flex-center list-none gap-5 small:[&>a]:hidden  [&_li]:cursor-pointer [&_li]:whitespace-nowrap [&_li]:text-[0.95rem] [&_li]:font-[500] hover:[&_li]:text-pmRed">
+    <ul className="flex-center relative list-none gap-5  small:[&>a]:hidden [&_li]:cursor-pointer [&_li]:whitespace-nowrap [&_li]:text-[0.95rem] [&_li]:font-[500] hover:[&_li]:text-pmRed">
       {!cart && !account && (
         <>
           <Link href={"/categories"}>
@@ -94,17 +99,49 @@ const SmNav = ({ cart, authToken, account }) => {
         >
           {bag}
         </Link>
-        <Link
-          href={authToken ? "/account" : "/login"}
+        <span
           className={`flex-center logoStyle h-9 w-[2.4rem] gap-1 border-gray-300 hover:border-black small:hidden ${account ? "w-max px-3 pl-2 [&_svg:nth-child(1)]:fill-black [&_svg:nth-child(2)]:w-[10px]" : ""}`}
+          onClick={() => {
+            account && setsmNavState(!smNavState);
+            !account && router.push(authToken ? "/account" : "/login");
+          }}
         >
           {user}
           {account && arrowDown}
-        </Link>
+        </span>
+
         <span className="small:flex-center logoStyle hidden h-9 w-[2.4rem] rounded-[11px] border-none bg-[#FAFAFA]">
           {hamburger}
         </span>
       </li>
+      <AnimatePresence>
+        {account && smNavState && (
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ y: -20, opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="absolute top-11 z-[30] flex w-max flex-col gap-1.5 rounded-[15px] border border-[#E5E5E5] bg-white p-3 px-3.5"
+          >
+            <span className="text-[16px] text-black">My Account</span>
+            <Link
+              className="text-pmGray hover:text-black"
+              href={"/account/wishlist"}
+            >
+              Wishlist
+            </Link>
+            <span
+              onClick={() => {
+                delFunc();
+                router.push("/");
+              }}
+              className="text-pmGray hover:text-black"
+            >
+              Logout
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </ul>
   );
 };
