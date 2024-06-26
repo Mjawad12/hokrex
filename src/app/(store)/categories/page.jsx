@@ -2,34 +2,16 @@ import { left } from "@/Consonats";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+async function page() {
+  const data = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/categoriesEdit`,
+    {
+      method: "GET",
+      cache: "no-cache",
+    },
+  );
+  const parsedData = await data.json();
 
-function page() {
-  const categories = [
-    { name: "Brand Appeal", items: "220", link: "/categories/brand-appeal" },
-    { name: "Work wear", items: "220", link: "/categories/work-wear" },
-    {
-      name: "Home & living",
-      items: "220",
-      link: "/categories/home-and-living",
-    },
-    { name: "Personal", items: "220", link: "/categories/personal" },
-    {
-      name: "Team & Sports",
-      items: "220",
-      link: "/categories/team-and-sports",
-    },
-    {
-      name: "Pormotion items",
-      items: "220",
-      link: "/categories/pormotion-items",
-    },
-    { name: "Gift items", items: "220", link: "/categories/gift-items" },
-    {
-      name: "Print on demand",
-      items: "220",
-      link: "/categories/print-on-demand",
-    },
-  ];
   return (
     <secton className="min-h-[calc(100vh-65px)] w-full">
       <div className="flex-center w-full flex-col gap-4 px-5 py-10 pb-20 small:pt-5 ">
@@ -38,7 +20,7 @@ function page() {
         </h1>
         <SmallArrowDown />
         <div className="flex-center mt-8 w-full max-w-[1300px] flex-wrap gap-8 small:mt-4">
-          {categories.map((it) => (
+          {parsedData.categories.map((it) => (
             <CategoryCard name={it.name} items={it.items} link={it.link} />
           ))}
         </div>

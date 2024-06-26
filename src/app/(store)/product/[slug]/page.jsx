@@ -16,23 +16,22 @@ async function page({ params }) {
 
   const parsedData = await data.json();
   !parsedData.success && redirect("/categories/All");
-  const liItems = [
-    { name: "All", slug: "/categories/All" },
-    { name: "Brand Appeal", slug: "/categories/brand-appeal" },
-    { name: "Work Wear", slug: "/categories/work-wear" },
-    { name: "Home & living", slug: "/categories/home-and-living" },
-    { name: "Personal", slug: "/categories/personal" },
-    { name: "Team & Sports", slug: "/categories/team-and-sports" },
-    { name: "Pormotion items", slug: "/categories/pormotion-items" },
-    { name: "Gift items", slug: "/categories/gift-items" },
-    { name: "Print on demand", slug: "/categories/print-on-demand" },
-  ];
+
+  const data2 = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/api/categoriesEdit`,
+    {
+      method: "GET",
+      cache: "no-cache",
+    },
+  );
+  const parsedData2 = await data2.json();
+
   return (
     <div>
       <div className="w-full smo:hidden">
         <TopBar
           slug={params.slug}
-          liItems={liItems}
+          liItems={parsedData2.categories}
           filterAdd={false}
           sticky={false}
         />

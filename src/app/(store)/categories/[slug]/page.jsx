@@ -11,38 +11,29 @@ import "react-toastify/dist/ReactToastify.css";
 import notificationCaller from "@/components/NotificationCaller";
 
 function page(slug) {
-  const { getProducts, categoryProducts } = useContext(ContextStore);
+  const { getProducts, categoryProducts, categories } =
+    useContext(ContextStore);
   const [products, setproducts] = useState([]);
   const [selectedOption, setselectedOption] = useState("Default Sorting");
   const [smGrid, setsmGrid] = useState(false);
   const [PageState, setPageState] = useState(1);
   const [showingItems, setshowingItems] = useState(9);
   const slugMain = slug.params.slug;
-  const liItems = [
-    { name: "All", slug: "/categories/All" },
-    { name: "Brand Appeal", slug: "/categories/brand-appeal" },
-    { name: "Work Wear", slug: "/categories/work-wear" },
-    { name: "Home & living", slug: "/categories/home-and-living" },
-    { name: "Personal", slug: "/categories/personal" },
-    { name: "Team & Sports", slug: "/categories/team-and-sports" },
-    { name: "Pormotion items", slug: "/categories/pormotion-items" },
-    { name: "Gift items", slug: "/categories/gift-items" },
-    { name: "On Demand Service (ODS)", slug: "/categories/on-demand-service" },
-  ];
 
   const NameGetter = () => {
     var name = "";
-    liItems.forEach((it) => {
-      if (it.slug.includes(slugMain)) {
+    categories?.forEach((it) => {
+      if (it.link.includes(slugMain)) {
         name = it.name;
       }
     });
+
     return name;
   };
 
   useEffect(() => {
-    getProducts(NameGetter());
-  }, []);
+    categories.length > 1 && getProducts(NameGetter());
+  }, [categories]);
 
   const pageAdder = () => {
     if (categoryProducts) {
@@ -108,7 +99,7 @@ function page(slug) {
       <ToastContainer />
       <div className="flex flex-col gap-3 ">
         <TopBar
-          liItems={liItems}
+          liItems={categories}
           slug={slugMain}
           filterAdd={true}
           sticky={true}
@@ -234,14 +225,14 @@ const TopBar = ({ slug, liItems, filterAdd, sticky }) => {
       <div className="flex gap-5">
         {liItems?.map((it, index) => (
           <Link
-            href={it.slug}
+            href={it.link}
             key={index}
-            className={`relative text-[17px] font-[500] larger:text-[15px] ${it.slug.includes(slug) ? "text-pmRed smo:text-black" : " text-black hover:text-pmRed "} whitespace-nowrap py-2 large:py-4 `}
+            className={`relative text-[17px] font-[500] larger:text-[15px] ${it.link.includes(slug) ? "text-pmRed smo:text-black" : " text-black hover:text-pmRed "} whitespace-nowrap py-2 large:py-4 `}
           >
             {it.name}
 
             <span
-              className={`absolute bottom-0 hidden h-[1.5px] w-full  smo:flex ${it.slug.includes(slug) ? "bg-black" : "bg-transparent"}`}
+              className={`absolute bottom-0 hidden h-[1.5px] w-full  smo:flex ${it.link.includes(slug) ? "bg-black" : "bg-transparent"}`}
             ></span>
           </Link>
         ))}

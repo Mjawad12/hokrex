@@ -1,19 +1,24 @@
+import { headers } from "next/headers";
 import ConnectDb from "../dbConnect";
-import Productmodel from "../Schemas/ProductSchema";
+import ProductSchema from "../Schemas/ProductSchema";
 
 export async function POST(req) {
   try {
     await ConnectDb();
     const body = await req.json();
-    if (body.productCategory === "All") {
-      const products = await Productmodel.find({});
-      return Response.json({ success: true, products }, { status: 200 });
-    } else {
-      const products = await Productmodel.find({
-        productCategory: body.productCategory,
-      });
-      return Response.json({ success: true, products }, { status: 200 });
+    const headerList = headers();
+    if (headerList.get("origin") === process.env.NEXT_PUBLIC_URL) {
+      if (body.productCategory === "All") {
+        const products = await ProductSchema.find({});
+        return Response.json({ success: true, products }, { status: 200 });
+      } else {
+        const products = await ProductSchema.find({
+          productCategory: body.productCategory,
+        });
+        return Response.json({ success: true, products }, { status: 200 });
+      }
     }
+    return Response.json({ success: false, error: "Not Authorized" });
   } catch (error) {
     console.log(error.message);
     return Response.json(

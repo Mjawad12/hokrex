@@ -14,6 +14,7 @@ function Mainstatestore({ children }) {
   const [forgetPassword, setforgetPassword] = useState(false);
   const [forgetFunc, setforgetFunc] = useState(false);
   const [enterPass, setenterPass] = useState(false);
+  const [categories, setcategories] = useState([]);
 
   const getProducts = async (productCategory) => {
     const data = await fetch(`${url}/api/getproducts`, {
@@ -276,6 +277,15 @@ function Mainstatestore({ children }) {
     return parsedData;
   };
 
+  const getCategories = async () => {
+    const data = await fetch(`${url}/api/categoriesEdit`, {
+      method: "GET",
+      cache: "no-cache",
+    });
+    const parsedData = await data.json();
+    setcategories(parsedData.categories);
+  };
+
   useEffect(() => {
     console.log(authToken);
     authToken && !userData && getUserdata();
@@ -283,6 +293,7 @@ function Mainstatestore({ children }) {
 
   useEffect(() => {
     setauthToken(localStorage.getItem("authToken"));
+    categories.length < 1 && getCategories();
   }, []);
 
   return (
@@ -325,6 +336,7 @@ function Mainstatestore({ children }) {
         ReviewAdd,
         ReviewAdd,
         ContactEmail,
+        categories,
       }}
     >
       {children}
