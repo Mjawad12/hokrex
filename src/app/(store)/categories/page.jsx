@@ -1,17 +1,11 @@
+"use client";
 import { left } from "@/Consonats";
+import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-async function page() {
-  const data = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/categoriesEdit`,
-    {
-      method: "GET",
-      cache: "no-cache",
-    },
-  );
-  const parsedData = await data.json();
-
+import React, { useContext } from "react";
+function page() {
+  const { categories } = useContext(ContextStore);
   return (
     <secton className="min-h-[calc(100vh-65px)] w-full">
       <div className="flex-center w-full flex-col gap-4 px-5 py-10 pb-20 small:pt-5 ">
@@ -20,7 +14,7 @@ async function page() {
         </h1>
         <SmallArrowDown />
         <div className="flex-center mt-8 w-full max-w-[1300px] flex-wrap gap-8 small:mt-4">
-          {parsedData.categories.map((it) => (
+          {categories.map((it) => (
             <CategoryCard name={it.name} items={it.items} link={it.link} />
           ))}
         </div>
