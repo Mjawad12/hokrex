@@ -6,7 +6,7 @@ import ColorSmall from "@/components/Tool/RightBarEditing/ColorSmall";
 import ModelViewer from "@/components/Tool/ModelViewer";
 import RightBarEditing from "@/components/Tool/RightBarEditing";
 import SidebarTool from "@/components/Tool/SidebarTool";
-import { Environment, OrbitControls } from "@react-three/drei";
+import { AdaptiveDpr, Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { AnimatePresence } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
@@ -31,6 +31,8 @@ function page() {
             camera={{ position: [0, 0, 1.95], fov: 32 }}
             className="main-canvas"
             frameloop="demand"
+            performance={{ min: 0.1 }}
+            gl={{ antialias: false }}
           >
             <OrbitControls
               enablePan={false}
@@ -42,12 +44,13 @@ function page() {
             />
             <Environment preset="city" />
             <ModelViewer />
+            <AdaptiveDpr pixelated />
           </Canvas>
         </div>
 
         <div
           style={{ width: "calc(5.1rem + 280px)" }}
-          className="absolute left-0 top-[3.05rem] z-20 flex min-h-screen "
+          className="absolute left-0 top-[3.05rem] z-20 flex min-h-screen small:hidden "
         >
           <div className="z-[1] flex min-h-screen w-full max-w-[5.1rem] flex-col items-center justify-start gap-3 border-r border-darkLight bg-darkMid px-[0.8rem] py-3 ">
             {prods.map((it, index) => (

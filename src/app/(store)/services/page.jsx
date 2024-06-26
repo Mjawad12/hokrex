@@ -152,12 +152,15 @@ const Service = ({ slide1, DisableScroll, Enablescroll }) => {
           initial={{ opacity: 0, y: -150 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0, 0, 0.2, 0.8] }}
-          // onAnimationStart={() => setanimating(true)}
-          // onAnimationComplete={() => setanimating(false)}
+          onClick={(e) =>
+            e.target.scrollIntoView({ behavior: "smooth", block: "center" })
+          }
           className="flex-center relative z-10 mt-10 h-[7rem] w-[7rem] scale-x-[-1] cursor-pointer rounded-full border [&_svg]:h-[35px] [&_svg]:w-[35px] "
         >
           <div className="flex-center relative flex rotate-[-90deg]">
-            <span className="absolute left-[-7px]">{left}</span>
+            <span className="pointer-events-none absolute left-[-7px]">
+              {left}
+            </span>
             {left}
           </div>
         </motion.div>
@@ -170,7 +173,10 @@ const Slide1 = ({ animTracker, setanimating, DisableScroll, Enablescroll }) => {
   const img = [0, 1, 2, 3, 4];
 
   return (
-    <div className="flex-center absolute top-0 m-auto min-h-screen w-full  max-w-[1550px] gap-12 overflow-hidden px-5">
+    <div
+      id="sl-1"
+      className="flex-center absolute top-0 m-auto min-h-screen w-full  max-w-[1550px] gap-12 overflow-hidden px-5"
+    >
       <LeftSlide
         img={img}
         animTracker={animTracker}
@@ -347,7 +353,7 @@ const RightSlide = ({ animTracker }) => {
             >
               <div>
                 <motion.h2
-                  initial={{ y: next === index ? "-50%" : index + "00" + "vh" }}
+                  initial={{ y: next === index ? "-50%" : "100" + "vh" }}
                   animate={animate}
                   transition={{
                     duration: 1.6,
@@ -361,7 +367,7 @@ const RightSlide = ({ animTracker }) => {
                 {it.name2 && (
                   <motion.h2
                     initial={{
-                      y: next === index ? "-50%" : index + "00" + "vh",
+                      y: next === index ? "-50%" : "100" + "vh",
                     }}
                     animate={animate}
                     transition={{
@@ -378,7 +384,7 @@ const RightSlide = ({ animTracker }) => {
               </div>
 
               <motion.p
-                initial={{ y: next === index ? "-50%" : index + "00" + "vh" }}
+                initial={{ y: next === index ? "-50%" : "100" + "vh" }}
                 animate={animate}
                 transition={{
                   duration: 1.6,
@@ -392,8 +398,13 @@ const RightSlide = ({ animTracker }) => {
               </motion.p>
 
               <motion.span
+                onClick={(e) =>
+                  index === 4
+                    ? window.scrollTo(0, window.scrollY + 190)
+                    : window.scrollTo(0, window.scrollY + 220)
+                }
                 initial={{
-                  y: next === index ? "-50%" : index + "00" + "vh",
+                  y: next === index ? "-50%" : "100vh",
                   opacity: 0,
                 }}
                 animate={{ ...animate, opacity: 1 }}
