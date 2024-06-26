@@ -19,18 +19,18 @@ const SendMail = async (clientMail, otp) => {
     });
 
     const mailoptions = {
-      from: "Hokrex 👕 <hokrexofficial@gmail.com> ",
+      from: "PrintODS 👕",
       to: clientMail,
-      subject: "Hokrex - One-Time Password (OTP) Code",
+      subject: "PrintODS - One-Time Password (OTP) Code",
       text: `Your code is ${otp}`,
-      html: `<h1>Hokrex</h1>
+      html: `<h1>PrintODS</h1>
        <h2>Dear ${clientMail},</h2>
        <p>To ensure the security of your account, we have generated a One-Time Password (OTP) for your recent request. Please find your OTP code below: <br /></p>
        <p><i>Your OTP Code:</i> <b>${otp}</b></p>
        <p>Thank you for helping us keep your account secure.<p/>
 
        <p>Best regards. <p/>
-       <h3>Hokrex - Official</h3>
+       <h3>PrintODS - Official</h3>
        `,
     };
 
@@ -52,8 +52,8 @@ const sendContactMedia = async (firName, lastName, email, message, phone) => {
     });
 
     const mailoptions = {
-      from: "PrintODS 👕 <hokrexofficial@gmail.com> ",
-      to: "kingbull13578@gmail.com",
+      from: "PrintODS 👕",
+      to: "printods.com@gmial.com",
       subject: "PrintODS - Some one Contacted You",
       text: `Some one Contacted You`,
       html: `<h1>PrintODS</h1>
