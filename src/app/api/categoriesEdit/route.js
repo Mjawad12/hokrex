@@ -17,7 +17,7 @@ export async function DELETE(req) {
   const body = await req.json();
   const headerList = headers();
   if (headerList.get("origin") === process.env.NEXT_PUBLIC_URL) {
-    await CategoriesSchema.findOneAndDelete({ name: body.id });
+    await CategoriesSchema.findOneAndDelete({ _id: body.id });
     return Response.json({ success: true, msg: "Category deleted" });
   }
   return Response.json({ success: false, error: "Not Authorized" });

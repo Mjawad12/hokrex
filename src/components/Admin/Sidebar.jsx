@@ -65,7 +65,11 @@ const Navitem = ({ name, svg, ind, selected, setselected, slug }) => {
         href={slug}
       >
         <div
-          className={selected === ind ? "*:stroke-black" : "*:stroke-[#8E92BC]"}
+          className={
+            selected === ind
+              ? "*:stroke-black"
+              : `${ind === 2 ? "*:fill-[#8E92BC]" : "*:stroke-[#8E92BC]"} `
+          }
         >
           {svg}
         </div>

@@ -14,7 +14,7 @@ function page() {
         </h1>
         <SmallArrowDown />
         <div className="flex-center mt-8 w-full max-w-[1300px] flex-wrap gap-8 small:mt-4">
-          {categories.map((it) => (
+          {categories?.map((it) => (
             <CategoryCard name={it.name} items={it.items} link={it.link} />
           ))}
         </div>

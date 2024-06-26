@@ -1,3 +1,4 @@
+import CategoriesSchema from "../Schemas/CategoriesSchema";
 import Productmodel from "../Schemas/ProductSchema";
 import ConnectDb from "../dbConnect";
 
@@ -6,6 +7,12 @@ export async function POST(req) {
     await ConnectDb().catch((err) => console.log(err.message));
     const body = await req.json();
     const slug = slugify(body.productName);
+    await CategoriesSchema.updateOne(
+      { name: body.productCategory },
+      { $inc: { items: +1 } },
+    );
+    await CategoriesSchema.updateOne({ name: "All" }, { $inc: { items: +1 } });
+
     const product = await Productmodel.create({
       productName: body.productName,
       productCategory: body.productCategory,

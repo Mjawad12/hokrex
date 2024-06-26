@@ -3,7 +3,13 @@ import { addicon, bigArrowLeft, redCross, uploadImg } from "@/Consonats";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { ContextAdmin } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import Image from "next/image";
-import React, { useContext, useRef, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { SketchPicker } from "react-color";
 import rgbHex from "rgb-hex";
 import { useDropzone } from "react-dropzone";
@@ -31,7 +37,7 @@ const Upload = async (file) => {
   return parsedData.url;
 };
 const ProductFrom = () => {
-  const { addProductApi } = useContext(ContextAdmin);
+  const { addProductApi, categories, getCategories } = useContext(ContextAdmin);
   const form = useRef(null);
   const imgRef = useRef(null);
   const name = useRef(null);
@@ -47,17 +53,6 @@ const ProductFrom = () => {
   const [customizable, setcustomizable] = useState(false);
   const [materials, setmaterials] = useState([]);
   const [SideImages, setSideImages] = useState([]);
-
-  const liItems = [
-    "Brand Appeal",
-    "Work wear",
-    "Home & living",
-    "Personal",
-    "Team & Sports",
-    "Pormotion items",
-    "Gift items",
-    "Print on demand",
-  ];
 
   const uploadMultiple = async () => {
     let sideImagesUrl = [];
@@ -120,6 +115,10 @@ const ProductFrom = () => {
     setSideImages([...SideImages, e.target.files[0]]);
     Selectedimg.classList.remove("hidden");
   };
+
+  useLayoutEffect(() => {
+    categories.length < 1 && getCategories();
+  }, []);
 
   return added ? (
     <div className="flex-center min-h-screen w-full">
@@ -244,11 +243,14 @@ const ProductFrom = () => {
               className="checkoutInput hover:shadow-xl "
               required={true}
             >
-              {liItems.map((it, index) => (
-                <option key={index} value={it}>
-                  {it}
-                </option>
-              ))}
+              {categories?.map(
+                (it, index) =>
+                  it.name !== "All" && (
+                    <option key={index} value={it}>
+                      {it.name}
+                    </option>
+                  ),
+              )}
             </select>
           </div>
           <div className="flex flex-col gap-5">
