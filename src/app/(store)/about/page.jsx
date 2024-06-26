@@ -95,6 +95,8 @@ function page() {
             fir_AnimState={fir_AnimState}
             Sec_AnimState={Sec_AnimState}
             setanimating={setanimating}
+            setfir_AnimState={setfir_AnimState}
+            setSec_AnimState={setSec_AnimState}
           />
           {fir_AnimState && (
             <Slide2
@@ -134,7 +136,13 @@ function page() {
 
 export default page;
 
-const About = ({ fir_AnimState, Sec_AnimState, setanimating }) => {
+const About = ({
+  fir_AnimState,
+  Sec_AnimState,
+  setanimating,
+  setfir_AnimState,
+  setSec_AnimState,
+}) => {
   return (
     <div className="flex-center min-h-screen flex-col gap-3">
       <motion.h1
@@ -153,6 +161,10 @@ const About = ({ fir_AnimState, Sec_AnimState, setanimating }) => {
       </motion.div>
 
       <motion.div
+        onClick={(e) => {
+          !fir_AnimState ? setfir_AnimState(true) : setSec_AnimState(true);
+          window.scrollTo(0, window.scrollY + 120);
+        }}
         initial={{ y: -100, opacity: 0 }}
         animate={{
           y: fir_AnimState ? (Sec_AnimState ? "-100vh" : -137) : 0,

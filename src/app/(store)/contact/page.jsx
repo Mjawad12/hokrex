@@ -90,6 +90,12 @@ function page() {
                 initial={{ rotate: -90, y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1, rotate: -90 }}
                 transition={{ duration: 1, ease: [0, 0, 0.2, 0.8] }}
+                onClick={(e) =>
+                  e.target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  })
+                }
                 className="flex-center relative top-20 z-10 mt-10 h-[7rem] w-[7rem] scale-x-[-1] cursor-pointer rounded-full border [&_svg]:h-[35px] [&_svg]:w-[35px] "
               >
                 <span className="absolute left-[1.9rem]">{left}</span>
@@ -146,6 +152,7 @@ function page() {
               animate={{ opacity: slideLast ? 0 : 1 }}
               whileHover={{ rotate: 30 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
+              onClick={(e) => window.scrollTo(0, window.innerHeight)}
               className="absolute bottom-36 right-10 cursor-pointer rounded-full border border-[#707070]"
             >
               {bigArrow}
@@ -335,7 +342,7 @@ const Contact = ({ setanimating, slideLast }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0, 0, 0.1, 0.7], delay: 1 }}
           onClick={submitContactForm}
-          className="mt-10 w-[11rem] rounded-3xl border border-black px-6 py-[0.65rem] text-[17px] font-[500] text-black transition-all duration-300 disabled:cursor-not-allowed disabled:bg-gray-300"
+          className="mt-10 w-[11rem] rounded-3xl border border-black px-6 py-[0.65rem] text-[17px] font-[500] text-black disabled:cursor-not-allowed disabled:bg-gray-300"
           disabled={loading}
         >
           Submit request

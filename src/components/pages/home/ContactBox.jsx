@@ -188,7 +188,7 @@ function ContactBox({ about }) {
             animate={{ y: 0 }}
             transition={{ duration: 1.2, ease: "easeInOut", delay: 0.25 }}
             onClick={submitContactForm}
-            className="mt-10 w-[11rem] rounded-3xl border border-black px-6 py-[0.65rem] text-[17px] font-[500] text-black transition-all duration-300 disabled:cursor-not-allowed disabled:bg-gray-300"
+            className="mt-10 w-[11rem] rounded-3xl border border-black px-6 py-[0.65rem] text-[17px] font-[500] text-black disabled:cursor-not-allowed disabled:bg-gray-300"
             disabled={loading}
           >
             Submit request
