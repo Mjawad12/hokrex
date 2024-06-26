@@ -119,10 +119,24 @@ function Home() {
             />
           </motion.div>
           <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="absolute left-[10.9rem] z-20"
+          >
+            <Image
+              src={"/homepage/cursorImg.png"}
+              width={500}
+              height={500}
+              alt="label"
+              className="relative top-2 w-[23px]"
+            />
+          </motion.div>
+          <motion.div
             initial={{ y: "150px", opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="absolute bottom-0 left-[3rem] z-10 w-full small:left-[109px]"
+            className="absolute bottom-0 left-[5rem] z-10 w-full small:left-[109px]"
           >
             <Image
               src={"/homepage/label1.webp"}

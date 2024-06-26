@@ -6,6 +6,7 @@ import Link from "next/link";
 import React, { useContext } from "react";
 function page() {
   const { categories } = useContext(ContextStore);
+  const tele = [0, 1, 2, 3, 4, 5, 6, 7];
   return (
     <secton className="min-h-[calc(100vh-65px)] w-full">
       <div className="flex-center w-full flex-col gap-4 px-5 py-10 pb-20 small:pt-5 ">
@@ -14,9 +15,16 @@ function page() {
         </h1>
         <SmallArrowDown />
         <div className="flex-center mt-8 w-full max-w-[1300px] flex-wrap gap-8 small:mt-4">
-          {categories?.map((it) => (
-            <CategoryCard name={it.name} items={it.items} link={it.link} />
-          ))}
+          {categories.length > 0
+            ? categories?.map((it) => (
+                <CategoryCard name={it.name} items={it.items} link={it.link} />
+              ))
+            : tele.map((it) => (
+                <div
+                  key={it}
+                  className="relative flex min-h-[270px] w-full max-w-[300px] animate-pulse overflow-hidden rounded-[15px] bg-gray-300 transition-all duration-700"
+                ></div>
+              ))}
         </div>
       </div>
     </secton>
