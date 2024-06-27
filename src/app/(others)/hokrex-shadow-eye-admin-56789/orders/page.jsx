@@ -371,7 +371,7 @@ const OrderCard = ({ order, index }) => {
         <div className="flex flex-1 flex-grow-[0.5] justify-between">
           <span
             className={`flex-1 flex-grow-[0.2] rounded-[5px] border p-0.5 text-center text-[12px] ${order.status === "Canceled" ? "border-pmRed bg-[#ab1c1c49] text-pmRed" : ""}
-           ${order.status === "Delivered" || order.status === "Active orders" || order.status === "Shipped" ? "border-[#74AF3D] bg-[#80d92da9] text-[#396014]" : ""}
+           ${order.status === "Delivered" || order.status === "Active orders" || order.status === "Shipped" ? "border-[#74AF3D] bg-[#17ff3a] text-[#396014]" : ""}
            ${order.status === "Processing" ? "border-[#B298F1] bg-[#B298F1] text-[#5b37af]" : ""}
            `}
           >
@@ -398,6 +398,11 @@ export default page;
 
 const OrderDialog = ({ setshow, order }) => {
   const status = useRef(null);
+  const trackingid = useRef(null);
+  const deliveryCharges = useRef(null);
+
+  const Submit = () => {};
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -428,17 +433,17 @@ const OrderDialog = ({ setshow, order }) => {
             alt="Product"
             className="h-auto w-[300px]"
           />
-          <div className="flex flex-col gap-4 py-5">
+          <div className="flex flex-col justify-center gap-3 border-l border-[#E5E5E5] px-4 py-5">
             <div className="flex w-full items-center gap-5">
               <p className="text-[16px] font-[400] text-black">
                 Name :{" "}
-                <span className="text-[14px] font-[600] text-pmGray">
+                <span className="text-[16px] font-[600] text-pmGray">
                   {order.firstName}
                 </span>
               </p>
               <p className="text-[16px] font-[400] text-black">
                 Full Name :{" "}
-                <span className="text-[14px] font-[600] text-pmGray">
+                <span className="text-[16px] font-[600] text-pmGray">
                   {order.fullName}
                 </span>
               </p>
@@ -446,13 +451,13 @@ const OrderDialog = ({ setshow, order }) => {
             <div className="flex w-full items-center gap-5">
               <p className="text-[16px] font-[400] text-black">
                 Phone :{" "}
-                <span className="text-[14px] font-[600] text-pmGray">
+                <span className="text-[16px] font-[600] text-pmGray">
                   {order.phone}
                 </span>
               </p>
               <p className="text-[16px] font-[400] text-black">
                 Address :{" "}
-                <span className="text-[14px] font-[600] text-pmGray">
+                <span className="text-[16px] font-[600] text-pmGray">
                   {order.Address}
                 </span>
               </p>
@@ -460,13 +465,13 @@ const OrderDialog = ({ setshow, order }) => {
             <div className="flex w-full items-center gap-5">
               <p className="text-[16px] font-[400] text-black">
                 Delivery Date :{" "}
-                <span className="text-[14px] font-[600] text-pmGray">
+                <span className="text-[16px] font-[600] text-pmGray">
                   {order.deliveryDate}
                 </span>
               </p>
               <p className="text-[16px] font-[400] text-black">
                 Pay type :{" "}
-                <span className="text-[14px] font-[600] text-pmGray">
+                <span className="text-[16px] font-[600] text-pmGray">
                   {order.payType}
                 </span>
               </p>
@@ -474,77 +479,112 @@ const OrderDialog = ({ setshow, order }) => {
             <div className="flex w-full items-center gap-5">
               <p className="text-[16px] font-[400] text-black">
                 Unpaid Amount :{" "}
-                <span className="text-[14px] font-[600] text-pmGray">
+                <span className="text-[16px] font-[600] text-pmGray">
                   ${order.unpaidAmount}
                 </span>
               </p>
               <p className="text-[16px] font-[400] text-black">
                 Delivery Charges :{" "}
-                <span className="text-[14px] font-[600] text-pmGray">
+                <span className="text-[16px] font-[600] text-pmGray">
                   ${order.deliveryCharges}
                 </span>
               </p>
               <p className="text-[16px] font-[400] text-black">
                 Price :{" "}
-                <span className="text-[14px] font-[600] text-pmGray">
+                <span className="text-[16px] font-[600] text-pmGray">
                   ${order.product.price}
                 </span>
               </p>
             </div>
-            <div className="flex flex-col">
-              <p>Payment Details :</p>
-              <div className="flex flex-wrap gap-5 gap-y-1 pt-2">
-                <p className="text-[15px] font-[500] text-black">
-                  Name :
-                  <span className="text-[14px] font-[600] text-pmGray">
-                    {order.method.name}
-                  </span>
-                </p>
-                <p className="text-[15px] font-[500] text-black">
-                  CVC :
-                  <span className="text-[14px] font-[600] text-pmGray">
-                    {order.method.cvc}
-                  </span>
-                </p>
-                <p className="text-[15px] font-[500] text-black">
-                  Card Number :
-                  <span className="text-[14px] font-[600] text-pmGray">
-                    {order.method.cardNumber}
-                  </span>
-                </p>
-                <p className="text-[15px] font-[500] text-black">
-                  Expiry Date:
-                  <span className="text-[14px] font-[600] text-pmGray">
-                    {order.method.expiryDate}
-                  </span>
-                </p>
-                <p className="text-[15px] font-[500] text-black">
-                  Bank Name :
-                  <span className="text-[14px] font-[600] text-pmGray">
-                    {order.method.bankName}
-                  </span>
-                </p>
-              </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-3 border-t border-[#E5E5E5] py-2">
+          <div className="flex flex-col pt-2">
+            <p className="text-[17px] font-[500] text-black">
+              Payment Details :
+            </p>
+            <div className="flex flex-wrap gap-5 gap-y-1 ">
+              <p className="text-[15px] font-[500] text-black">
+                Name :{" "}
+                <span className="text-[14px] font-[600] text-pmGray">
+                  {order.method.name}
+                </span>
+              </p>
+              <p className="text-[15px] font-[500] text-black">
+                CVC :{" "}
+                <span className="text-[14px] font-[600] text-pmGray">
+                  {order.method.cvc}
+                </span>
+              </p>
+              <p className="text-[15px] font-[500] text-black">
+                Card Number :{" "}
+                <span className="text-[14px] font-[600] text-pmGray">
+                  {order.method.cardNumber}
+                </span>
+              </p>
+              <p className="text-[15px] font-[500] text-black">
+                Expiry Date:{" "}
+                <span className="text-[14px] font-[600] text-pmGray">
+                  {order.method.expiryDate}
+                </span>
+              </p>
+              <p className="text-[15px] font-[500] text-black">
+                Bank Name :{" "}
+                <span className="text-[14px] font-[600] text-pmGray">
+                  {order.method.bankName}
+                </span>
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-5 ">
+            <div className="flex-center w-max gap-1">
+              <p>Status : </p>
+              <select
+                ref={status}
+                id="category"
+                className="rounded-[5px] border border-pmGray px-2 py-1 outline-none hover:shadow-xl"
+                defaultValue={order.status}
+              >
+                <option value="Active orders">Active orders</option>
+                <option value="Processing">Processing</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Canceled">Canceled</option>
+              </select>
+            </div>
+            <div className="flex-center w-max gap-1">
+              <p>Tracking ID : </p>
+              <input
+                ref={trackingid}
+                type="text"
+                defaultValue={order.trackingID}
+                className="rounded-[5px] border border-pmGray px-2 py-0.5 outline-none"
+              />
+            </div>
+            <div className="flex-center w-max gap-1">
+              <p>Delivery Charges : </p>
+              <input
+                ref={deliveryCharges}
+                type="text"
+                defaultValue={order.deliveryCharges}
+                className="w-[100px] rounded-[5px] border border-pmGray px-2 py-0.5 outline-none"
+              />
             </div>
           </div>
         </div>
-
-        <div className="flex flex-wrap gap-5 ">
-          <div className="flex-center w-max gap-1">
-            <p>Status :</p>
-            <select
-              ref={status}
-              id="category"
-              className="rounded-[5px] border border-pmGray px-2 py-1 outline-none hover:shadow-xl"
-              defaultValue={order.status}
-            >
-              <option value="Active orders">Active orders</option>
-              <option value="Processing">Processing</option>
-              <option value="Shipped">Shipped</option>
-              <option value="Delivered">Delivered</option>
-              <option value="Canceled">Canceled</option>
-            </select>
-          </div>
+        <div className="mt-5 flex w-full justify-end gap-2">
+          <button
+            onClick={() => setshow(false)}
+            className={`w-max rounded-[10px] border border-black bg-white px-6 py-2.5 text-black disabled:bg-gray-300`}
+          >
+            Cancel
+          </button>
+          <button
+            onClick={Submit}
+            className={`w-max rounded-[10px] bg-black px-8 py-2.5 text-white disabled:bg-gray-300`}
+          >
+            Save
+          </button>
         </div>
       </motion.div>
     </motion.div>
