@@ -145,9 +145,7 @@ const About = ({
   setSec_AnimState,
 }) => {
   const [prevAnim, setprevAnim] = useState(0);
-  useEffect(() => {
-    console.log(prevAnim);
-  }, [prevAnim]);
+
   return (
     <div className="flex-center min-h-screen flex-col gap-3">
       <motion.h1

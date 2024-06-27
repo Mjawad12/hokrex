@@ -57,11 +57,7 @@ function page() {
             target={animTracker}
           >
             <AnimatePresence>
-              <Slide2
-                slide2={slide2}
-                DisableScroll={DisableScroll}
-                Enablescroll={Enablescroll}
-              />
+              <Slide2 slide2={slide2} />
             </AnimatePresence>
           </AnimationStateGiver>
           <AnimationStateGiver
@@ -96,6 +92,7 @@ const AnimationStateGiver = ({
   children,
   counter,
 }) => {
+  const { DisableScroll, Enablescroll } = useContext(ContextAnimation);
   const scroll = useScroll({
     target: target,
     offset: [`start ${offset}`, "end -1"],
@@ -104,17 +101,24 @@ const AnimationStateGiver = ({
   const progress = useTransform(scroll.scrollYProgress, [0, 1], [false, true]);
   useMotionValueEvent(progress, "change", (e) => {
     counter ? setState((prev) => (e ? prev + 1 : prev - 1)) : setState(e);
+    DisableScroll();
+    console.log(offset);
+    setTimeout(
+      () => {
+        Enablescroll();
+      },
+      offset === "-0.9" ? 3000 : 1500,
+    );
   });
 
   return <>{children}</>;
 };
 
-const Service = ({ slide1, DisableScroll, Enablescroll }) => {
+const Service = ({ slide1 }) => {
   return (
     <motion.div
       animate={{ y: slide1 ? "-100vh" : 0 }}
       transition={{ duration: 1, ease: [0, 0, 0.2, 0.8] }}
-      onAnimationStart={() => DisableScroll()}
       className="flex-center min-h-screen w-full flex-col gap-32"
     >
       <div className="flex-center flex-col gap-2">
@@ -194,7 +198,7 @@ const Slide1 = ({ animTracker, setanimating, DisableScroll, Enablescroll }) => {
   );
 };
 
-const LeftSlide = ({ img, animTracker, DisableScroll, Enablescroll }) => {
+const LeftSlide = ({ img, animTracker }) => {
   const [next, setnext] = useState(0);
 
   return (
@@ -207,9 +211,8 @@ const LeftSlide = ({ img, animTracker, DisableScroll, Enablescroll }) => {
             duration: 1,
             ease: next > 3 ? "easeInOut" : [0, 0, 0.1, 0.9],
           }}
-          onAnimationStart={() => DisableScroll()}
           exit={{ y: "-70vh", opacity: 0 }}
-          style={{ writingMode: "tb" }}
+          style={{ writingMode: "tb", "-webkit-writing-mode": "vertical-lr" }}
           className="h-[8.5ch] whitespace-nowrap text-[35px] font-[700] leading-[35px] "
         >
           Our Services
@@ -229,8 +232,6 @@ const LeftSlide = ({ img, animTracker, DisableScroll, Enablescroll }) => {
           ease: "easeInOut",
           delay: next === 5 && 0.4,
         }}
-        onAnimationStart={() => DisableScroll()}
-        onAnimationComplete={() => Enablescroll()}
         className={`absolute left-10 top-[50%] flex h-[627px] max-h-[627px] w-full max-w-[627px] translate-y-[-50%] flex-col`}
       >
         {img.map((it, index) => {
@@ -240,7 +241,7 @@ const LeftSlide = ({ img, animTracker, DisableScroll, Enablescroll }) => {
                 ? next < 3
                   ? index + "0px"
                   : index * 5 + 8 + "px"
-                : index + 1 + "00" + "vh",
+                : "100vh",
             x: next < 3 ? index + "0px" : index * 5 + 8 + "px",
           };
           return (
@@ -264,8 +265,6 @@ const LeftSlide = ({ img, animTracker, DisableScroll, Enablescroll }) => {
                         : "easeInOut",
                 }}
                 exit={{ y: "100vh", opacity: 0 }}
-                onAnimationStart={() => DisableScroll()}
-                onAnimationComplete={() => Enablescroll()}
                 className="flex-center absolute left-0 top-0 z-20 h-[627px] w-[627px] overflow-hidden"
                 style={{ zIndex: next + "0" }}
               >
@@ -326,12 +325,7 @@ const RightSlide = ({ animTracker }) => {
     >
       {details.map((it, index) => {
         const animate = {
-          y:
-            next > index
-              ? -(index + 120) + "vh"
-              : next === index
-                ? "0"
-                : index + 1 + "00" + "vh",
+          y: next > index ? -120 + "vh" : next === index ? "0" : "100vh",
         };
         const exit = index === 0 && {
           y: "50vh",
@@ -427,7 +421,7 @@ const RightSlide = ({ animTracker }) => {
   );
 };
 
-const Slide2 = ({ slide2, DisableScroll, Enablescroll }) => {
+const Slide2 = ({ slide2 }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -472,16 +466,12 @@ const Slide2 = ({ slide2, DisableScroll, Enablescroll }) => {
           alt="services-4"
         />
       </motion.div>
-      <QouteCard
-        slide2={slide2}
-        DisableScroll={DisableScroll}
-        Enablescroll={Enablescroll}
-      />
+      <QouteCard slide2={slide2} />
     </motion.div>
   );
 };
 
-const QouteCard = ({ slide2, DisableScroll, Enablescroll }) => {
+const QouteCard = ({ slide2 }) => {
   return (
     <motion.div
       initial={{ y: "100vh", opacity: 0 }}
@@ -491,8 +481,6 @@ const QouteCard = ({ slide2, DisableScroll, Enablescroll }) => {
         delay: !slide2 ? 0 : 1.2,
         ease: "easeInOut",
       }}
-      onAnimationStart={() => DisableScroll()}
-      onAnimationComplete={() => Enablescroll()}
       id="bg-filter-blur-qoute"
       style={{ boxShadow: " 0px 4px 23.2px 0px #00000040", filter: "blur(23)" }}
       className="flex-center relative  w-full max-w-[1100px] flex-col gap-6 overflow-hidden rounded-[40px] border border-[#FFFFFF80] py-16"
