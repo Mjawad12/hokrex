@@ -2,7 +2,7 @@ import AccountNav from "@/components/AccountNav";
 
 export default function layout({ children }) {
   return (
-    <section className="relative flex min-h-[calc(100vh-73px)] w-full flex-col justify-between small:min-h-[calc(100vh-61px)]">
+    <section className="relative flex min-h-[calc(100vh-81px)] w-full flex-col justify-between small:min-h-[calc(100vh-61px)]">
       <div className="m-auto mt-9 flex w-full max-w-[1040px] flex-col px-5">
         <header className="w-full">
           <AccountNav />

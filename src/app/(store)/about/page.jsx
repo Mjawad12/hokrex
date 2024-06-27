@@ -29,6 +29,7 @@ function page() {
     target: animator,
     offset: ["start 0.8", "end start"],
   });
+  console.log(scroll);
   const scroll2 = useScroll({
     target: animator,
     offset: ["start 0.6", "end start"],
@@ -85,6 +86,13 @@ function page() {
   });
   useMotionValueEvent(Sev_Anim, "change", (e) => {
     setSev_AnimState(e);
+  });
+
+  useMotionValueEvent(scroll.scrollY, "change", (e) => {
+    console.log(e);
+  });
+  useMotionValueEvent(scroll.scrollYProgress, "change", (e) => {
+    console.log(e);
   });
 
   return (
@@ -163,7 +171,7 @@ const About = ({
       <motion.div
         onClick={(e) => {
           !fir_AnimState ? setfir_AnimState(true) : setSec_AnimState(true);
-          window.scrollTo(0, window.scrollY + 120);
+          window.scrollTo(0, window.scrollY + (fir_AnimState ? 200 : 300));
         }}
         initial={{ y: -100, opacity: 0 }}
         animate={{
