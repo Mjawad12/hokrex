@@ -12,7 +12,7 @@ import {
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 function page() {
   const animTracker = useRef(null);
@@ -27,12 +27,7 @@ function page() {
       <div className="min-h-[310vh] w-full">
         <div className="flex-center sticky top-0 flex-col">
           <AnimatePresence>
-            <Service
-              slide1={slide1}
-              setanimating={setanimating}
-              DisableScroll={DisableScroll}
-              Enablescroll={Enablescroll}
-            />
+            <Service slide1={slide1} />
           </AnimatePresence>
 
           <AnimationStateGiver
@@ -45,8 +40,7 @@ function page() {
                 <Slide1
                   animTracker={animTracker}
                   setanimating={setanimating}
-                  DisableScroll={DisableScroll}
-                  Enablescroll={Enablescroll}
+                  setslide2={setslide2}
                 />
               )}
             </AnimatePresence>
@@ -173,9 +167,10 @@ const Service = ({ slide1 }) => {
   );
 };
 
-const Slide1 = ({ animTracker, setanimating, DisableScroll, Enablescroll }) => {
+const Slide1 = ({ animTracker, setslide2 }) => {
   const img = [0, 1, 2, 3, 4];
-
+  const [nextLeft, setnextLeft] = useState(0);
+  const [nextRight, setnextRight] = useState(0);
   return (
     <div
       id="sl-1"
@@ -184,23 +179,20 @@ const Slide1 = ({ animTracker, setanimating, DisableScroll, Enablescroll }) => {
       <LeftSlide
         img={img}
         animTracker={animTracker}
-        setanimating={setanimating}
-        DisableScroll={DisableScroll}
-        Enablescroll={Enablescroll}
+        next={nextLeft}
+        setnext={setnextLeft}
       />
       <RightSlide
         animTracker={animTracker}
-        setanimating={setanimating}
-        DisableScroll={DisableScroll}
-        Enablescroll={Enablescroll}
+        next={nextRight}
+        setnext={setnextRight}
+        setouterNext={setnextLeft}
       />
     </div>
   );
 };
 
-const LeftSlide = ({ img, animTracker }) => {
-  const [next, setnext] = useState(0);
-
+const LeftSlide = ({ img, animTracker, next, setnext }) => {
   return (
     <div className={` flex h-[627px] max-h-[627px] flex-1 flex-grow-[0.5]`}>
       <div className="h-max rotate-[-180deg]">
@@ -287,7 +279,7 @@ const LeftSlide = ({ img, animTracker }) => {
   );
 };
 
-const RightSlide = ({ animTracker }) => {
+const RightSlide = ({ animTracker, next, setnext, setouterNext }) => {
   const details = [
     {
       name: "Logo ",
@@ -314,7 +306,17 @@ const RightSlide = ({ animTracker }) => {
       des: "From personalized apparel to unique home decor, Print on Demand empowers you to bring your creative visions to life and captivate customers with one-of-a-kind products.   ",
     },
   ];
-  const [next, setnext] = useState(0);
+  const [lastScroll, setlastScroll] = useState(0);
+  useEffect(() => {
+    if (next === 3) {
+      setlastScroll(window.scrollY);
+    }
+  }, [next]);
+
+  useEffect(() => {
+    console.log(lastScroll);
+    console.log(next);
+  }, [lastScroll]);
 
   return (
     <motion.div
@@ -353,6 +355,7 @@ const RightSlide = ({ animTracker }) => {
                     duration: 1.6,
                     ease: "easeInOut",
                   }}
+                  id={`scr-giv-${index}`}
                   exit={exit}
                   className="text-[105px] font-[700] leading-[105px] "
                 >
@@ -392,11 +395,22 @@ const RightSlide = ({ animTracker }) => {
               </motion.p>
 
               <motion.span
-                onClick={(e) =>
-                  index === 4
-                    ? window.scrollTo(0, window.scrollY + 190)
-                    : window.scrollTo(0, window.scrollY + 220)
-                }
+                onClick={(e) => {
+                  if (index !== 4) {
+                    window.scrollTo({
+                      top: Math.round(
+                        document
+                          .querySelector(`#scr-giv-${index + 1}`)
+                          .getBoundingClientRect().top +
+                          document.documentElement.scrollTop,
+                      ),
+                      behavior: "smooth",
+                    });
+                  } else {
+                    window.scrollTo(0, lastScroll);
+                    window.scrollTo(0, window.scrollY + 500);
+                  }
+                }}
                 initial={{
                   y: next === index ? "-50%" : "100vh",
                   opacity: 0,
