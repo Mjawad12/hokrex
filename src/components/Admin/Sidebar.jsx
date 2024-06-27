@@ -22,11 +22,11 @@ function SideBar2() {
         className="flex items-center justify-center gap-1"
       >
         <div className="flex h-[3rem] w-[3rem] items-center justify-center overflow-hidden rounded-full">
-          <div className="flex h-10 w-10 items-center justify-center rounded-[0.7rem] border-[0.5px] border-gray-500">
+          <div className="flex-center h-10 w-10 items-center justify-center rounded-[0.7rem]">
             {logo}
           </div>
         </div>
-        <h1 className="text-4xl font-[500]">Hokrex</h1>
+        <h1 className="text-4xl font-[500]">PrintODS</h1>
       </motion.div>
       <motion.ul ref={scope} className="w-full max-w-[250px] ">
         {Icons.map((it, index) => (

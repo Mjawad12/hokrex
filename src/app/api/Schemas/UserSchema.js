@@ -12,7 +12,7 @@ const Schema = new mongoose.Schema({
     default: [],
     order: {
       type: Object,
-      orderType: String,
+      status: String,
       active: Boolean,
       trackingID: String,
       orderID: mongoose.Types.ObjectId,

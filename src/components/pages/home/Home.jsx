@@ -136,7 +136,7 @@ function Home() {
             initial={{ y: "150px", opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="absolute bottom-0 left-[5rem] z-10 w-full small:left-[109px]"
+            className="absolute bottom-0 left-[5rem] z-10  small:left-[109px]"
           >
             <Image
               src={"/homepage/label1.webp"}

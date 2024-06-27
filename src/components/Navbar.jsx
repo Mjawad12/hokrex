@@ -19,15 +19,15 @@ function Navbar({ cart }) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex w-full items-center justify-between gap-3 border-b border-[#E5E5E5] px-6 py-3 pb-5 pr-12 large:pr-6 small:pb-2 smaller:pr-5">
+    <nav className="flex w-full items-center justify-between gap-3 border-b border-[#E5E5E5] px-6 py-3 pb-5 pr-12 pt-5 large:pr-6 small:pb-2 smaller:pr-5">
       <Link
         href={"/"}
         className="flex flex-1 flex-grow-[0.1] items-center justify-center gap-2"
       >
-        <span className="flex h-10 w-10 items-center justify-center rounded-[0.7rem] border-[0.5px] border-gray-500 small:h-9 small:w-9  ">
+        <span className="flex h-10 w-10 items-center justify-center rounded-[0.7rem] small:h-9 small:w-9  ">
           {logo}
         </span>
-        <h1 className="text-4xl font-[500] small:text-[34px]">Hokrex</h1>
+        <h1 className="text-4xl font-[500] small:text-[34px]">PrintODS</h1>
       </Link>
       <div
         className={`flex h-[2.5rem] flex-1 flex-grow-[0.75] items-center gap-5 massive:flex-grow-[0.8] large:flex-grow-[1] small:justify-end ${
