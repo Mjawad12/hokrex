@@ -11,7 +11,7 @@ import {
 } from "framer-motion";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 function page() {
   const { setanimating } = useContext(ContextAnimation);
@@ -29,7 +29,6 @@ function page() {
     target: animator,
     offset: ["start 0.8", "end start"],
   });
-  console.log(scroll);
   const scroll2 = useScroll({
     target: animator,
     offset: ["start 0.6", "end start"],
@@ -88,13 +87,6 @@ function page() {
     setSev_AnimState(e);
   });
 
-  useMotionValueEvent(scroll.scrollY, "change", (e) => {
-    console.log(e);
-  });
-  useMotionValueEvent(scroll.scrollYProgress, "change", (e) => {
-    console.log(e);
-  });
-
   return (
     <main className="flex w-full flex-col">
       <section className="relative flex min-h-[230vh] flex-col gap-3">
@@ -105,6 +97,7 @@ function page() {
             setanimating={setanimating}
             setfir_AnimState={setfir_AnimState}
             setSec_AnimState={setSec_AnimState}
+            scroll={scroll}
           />
           {fir_AnimState && (
             <Slide2
@@ -151,6 +144,10 @@ const About = ({
   setfir_AnimState,
   setSec_AnimState,
 }) => {
+  const [prevAnim, setprevAnim] = useState(0);
+  useEffect(() => {
+    console.log(prevAnim);
+  }, [prevAnim]);
   return (
     <div className="flex-center min-h-screen flex-col gap-3">
       <motion.h1
@@ -170,8 +167,16 @@ const About = ({
 
       <motion.div
         onClick={(e) => {
-          !fir_AnimState ? setfir_AnimState(true) : setSec_AnimState(true);
-          window.scrollTo(0, window.scrollY + (fir_AnimState ? 200 : 300));
+          if (!fir_AnimState) {
+            window.scrollTo(0, 20);
+            setfir_AnimState(true);
+            window.scrollTo(0, window.scrollY + 200);
+            setprevAnim(window.scrollY);
+          } else {
+            window.scrollTo(0, prevAnim);
+            setSec_AnimState(true);
+            window.scrollTo(0, window.scrollY + 200);
+          }
         }}
         initial={{ y: -100, opacity: 0 }}
         animate={{
