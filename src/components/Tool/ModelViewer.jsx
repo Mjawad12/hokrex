@@ -12,7 +12,7 @@ function ModelViewer() {
           penumbra={1}
           decay={0}
           intensity={Math.PI}
-          castShadow
+          // castShadow
         />
         <spotLight
           position={[10, 10, -20]}
@@ -20,10 +20,13 @@ function ModelViewer() {
           penumbra={1}
           decay={0}
           intensity={Math.PI}
-          castShadow
+          // castShadow
         />
 
-        <mesh position={[0, -0.1, 0]} castShadow>
+        <mesh
+          position={[0, -0.1, 0]}
+          // castShadow
+        >
           <Shirt />
         </mesh>
       </Center>

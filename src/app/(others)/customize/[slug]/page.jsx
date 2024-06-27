@@ -6,14 +6,20 @@ import ColorSmall from "@/components/Tool/RightBarEditing/ColorSmall";
 import ModelViewer from "@/components/Tool/ModelViewer";
 import RightBarEditing from "@/components/Tool/RightBarEditing";
 import SidebarTool from "@/components/Tool/SidebarTool";
-import { AdaptiveDpr, Environment, OrbitControls } from "@react-three/drei";
+import {
+  AdaptiveDpr,
+  Environment,
+  OrbitControls,
+  PerformanceMonitor,
+  Preload,
+} from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { AnimatePresence } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
 
 function page() {
   const { selectedObject, selected, setselected } = useContext(ContextTool);
-
+  const [dpr, setDpr] = useState(1.5);
   const [hidden, sethidden] = useState(true);
   const [rightBar, setrightBar] = useState(false);
   const [smColor, setsmColor] = useState(false);
@@ -27,12 +33,13 @@ function page() {
           className="absolute top-0 min-h-screen w-full bg-canvasColor "
         >
           <Canvas
-            shadows
+            // shadows
             camera={{ position: [0, 0, 1.95], fov: 32 }}
             className="main-canvas"
             frameloop="demand"
             performance={{ min: 0.1 }}
-            gl={{ antialias: false }}
+            // gl={{ antialias: false }}
+            dpr={dpr}
           >
             <OrbitControls
               enablePan={false}
@@ -42,9 +49,14 @@ function page() {
               maxDistance={3}
               minDistance={0.7}
             />
+            <PerformanceMonitor
+              onIncline={() => setDpr(2)}
+              onDecline={() => setDpr(1.2)}
+            />
+            <Preload all />
             <Environment preset="city" />
             <ModelViewer />
-            <AdaptiveDpr pixelated />
+            {/* <AdaptiveDpr pixelated /> */}
           </Canvas>
         </div>
 

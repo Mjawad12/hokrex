@@ -23,9 +23,8 @@ function page() {
           className="absolute top-0 min-h-screen w-full bg-canvasColor "
         >
           <Canvas
-            shadows
             performance={{ min: 0.1 }}
-            gl={{ antialias: false }}
+            // gl={{ antialias: false }}
             camera={{ position: [0, 0, 1.95], fov: 32 }}
             className="main-canvas"
             frameloop="demand"
@@ -38,7 +37,6 @@ function page() {
             <Preload all />
             <OrbitControls
               enablePan={false}
-              // enableRotate={!selectedObject}
               minPolarAngle={1.47079}
               maxPolarAngle={1.47079}
               maxDistance={3}
@@ -65,9 +63,9 @@ function page() {
                 <TestShirt />
               </mesh>
             </Center>
-            {/* <AdaptiveDpr pixelated /> */}
+            {/* <AdaptiveDpr pixelated />
             <AdaptivePixelRatio />
-            <AdaptiveEvents />
+            <AdaptiveEvents /> */}
           </Canvas>
         </div>
       </div>

@@ -131,8 +131,8 @@ export function Shirt(props) {
       <group name="Scene">
         {/* <mesh
           name="T_Shirt_male"
-          castShadow
-          receiveShadow
+          // castShadow
+          // receiveShadow
           geometry={nodes.T_Shirt_male.geometry}
           material={materials.lambert1}
           userData={{ name: "T_Shirt_male" }}
@@ -159,8 +159,8 @@ export function Shirt(props) {
         <group name="model1" rotation={[Math.PI / 2, 0, 0]}>
           <mesh
             name="model1_1"
-            castShadow
-            receiveShadow
+            // castShadow
+            // receiveShadow
             geometry={nodes.model1_1.geometry}
             material={materials.collar_FRONT_3447}
           >
@@ -182,8 +182,8 @@ export function Shirt(props) {
           </mesh>
           <mesh
             name="model1_2"
-            castShadow
-            receiveShadow
+            // castShadow
+            // receiveShadow
             geometry={nodes.model1_2.geometry}
             material={materials.fab1_FRONT_19607}
           >
@@ -206,8 +206,8 @@ export function Shirt(props) {
           </mesh>
           <mesh
             name="model1_3"
-            castShadow
-            receiveShadow
+            // castShadow
+            // receiveShadow
             geometry={nodes.model1_3.geometry}
             material={materials.fab1_BACK_19607}
           >
