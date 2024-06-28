@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { left } from "@/Consonats";
 
-export default function BasicDateCalendar({ setselectedDate, setshow }) {
+export default function BasicDateCalendar({ setselectedDate, setshow, show }) {
   useEffect(() => {
     let date = new Date();
     let year = date.getFullYear();
@@ -97,11 +97,25 @@ export default function BasicDateCalendar({ setselectedDate, setshow }) {
     });
   }, []);
 
+  useEffect(() => {
+    const clickFunc = (e) => {
+      if (!document.querySelector("#main-calen-cont").contains(e.target)) {
+        setshow(false);
+      }
+    };
+    setTimeout(() => {
+      window.addEventListener("click", clickFunc);
+    }, [200]);
+
+    return () => window.removeEventListener("click", clickFunc);
+  }, []);
+
   return (
     <>
       <div
+        id="main-calen-cont"
         style={{ boxShadow: "0px 0px 10px -1mm gray" }}
-        className="flex   w-[21rem] items-center justify-start rounded-3xl bg-white  px-5 py-5 "
+        className="flex w-[21rem] items-center justify-start rounded-3xl bg-white  px-5 py-5 "
       >
         <div className="relative flex w-[18.5rem] flex-col items-center justify-start small:h-auto ">
           <header className="calendar-navigation relative flex w-full items-center justify-between">

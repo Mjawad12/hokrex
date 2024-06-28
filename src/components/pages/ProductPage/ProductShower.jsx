@@ -60,7 +60,7 @@ function ProductShower({ product, products }) {
       dispatch({
         type: "addItem",
         item: {
-          id: v4(),
+          id: product?._id,
           name: product?.productName,
           colors: product?.productColors,
           sizes: getSizes(),

@@ -101,13 +101,25 @@ function Mainstatecart({ children }) {
   const addInstruction = (id, instruction) => {
     dispatch({ type: "addInstruction", id: id, instruction: instruction });
   };
+
+  const makeOrder = async (order) => {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/makeOrder`, {
+      method: "POST",
+      cache: "no-cache",
+      body: JSON.stringify({ ...order, cartState }),
+      headers: { authToken: localStorage.getItem("authToken") || "" },
+    });
+    const parsedData = await data.json();
+    return parsedData;
+  };
+
   useEffect(() => {
     console.log(cartState);
   }, [cartState]);
 
   return (
     <ContextCart.Provider
-      value={{ cartState, dispatch, removeItem, addInstruction }}
+      value={{ cartState, dispatch, removeItem, addInstruction, makeOrder }}
     >
       {children}
     </ContextCart.Provider>

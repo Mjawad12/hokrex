@@ -32,7 +32,7 @@ function page() {
           >
             <PerformanceMonitor
               onIncline={() => setDpr(2)}
-              onDecline={() => setDpr(1)}
+              onDecline={() => setDpr(1.3)}
             />
             <Preload all />
             <OrbitControls

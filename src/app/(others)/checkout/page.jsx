@@ -1,34 +1,49 @@
 "use client";
-import { arrowDown, google, left2, lock } from "@/Consonats";
+import { arrowDown, google, left2, lock, phone } from "@/Consonats";
 import Link from "next/link";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "react-country-state-city/dist/react-country-state-city.css";
-import { CountrySelect, StateSelect } from "react-country-state-city";
+import {
+  CountrySelect,
+  StateSelect,
+  GetCountries,
+  GetState,
+} from "react-country-state-city";
 import PhoneInput from "react-phone-number-input";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { OpnerCompoent } from "@/components/D_R_R";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ContextCart } from "@/components/Mainstate(cart)/Mainstatecart";
-import { motion, useAnimate } from "framer-motion";
-import { CartItem } from "../cart/page";
+import { AnimatePresence, motion, useAnimate } from "framer-motion";
+import { CartItem, Cross } from "../cart/page";
+import BasicDateCalendar from "@/components/Calender";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import notificationCaller from "@/components/NotificationCaller";
 
 function page() {
   const [pages, setpages] = useState(0);
-  const [value, setValue] = useState();
+  const [PhoneValue, setPhoneValue] = useState();
   const [totalquant, settotalquant] = useState();
   const [totalPrice, settotalPrice] = useState();
+  const [expiryDate, setexpiryDate] = useState();
   const [country, setcountry] = useState();
   const [states, setstates] = useState();
   const fileRef = useRef(null);
+  const formRef = useRef(null);
   const name = useRef(null);
+  const firstname = useRef(null);
   const address = useRef(null);
   const email = useRef(null);
   const zipcode = useRef(null);
   const [paytype, setpaytype] = useState("now");
   const [payBank, setpayBank] = useState("paypal");
-
-  const { cartState } = useContext(ContextCart);
+  const [loading, setloading] = useState(false);
+  const [dialog, setdialog] = useState(false);
+  const [submitted, setsubmitted] = useState(false);
+  const [sTl, setsTl] = useState(false);
+  const { cartState, makeOrder } = useContext(ContextCart);
 
   useEffect(() => {
     let quant = 0;
@@ -41,8 +56,103 @@ function page() {
     settotalPrice(price);
   }, [cartState]);
 
+  const Submit = async (e) => {
+    if (formRef.current.checkValidity()) {
+      e.preventDefault();
+      if (pages === 2) {
+        setloading(true);
+        setdialog(true);
+        sTl && storeTolocalStorage();
+        const order = {
+          email: email.current.value,
+          phone: PhoneValue,
+          county: country.name,
+          firstName: firstname.current.value,
+          fullName: name.current.value,
+          Address:
+            address.current.value +
+            " " +
+            states?.name +
+            " " +
+            zipcode.current.value,
+          payType: paytype,
+          method: {
+            name: payBank,
+            cvc: document.querySelector("#c-v-c").value,
+            cardNumber: document.querySelector("#car-num").value,
+            expiryDate: expiryDate,
+          },
+        };
+        const res = await makeOrder(order);
+        notificationCaller(res.success, res.msg || "Some error Occured", toast);
+        setsubmitted(res.success);
+        if (res.success) {
+          localStorage.removeItem("ka_12_it_1.0");
+        }
+      }
+      pages < 2 && setpages((val) => val + 1);
+      setloading(false);
+    }
+  };
+
+  const storeTolocalStorage = () => {
+    const data = {
+      email: document.querySelector("#emal-chek").value,
+      phone: PhoneValue,
+      county: country.name,
+      firstName: document.querySelector("#fir-name").value,
+      fullName: document.querySelector("#full-name").value,
+      Address: document.querySelector("#address-check").value,
+      city: document.querySelector("#city-ceck").value,
+      State: states.name,
+      zipcode: document.querySelector("#zip-check").value,
+    };
+    localStorage.setItem("check-out-temp-data", JSON.stringify(data));
+  };
+
+  useEffect(async () => {
+    const data = JSON.parse(localStorage.getItem("check-out-temp-data"));
+    if (data) {
+      document.querySelector("#emal-chek").value = data.email;
+      document.querySelector(`input[placeholder="Phone"]`).value = data.phone;
+      let id;
+      await GetCountries().then((result) => {
+        result.forEach((it) => {
+          if (it.name === data.county) {
+            setcountry({ ...it });
+            id = it.id;
+          }
+        });
+      });
+      GetState(id).then((result) => {
+        result.forEach((it) => {
+          if (it.name === data.State) {
+            setstates({ ...it });
+          }
+        });
+      });
+
+      document.querySelector("#fir-name").value = data.firstName;
+      document.querySelector("#full-name").value = data.fullName;
+      document.querySelector("#address-check").value = data.Address;
+      document.querySelector("#city-ceck").value = data.city;
+      document.querySelector("#zip-check").value = data.zipcode;
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen w-full">
+    <div className="relative min-h-screen w-full">
+      <ToastContainer />
+      <AnimatePresence>
+        {dialog && (
+          <CardLoading
+            setdialog={setdialog}
+            submitted={submitted}
+            loading={loading}
+            Submit={Submit}
+          />
+        )}
+      </AnimatePresence>
       <CheckoutNav />
       <CartShower
         cartState={cartState}
@@ -51,7 +161,9 @@ function page() {
         totalquant={totalquant}
       />
       <div className="small:flex-center m-auto flex max-w-[1080px] gap-12 overflow-hidden px-5 ">
-        <div
+        <form
+          action={null}
+          ref={formRef}
           className={`w-full flex-1 flex-grow-[0.6]  py-16 small:flex-grow-[1] small:py-5 `}
         >
           <div
@@ -62,16 +174,19 @@ function page() {
             <Page1
               setpages={setpages}
               country={country}
-              setValue={setValue}
+              setPhoneValue={setPhoneValue}
               setcountry={setcountry}
               setstates={setstates}
               states={states}
-              value={value}
+              PhoneValue={PhoneValue}
               fileRef={fileRef}
               address={address}
               email={email}
-              name={name}
               zipcode={zipcode}
+              Submit={Submit}
+              name={name}
+              firstname={firstname}
+              setsTl={setsTl}
             />
           </div>
           <div
@@ -89,8 +204,9 @@ function page() {
               state={states}
               zipcode={zipcode.current?.value}
               setpages={setpages}
-              phoneno={value}
+              phoneno={PhoneValue}
               totalPrice={totalPrice}
+              Submit={Submit}
             />
           </div>
           <div
@@ -107,13 +223,18 @@ function page() {
               state={states}
               zipcode={zipcode.current?.value}
               setpages={setpages}
-              phoneno={value}
+              phoneno={PhoneValue}
               payBank={payBank}
               setpayBank={setpayBank}
               totalPrice={totalPrice}
+              Submit={Submit}
+              pages={pages}
+              expiryDate={expiryDate}
+              setexpiryDate={setexpiryDate}
+              loading={loading}
             />
           </div>
-        </div>
+        </form>
 
         <div className="w-full flex-1 flex-grow-[0.45] border-l border-borderP small:hidden">
           <div className="flex flex-col gap-5 px-14 py-16">
@@ -173,8 +294,8 @@ function page() {
 }
 
 const Page1 = ({
-  value,
-  setValue,
+  PhoneValue,
+  setPhoneValue,
   setcountry,
   country,
   states,
@@ -185,7 +306,16 @@ const Page1 = ({
   address,
   email,
   zipcode,
+  Submit,
+  firstname,
+  setsTl,
 }) => {
+  useEffect(() => {
+    document.querySelector("input[placeholder=State]").required = true;
+    document.querySelector(`input[placeholder="Select Country"]`).required =
+      true;
+  }, []);
+
   return (
     <>
       <button className="flex-center w-full rounded-lg border border-[#E5E5E5] py-3 ">
@@ -206,20 +336,27 @@ const Page1 = ({
               className="checkoutInput"
               placeholder="Email"
               ref={email}
+              required
+              id="emal-chek"
             />
             <div className="ph-in w-full rounded-lg border border-[#E5E5E5] px-3 py-[0.75rem] outline-none [&_input]:w-full [&_input]:outline-none">
               <PhoneInput
                 defaultCountry="PK"
                 placeholder="Phone"
-                value={value}
-                onChange={setValue}
+                value={PhoneValue}
+                onChange={setPhoneValue}
+                required={true}
               />
             </div>
           </div>
           <div className="w-full  [&_input]:!border-none [&_input]:!outline-none ">
             <CountrySelect
-              onChange={(val) => setcountry(val)}
+              onChange={(val) => {
+                setcountry(val);
+              }}
               placeHolder="Select Country"
+              required={true}
+              defaultValue={country}
             />
           </div>
           <div className="flex-center gap-4 small:flex-col small:gap-4">
@@ -227,12 +364,17 @@ const Page1 = ({
               type="text"
               className="checkoutInput"
               placeholder="First Name"
+              required={true}
+              ref={firstname}
+              id="fir-name"
             />
             <input
               ref={name}
               type="text"
               className="checkoutInput"
               placeholder="Full Name"
+              required={true}
+              id="full-name"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -241,19 +383,28 @@ const Page1 = ({
               type="text"
               className="checkoutInput "
               placeholder="Address(optional)"
+              id="address-check"
             />
             <p className="text-[14px] font-[400] small:hidden ">
               Add a house number if you have one
             </p>
           </div>
           <div className="flex gap-4 small:flex-col">
-            <input type="text" className="checkoutInput" placeholder="City" />
+            <input
+              type="text"
+              className="checkoutInput"
+              placeholder="City"
+              required={true}
+              id="city-ceck"
+            />
             <div className="[&_select]:checkoutInput w-full [&_input]:!border-none [&_input]:!outline-none ">
               <StateSelect
                 countryid={country?.id}
                 value={states}
                 onChange={(val) => setstates(val)}
                 placeHolder={"State"}
+                required={true}
+                defaultValue={states}
               />
             </div>
             <input
@@ -261,6 +412,8 @@ const Page1 = ({
               type="text"
               className="checkoutInput"
               placeholder="Zipcode"
+              required
+              id="zip-check"
             />
           </div>
           <div className="flex gap-3">
@@ -268,6 +421,7 @@ const Page1 = ({
               fontSize="sm"
               gap="1"
               text={" Save this information for next time"}
+              setOuter={setsTl}
             />
           </div>
           <div className="flex flex-col gap-3">
@@ -312,7 +466,7 @@ const Page1 = ({
             </p>
           </div>
           <button
-            onClick={() => setpages((val) => val + 1)}
+            onClick={Submit}
             className={`mt-5 w-max rounded-[0.8rem]  bg-[black] px-5 py-3 text-[17px] font-[500] text-white small:mt-3`}
           >
             Continue to pay
@@ -338,6 +492,7 @@ const Page2 = ({
   paytype,
   setpaytype,
   totalPrice,
+  Submit,
 }) => {
   return (
     <>
@@ -389,7 +544,7 @@ const Page2 = ({
         />
       </div>
       <button
-        onClick={() => setpages((val) => val + 1)}
+        onClick={Submit}
         className={`mt-5 w-max rounded-[0.8rem]  bg-[black] px-5 py-3 text-[17px] font-[500] text-white small:mt-3`}
       >
         Continue to pay
@@ -414,7 +569,14 @@ const Page3 = ({
   payBank,
   setpayBank,
   totalPrice,
+  Submit,
+  pages,
+  expiryDate,
+  setexpiryDate,
+  loading,
 }) => {
+  const [show, setshow] = useState(false);
+
   return (
     <>
       <h2 className="text-[26px] font-[700]">Shiping & Details</h2>
@@ -457,7 +619,10 @@ const Page3 = ({
             <p className="text-[15px] font-[400] text-pmGray">
               {country?.name || "United State"}
             </p>
-            <span className="text-[15px] underline underline-offset-2">
+            <span
+              onClick={() => setpages(0)}
+              className="text-[15px] underline underline-offset-2"
+            >
               Edit
             </span>
           </div>
@@ -488,24 +653,46 @@ const Page3 = ({
           </div>
           <div>
             <div className="flex-center mt-5 w-full gap-[0.6rem] small:flex-wrap small:justify-start">
-              <div className="checkoutInput flex-center w-full max-w-[17.5rem] px-4 small:max-w-[100%]">
+              <div className="checkoutInput flex-center w-full max-w-[17.5rem] px-4 focus-within:border-black small:max-w-[100%]">
                 <input
                   type="passowrd"
                   placeholder="Card Number"
                   className="w-full border-none outline-none "
+                  required={pages === 2}
+                  id="car-num"
                 />
                 {lock}
               </div>
-
-              <input
-                type="text"
-                placeholder="MM/YY"
-                className="checkoutInput !max-w-[8.6rem] px-4 pr-1 "
-              />
+              <div onClick={() => setshow(true)} className="relative ">
+                <span className="absolute bottom-[55px] left-[50%] translate-x-[-50%]">
+                  {show && (
+                    <BasicDateCalendar
+                      setshow={setshow}
+                      setselectedDate={setexpiryDate}
+                      show={show}
+                    />
+                  )}
+                </span>
+                <input
+                  type="text"
+                  placeholder="MM/YY"
+                  className="checkoutInput !max-w-[8.6rem] px-4 pr-1 "
+                  required={pages === 2}
+                  id="exp-num"
+                  value={
+                    expiryDate
+                      ? expiryDate.slice(0, 3) +
+                        expiryDate.slice(expiryDate.indexOf(" "))
+                      : ""
+                  }
+                />
+              </div>
               <input
                 type="text"
                 placeholder="CVC"
                 className="checkoutInput !max-w-[8.6rem] pl-4 pr-0 "
+                required={pages === 2}
+                id="c-v-c"
               />
             </div>
             <div className="mt-3 flex items-center">
@@ -523,7 +710,7 @@ const Page3 = ({
       </div>
       <div className="mt-3 flex flex-col gap-2">
         <CustomCheckbox
-          text={"Billing address ame as shipping address"}
+          text={"Billing address is same as shipping address"}
           fontSize={"sm"}
         />
         <h3 className="mt-3 text-[15px] text-black">Shiping Address</h3>
@@ -534,7 +721,9 @@ const Page3 = ({
         </p>
       </div>
       <button
-        className={`mt-5 w-max  rounded-[0.8rem] bg-[black] px-5 py-3 text-[17px] font-[500] text-white`}
+        onClick={Submit}
+        disabled={loading}
+        className={`mt-5 w-max  rounded-[0.8rem] bg-[black] px-5 py-3 text-[17px] font-[500] text-white ${loading ? "disabled:cursor-not-allowed disabled:bg-gray-400" : ""}`}
       >
         Submit Payment
       </button>
@@ -664,10 +853,6 @@ const PayBank = ({ children, payBank, type, setpayBank }) => {
     </div>
   );
 };
-
-export default page;
-
-export { CheckoutNav };
 
 const CartShower = ({ cartState, totalPrice, settotalPrice, totalquant }) => {
   const [open, setopen] = useState(false);
@@ -802,3 +987,168 @@ const CartShower = ({ cartState, totalPrice, settotalPrice, totalquant }) => {
     </motion.div>
   );
 };
+
+const CardLoading = ({ submitted, setdialog, loading, Submit }) => {
+  const [lastCard, setlastCard] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (submitted) {
+      setTimeout(() => {
+        setlastCard(true);
+      }, 6000);
+    }
+  }, [submitted]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      exit={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="flex-center fixed inset-0 left-0 top-0 z-[100] select-none bg-[#00000033] "
+    >
+      <motion.div
+        initial={{ y: 50 }}
+        animate={{ y: 0 }}
+        exit={{ y: 50 }}
+        className="flex-center relative h-[487px] w-full max-w-[664px] flex-col rounded-[26px] bg-white"
+        style={{ boxShadow: "0px 2px 12.7px 0px #0000001A" }}
+      >
+        <Cross
+          clickFunc={() => (lastCard ? router.push("/") : setdialog(loading))}
+        />
+        {loading ? (
+          <div className="flex-center flex-col">
+            <Loading />
+            <motion.p
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: "backInOut" }}
+              className="mt-6 text-[33px] font-[700] leading-[43px]"
+            >
+              Payment
+            </motion.p>
+            <motion.span
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: "backInOut" }}
+              className="text-[23px] font-[500] leading-[43px]"
+            >
+              Loading
+            </motion.span>
+          </div>
+        ) : !lastCard ? (
+          <div className="flex-center flex-col overflow-hidden px-2">
+            {submitted ? (
+              <iframe
+                className="scale-[2.8]"
+                src="https://lottie.host/embed/44a99ced-7012-4684-a87f-0142d8d0abc7/wPon9933Nu.json"
+              ></iframe>
+            ) : (
+              <Image
+                width={100}
+                height={100}
+                alt="animated icon"
+                src={"/unsuccessfull.gif"}
+                className="mb-0.5 scale-[1.2]"
+              />
+            )}
+
+            <motion.p
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: "backInOut" }}
+              className="mt-1.5 text-[33px] font-[700] leading-[43px]"
+            >
+              Payment
+            </motion.p>
+            <motion.span
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: "backInOut" }}
+              className="mt-1 text-[33.33px] font-[500] leading-[43px]"
+            >
+              {submitted ? "Sucessfully Complete" : "Complete Un-Sucessfully"}
+            </motion.span>
+            {!submitted && (
+              <span
+                onClick={Submit}
+                className="absolute bottom-9 cursor-pointer text-[20px] font-[500] underline underline-offset-2"
+              >
+                Try again
+              </span>
+            )}
+          </div>
+        ) : (
+          <div className="flex-center flex-col gap-5 overflow-hidden px-2">
+            <iframe
+              className="translate-x-[1.2rem] translate-y-3 scale-[2]"
+              src="https://lottie.host/embed/13319c7b-d6be-44c1-a3d5-40e603cc40c2/k25n17yxA1.json"
+            ></iframe>
+
+            <motion.p
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: "backInOut" }}
+              className="text-[33px] font-[700] leading-[33px]"
+            >
+              Woohoo!
+            </motion.p>
+            <motion.p
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: "backInOut" }}
+              className="text-[33px] font-[500] leading-[33px]"
+            >
+              Thank you for placed your order.
+            </motion.p>
+
+            <motion.span
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: "backInOut" }}
+              className=" text-center text-[20.93px] font-[500] leading-[27px] text-pmGray"
+            >
+              Pull up a chair, sit back and relax <br /> as your order is on its
+              way to you!
+            </motion.span>
+            <motion.span className="h-[6px] w-[75px] rounded-[28px] bg-[#EA0000]" />
+            <Link
+              href={"/"}
+              className="cursor-pointer text-[20px] font-[500] underline underline-offset-2"
+            >
+              Back to home
+            </Link>
+          </div>
+        )}
+      </motion.div>
+    </motion.div>
+  );
+};
+
+export default page;
+
+export { CheckoutNav };
+
+function Loading() {
+  return (
+    <motion.div
+      initial={{ scale: 0, opacity: 0 }}
+      whileInView={{
+        scale: 1,
+        opacity: 1,
+        transition: { duration: 1, ease: "backInOut" },
+      }}
+      animate={{
+        rotate: 360,
+        transition: {
+          duration: 0.8,
+          repeat: Infinity,
+          ease: "easeInOut",
+          repeatType: "loop",
+        },
+      }}
+      className="h-20 w-20 rounded-full border-[6px] border-[#D8D8D8] border-t-[#32CC8B]"
+    ></motion.div>
+  );
+}

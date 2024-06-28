@@ -2,16 +2,54 @@ import { order } from "@/Consonats";
 import UserSchema from "../Schemas/UserSchema";
 import ConnectDb from "../dbConnect";
 import { headers } from "next/headers";
+import authorize from "../Middleware/Authorize";
 
 export async function POST(req) {
   await ConnectDb();
   const body = await req.json();
   const headersList = headers();
   const id = await authorize(headersList.get("authToken"));
-  await UserSchema.updateOne({ _id: id }, { $push: { orders: body.order } });
+  if (!id) {
+    return Response.json({
+      success: false,
+      msg: "Not authorized!",
+    });
+  }
+  try {
+    console.log(body);
+    for (let i = 0; i < body.cartState.items.length; i++) {
+      let it = body.cartState.items[i];
+      let order = {
+        status: "Active Orders",
+        active: true,
+        unpaidAmount: it.price,
+        product: it.id,
+        deliveryDate: it.date,
+        orderFiles: [...it.files],
+        email: body.email,
+        phone: body.phone,
+        county: body.county,
+        firstName: body.firstName,
+        fullName: body.fullName,
+        Address: body.Address,
+        payType: body.payType,
+        method: body.method,
+        productMaterial: it.material,
+        productInstruction: it.instruction,
+      };
+      console.log(order);
 
-  return Response.json({
-    success: true,
-    msg: "Order has been successfully made.",
-  });
+      await UserSchema.updateOne({ _id: id }, { $push: { orders: order } });
+    }
+
+    return Response.json({
+      success: true,
+      msg: "Order has been successfully made.",
+    });
+  } catch (err) {
+    return Response.json({
+      success: false,
+      msg: err.message,
+    });
+  }
 }
