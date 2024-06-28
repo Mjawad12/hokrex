@@ -306,17 +306,6 @@ const RightSlide = ({ animTracker, next, setnext, setouterNext }) => {
       des: "From personalized apparel to unique home decor, Print on Demand empowers you to bring your creative visions to life and captivate customers with one-of-a-kind products.   ",
     },
   ];
-  const [lastScroll, setlastScroll] = useState(0);
-  useEffect(() => {
-    if (next === 3) {
-      setlastScroll(window.scrollY);
-    }
-  }, [next]);
-
-  useEffect(() => {
-    console.log(lastScroll);
-    console.log(next);
-  }, [lastScroll]);
 
   return (
     <motion.div
@@ -407,8 +396,16 @@ const RightSlide = ({ animTracker, next, setnext, setouterNext }) => {
                       behavior: "smooth",
                     });
                   } else {
-                    window.scrollTo(0, lastScroll);
-                    window.scrollTo(0, window.scrollY + 500);
+                    window.scrollTo({
+                      top: Math.round(
+                        document
+                          .querySelector(`#scr-giv-${index}`)
+                          .getBoundingClientRect().top +
+                          document.documentElement.scrollTop +
+                          200,
+                      ),
+                      behavior: "smooth",
+                    });
                   }
                 }}
                 initial={{
