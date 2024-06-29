@@ -184,7 +184,8 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
         initial={{ y: 20 }}
         exit={{ y: 20 }}
         animate={{ y: 0 }}
-        className="relative flex min-h-[500px] w-full max-w-[900px] flex-col rounded-[10px] border bg-white px-5 py-3 pt-10 "
+        id="scroll-none"
+        className="relative flex h-[500px] w-full max-w-[900px] flex-col  overflow-y-scroll rounded-[10px] border bg-white px-5  py-3 pt-10 "
       >
         <span
           onClick={() => setshow(false)}
@@ -192,7 +193,7 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
         >
           {cross}
         </span>
-        <div className="flex-center absolute right-10 top-2 w-max gap-1">
+        <div className="flex-center absolute right-10 top-2 w-max gap-1 ">
           <CustomCheckbox
             setOuter={setactive}
             text={"Active"}
@@ -398,6 +399,20 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
                   value={deliveryDate}
                 />
               </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="text-[16px] font-[700]">Files :</span>
+            <div className="flex-center w-full flex-col">
+              {order.orderFiles.map((it) => (
+                <Image
+                  src={it}
+                  width={500}
+                  height={500}
+                  alt="orders"
+                  className="h-auto w-[600px]"
+                />
+              ))}
             </div>
           </div>
         </div>

@@ -63,8 +63,8 @@ const Signin = () => {
           >
             <label className="text-sm font-medium">Username</label>
             <input
-              className="mb-3 mb-3 mt-1
-          block w-full rounded-md border border-gray-300 px-2 px-2 py-1.5 py-1.5 text-sm placeholder-gray-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500
+              className="mb-3  mt-1
+          block w-full rounded-md border border-gray-300  px-2 py-1.5 text-sm placeholder-gray-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500
           focus:invalid:border-red-500 focus:invalid:ring-red-500"
               type="text"
               name="username"
