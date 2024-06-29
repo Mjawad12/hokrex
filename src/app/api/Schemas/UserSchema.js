@@ -38,10 +38,7 @@ const Schema = new mongoose.Schema({
         expiryDate: String,
       },
       productSizes: Array,
-      orderDate: {
-        type: Date,
-        default: Date.now(),
-      },
+      orderDate: String,
     },
   },
   Date: {

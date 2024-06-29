@@ -424,7 +424,7 @@ const OrderCard = ({
 
       <div className="flex-center w-full justify-between pb-1">
         <p className="text-[16px] font-[500]">
-          Order ID.<span className="text-pmGray"> {orderid}</span>
+          Order ID<span className="text-pmGray"> #{orderid}</span>
         </p>
         {active && navState !== "Delivered" && (
           <span className="rounded-[10px] bg-[#1CAD221A] px-3 py-2 text-[16px] font-[600] text-[#19950E]">

@@ -1,4 +1,3 @@
-import { order } from "@/Consonats";
 import UserSchema from "../Schemas/UserSchema";
 import ConnectDb from "../dbConnect";
 import { headers } from "next/headers";
@@ -19,6 +18,7 @@ export async function POST(req) {
   try {
     for (let i = 0; i < body.cartState.items.length; i++) {
       let it = body.cartState.items[i];
+      let date = new Date().toDateString();
       let order = {
         status: "Active Orders",
         active: true,
@@ -38,6 +38,7 @@ export async function POST(req) {
         productInstruction: it.instruction,
         productSizes: it.sizes,
         orderID: v4(),
+        orderDate: date.slice(date.indexOf(" ")),
       };
       console.log(order);
 

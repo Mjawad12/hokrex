@@ -94,7 +94,9 @@ const OrderCard = ({ order, index, EditOrder, setorders }) => {
               alt="Product"
               className="h-auto w-[100px] rounded-full"
             />
-            <p className="text-[16px] font-[500] ">{order.orderID}</p>
+            <p className="text-[16px] font-[500] ">
+              {order.orderID.slice(0, 10)}..
+            </p>
           </div>
         </div>
         <p className="flex-1 flex-grow-[0.2] text-[16px] font-[500]">
@@ -118,7 +120,7 @@ const OrderCard = ({ order, index, EditOrder, setorders }) => {
             ).toFixed(1)}
           </span>
           <span className="flex-1 flex-grow-[0.2] text-[15px]  font-[500] text-pmGray ">
-            {order.orderDate || 0}
+            {order.orderDate}
           </span>
         </div>
       </div>
@@ -200,7 +202,7 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
         </div>
         <div className="flex gap-2">
           <span className="absolute left-2 top-2 text-[14px] font-[600]">
-            Order Id {order.orderID}
+            Order Id #{order.orderID}
           </span>
           <Image
             src={order.product.productImg}
@@ -224,7 +226,7 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
                 </span>
               </p>
             </div>
-            <div className="flex w-full items-center gap-5">
+            <div className="flex w-full flex-wrap items-center gap-5 gap-y-1">
               <p className="text-[16px] font-[400] text-black">
                 Phone :{" "}
                 <span className="text-[16px] font-[600] text-pmGray">
