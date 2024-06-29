@@ -6,9 +6,7 @@ const ContextAdmin = createContext();
 function MainstateAdmin({ children }) {
   const url = process.env.NEXT_PUBLIC_URL;
   const [products, setproducts] = useState([]);
-  const [authToken, setauthToken] = useState(
-    "eyJhbGciOiJIUzI1NiJ9.NjY3ZmVlZDQyZjM2MDYwZDc4M2U4ZGFh.GVQJvU5O2HEr8629auGBa2PNDij-PaYK08fsdralC80",
-  );
+  const [authToken, setauthToken] = useState(null);
   const [categories, setcategories] = useState([]);
   const [orders, setorders] = useState([]);
 
