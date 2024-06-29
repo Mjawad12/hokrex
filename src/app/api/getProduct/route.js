@@ -7,20 +7,20 @@ export async function POST(req) {
   const body = await req.json();
   const headersList = headers();
   try {
-    if (headersList.get("origin") === process.env.NEXT_PUBLIC_URL) {
-      // let product;
-      // if (body.productId) {
-      //   product = await ProductSchema.findOne({ _id: body.productId });
-      // } else {
-      const product = await ProductSchema.findOne({ slug: body.slug });
-      // }
-      if (!product) {
-        return Response.json({ success: false, error: "No Product Found" });
-      }
-      return Response.json({ success: true, product: product });
-    } else {
-      return Response.json({ success: false, error: "Not Authorized" });
+    // if (headersList.get("origin") === process.env.NEXT_PUBLIC_URL) {
+    // let product;
+    // if (body.productId) {
+    //   product = await ProductSchema.findOne({ _id: body.productId });
+    // } else {
+    const product = await ProductSchema.findOne({ slug: body.slug });
+    // }
+    if (!product) {
+      return Response.json({ success: false, error: "No Product Found" });
     }
+    return Response.json({ success: true, product: product });
+    // } else {
+    //   return Response.json({ success: false, error: "Not Authorized" });
+    // }
   } catch (err) {
     return Response.json({ success: false, error: err });
   }

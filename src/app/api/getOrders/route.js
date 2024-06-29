@@ -13,8 +13,7 @@ export async function POST() {
       if (!id) {
         return Response.json({
           success: false,
-          msg: "Not Authorized1",
-          id: id,
+          msg: "Not Authorized",
         });
       }
       const Admin = await UserSchema.findOne({ _id: id });
@@ -35,12 +34,11 @@ export async function POST() {
         return Response.json({
           success: true,
           orders: orders,
-          authtoken: headersList.get("authToken"),
         });
       }
     }
     return Response.json(
-      { success: false, err: "Not Authorized2" },
+      { success: false, err: "Not Authorized" },
       { status: 500 },
     );
   } catch (error) {
