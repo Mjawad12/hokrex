@@ -10,6 +10,7 @@ function MainstateAdmin({ children }) {
     "eyJhbGciOiJIUzI1NiJ9.NjY3ZmVlZDQyZjM2MDYwZDc4M2U4ZGFh.GVQJvU5O2HEr8629auGBa2PNDij-PaYK08fsdralC80",
   );
   const [categories, setcategories] = useState([]);
+  const [orders, setorders] = useState([]);
 
   const getproducts = async () => {
     const data = await fetch(`${url}/api/getproducts`, {
@@ -146,6 +147,8 @@ function MainstateAdmin({ children }) {
         adminSignin,
         getOrders,
         EditOrder,
+        setorders,
+        orders,
       }}
     >
       {children}
