@@ -1,6 +1,7 @@
 import Mainstatecart from "@/components/Mainstate(cart)/Mainstatecart";
 import { Inter } from "next/font/google";
 import "../../globals.css";
+import Mainstatestore from "@/components/Mainstate(store)/Mainstatestore";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
@@ -13,7 +14,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Mainstatecart>{children}</Mainstatecart>
+        <Mainstatestore>
+          <Mainstatecart>{children}</Mainstatecart>
+        </Mainstatestore>
       </body>
     </html>
   );
