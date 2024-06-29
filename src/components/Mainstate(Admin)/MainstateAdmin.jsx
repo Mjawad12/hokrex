@@ -6,7 +6,9 @@ const ContextAdmin = createContext();
 function MainstateAdmin({ children }) {
   const url = process.env.NEXT_PUBLIC_URL;
   const [products, setproducts] = useState([]);
-  const [approved, setapproved] = useState(true);
+  const [authToken, setauthToken] = useState(
+    "eyJhbGciOiJIUzI1NiJ9.NjY3ZmVlZDQyZjM2MDYwZDc4M2U4ZGFh.GVQJvU5O2HEr8629auGBa2PNDij-PaYK08fsdralC80",
+  );
   const [categories, setcategories] = useState([]);
 
   const getproducts = async () => {
@@ -49,6 +51,7 @@ function MainstateAdmin({ children }) {
         Materials: Materials,
         sideImages: sideImagesUrl,
       }),
+      headers: { authToken: authToken },
     });
     const parsedData = await data.json();
   };
@@ -67,6 +70,7 @@ function MainstateAdmin({ children }) {
       method: "POST",
       cache: "no-cache",
       body: JSON.stringify({ name: name }),
+      headers: { authToken: authToken },
     });
     const parsedData = data.json();
     return parsedData;
@@ -76,8 +80,29 @@ function MainstateAdmin({ children }) {
     const data = await fetch(`${url}/api/categoriesEdit`, {
       method: "DELETE",
       body: JSON.stringify({ id: id }),
+      headers: { authToken: authToken },
     });
     const parsedData = data.json();
+    return parsedData;
+  };
+
+  const adminSignin = async (name, password) => {
+    const data = await fetch(`${url}/api/AdminLogin`, {
+      method: "POST",
+      body: JSON.stringify({ name: name, password: password }),
+    });
+    const parsedData = await data.json();
+    console.log(parsedData);
+    return parsedData;
+  };
+
+  const getOrders = async () => {
+    const data = await fetch(`${url}/api/getOrders`, {
+      method: "POST",
+      headers: { authToken: authToken },
+    });
+    const parsedData = await data.json();
+    console.log(parsedData);
     return parsedData;
   };
 
@@ -87,13 +112,15 @@ function MainstateAdmin({ children }) {
         getproducts,
         products,
         addProductApi,
-        setapproved,
-        approved,
+        setauthToken,
+        authToken,
         getCategories,
         categories,
         addCategory,
         setcategories,
         deleCategory,
+        adminSignin,
+        getOrders,
       }}
     >
       {children}

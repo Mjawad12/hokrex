@@ -53,7 +53,7 @@ const sendContactMedia = async (firName, lastName, email, message, phone) => {
 
     const mailoptions = {
       from: "PrintODS 👕",
-      to: "printods.com@gmial.com",
+      to: "printods.com@gmail.com",
       subject: "PrintODS - Some one Contacted You",
       text: `Some one Contacted You`,
       html: `<h1>PrintODS</h1>

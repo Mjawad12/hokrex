@@ -246,7 +246,7 @@ const ProductFrom = () => {
               {categories?.map(
                 (it, index) =>
                   it.name !== "All" && (
-                    <option key={index} value={it}>
+                    <option key={index} value={it.name}>
                       {it.name}
                     </option>
                   ),

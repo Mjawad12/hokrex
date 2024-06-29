@@ -1,316 +1,324 @@
 "use client";
 import { cross } from "@/Consonats";
+import { ContextAdmin } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 function page() {
-  const orders = [
-    {
-      status: "Delivered",
-      active: true,
-      trackingID: "TRACK123456",
-      orderID: "ORDER001",
-      deliveryCharges: 10.0,
-      unpaidAmount: 0.0,
-      deliveryDate: "2024-07-01",
-      orderFiles: ["invoice.pdf", "receipt.png"],
-      name: "John Doe",
-      email: "john.doe@example.com",
-      phone: "555-1234",
-      county: "Orange",
-      firstName: "John",
-      fullName: "John Doe",
-      Address: "123 Main St, Anytown, USA",
-      payType: "Credit Card",
-      product: {
-        id: "79498b32-7374-44e5-bea1-daf8dfbc268f",
-        name: "Hood",
-        colors: [
-          "rgb(248, 231, 28)",
-          "rgb(65, 117, 5)",
-          "rgb(95, 95, 95)",
-          "rgb(144, 19, 254)",
-          "rgb(131, 114, 146)",
-        ],
-        sizes: [
-          {
-            type: "XS",
-            val: 0,
-          },
-          {
-            type: "SM",
-            val: 0,
-          },
-          {
-            type: "MD",
-            val: 0,
-          },
-          {
-            type: "2XL",
-            val: 0,
-          },
-          {
-            type: "XL",
-            val: 0,
-          },
-          {
-            type: "LG",
-            val: "5",
-          },
-          {
-            type: "3XL",
-            val: 0,
-          },
-        ],
-        price: "145.00",
-        src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
-        quant: 5,
-        date: null,
-        instruction: "",
-        slug: "hood",
-        files: [],
-        material: "Lather",
-      },
-      method: {
-        type: "Credit Card",
-        name: "John Doe",
-        cvc: "123",
-        cardNumber: 4111111111111111,
-        expiryDate: "12/24",
-        def: true,
-        bankName: "Bank of America",
-      },
-    },
-    {
-      status: "Active orders",
-      active: false,
-      trackingID: "TRACK654321",
-      orderID: "ORDER002",
-      deliveryCharges: 0.0,
-      unpaidAmount: 50.0,
-      deliveryDate: "2024-07-02",
-      orderFiles: ["purchase_order.pdf"],
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      phone: "555-5678",
-      county: "Los Angeles",
-      firstName: "Jane",
-      fullName: "Jane Smith",
-      Address: "456 Elm St, Othertown, USA",
-      payType: "Debit Card",
-      product: {
-        id: "79498b32-7374-44e5-bea1-daf8dfbc268f",
-        name: "Hood",
-        colors: [
-          "rgb(248, 231, 28)",
-          "rgb(65, 117, 5)",
-          "rgb(95, 95, 95)",
-          "rgb(144, 19, 254)",
-          "rgb(131, 114, 146)",
-        ],
-        sizes: [
-          {
-            type: "XS",
-            val: 0,
-          },
-          {
-            type: "SM",
-            val: 0,
-          },
-          {
-            type: "MD",
-            val: 0,
-          },
-          {
-            type: "2XL",
-            val: 0,
-          },
-          {
-            type: "XL",
-            val: 0,
-          },
-          {
-            type: "LG",
-            val: "5",
-          },
-          {
-            type: "3XL",
-            val: 0,
-          },
-        ],
-        price: "145.00",
-        src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
-        quant: 5,
-        date: null,
-        instruction: "",
-        slug: "hood",
-        files: [],
-        material: "Lather",
-      },
-      method: {
-        type: "Debit Card",
-        name: "Jane Smith",
-        cvc: "456",
-        cardNumber: 5500000000000004,
-        expiryDate: "11/23",
-        def: false,
-        bankName: "Chase",
-      },
-    },
-    {
-      status: "Canceled",
-      active: true,
-      trackingID: "TRACK789012",
-      orderID: "ORDER003",
-      deliveryCharges: 5.0,
-      unpaidAmount: 0.0,
-      deliveryDate: "2024-07-03",
-      orderFiles: ["order_confirmation.pdf"],
-      name: "Bob Johnson",
-      email: "bob.johnson@example.com",
-      phone: "555-9101",
-      county: "San Diego",
-      firstName: "Bob",
-      fullName: "Bob Johnson",
-      Address: "789 Oak St, Sometown, USA",
-      payType: "PayPal",
-      product: {
-        id: "79498b32-7374-44e5-bea1-daf8dfbc268f",
-        name: "Hood",
-        colors: [
-          "rgb(248, 231, 28)",
-          "rgb(65, 117, 5)",
-          "rgb(95, 95, 95)",
-          "rgb(144, 19, 254)",
-          "rgb(131, 114, 146)",
-        ],
-        sizes: [
-          {
-            type: "XS",
-            val: 0,
-          },
-          {
-            type: "SM",
-            val: 0,
-          },
-          {
-            type: "MD",
-            val: 0,
-          },
-          {
-            type: "2XL",
-            val: 0,
-          },
-          {
-            type: "XL",
-            val: 0,
-          },
-          {
-            type: "LG",
-            val: "5",
-          },
-          {
-            type: "3XL",
-            val: 0,
-          },
-        ],
-        price: "145.00",
-        src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
-        quant: 5,
-        date: null,
-        instruction: "",
-        slug: "hood",
-        files: [],
-        material: "Lather",
-      },
-      method: {
-        type: "PayPal",
-        name: "Bob Johnson",
-        cvc: "",
-        cardNumber: 0,
-        expiryDate: "",
-        def: true,
-        bankName: "",
-      },
-    },
-    {
-      status: "Processing",
-      active: true,
-      trackingID: "TRACK789012",
-      orderID: "ORDER003",
-      deliveryCharges: 5.0,
-      unpaidAmount: 0.0,
-      deliveryDate: "2024-07-03",
-      orderFiles: ["order_confirmation.pdf"],
-      name: "Bob Johnson",
-      email: "bob.johnson@example.com",
-      phone: "555-9101",
-      county: "San Diego",
-      firstName: "Bob",
-      fullName: "Bob Johnson",
-      Address: "789 Oak St, Sometown, USA",
-      payType: "PayPal",
-      product: {
-        id: "79498b32-7374-44e5-bea1-daf8dfbc268f",
-        name: "Hood",
-        colors: [
-          "rgb(248, 231, 28)",
-          "rgb(65, 117, 5)",
-          "rgb(95, 95, 95)",
-          "rgb(144, 19, 254)",
-          "rgb(131, 114, 146)",
-        ],
-        sizes: [
-          {
-            type: "XS",
-            val: 0,
-          },
-          {
-            type: "SM",
-            val: 0,
-          },
-          {
-            type: "MD",
-            val: 0,
-          },
-          {
-            type: "2XL",
-            val: 0,
-          },
-          {
-            type: "XL",
-            val: 0,
-          },
-          {
-            type: "LG",
-            val: "5",
-          },
-          {
-            type: "3XL",
-            val: 0,
-          },
-        ],
-        price: "145.00",
-        src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
-        quant: 5,
-        date: null,
-        instruction: "",
-        slug: "hood",
-        files: [],
-        material: "Lather",
-      },
-      method: {
-        type: "PayPal",
-        name: "Bob Johnson",
-        cvc: "",
-        cardNumber: 0,
-        expiryDate: "",
-        def: true,
-        bankName: "",
-      },
-    },
-  ];
+  const { getOrders } = useContext(ContextAdmin);
+  const [orders, setorders] = useState([]);
+  // const orders = [
+  //   {
+  //     status: "Delivered",
+  //     active: true,
+  //     trackingID: "TRACK123456",
+  //     orderID: "ORDER001",
+  //     deliveryCharges: 10.0,
+  //     unpaidAmount: 0.0,
+  //     deliveryDate: "2024-07-01",
+  //     orderFiles: ["invoice.pdf", "receipt.png"],
+  //     name: "John Doe",
+  //     email: "john.doe@example.com",
+  //     phone: "555-1234",
+  //     county: "Orange",
+  //     firstName: "John",
+  //     fullName: "John Doe",
+  //     Address: "123 Main St, Anytown, USA",
+  //     payType: "Credit Card",
+  //     product: {
+  //       id: "79498b32-7374-44e5-bea1-daf8dfbc268f",
+  //       name: "Hood",
+  //       colors: [
+  //         "rgb(248, 231, 28)",
+  //         "rgb(65, 117, 5)",
+  //         "rgb(95, 95, 95)",
+  //         "rgb(144, 19, 254)",
+  //         "rgb(131, 114, 146)",
+  //       ],
+  //       sizes: [
+  //         {
+  //           type: "XS",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "SM",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "MD",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "2XL",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "XL",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "LG",
+  //           val: "5",
+  //         },
+  //         {
+  //           type: "3XL",
+  //           val: 0,
+  //         },
+  //       ],
+  //       price: "145.00",
+  //       src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
+  //       quant: 5,
+  //       date: null,
+  //       instruction: "",
+  //       slug: "hood",
+  //       files: [],
+  //       material: "Lather",
+  //     },
+  //     method: {
+  //       type: "Credit Card",
+  //       name: "John Doe",
+  //       cvc: "123",
+  //       cardNumber: 4111111111111111,
+  //       expiryDate: "12/24",
+  //       def: true,
+  //       bankName: "Bank of America",
+  //     },
+  //   },
+  //   {
+  //     status: "Active orders",
+  //     active: false,
+  //     trackingID: "TRACK654321",
+  //     orderID: "ORDER002",
+  //     deliveryCharges: 0.0,
+  //     unpaidAmount: 50.0,
+  //     deliveryDate: "2024-07-02",
+  //     orderFiles: ["purchase_order.pdf"],
+  //     name: "Jane Smith",
+  //     email: "jane.smith@example.com",
+  //     phone: "555-5678",
+  //     county: "Los Angeles",
+  //     firstName: "Jane",
+  //     fullName: "Jane Smith",
+  //     Address: "456 Elm St, Othertown, USA",
+  //     payType: "Debit Card",
+  //     product: {
+  //       id: "79498b32-7374-44e5-bea1-daf8dfbc268f",
+  //       name: "Hood",
+  //       colors: [
+  //         "rgb(248, 231, 28)",
+  //         "rgb(65, 117, 5)",
+  //         "rgb(95, 95, 95)",
+  //         "rgb(144, 19, 254)",
+  //         "rgb(131, 114, 146)",
+  //       ],
+  //       sizes: [
+  //         {
+  //           type: "XS",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "SM",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "MD",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "2XL",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "XL",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "LG",
+  //           val: "5",
+  //         },
+  //         {
+  //           type: "3XL",
+  //           val: 0,
+  //         },
+  //       ],
+  //       price: "145.00",
+  //       src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
+  //       quant: 5,
+  //       date: null,
+  //       instruction: "",
+  //       slug: "hood",
+  //       files: [],
+  //       material: "Lather",
+  //     },
+  //     method: {
+  //       type: "Debit Card",
+  //       name: "Jane Smith",
+  //       cvc: "456",
+  //       cardNumber: 5500000000000004,
+  //       expiryDate: "11/23",
+  //       def: false,
+  //       bankName: "Chase",
+  //     },
+  //   },
+  //   {
+  //     status: "Canceled",
+  //     active: true,
+  //     trackingID: "TRACK789012",
+  //     orderID: "ORDER003",
+  //     deliveryCharges: 5.0,
+  //     unpaidAmount: 0.0,
+  //     deliveryDate: "2024-07-03",
+  //     orderFiles: ["order_confirmation.pdf"],
+  //     name: "Bob Johnson",
+  //     email: "bob.johnson@example.com",
+  //     phone: "555-9101",
+  //     county: "San Diego",
+  //     firstName: "Bob",
+  //     fullName: "Bob Johnson",
+  //     Address: "789 Oak St, Sometown, USA",
+  //     payType: "PayPal",
+  //     product: {
+  //       id: "79498b32-7374-44e5-bea1-daf8dfbc268f",
+  //       name: "Hood",
+  //       colors: [
+  //         "rgb(248, 231, 28)",
+  //         "rgb(65, 117, 5)",
+  //         "rgb(95, 95, 95)",
+  //         "rgb(144, 19, 254)",
+  //         "rgb(131, 114, 146)",
+  //       ],
+  //       sizes: [
+  //         {
+  //           type: "XS",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "SM",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "MD",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "2XL",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "XL",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "LG",
+  //           val: "5",
+  //         },
+  //         {
+  //           type: "3XL",
+  //           val: 0,
+  //         },
+  //       ],
+  //       price: "145.00",
+  //       src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
+  //       quant: 5,
+  //       date: null,
+  //       instruction: "",
+  //       slug: "hood",
+  //       files: [],
+  //       material: "Lather",
+  //     },
+  //     method: {
+  //       type: "PayPal",
+  //       name: "Bob Johnson",
+  //       cvc: "",
+  //       cardNumber: 0,
+  //       expiryDate: "",
+  //       def: true,
+  //       bankName: "",
+  //     },
+  //   },
+  //   {
+  //     status: "Processing",
+  //     active: true,
+  //     trackingID: "TRACK789012",
+  //     orderID: "ORDER003",
+  //     deliveryCharges: 5.0,
+  //     unpaidAmount: 0.0,
+  //     deliveryDate: "2024-07-03",
+  //     orderFiles: ["order_confirmation.pdf"],
+  //     name: "Bob Johnson",
+  //     email: "bob.johnson@example.com",
+  //     phone: "555-9101",
+  //     county: "San Diego",
+  //     firstName: "Bob",
+  //     fullName: "Bob Johnson",
+  //     Address: "789 Oak St, Sometown, USA",
+  //     payType: "PayPal",
+  //     product: {
+  //       id: "79498b32-7374-44e5-bea1-daf8dfbc268f",
+  //       name: "Hood",
+  //       colors: [
+  //         "rgb(248, 231, 28)",
+  //         "rgb(65, 117, 5)",
+  //         "rgb(95, 95, 95)",
+  //         "rgb(144, 19, 254)",
+  //         "rgb(131, 114, 146)",
+  //       ],
+  //       sizes: [
+  //         {
+  //           type: "XS",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "SM",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "MD",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "2XL",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "XL",
+  //           val: 0,
+  //         },
+  //         {
+  //           type: "LG",
+  //           val: "5",
+  //         },
+  //         {
+  //           type: "3XL",
+  //           val: 0,
+  //         },
+  //       ],
+  //       price: "145.00",
+  //       src: "http://res.cloudinary.com/dsqtzewyx/image/upload/v1717755810/snibmn5n09uxrlcpzeld.png",
+  //       quant: 5,
+  //       date: null,
+  //       instruction: "",
+  //       slug: "hood",
+  //       files: [],
+  //       material: "Lather",
+  //     },
+  //     method: {
+  //       type: "PayPal",
+  //       name: "Bob Johnson",
+  //       cvc: "",
+  //       cardNumber: 0,
+  //       expiryDate: "",
+  //       def: true,
+  //       bankName: "",
+  //     },
+  //   },
+  // ];
+
+  useEffect(async () => {
+    const res = await getOrders();
+    res.success && setorders(res.orders);
+  }, []);
 
   return (
     <div className="min-h-screen w-full bg-hoverC px-5">
@@ -341,7 +349,7 @@ function page() {
               </span>
             </div>
           </div>
-          {orders.map((it, index) => (
+          {orders?.map((it, index) => (
             <OrderCard order={it} index={index} key={index} />
           ))}
         </div>
@@ -361,9 +369,18 @@ const OrderCard = ({ order, index }) => {
         onClick={() => setshow(true)}
         className="flex cursor-pointer items-center justify-between border-b border-[#E5E5E5] py-3 hover:border-black"
       >
-        <div className="flex flex-1 flex-grow-[0.2] gap-5">
+        <div className="flex flex-1 flex-grow-[0.2] items-center gap-5">
           <span className="text-[14px] font-[700]">{index + 1}.</span>
-          <p className="text-[16px] font-[500] ">{order.orderID}</p>
+          <div className="flex items-center gap-1">
+            <Image
+              src={order.product.productImg}
+              width={100}
+              height={100}
+              alt="Product"
+              className="h-auto w-[100px] rounded-full"
+            />
+            <p className="text-[16px] font-[500] ">{order.orderID}</p>
+          </div>
         </div>
         <p className="flex-1 flex-grow-[0.2] text-[16px] font-[500]">
           {order.fullName}
@@ -379,14 +396,14 @@ const OrderCard = ({ order, index }) => {
           </span>
           <span className="flex-1  flex-grow-[0.2] text-[15px] font-[500] text-pmGray">
             $
-            {(
-              +order.product.price +
-              order.unpaidAmount +
-              order.deliveryCharges
+            {parseInt(
+              order.product.productPrice +
+                order.unpaidAmount +
+                (order.deliveryCharges || 0),
             ).toFixed(1)}
           </span>
           <span className="flex-1 flex-grow-[0.2] text-[15px]  font-[500] text-pmGray ">
-            {order.deliveryDate}
+            {order.orderDate || 0}
           </span>
         </div>
       </div>
@@ -414,7 +431,7 @@ const OrderDialog = ({ setshow, order }) => {
         initial={{ y: 20 }}
         exit={{ y: 20 }}
         animate={{ y: 0 }}
-        className="relative flex min-h-[500px] w-full max-w-[900px] flex-col rounded-[10px] border bg-white px-5 py-3"
+        className="relative flex min-h-[500px] w-full max-w-[900px] flex-col rounded-[10px] border bg-white px-5 py-3 pt-10 "
       >
         <span
           onClick={() => setshow(false)}
@@ -427,7 +444,7 @@ const OrderDialog = ({ setshow, order }) => {
             Order Id {order.orderID}
           </span>
           <Image
-            src={order.product.src}
+            src={order.product.productImg}
             width={500}
             height={500}
             alt="Product"
@@ -492,9 +509,39 @@ const OrderDialog = ({ setshow, order }) => {
               <p className="text-[16px] font-[400] text-black">
                 Price :{" "}
                 <span className="text-[16px] font-[600] text-pmGray">
-                  ${order.product.price}
+                  ${order.product.productPrice}
                 </span>
               </p>
+            </div>
+            <div className="flex flex-wrap gap-2 gap-y-1">
+              {order?.productSizes?.map(
+                (it, ind) =>
+                  it.val !== 0 && (
+                    <div
+                      className="flex-center overflow-hidden rounded-[9px] "
+                      key={ind}
+                    >
+                      <p
+                        style={{
+                          borderTopRightRadius: 0,
+                          borderBottomRightRadius: 0,
+                        }}
+                        className="rounded-[9px] border border-r-0 border-borderP px-2 py-[0.29rem] text-[14px] font-[700]"
+                      >
+                        {it.type}
+                      </p>
+                      <p
+                        style={{
+                          borderTopLeftRadius: 0,
+                          borderBottomLeftRadius: 0,
+                        }}
+                        className="w-[37px] rounded-[9px] border border-borderP py-[0.29rem] text-center text-[14px] font-[500]"
+                      >
+                        {it.val}
+                      </p>
+                    </div>
+                  ),
+              )}
             </div>
           </div>
         </div>
@@ -545,7 +592,7 @@ const OrderDialog = ({ setshow, order }) => {
                 className="rounded-[5px] border border-pmGray px-2 py-1 outline-none hover:shadow-xl"
                 defaultValue={order.status}
               >
-                <option value="Active orders">Active orders</option>
+                <option value="Active orders">Active Orders</option>
                 <option value="Processing">Processing</option>
                 <option value="Shipped">Shipped</option>
                 <option value="Delivered">Delivered</option>

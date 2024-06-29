@@ -2,6 +2,8 @@ import { headers } from "next/headers";
 import ConnectDb from "../dbConnect";
 import CategoriesSchema from "../Schemas/CategoriesSchema";
 import ProductSchema from "../Schemas/ProductSchema";
+import authorize from "../Middleware/Authorize";
+import UserSchema from "../Schemas/UserSchema";
 
 export async function GET() {
   await ConnectDb();
@@ -15,12 +17,20 @@ export async function GET() {
 export async function DELETE(req) {
   await ConnectDb();
   const body = await req.json();
-  const headerList = headers();
-  if (headerList.get("origin") === process.env.NEXT_PUBLIC_URL) {
-    await CategoriesSchema.findOneAndDelete({ _id: body.id });
-    return Response.json({ success: true, msg: "Category deleted" });
+  const headersList = headers();
+  if (headersList.get("origin") === process.env.NEXT_PUBLIC_URL) {
+    const id = await authorize(headersList.get("authToken"));
+    console.log(id);
+    if (!id) {
+      return Response.json({ success: false, msg: "Not Authorized" });
+    }
+    const Admin = await UserSchema.findOne({ _id: id });
+    if (Admin.name === "jamsheed-9-123") {
+      await CategoriesSchema.findOneAndDelete({ _id: body.id });
+      return Response.json({ success: true, msg: "Category deleted" });
+    }
   }
-  return Response.json({ success: false, error: "Not Authorized" });
+  return Response.json({ success: false, msg: "Not Authorized" });
 }
 
 export async function POST(req) {
@@ -28,20 +38,28 @@ export async function POST(req) {
   const body = await req.json();
   const headerList = headers();
   if (headerList.get("origin") === process.env.NEXT_PUBLIC_URL) {
-    const items = await ProductSchema.find({
-      productCategory: body.name,
-    });
-    await CategoriesSchema.create({
-      name: body.name,
-      items: items.length,
-      link: "/categories/" + slugify(body.name),
-    });
-    return Response.json(
-      { success: true, msg: "Categories added" },
-      { status: 200 },
-    );
+    const id = await authorize(headerList.get("authToken"));
+    if (!id) {
+      return Response.json({ success: false, msg: "Not Authorized" });
+    }
+    const Admin = await UserSchema.findOne({ _id: id });
+
+    if (Admin.name === "jamsheed-9-123") {
+      const items = await ProductSchema.find({
+        productCategory: body.name,
+      });
+      await CategoriesSchema.create({
+        name: body.name,
+        items: items.length,
+        link: "/categories/" + slugify(body.name),
+      });
+      return Response.json(
+        { success: true, msg: "Categories added" },
+        { status: 200 },
+      );
+    }
   }
-  return Response.json({ success: false, error: "Not Authorized" });
+  return Response.json({ success: false, msg: "Not Authorized" });
 }
 
 export const dynamic = "force-dynamic";

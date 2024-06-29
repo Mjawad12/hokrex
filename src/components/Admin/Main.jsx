@@ -7,8 +7,8 @@ import notificationCaller from "../NotificationCaller";
 import SideBar2 from "./Sidebar";
 
 function MainAdmin({ children }) {
-  const { approved } = useContext(ContextAdmin);
-  return !approved ? (
+  const { authToken } = useContext(ContextAdmin);
+  return !authToken ? (
     <Signin />
   ) : (
     <>
@@ -21,25 +21,19 @@ function MainAdmin({ children }) {
 export default MainAdmin;
 
 const Signin = () => {
-  const { setapproved } = useContext(ContextAdmin);
+  const { setauthToken, adminSignin } = useContext(ContextAdmin);
   const formRef = useRef(null);
   const username = useRef(null);
   const password = useRef(null);
-  const Submit = (e) => {
+  const Submit = async (e) => {
     if (formRef.current.checkValidity()) {
       e.preventDefault();
-      if (username.current.value !== process.env.NEXT_PUBLIC_ADMIN_USERNAME) {
-        notificationCaller(false, "Enter a valid Username!", toast);
-        username.current.focus();
-      } else if (
-        password.current.value !== process.env.NEXT_PUBLIC_ADMIN_PASSWORD
-      ) {
-        notificationCaller(false, "Enter a valid Passowrd!", toast);
-        password.current.focus();
-      } else {
-        notificationCaller(true, "Successfully logged in!", toast);
-        setTimeout(() => setapproved(true), [1000]);
-      }
+      const res = await adminSignin(
+        username.current.value,
+        password.current.value,
+      );
+      notificationCaller(res.success, res.msg, toast);
+      res.success && setauthToken(res.authToken);
     }
   };
   return (
