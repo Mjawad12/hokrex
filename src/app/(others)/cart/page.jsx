@@ -8,9 +8,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckoutNav } from "../checkout/page";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 
 export default function page() {
   const { cartState, removeItem, addInstruction } = useContext(ContextCart);
+  const { authToken } = useContext(ContextStore);
   const [totalPrice, settotalPrice] = useState(0);
 
   return (
@@ -81,7 +83,7 @@ export default function page() {
                   </div>
 
                   <Link
-                    href="/checkout"
+                    href={authToken ? "/checkout" : "/login"}
                     className="flex-center relative w-full gap-1 rounded-[10px] border border-black px-4 py-[0.6rem] text-[18px] font-[500] small:hidden"
                   >
                     Continue to Checkout
@@ -113,7 +115,7 @@ export default function page() {
                 </div>
               </div>
             </div>
-            <MobCheckOutBtn />
+            <MobCheckOutBtn authToken={authToken} />
           </>
         ) : (
           <div className="flex-center m-auto w-full max-w-[30rem] flex-col gap-8">
@@ -692,11 +694,11 @@ const ColorGiver = ({ color }) => {
 
 export { Cross, InstructionDialog, ColorDialog, CartItem };
 
-const MobCheckOutBtn = () => {
+const MobCheckOutBtn = ({ authToken }) => {
   return (
     <div className="small:flex-center fixed bottom-0 left-0 z-[20] hidden w-full flex-col gap-5 border border-[#E5E5E5] bg-white px-5 py-2 pt-3">
       <Link
-        href={"/checkout"}
+        href={authToken ? "/checkout" : "/login"}
         className="rounded-[10px] bg-black px-10 py-2 text-[17px] font-[500] text-white active:bg-pmGray"
       >
         Continue to Checkout
