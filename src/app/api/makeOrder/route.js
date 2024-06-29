@@ -25,7 +25,7 @@ export async function POST(req) {
         unpaidAmount: it.price,
         product: it.id,
         deliveryDate: it.date,
-        orderFiles: [...it.files],
+        orderFiles: [...(it.files || [])],
         email: body.email,
         phone: body.phone,
         county: body.county,
