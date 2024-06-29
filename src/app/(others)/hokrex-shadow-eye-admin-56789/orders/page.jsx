@@ -1,5 +1,6 @@
 "use client";
 import { cross } from "@/Consonats";
+import BasicDateCalendar from "@/components/Calender";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import { ContextAdmin } from "@/components/Mainstate(Admin)/MainstateAdmin";
 import notificationCaller from "@/components/NotificationCaller";
@@ -436,6 +437,8 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
   const deliveryCharges = useRef(null);
   const [loading, setloading] = useState(false);
   const [active, setactive] = useState(false);
+  const [deliveryDate, setdeliveryDate] = useState(false);
+  const [showcalender, setshowcalender] = useState(false);
 
   const Submit = async () => {
     setloading(true);
@@ -445,6 +448,7 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
       trackingid.current.value || "",
       deliveryCharges.current.value || 0,
       active,
+      deliveryDate,
     );
     setorders((e) => {
       let temp_Order = e;
@@ -455,6 +459,7 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
           temp_Order[index].deliveryCharges =
             deliveryCharges.current.value || 0;
           temp_Order[index].active = active;
+          temp_Order[index].deliveryDate = deliveryDate;
         }
       });
       return [...temp_Order];
@@ -466,6 +471,7 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
 
   useEffect(() => {
     setactive(order.active);
+    setdeliveryDate(order.deliveryDate || null);
   }, [order]);
 
   return (
@@ -639,7 +645,7 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
               </p>
             </div>
           </div>
-          <div className="flex flex-wrap gap-5 ">
+          <div className="flex flex-wrap gap-5 gap-y-2 ">
             <div className="flex-center w-max gap-1">
               <p>Status : </p>
               <select
@@ -672,6 +678,27 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
                 defaultValue={order.deliveryCharges}
                 className="w-[100px] rounded-[5px] border border-pmGray px-2 py-0.5 outline-none"
               />
+            </div>
+            <div className="flex-center w-max">
+              <div onClick={() => setshowcalender(true)} className="relative ">
+                <span>Delivery Date :</span>
+                <span className="absolute bottom-[55px] left-[50%] translate-x-[-50%]">
+                  {showcalender && (
+                    <BasicDateCalendar
+                      setshow={setshowcalender}
+                      setselectedDate={setdeliveryDate}
+                      showcalender={showcalender}
+                    />
+                  )}
+                </span>
+                <input
+                  type="text"
+                  placeholder="MM/YY"
+                  className="checkoutInput !max-w-[12rem] px-4 pr-1 "
+                  id="exp-num"
+                  value={deliveryDate}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -112,6 +112,7 @@ function MainstateAdmin({ children }) {
     trackingid,
     deliveryCharges,
     active,
+    deliveryDate,
   ) => {
     const data = await fetch(`${url}/api/editOrders`, {
       method: "POST",
@@ -121,6 +122,7 @@ function MainstateAdmin({ children }) {
         trackingid,
         deliveryCharges,
         active,
+        deliveryDate,
       }),
       headers: { authToken: authToken },
     });

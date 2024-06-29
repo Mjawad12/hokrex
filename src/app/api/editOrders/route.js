@@ -24,6 +24,7 @@ export async function POST(req) {
             "orders.$.trackingID": body.trackingid,
             "orders.$.deliveryCharges": body.deliveryCharges,
             "orders.$.active": body.active,
+            "orders.$.deliveryDate": body.deliveryDate,
           },
         },
       );
