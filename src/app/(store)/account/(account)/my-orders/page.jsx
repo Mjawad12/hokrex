@@ -17,9 +17,10 @@ import SubmittedDialog from "@/components/SubmittedDialog";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
 
 function page() {
-  const [navState, setnavState] = useState("Active orders");
+  const [navState, setnavState] = useState("Active Orders");
   const [selectedTimeline, setselectedTimeline] = useState("last 1 month");
   const [selectedOrders, setselectedOrders] = useState([]);
+  const { userData } = useContext(ContextStore);
 
   const orders = [
     {
@@ -257,13 +258,14 @@ function page() {
 
   useEffect(() => {
     let ordersSelected = [];
-    orders?.map((it) => {
-      if (it.orderType === navState) {
+    userData?.orders?.map((it) => {
+      if (it.status === navState) {
         ordersSelected = [...ordersSelected, it];
       }
     });
-    setselectedOrders(ordersSelected);
-  }, [navState]);
+
+    setselectedOrders([...ordersSelected]);
+  }, [navState, userData]);
 
   return (
     <section className="w-full select-none pb-10">
@@ -272,7 +274,7 @@ function page() {
         <NavOrders navState={navState} setnavState={setnavState} />
         <div className="flex items-center gap-2">
           <p className="text-[15px] font-[500]">
-            {orders.length} orders placed in
+            {userData?.orders?.length} orders placed in
           </p>
           <Sorting
             sorting={["last 1 month", "last 2 months", "last 6 months"]}
@@ -284,24 +286,24 @@ function page() {
         <div className="flex w-full flex-col gap-8">
           {selectedOrders?.map((it, index) => (
             <OrderCard
-              name={it.product.name}
-              price={it.product.price}
-              sizes={it.product.sizes}
-              src={it.product.src}
+              name={it.product.productName}
+              price={it.product.productPrice}
+              sizes={it.productSizes}
+              src={it.product.productImg}
               key={index}
-              quant={it.product.quant}
-              date={it.product.date}
-              id={it.product.id}
-              instructionValue={it.product.instruction}
+              date={it.deliveryDate}
+              id={it.product._id}
+              instructionValue={it.productInstruction}
               slug={it.product.slug}
-              colors={it.product.colors}
+              colors={it.product.productColors}
               index={index}
-              orderid={it.product.orderId}
+              orderid={it.orderID}
               active={it.active}
               navState={navState}
               unpaidAmount={it.unpaidAmount}
-              trackingID={it.trackingID}
-              deliveryCharges={it.deliveryCharges}
+              trackingID={it.trackingID || 0}
+              deliveryCharges={it.deliveryCharges || 0}
+              customized={it.product.customizable}
             />
           ))}
         </div>
@@ -314,7 +316,7 @@ export default page;
 
 const NavOrders = ({ setnavState, navState }) => {
   const items = [
-    "Active orders",
+    "Active Orders",
     "Processing",
     "Shipped",
     "Delivered",
@@ -349,7 +351,6 @@ const OrderCard = ({
   src,
   price,
   sizes,
-  quant,
   date,
   id,
   instructionValue,
@@ -362,21 +363,27 @@ const OrderCard = ({
   unpaidAmount,
   trackingID,
   deliveryCharges,
+  customized,
 }) => {
   const [instuctionDialog, setinstuctionDialog] = useState(false);
   const [cartDialog, setcartDialog] = useState(false);
   const [shipingDetailState, setshipingDetailState] = useState(false);
   const [ReviewDialogstate, setReviewDialogstate] = useState(false);
+  const [quanitity, setquantity] = useState(false);
+  const [totalprice, settotalprice] = useState(false);
 
-  const calculatePrice = () => {
+  useEffect(() => {
     let cal_Price = 0;
+    let temp_quantity = 0;
     sizes.forEach((it) => {
       if (it.val !== 0 && it.val) {
         cal_Price += price * parseInt(it.val);
+        temp_quantity += +it.val;
       }
     });
-    return cal_Price;
-  };
+    setquantity(temp_quantity);
+    settotalprice(cal_Price);
+  }, []);
 
   return (
     <motion.div className="flex w-full flex-col bg-white transition-all duration-300">
@@ -405,7 +412,7 @@ const OrderCard = ({
             setshipingDetailState={setshipingDetailState}
             unpaidAmount={unpaidAmount}
             deliveryCharges={deliveryCharges}
-            subtotal={calculatePrice()}
+            subtotal={totalprice}
           />
         )}
       </AnimatePresence>
@@ -452,9 +459,11 @@ const OrderCard = ({
               height={5000}
               className="h-[180px] w-[180px] "
             />
-            <span className="absolute left-1.5 top-1.5 z-20 rounded-[10px] border border-[#E5E5E5] bg-white p-1 text-[12px] font-[700]">
-              Customised
-            </span>
+            {customized && (
+              <span className="absolute left-1.5 top-1.5 z-20 rounded-[10px] border border-[#E5E5E5] bg-white px-[8px] py-[3px] text-[12px] font-[700] leading-[16px]">
+                Customised
+              </span>
+            )}
             <span
               id="over"
               className="flex-center absolute inset-0 z-20 cursor-pointer bg-[#0000004D] opacity-0 transition-all duration-500"
@@ -530,7 +539,7 @@ const OrderCard = ({
                 }}
                 className="h-[38px] w-[8.2rem] rounded-lg border border-borderP bg-[#F9F9F9] py-[0.35rem] text-[14px] font-[500] "
               >
-                Shiping details
+                Shipping details
               </button>
             </div>
           </div>
@@ -542,14 +551,14 @@ const OrderCard = ({
                 <p className="text-[14px] font-[500] text-pmGray">{date}</p>
               </div>
               <p className="text-[14px] font-[500] text-pmGray ">
-                Total units {quant}
+                Total units {quanitity}
               </p>
             </div>
             <p
               id="sub-total-price"
               className="text-[17px] font-[600] text-black "
             >
-              Sub Total ${calculatePrice()}
+              Sub Total ${totalprice}
             </p>
           </div>
         </div>

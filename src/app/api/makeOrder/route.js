@@ -3,6 +3,7 @@ import UserSchema from "../Schemas/UserSchema";
 import ConnectDb from "../dbConnect";
 import { headers } from "next/headers";
 import authorize from "../Middleware/Authorize";
+import { v4 } from "uuid";
 
 export async function POST(req) {
   await ConnectDb();
@@ -16,7 +17,6 @@ export async function POST(req) {
     });
   }
   try {
-    console.log(body);
     for (let i = 0; i < body.cartState.items.length; i++) {
       let it = body.cartState.items[i];
       let order = {
@@ -36,6 +36,8 @@ export async function POST(req) {
         method: body.method,
         productMaterial: it.material,
         productInstruction: it.instruction,
+        productSizes: it.sizes,
+        orderID: v4(),
       };
       console.log(order);
 
