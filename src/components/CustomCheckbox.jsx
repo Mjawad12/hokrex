@@ -10,11 +10,13 @@ const CustomCheckbox = ({
   type,
   textColor,
   borderGray,
+  def,
 }) => {
-  const [checked, setchecked] = useState(false);
+  const [checked, setchecked] = useState(def);
   useEffect(() => {
     setOuter && setOuter(checked);
   }, [checked]);
+
   return (
     <label
       onClick={() => setchecked(!checked)}

@@ -1,7 +1,5 @@
 import { headers } from "next/headers";
 import ConnectDb from "../dbConnect";
-import CategoriesSchema from "../Schemas/CategoriesSchema";
-import ProductSchema from "../Schemas/ProductSchema";
 import authorize from "../Middleware/Authorize";
 import UserSchema from "../Schemas/UserSchema";
 
@@ -16,7 +14,20 @@ export async function POST(req) {
     }
     const Admin = await UserSchema.findOne({ _id: id });
     if (Admin.name === "jamsheed-9-123") {
-      // const order = await UserSchema.findOne({"orders" : })
+      await UserSchema.updateOne(
+        {
+          "orders.orderID": body.orderID,
+        },
+        {
+          $set: {
+            "orders.$.status": body.status,
+            "orders.$.trackingID": body.trackingid,
+            "orders.$.deliveryCharges": body.deliveryCharges,
+            "orders.$.active": body.active,
+          },
+        },
+      );
+      return Response.json({ success: true, msg: "Successfully Updated!" });
     }
   }
   return Response.json({ success: false, msg: "Not Authorized" });

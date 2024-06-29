@@ -1,12 +1,15 @@
 "use client";
 import { cross } from "@/Consonats";
+import CustomCheckbox from "@/components/CustomCheckbox";
 import { ContextAdmin } from "@/components/Mainstate(Admin)/MainstateAdmin";
+import notificationCaller from "@/components/NotificationCaller";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import React, { useContext, useEffect, useRef, useState } from "react";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function page() {
-  const { getOrders } = useContext(ContextAdmin);
+  const { getOrders, EditOrder } = useContext(ContextAdmin);
   const [orders, setorders] = useState([]);
   // const orders = [
   //   {
@@ -322,6 +325,7 @@ function page() {
 
   return (
     <div className="min-h-screen w-full bg-hoverC px-5">
+      <ToastContainer />
       <div className="mx-auto w-full pb-10">
         <div className="flex-center mt-5 w-full justify-between rounded-xl bg-Pn-dark-600 px-5 py-3">
           <h1 className="text-4xl font-[700] text-white">Orders</h1>
@@ -350,7 +354,13 @@ function page() {
             </div>
           </div>
           {orders?.map((it, index) => (
-            <OrderCard order={it} index={index} key={index} />
+            <OrderCard
+              order={it}
+              index={index}
+              key={index}
+              EditOrder={EditOrder}
+              setorders={setorders}
+            />
           ))}
         </div>
       </div>
@@ -358,12 +368,19 @@ function page() {
   );
 }
 
-const OrderCard = ({ order, index }) => {
+const OrderCard = ({ order, index, EditOrder, setorders }) => {
   const [show, setshow] = useState(false);
   return (
     <>
       <AnimatePresence>
-        {show && <OrderDialog setshow={setshow} order={order} />}
+        {show && (
+          <OrderDialog
+            setshow={setshow}
+            order={order}
+            EditOrder={EditOrder}
+            setorders={setorders}
+          />
+        )}
       </AnimatePresence>
       <div
         onClick={() => setshow(true)}
@@ -388,7 +405,7 @@ const OrderCard = ({ order, index }) => {
         <div className="flex flex-1 flex-grow-[0.5] justify-between">
           <span
             className={`flex-1 flex-grow-[0.2] rounded-[5px] border p-0.5 text-center text-[12px] ${order.status === "Canceled" ? "border-pmRed bg-[#ab1c1c49] text-pmRed" : ""}
-           ${order.status === "Delivered" || order.status === "Active orders" || order.status === "Shipped" ? "border-[#74AF3D] bg-[#17ff3a] text-[#396014]" : ""}
+           ${order.status === "Delivered" || order.status === "Active Orders" || order.status === "Shipped" ? "border-[#74AF3D] bg-[#49AF41] text-[#a6f45e]" : ""}
            ${order.status === "Processing" ? "border-[#B298F1] bg-[#B298F1] text-[#5b37af]" : ""}
            `}
           >
@@ -413,12 +430,43 @@ const OrderCard = ({ order, index }) => {
 
 export default page;
 
-const OrderDialog = ({ setshow, order }) => {
+const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
   const status = useRef(null);
   const trackingid = useRef(null);
   const deliveryCharges = useRef(null);
+  const [loading, setloading] = useState(false);
+  const [active, setactive] = useState(false);
 
-  const Submit = () => {};
+  const Submit = async () => {
+    setloading(true);
+    const res = await EditOrder(
+      order.orderID,
+      status.current.value,
+      trackingid.current.value || "",
+      deliveryCharges.current.value || 0,
+      active,
+    );
+    setorders((e) => {
+      let temp_Order = e;
+      temp_Order.forEach((it, index) => {
+        if (it.orderID === order.orderID) {
+          temp_Order[index].status = status.current.value;
+          temp_Order[index].trackingID = trackingid.current.value || "";
+          temp_Order[index].deliveryCharges =
+            deliveryCharges.current.value || 0;
+          temp_Order[index].active = active;
+        }
+      });
+      return [...temp_Order];
+    });
+    notificationCaller(res.success, res.msg, toast);
+    res.success && setshow(false);
+    setloading(false);
+  };
+
+  useEffect(() => {
+    setactive(order.active);
+  }, [order]);
 
   return (
     <motion.div
@@ -439,6 +487,14 @@ const OrderDialog = ({ setshow, order }) => {
         >
           {cross}
         </span>
+        <div className="flex-center absolute right-10 top-2 w-max gap-1">
+          <CustomCheckbox
+            setOuter={setactive}
+            text={"Active"}
+            fontSize={"sm"}
+            def={order.active}
+          />
+        </div>
         <div className="flex gap-2">
           <span className="absolute left-2 top-2 text-[14px] font-[600]">
             Order Id {order.orderID}
@@ -592,7 +648,7 @@ const OrderDialog = ({ setshow, order }) => {
                 className="rounded-[5px] border border-pmGray px-2 py-1 outline-none hover:shadow-xl"
                 defaultValue={order.status}
               >
-                <option value="Active orders">Active Orders</option>
+                <option value="Active Orders">Active Orders</option>
                 <option value="Processing">Processing</option>
                 <option value="Shipped">Shipped</option>
                 <option value="Delivered">Delivered</option>
@@ -628,7 +684,8 @@ const OrderDialog = ({ setshow, order }) => {
           </button>
           <button
             onClick={Submit}
-            className={`w-max rounded-[10px] bg-black px-8 py-2.5 text-white disabled:bg-gray-300`}
+            disabled={loading}
+            className={`w-max rounded-[10px] bg-black px-8 py-2.5 text-white disabled:cursor-not-allowed disabled:bg-gray-300`}
           >
             Save
           </button>

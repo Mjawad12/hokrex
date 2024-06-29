@@ -106,6 +106,28 @@ function MainstateAdmin({ children }) {
     return parsedData;
   };
 
+  const EditOrder = async (
+    orderID,
+    status,
+    trackingid,
+    deliveryCharges,
+    active,
+  ) => {
+    const data = await fetch(`${url}/api/editOrders`, {
+      method: "POST",
+      body: JSON.stringify({
+        orderID,
+        status,
+        trackingid,
+        deliveryCharges,
+        active,
+      }),
+      headers: { authToken: authToken },
+    });
+    const parsedData = await data.json();
+    console.log(parsedData);
+    return parsedData;
+  };
   return (
     <ContextAdmin.Provider
       value={{
@@ -121,6 +143,7 @@ function MainstateAdmin({ children }) {
         deleCategory,
         adminSignin,
         getOrders,
+        EditOrder,
       }}
     >
       {children}
