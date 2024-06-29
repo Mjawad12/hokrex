@@ -101,6 +101,7 @@ function MainstateAdmin({ children }) {
     const data = await fetch(`${url}/api/getOrders`, {
       method: "POST",
       headers: { authToken: authToken },
+      cache: "no-cache",
     });
     const parsedData = await data.json();
     console.log(parsedData);

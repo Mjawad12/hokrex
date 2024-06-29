@@ -33,3 +33,5 @@ export async function POST(req) {
   }
   return Response.json({ success: false, msg: "Not Authorized" });
 }
+
+export const dynamic = "force-dynamic";
