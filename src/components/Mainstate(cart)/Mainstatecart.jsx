@@ -71,6 +71,20 @@ const reducer = (state, action) => {
         price: state.price,
       };
     }
+    case "sizesAdder": {
+      let tempItems = state.items;
+      state.items.forEach((it, index) => {
+        if (+index === +action.index) {
+          tempItems[index].sizes = action.sizes;
+        }
+      });
+      changeitems(tempItems);
+      return {
+        items: tempItems,
+        total: state.total,
+        price: state.price,
+      };
+    }
   }
 };
 

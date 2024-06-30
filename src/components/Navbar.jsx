@@ -13,9 +13,12 @@ import { ContextStore } from "./Mainstate(store)/Mainstatestore.jsx";
 import { usePathname } from "next/navigation.js";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation.js";
+import { ContextCart } from "./Mainstate(cart)/Mainstatecart.jsx";
 
-function Navbar({ cart }) {
+function Navbar() {
   const { authToken, delFunc } = useContext(ContextStore);
+  const { cartState } = useContext(ContextCart);
+
   const pathname = usePathname();
 
   return (
@@ -44,6 +47,7 @@ function Navbar({ cart }) {
           authToken={authToken}
           account={pathname.includes("account")}
           delFunc={delFunc}
+          cartState={cartState}
         />
       </div>
     </nav>
@@ -66,7 +70,7 @@ const SearchBar = () => {
   );
 };
 
-const SmNav = ({ cart, authToken, account, delFunc }) => {
+const SmNav = ({ cart, authToken, account, delFunc, cartState }) => {
   const [smNavState, setsmNavState] = useState(false);
   const router = useRouter();
   return (
@@ -95,8 +99,11 @@ const SmNav = ({ cart, authToken, account, delFunc }) => {
       <li className="flex-center gap-2 ">
         <Link
           href="/cart"
-          className="flex-center logoStyle h-9 w-[2.4rem] border-gray-300 hover:border-black"
+          className="flex-center logoStyle relative h-9 w-[2.4rem] border-gray-300 hover:border-black"
         >
+          <span className="absolute -right-0.5 -top-0.5 h-4 w-4 rounded-full bg-pmRed text-center text-[11px] font-[700] text-white ">
+            {cartState?.items?.length || 0}
+          </span>
           {bag}
         </Link>
         <span

@@ -18,6 +18,7 @@ export default function page() {
   const { authToken } = useContext(ContextStore);
   const [totalPrice, settotalPrice] = useState(0);
   const [givenfiles, setgivenfiles] = useState({});
+
   const router = useRouter();
   useEffect(() => {
     console.log(givenfiles);
@@ -25,7 +26,7 @@ export default function page() {
 
   const Tocheckout = async () => {
     if (!authToken) {
-      router.push("/");
+      router.push("/login");
     } else {
       if (givenfiles.length < 1) {
         router.push("/checkout");
@@ -69,6 +70,21 @@ export default function page() {
     return files_upload;
   };
 
+  const SaveSizes = () => {
+    let quant =
+      window.innerWidth > 968 ? "inp-size-quant-" : "inp-size-quant-mob-";
+    let val = window.innerWidth > 968 ? "inp-size-type-" : "inp-size-type-mob-";
+    for (let i = 0; i < cartState.items.length; i++) {
+      let newSizes = [];
+      const vals = document.querySelectorAll(`#${quant}${i}`);
+      const sizs = document.querySelectorAll(`#${val}${i}`);
+      sizs.forEach((it, index) => {
+        newSizes = [...newSizes, { [it.innerHTML]: vals[index].value }];
+      });
+      // dispatch({ type: "sizesAdder", index: i, sizes: newSizes });
+    }
+  };
+  SaveSizes();
   return (
     <div className="relative min-h-[calc(100vh-64px)] w-full ">
       <ToastContainer />
@@ -298,7 +314,6 @@ const CartItem = ({
         />
       )}
       <div className="flex items-start justify-between">
-        {/*  */}
         <div className="flex w-full max-w-[23.5rem] flex-col gap-[0.6rem] small:max-w-full ">
           <div className="flex gap-[0.9rem]">
             <div className="relative">
@@ -358,6 +373,7 @@ const CartItem = ({
                             borderBottomRightRadius: 0,
                           }}
                           className="rounded-[9px] border border-r-0 border-borderP px-2 py-[0.29rem] text-[14px] font-[700]"
+                          id={`inp-size-type-${index}`}
                         >
                           {it.type}
                         </p>
@@ -370,6 +386,7 @@ const CartItem = ({
                           className="w-[37px] rounded-[9px] border border-borderP py-[0.29rem] text-center text-[14px] font-[500] outline-none placeholder:text-black hover:border-darkP focus:border-darkP"
                           defaultValue={it.val}
                           type="number"
+                          onInput={calculatePrice}
                           onKeyDown={(e) => {
                             if (
                               e.target.value.length > 1 &&
@@ -378,7 +395,6 @@ const CartItem = ({
                               e.preventDefault();
                             }
                           }}
-                          onInput={calculatePrice}
                         ></input>
                       </div>
                     ),
@@ -400,6 +416,7 @@ const CartItem = ({
                           borderTopRightRadius: 0,
                           borderBottomRightRadius: 0,
                         }}
+                        id={`inp-size-type-mob-${index}`}
                         className="rounded-[9px] border border-r-0 border-borderP px-2 py-[0.29rem] text-[14px] font-[700]"
                       >
                         {it.type}
