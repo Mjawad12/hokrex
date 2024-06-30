@@ -28,6 +28,7 @@ export default function page() {
     if (!authToken) {
       router.push("/login");
     } else {
+      SaveSizes();
       if (givenfiles.length < 1) {
         router.push("/checkout");
       } else {
@@ -41,7 +42,7 @@ export default function page() {
           dispatch({
             type: "fileAdder",
             files: urlArray,
-            id: key,
+            index: i,
           });
           i++;
         }
@@ -79,12 +80,16 @@ export default function page() {
       const vals = document.querySelectorAll(`#${quant}${i}`);
       const sizs = document.querySelectorAll(`#${val}${i}`);
       sizs.forEach((it, index) => {
-        newSizes = [...newSizes, { [it.innerHTML]: vals[index].value }];
+        newSizes = [
+          ...newSizes,
+          { type: it.innerHTML, val: vals[index].value },
+        ];
       });
-      // dispatch({ type: "sizesAdder", index: i, sizes: newSizes });
+      console.log(newSizes);
+      dispatch({ type: "sizesAdder", index: i, sizes: newSizes });
     }
   };
-  SaveSizes();
+
   return (
     <div className="relative min-h-[calc(100vh-64px)] w-full ">
       <ToastContainer />

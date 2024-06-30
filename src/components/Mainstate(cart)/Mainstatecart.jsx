@@ -60,7 +60,7 @@ const reducer = (state, action) => {
     case "fileAdder": {
       let tempItems = state.items;
       state.items.forEach((it, index) => {
-        if (it.id === action.id) {
+        if (index === action.index) {
           tempItems[index].files = [...tempItems[index].files, ...action.files];
         }
       });
