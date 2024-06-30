@@ -514,7 +514,7 @@ const OrderCard = ({
                 </div>
               </div>
             </div>
-            <div className="flex w-full max-w-[17.5rem] flex-wrap gap-3 gap-y-1">
+            <div className="flex h-max w-full max-w-[17.5rem] flex-wrap items-start gap-3 gap-y-1">
               <button
                 onClick={() => setinstuctionDialog(!instuctionDialog)}
                 className="h-[38px] w-[8.2rem] rounded-lg border border-borderP bg-[#F9F9F9] py-[0.35rem] text-[14px] font-[500] "

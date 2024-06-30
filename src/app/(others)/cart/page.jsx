@@ -9,11 +9,61 @@ import { CheckoutNav } from "../checkout/page";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ContextStore } from "@/components/Mainstate(store)/Mainstatestore";
+import { Upload } from "../hokrex-shadow-eye-admin-56789/addproduct/page";
+import { useRouter } from "next/navigation";
 
 export default function page() {
-  const { cartState, removeItem, addInstruction } = useContext(ContextCart);
+  const { cartState, removeItem, addInstruction, dispatch } =
+    useContext(ContextCart);
   const { authToken } = useContext(ContextStore);
   const [totalPrice, settotalPrice] = useState(0);
+  const [givenfiles, setgivenfiles] = useState({});
+  const router = useRouter();
+  useEffect(() => {
+    console.log(givenfiles);
+  }, [givenfiles]);
+
+  const Tocheckout = async () => {
+    if (givenfiles.length < 1) {
+      router.push("/checkout");
+    } else {
+      let i = 0;
+      for (let key in givenfiles) {
+        let urlArray = await uploadFiles(givenfiles[key]);
+        urlArray = [
+          ...urlArray,
+          document.querySelector(`#file-link-${i}`).value || "",
+        ];
+        dispatch({
+          type: "fileAdder",
+          files: urlArray,
+          id: key,
+        });
+        i++;
+      }
+      router.push("/checkout");
+    }
+  };
+
+  const uploadFiles = async (files) => {
+    let files_upload = [];
+    for (let i = 0; i < files.length; i++) {
+      toast(`Uploading file ${files[i].name.slice(0, 6)}...`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "info",
+      });
+      const url = await Upload(files[i]);
+      files_upload = [...files_upload, url];
+    }
+    return files_upload;
+  };
 
   return (
     <div className="relative min-h-[calc(100vh-64px)] w-full ">
@@ -47,6 +97,8 @@ export default function page() {
                     settotalPrice={settotalPrice}
                     files={it?.files || []}
                     customized={it.customized}
+                    setgivenfiles={setgivenfiles}
+                    givenfiles={givenfiles}
                   />
                 ))}
               </div>
@@ -82,12 +134,12 @@ export default function page() {
                     </div>
                   </div>
 
-                  <Link
-                    href={authToken ? "/checkout" : "/login"}
+                  <button
+                    onClick={Tocheckout}
                     className="flex-center relative w-full gap-1 rounded-[10px] border border-black px-4 py-[0.6rem] text-[18px] font-[500] small:hidden"
                   >
                     Continue to Checkout
-                  </Link>
+                  </button>
                 </div>
                 <div className="flex-center h-[26px] w-full max-w-[23rem] small:hidden small:max-w-max ">
                   <p className="mr-1 text-[13px] font-[400]">Payment method</p>
@@ -115,7 +167,7 @@ export default function page() {
                 </div>
               </div>
             </div>
-            <MobCheckOutBtn authToken={authToken} />
+            <MobCheckOutBtn authToken={authToken} Tocheckout={Tocheckout} />
           </>
         ) : (
           <div className="flex-center m-auto w-full max-w-[30rem] flex-col gap-8">
@@ -165,6 +217,8 @@ const CartItem = ({
   settotalPrice,
   files,
   customized,
+  setgivenfiles,
+  givenfiles,
 }) => {
   const fileRef = useRef(null);
   const nfs = useRef(null);
@@ -219,7 +273,6 @@ const CartItem = ({
   useEffect(() => {
     totalPriceCal();
   }, [itemPrice]);
-
   return (
     <motion.div className="flex w-full flex-col bg-white transition-all duration-300 small:border-b small:border-[#E5E5E5] small:pb-6">
       <AnimatePresence>
@@ -278,7 +331,7 @@ const CartItem = ({
               </div>
             </div>
             <div className="flex flex-col justify-end gap-1 small:justify-center">
-              <div className="flex-center gap-2 small:flex-col-reverse small:items-start small:gap-1">
+              <div className="flex items-center gap-2 small:flex-col-reverse small:items-start small:gap-1">
                 <p className="text-[20px] font-[500]">{name}</p>
                 {customized && (
                   <span className="rounded-[7px] bg-black px-[7px] py-[3px] text-[9px] font-[500] text-white small:rounded-[6px] small:py-[4px] small:text-[10px] small:leading-[12px] ">
@@ -383,21 +436,26 @@ const CartItem = ({
                     document.querySelectorAll(`#fil-sp-${index} span`).length <
                       10
                   ) {
+                    let tempFiles = [];
                     for (
                       let i = 0;
                       i < e.target.files.length &&
-                      document.querySelectorAll(`#fil-sp-${index} span`)
-                        ?.length < 10;
+                      tempFiles.length + files?.length < 10;
                       i++
                     ) {
                       i === 0 && nfs.current?.classList.add("hidden");
-                      const span = document.createElement("span");
-                      span.innerText = e.target.files[i].name;
-                      span.className = "text-[14px] font-[500]";
-                      e.target.nextElementSibling.nextElementSibling.appendChild(
-                        span,
-                      );
+                      tempFiles = [...tempFiles, e.target.files[i]];
                     }
+                    setgivenfiles((prev) => {
+                      if (prev[id]) {
+                        return {
+                          ...prev,
+                          [id]: [...prev[id], ...tempFiles],
+                        };
+                      } else {
+                        return { ...prev, [id]: [...tempFiles] };
+                      }
+                    });
                   }
                 }}
               />
@@ -423,12 +481,19 @@ const CartItem = ({
                     No File selected
                   </p>
                 )}
+                {givenfiles &&
+                  givenfiles[id]?.map((it) => (
+                    <span key={index} className="text-[14px] font-[500]">
+                      {it.name.slice(it.name.lastIndexOf("/") + 1)}
+                    </span>
+                  ))}
               </div>
             </div>
           </div>
           <input
             type="text"
             placeholder="File Link"
+            id={`file-link-${index}`}
             className="w-full rounded-xl border border-borderP px-4 py-2 text-[14px] font-[500] outline-none"
           />
         </div>
@@ -694,15 +759,15 @@ const ColorGiver = ({ color }) => {
 
 export { Cross, InstructionDialog, ColorDialog, CartItem };
 
-const MobCheckOutBtn = ({ authToken }) => {
+const MobCheckOutBtn = ({ authToken, Tocheckout }) => {
   return (
     <div className="small:flex-center fixed bottom-0 left-0 z-[20] hidden w-full flex-col gap-5 border border-[#E5E5E5] bg-white px-5 py-2 pt-3">
-      <Link
-        href={authToken ? "/checkout" : "/login"}
+      <button
+        onClick={Tocheckout}
         className="rounded-[10px] bg-black px-10 py-2 text-[17px] font-[500] text-white active:bg-pmGray"
       >
         Continue to Checkout
-      </Link>
+      </button>
       <span className="h-[5px] w-[135px] rounded-full bg-black"></span>
     </div>
   );

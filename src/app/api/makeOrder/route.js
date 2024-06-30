@@ -34,6 +34,7 @@ export async function POST(req) {
         Address: body.Address,
         payType: body.payType,
         method: body.method,
+        chekoutFiles: body.chekoutFiles,
         productMaterial: it.material,
         productInstruction: it.instruction,
         productSizes: it.sizes,

@@ -21,6 +21,7 @@ import BasicDateCalendar from "@/components/Calender";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import notificationCaller from "@/components/NotificationCaller";
+import { Upload } from "../hokrex-shadow-eye-admin-56789/addproduct/page";
 
 function page() {
   const [pages, setpages] = useState(0);
@@ -62,6 +63,10 @@ function page() {
       if (pages === 2) {
         setloading(true);
         setdialog(true);
+        const fileUrl =
+          fileRef.current.files.length > 0
+            ? await Upload(fileRef.current.files[0])
+            : "";
         sTl && storeTolocalStorage();
         const order = {
           email: email.current.value,
@@ -82,6 +87,10 @@ function page() {
             cardNumber: document.querySelector("#car-num").value,
             expiryDate: expiryDate,
           },
+          chekoutFiles: [
+            fileUrl,
+            document.querySelector("#file-url-inp").value,
+          ],
         };
         const res = await makeOrder(order);
         notificationCaller(res.success, res.msg || "Some error Occured", toast);
@@ -110,7 +119,11 @@ function page() {
     localStorage.setItem("check-out-temp-data", JSON.stringify(data));
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    valuesAdder();
+  }, []);
+
+  const valuesAdder = async () => {
     const data = JSON.parse(localStorage.getItem("check-out-temp-data"));
     if (data) {
       document.querySelector("#emal-chek").value = data.email;
@@ -138,7 +151,7 @@ function page() {
       document.querySelector("#city-ceck").value = data.city;
       document.querySelector("#zip-check").value = data.zipcode;
     }
-  }, []);
+  };
 
   return (
     <div className="relative min-h-screen w-full">
@@ -429,6 +442,7 @@ const Page1 = ({
               type="text"
               placeholder="File Link (optional)"
               className="checkoutInput"
+              id="file-url-inp"
             />
             <div className="flex-center mt-1 justify-start gap-3 ">
               <input
@@ -446,7 +460,10 @@ const Page1 = ({
               />
               <button
                 className="cs-in-1"
-                onClick={() => fileRef.current.click()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  fileRef.current.click();
+                }}
               >
                 Choose File
               </button>

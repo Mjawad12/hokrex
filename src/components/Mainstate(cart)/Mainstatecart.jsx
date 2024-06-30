@@ -57,6 +57,20 @@ const reducer = (state, action) => {
         price: state.price,
       };
     }
+    case "fileAdder": {
+      let tempItems = state.items;
+      state.items.forEach((it, index) => {
+        if (it.id === action.id) {
+          tempItems[index].files = [...tempItems[index].files, ...action.files];
+        }
+      });
+      changeitems(tempItems);
+      return {
+        items: tempItems,
+        total: state.total,
+        price: state.price,
+      };
+    }
   }
 };
 

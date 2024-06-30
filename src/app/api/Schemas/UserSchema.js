@@ -39,6 +39,7 @@ const Schema = new mongoose.Schema({
       },
       productSizes: Array,
       orderDate: String,
+      chekoutFiles: Array,
     },
   },
   Date: {
