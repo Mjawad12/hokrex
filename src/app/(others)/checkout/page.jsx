@@ -22,6 +22,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import notificationCaller from "@/components/NotificationCaller";
 import { Upload } from "../hokrex-shadow-eye-admin-56789/addproduct/page";
+import { useGoogleLogin } from "@react-oauth/google";
 
 function page() {
   const [pages, setpages] = useState(0);
@@ -329,9 +330,36 @@ const Page1 = ({
       true;
   }, []);
 
+  const log = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      try {
+        const data = await fetch(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            method: "Get",
+            headers: {
+              Authorization: `Bearer ${codeResponse.access_token}`,
+            },
+          },
+        );
+        const parsedData = await data.json();
+        document.querySelector("#emal-chek").value = parsedData.email;
+        document.querySelector("#full-name").value = parsedData.name;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
   return (
     <>
-      <button className="flex-center w-full rounded-lg border border-[#E5E5E5] py-3 ">
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          log();
+        }}
+        className="flex-center w-full rounded-lg border border-[#E5E5E5] py-3 "
+      >
         {google}
         <p className="text-[18px] font-[400]">Continue with google</p>
       </button>
