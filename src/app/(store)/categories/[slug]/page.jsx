@@ -39,6 +39,10 @@ function page(slug) {
     if (categoryProducts) {
       setPageState((e) => e + 1);
       smGrid ? setshowingItems((e) => e + 12) : setshowingItems((e) => e + 9);
+      setproducts([]);
+      setTimeout(() => {
+        setproducts([...categoryProducts]);
+      }, 10);
     }
   };
 
@@ -46,6 +50,10 @@ function page(slug) {
     if (PageState !== 1 && categoryProducts) {
       setPageState((e) => e - 1);
       smGrid ? setshowingItems((e) => e - 12) : setshowingItems((e) => e - 9);
+      setproducts([]);
+      setTimeout(() => {
+        setproducts([...categoryProducts]);
+      }, 10);
     }
   };
   const notificationCall = (result, message) => {

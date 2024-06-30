@@ -87,7 +87,7 @@ function page() {
             cardNumber: document.querySelector("#car-num").value,
             expiryDate: expiryDate,
           },
-          chekoutFiles: [
+          checkoutFiles: [
             fileUrl,
             document.querySelector("#file-url-inp").value,
           ],

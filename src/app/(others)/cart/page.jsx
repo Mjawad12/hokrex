@@ -24,24 +24,28 @@ export default function page() {
   }, [givenfiles]);
 
   const Tocheckout = async () => {
-    if (givenfiles.length < 1) {
-      router.push("/checkout");
+    if (!authToken) {
+      router.push("/");
     } else {
-      let i = 0;
-      for (let key in givenfiles) {
-        let urlArray = await uploadFiles(givenfiles[key]);
-        urlArray = [
-          ...urlArray,
-          document.querySelector(`#file-link-${i}`).value || "",
-        ];
-        dispatch({
-          type: "fileAdder",
-          files: urlArray,
-          id: key,
-        });
-        i++;
+      if (givenfiles.length < 1) {
+        router.push("/checkout");
+      } else {
+        let i = 0;
+        for (let key in givenfiles) {
+          let urlArray = await uploadFiles(givenfiles[key]);
+          urlArray = [
+            ...urlArray,
+            document.querySelector(`#file-link-${i}`).value || "",
+          ];
+          dispatch({
+            type: "fileAdder",
+            files: urlArray,
+            id: key,
+          });
+          i++;
+        }
+        router.push("/checkout");
       }
-      router.push("/checkout");
     }
   };
 
