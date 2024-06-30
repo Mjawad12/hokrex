@@ -42,7 +42,7 @@ export default function page() {
           dispatch({
             type: "fileAdder",
             files: urlArray,
-            index: i,
+            index: key,
           });
           i++;
         }
@@ -473,13 +473,13 @@ const CartItem = ({
                       tempFiles = [...tempFiles, e.target.files[i]];
                     }
                     setgivenfiles((prev) => {
-                      if (prev[id]) {
+                      if (prev[index]) {
                         return {
                           ...prev,
-                          [id]: [...prev[id], ...tempFiles],
+                          [index]: [...prev[index], ...tempFiles],
                         };
                       } else {
-                        return { ...prev, [id]: [...tempFiles] };
+                        return { ...prev, [index]: [...tempFiles] };
                       }
                     });
                   }
@@ -508,7 +508,7 @@ const CartItem = ({
                   </p>
                 )}
                 {givenfiles &&
-                  givenfiles[id]?.map((it) => (
+                  givenfiles[index]?.map((it) => (
                     <span key={index} className="text-[14px] font-[500]">
                       {it.name.slice(it.name.lastIndexOf("/") + 1)}
                     </span>

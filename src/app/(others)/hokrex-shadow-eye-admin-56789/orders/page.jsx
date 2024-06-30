@@ -413,15 +413,30 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
             <div className="flex flex-col gap-2">
               <span className="text-[16px] font-[700]">Files :</span>
               <div className="flex-center w-full flex-col">
-                {order.orderFiles.map((it) => (
-                  <Image
-                    src={it}
-                    width={500}
-                    height={500}
-                    alt="orders"
-                    className="h-auto w-[600px]"
-                  />
-                ))}
+                {order.orderFiles.map(
+                  (it) =>
+                    it.includes("/") && (
+                      <Image
+                        src={it}
+                        width={500}
+                        height={500}
+                        alt="orders"
+                        className="h-auto w-[600px]"
+                      />
+                    ),
+                )}
+                <div className="flex w-full flex-col gap-0">
+                  <span className="mb-0.5">Files Links</span>
+                  {order.orderFiles?.map((it) => (
+                    <Link
+                      href={it}
+                      className="text-[16px] font-[600]"
+                      target="_blank"
+                    >
+                      {it}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
             <div className="flex flex-col gap-2">
@@ -439,8 +454,8 @@ const OrderDialog = ({ setshow, order, EditOrder, setorders }) => {
                       />
                     ),
                 )}
-                <div className="flex w-full flex-col gap-2">
-                  <span>Checkout Links</span>
+                <div className="flex w-full flex-col gap-0">
+                  <span className="mb-0.5">Checkout Links</span>
                   {order.checkoutFiles?.map((it) => (
                     <Link
                       href={it}
