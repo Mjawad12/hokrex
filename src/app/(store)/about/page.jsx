@@ -168,7 +168,7 @@ const About = ({
           if (!fir_AnimState) {
             window.scrollTo(0, 20);
             setfir_AnimState(true);
-            window.scrollTo(0, window.scrollY + 200);
+            window.scrollTo(0, window.scrollY + 250);
             setprevAnim(window.scrollY);
           } else {
             window.scrollTo(0, prevAnim);
