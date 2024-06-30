@@ -17,7 +17,7 @@ export default function page() {
     useContext(ContextCart);
   const { authToken } = useContext(ContextStore);
   const [totalPrice, settotalPrice] = useState(0);
-  const [givenfiles, setgivenfiles] = useState({});
+  const [givenfiles, setgivenfiles] = useState(null);
 
   const router = useRouter();
   useEffect(() => {
@@ -28,8 +28,16 @@ export default function page() {
     if (!authToken) {
       router.push("/login");
     } else {
-      SaveSizes();
-      if (givenfiles.length < 1) {
+      if (!givenfiles) {
+        SaveSizes();
+        cartState.items.forEach((it, index) => {
+          document.querySelector(`#file-link-${index}`).value &&
+            dispatch({
+              type: "fileAdder",
+              files: [document.querySelector(`#file-link-${index}`).value],
+              index: index,
+            });
+        });
         router.push("/checkout");
       } else {
         let i = 0;
@@ -473,7 +481,7 @@ const CartItem = ({
                       tempFiles = [...tempFiles, e.target.files[i]];
                     }
                     setgivenfiles((prev) => {
-                      if (prev[index]) {
+                      if (prev && prev[index]) {
                         return {
                           ...prev,
                           [index]: [...prev[index], ...tempFiles],

@@ -1060,7 +1060,7 @@ const CardLoading = ({ submitted, setdialog, loading, Submit }) => {
         style={{ boxShadow: "0px 2px 12.7px 0px #0000001A" }}
       >
         <Cross
-          clickFunc={() => (lastCard ? router.push("/") : setdialog(loading))}
+          clickFunc={() => (submitted ? router.push("/") : setdialog(loading))}
         />
         {loading ? (
           <div className="flex-center flex-col">
