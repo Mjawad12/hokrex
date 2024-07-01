@@ -362,7 +362,7 @@ const TopBTNs = ({ hidden, product }) => {
   );
 };
 
-export { TopBTNs, MobBar };
+export { TopBTNs, MobBar, CustomButton };
 
 const MobBar = ({ product }) => {
   const router = useRouter();

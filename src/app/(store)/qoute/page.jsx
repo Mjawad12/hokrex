@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import notificationCaller from "@/components/NotificationCaller";
 import { Upload } from "@/app/(others)/hokrex-shadow-eye-admin-56789/addproduct/page";
+import { useRouter } from "next/navigation";
 function page() {
   const fileRef = useRef(null);
   const icons = [
@@ -93,6 +94,7 @@ function page() {
   const [file, setfile] = useState(null);
   const formRef = useRef();
   const [loading, setloading] = useState(false);
+  const router = useRouter();
 
   const Submit = async (e) => {
     setloading(true);
@@ -124,6 +126,7 @@ function page() {
         );
         const res = await data.json();
         notificationCaller(res.success, res.msg, toast);
+        res.success && router.push("/");
       }
     }
     setloading(false);

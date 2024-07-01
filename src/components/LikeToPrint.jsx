@@ -3,18 +3,22 @@ import { errorIcon } from "@/Consonats";
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 
-function LikeToPrint({ sizes, amount, setamount, error, seterror }) {
+function LikeToPrint({ sizes, amount, setamount, error, seterror, tool }) {
   return (
     <>
       <div className="flex flex-col gap-3">
-        <p className="text-[22px] font-[700]">Sizes</p>
+        <p className={`text-[22px] font-[700] ${tool ? "text-[#BDC7D1]" : ""}`}>
+          Sizes
+        </p>
         <div className="flex w-full flex-wrap gap-2 gap-y-3">
           {sizes?.map((it, index) => (
             <div
-              className="flex-center overflow-hidden rounded-[12px] border border-borderP"
+              className={`flex-center overflow-hidden rounded-[12px] border border-borderP ${tool ? "!border-[#3F4A57]" : ""}`}
               key={index}
             >
-              <p className="border-r border-borderP px-3 py-2 font-[700]">
+              <p
+                className={`border-r border-borderP ${tool ? "!border-[#3F4A57] !font-[600] text-[#BDC7D1]" : ""} px-3 py-2 font-[700]`}
+              >
                 {it}
               </p>
               <input

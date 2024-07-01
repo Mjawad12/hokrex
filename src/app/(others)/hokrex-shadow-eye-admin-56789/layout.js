@@ -6,7 +6,7 @@ import MainAdmin from "@/components/Admin/Main";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Hokrex - Admin panel",
+  title: "PrintODS - Admin panel",
   description: "An intractive admin panel to change manage e-commerce website.",
 };
 

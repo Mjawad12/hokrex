@@ -5,7 +5,7 @@ import Mainstatestore from "@/components/Mainstate(store)/Mainstatestore";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
-  title: "Hokrex - Your Shopping Cart",
+  title: "PrintODS - Your Shopping Cart",
   description:
     "Review and manage the items in your shopping cart. Adjust quantities, remove items, and proceed to checkout seamlessly.",
 };

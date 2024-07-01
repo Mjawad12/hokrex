@@ -7,7 +7,6 @@ import ModelViewer from "@/components/Tool/ModelViewer";
 import RightBarEditing from "@/components/Tool/RightBarEditing";
 import SidebarTool from "@/components/Tool/SidebarTool";
 import {
-  AdaptiveDpr,
   Environment,
   OrbitControls,
   PerformanceMonitor,
@@ -15,7 +14,7 @@ import {
 } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { AnimatePresence } from "framer-motion";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 function page() {
   const { selectedObject, selected, setselected } = useContext(ContextTool);
@@ -33,7 +32,7 @@ function page() {
           className="absolute top-0 min-h-screen w-full bg-canvasColor "
         >
           <Canvas
-            // shadows
+            shadows
             camera={{ position: [0, 0, 1.95], fov: 32 }}
             className="main-canvas"
             frameloop="demand"
@@ -50,19 +49,18 @@ function page() {
               minDistance={0.7}
             />
             <PerformanceMonitor
-              onIncline={() => setDpr(2)}
-              onDecline={() => setDpr(1.2)}
+              onIncline={() => setDpr(1.5)}
+              onDecline={() => setDpr(1.4)}
             />
             <Preload all />
             <Environment preset="city" />
             <ModelViewer />
-            {/* <AdaptiveDpr pixelated /> */}
           </Canvas>
         </div>
 
         <div
           style={{ width: "calc(5.1rem + 280px)" }}
-          className="absolute left-0 top-[3.05rem] z-20 flex min-h-screen small:hidden "
+          className="absolute left-0 top-[3.05rem] z-20 flex min-h-screen "
         >
           <div className="z-[1] flex min-h-screen w-full max-w-[5.1rem] flex-col items-center justify-start gap-3 border-r border-darkLight bg-darkMid px-[0.8rem] py-3 ">
             {prods.map((it, index) => (
@@ -120,7 +118,7 @@ function page() {
 
         <Controls />
       </div>
-      <div className="fabricContainer">
+      <div className="fabricContainer small:hidden">
         <canvas
           className="absolute top-0 z-50 !h-[900px] !w-[900px]"
           id="can-text"

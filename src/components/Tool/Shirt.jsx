@@ -10,7 +10,7 @@ export function Shirt(props) {
   const { canvas, canvasOffset, texture, settexture, selectedObject } =
     useContext(ContextTool);
   const shirtRef = useRef(false);
-  const { nodes, materials } = useGLTF("/Shirt2.glb");
+  const { nodes, materials } = useGLTF("/currentTest.glb");
   const { camera, scene } = useThree();
 
   useFrame(() => {
@@ -131,11 +131,10 @@ export function Shirt(props) {
       <group name="Scene">
         <group name="model1" rotation={[Math.PI / 2, 0, 0]}>
           <mesh
-            name="model1_1"
-            // castShadow
-            // receiveShadow
-            geometry={nodes.OBJ_1.geometry}
-            material={materials.Self_mesh_FRONT_2709}
+            castShadow
+            receiveShadow
+            geometry={nodes.model1_1.geometry}
+            material={materials.collar_FRONT_3447}
           >
             {texture && (
               <meshStandardMaterial
@@ -154,11 +153,10 @@ export function Shirt(props) {
             )}
           </mesh>
           <mesh
-            name="model1_2"
-            // castShadow
-            // receiveShadow
-            geometry={nodes.OBJ_2.geometry}
-            material={materials.Self_mesh_Copy_1_FRONT_2720}
+            castShadow
+            receiveShadow
+            geometry={nodes.model1_2.geometry}
+            material={materials.fab1_FRONT_19607}
           >
             {texture && (
               <meshStandardMaterial
@@ -178,34 +176,10 @@ export function Shirt(props) {
             )}
           </mesh>
           <mesh
-            name="model1_3"
-            // castShadow
-            // receiveShadow
-            geometry={nodes.OBJ_3.geometry}
-            material={materials.Material3047}
-          >
-            {texture && (
-              <meshStandardMaterial
-                transparent
-                polygonOffset
-                polygonOffsetFactor={-1}
-                map={texture}
-                map-flipY={false}
-                map-anisotropy={16}
-                iridescence={1}
-                iridescenceIOR={1}
-                iridescenceThicknessRange={[0, 1400]}
-                roughness={1}
-                clearcoat={0.5}
-              ></meshStandardMaterial>
-            )}
-          </mesh>
-          <mesh
-            name="model1_3"
-            // castShadow
-            // receiveShadow
-            geometry={nodes.OBJ_4.geometry}
-            material={materials.Material2912}
+            castShadow
+            receiveShadow
+            geometry={nodes.model1_3.geometry}
+            material={materials.fab1_BACK_19607}
           >
             {texture && (
               <meshStandardMaterial
@@ -229,6 +203,6 @@ export function Shirt(props) {
   );
 }
 
-useGLTF.preload("/Shirt2.glb");
+useGLTF.preload("/currentTest.glb");
 
 export default Shirt;
