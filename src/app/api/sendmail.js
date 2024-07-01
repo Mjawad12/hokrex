@@ -74,8 +74,55 @@ const sendContactMedia = async (firName, lastName, email, message, phone) => {
   }
 };
 
+const sendQouteMedia = async (
+  firName,
+  lastName,
+  email,
+  message,
+  phone,
+  type,
+  skill,
+  Img,
+) => {
+  try {
+    const transport = await nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "hokrexofficial@gmail.com",
+        pass: "wvba xpiy drki nuup",
+      },
+    });
+
+    const mailoptions = {
+      from: "PrintODS 👕",
+      to: "kingbull13578@gmail.com",
+      subject: "PrintODS - Some one Contacted You for Qoute",
+      text: `Some one Contacted You`,
+      html: `<h1>PrintODS</h1>
+   <h4>Type : ${type},</h4>
+   <h4>Type : ${skill},</h4>
+   <h4>First Name : ${firName},</h4>
+   <h4>Last Name : ${lastName},</h4>
+   <h4>Phone : ${phone},</h4>
+   <h4>Email : ${email},</h4>
+   <h4>Message : ${message},</h4>
+   <img src=${Img} style="max-width:100%;height:max-content;" ></img>
+   <p>File Link : <a href="${Img}" target="_blank" >${Img}</a></p>
+   <p>Best regards. <p/>
+   <h5>PrintODS - Official</h5>
+   `,
+    };
+
+    const res = await transport.sendMail(mailoptions);
+    console.log(res);
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 module.exports = {
   SendMail: SendMail,
   Otpcreator: Otpcreator,
   sendContactMedia: sendContactMedia,
+  sendQouteMedia: sendQouteMedia,
 };

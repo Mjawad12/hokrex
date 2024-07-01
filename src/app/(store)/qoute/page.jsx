@@ -1,6 +1,11 @@
 "use client";
-import React, { useRef } from "react";
-
+import { arrowDown } from "@/Consonats";
+import React, { useRef, useState } from "react";
+import { FooterBlack } from "../contact/page";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import notificationCaller from "@/components/NotificationCaller";
+import { Upload } from "@/app/(others)/hokrex-shadow-eye-admin-56789/addproduct/page";
 function page() {
   const fileRef = useRef(null);
   const icons = [
@@ -82,10 +87,53 @@ function page() {
       />
     </svg>,
   ];
+
+  const [t1, sett1] = useState("Select");
+  const [t2, sett2] = useState("Logo Design");
+  const [file, setfile] = useState(null);
+  const formRef = useRef();
+  const [loading, setloading] = useState(false);
+
+  const Submit = async (e) => {
+    setloading(true);
+    if (formRef.current.checkValidity()) {
+      e.preventDefault();
+      if (t1 === "Select") {
+        notificationCaller(false, "Please select a type.", toast);
+        document.querySelector("#type-qo").style.borderColor = "#EA0000";
+      } else if (t2 === "Logo Design") {
+        notificationCaller(false, "Please select a type.", toast);
+        document.querySelector("#skill-qo").style.borderColor = "#EA0000";
+      } else {
+        const uploadedUrl = file ? await Upload(file) : "";
+        const data = await fetch(
+          `${process.env.NEXT_PUBLIC_URL}/api/QuoteEmail`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              firName: document.querySelector("#fir-nm").value,
+              lastName: document.querySelector("#lst-nm").value,
+              email: document.querySelector("#email-qo").value,
+              message: document.querySelector("#msg-qo").value,
+              phone: document.querySelector("#pass-qo").value,
+              type: t1,
+              skill: t2,
+              Img: uploadedUrl,
+            }),
+          },
+        );
+        const res = await data.json();
+        notificationCaller(res.success, res.msg, toast);
+      }
+    }
+    setloading(false);
+  };
+
   return (
     <>
-      <section className="w-full px-5">
-        <div className="flex-center m-auto min-h-[calc(100vh-73px)] w-full max-w-[1200px] gap-24 ">
+      <section className="relative w-full px-5">
+        <ToastContainer />
+        <div className="flex-center m-auto min-h-[calc(100vh-73px+40px)] w-full max-w-[1200px] gap-24 ">
           <div className="flex flex-1 flex-grow-[0.55] flex-col">
             <div
               style={{ "box-shadow": "2px 4px 25px 0px #0000000D" }}
@@ -94,20 +142,55 @@ function page() {
               <h2 className="text-[52px] font-[600] leading-[56px]">
                 Fill Form
               </h2>
-              <form action={"#"} className="flex flex-wrap gap-5 gap-y-5">
+              <form
+                action={"#"}
+                ref={formRef}
+                className="flex flex-wrap gap-5 gap-y-5"
+                id="quote-form"
+              >
+                <div className="flex w-full gap-5">
+                  <DropDown
+                    data={["logo", "pick"]}
+                    selectedOption={t1}
+                    setselectedOption={sett1}
+                    id={"type-qo"}
+                  />
+                  <DropDown
+                    data={["logo", "pick"]}
+                    selectedOption={t2}
+                    setselectedOption={sett2}
+                    id={"skill-qo"}
+                  />
+                </div>
                 <CustomInput
                   type="text"
-                  required={true}
                   placeholder="First Name"
+                  id={"fir-nm"}
                 />
-                <CustomInput type="" required={true} placeholder="Last Name" />
-                <CustomInput type="text" required={true} placeholder="Email" />
-                <CustomInput type="text" required={true} placeholder="Phone" />
+                <CustomInput
+                  type="text"
+                  placeholder="Last Name"
+                  id={"lst-nm"}
+                />
+                <CustomInput type="text" placeholder="Email" id={"email-qo"} />
+                <CustomInput
+                  type="number"
+                  placeholder="Phone"
+                  id={"pass-qo"}
+                  keyDownFunc={(e) => {
+                    if (e.key !== "Backspace" && e.target.value.length > 20) {
+                      e.preventDefault();
+                    }
+                  }}
+                />
                 <textarea
                   className="flex w-full  resize-none gap-1.5 border-b border-[#E5E5E5] py-2  text-[16px] outline-none hover:border-black focus:border-black "
                   placeholder="Message"
                   rows={3}
                   cols={5}
+                  id="msg-qo"
+                  maxLength={200}
+                  minLength={30}
                 />
               </form>
               <div className="flex flex-col gap-2">
@@ -118,10 +201,10 @@ function page() {
                     accept="image/*"
                     className="hidden"
                     onInput={(e) => {
-                      console.log(e.target.files);
                       if (e.target.files.length > 0) {
                         e.target.nextElementSibling.nextElementSibling.innerText =
                           e.target.files[0].name;
+                        setfile(e.target.files[0]);
                       }
                     }}
                   />
@@ -142,7 +225,7 @@ function page() {
                   </p>
                 </div>
                 <p className="text-[12px] font-[500]">
-                  If The File Is Larger Than 256mb, Please Provide A Dropbox.
+                  If The File Is Larger Than 1mb, Please Provide A Dropbox.
                 </p>
               </div>
             </div>
@@ -166,9 +249,17 @@ function page() {
               ))}
             </div>
             <hr className="my-2.5 h-[5px] w-[95px] bg-pmRed" />
-            <button className="btn-Primary mt-1 px-8 ">Submit Qoute</button>
+            <button
+              form="quote-form"
+              className="btn-Primary mt-1 px-8 hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:bg-gray-300"
+              onClick={Submit}
+              disabled={loading}
+            >
+              Submit Qoute
+            </button>
           </div>
         </div>
+        <FooterBlack slideLast={true} />
       </section>
     </>
   );
@@ -176,40 +267,38 @@ function page() {
 
 export default page;
 
-const DropDown = ({
-  data,
-  selectedOption,
-  setselectedOption,
-  overflow,
-  city,
-}) => {
+const DropDown = ({ data, selectedOption, setselectedOption, id }) => {
   const [show, setshow] = useState(false);
 
   const changeSelected = (e) => {
     setselectedOption(e.target.innerText);
+    document.querySelector("#" + id).style.borderColor = "#E5E5E5";
   };
   return (
     <div
       onClick={() => setshow(!show)}
-      className="relative flex h-[2.9rem] w-full cursor-pointer items-center justify-between rounded-lg border border-darkLight px-4 transition duration-[100ms] hover:shadow-xl [&_svg]:stroke-textLight"
+      id={id}
+      className="relative flex h-[2.5rem] w-full cursor-pointer items-center justify-between border-b border-[#E5E5E5] px-1 transition duration-[100ms] hover:border-black [&_svg]:w-[12px] [&_svg]:stroke-black "
     >
-      <p className="text-[14px] font-[600] text-textLight">{selectedOption}</p>
-      {arrowDown}
+      <p className="text-[16px] font-[400] text-[#707070]">{selectedOption}</p>
+      <span
+        className={`${show ? "rotate-[180deg]" : "rotate-0"} transition-all duration-300`}
+      >
+        {arrowDown}
+      </span>
       <div
         className={`absolute ${
           show ? "flex" : "hidden"
-        }  left-0 top-[45px] z-20 flex min-h-[15rem] w-full flex-col items-start justify-start  rounded-md bg-darkLight  ${
-          overflow ? "overflow-y-scroll" : ""
-        }`}
+        }  left-0 top-[45px] z-20 flex h-max w-full select-none flex-col items-start justify-start rounded-md border bg-white`}
       >
         {data.map((it, index) => (
           <span
             key={index}
             onClick={changeSelected}
-            className="flex h-8 w-full cursor-pointer items-center justify-start px-5 py-2 text-gray-400 hover:bg-gray-200 "
+            className="flex h-8 w-full cursor-pointer items-center justify-start px-5 py-2 hover:bg-gray-200"
             value={it}
           >
-            {city === "Karachi" ? it.name : it}
+            {it}
           </span>
         ))}
       </div>
@@ -217,12 +306,15 @@ const DropDown = ({
   );
 };
 
-const CustomInput = ({ type, placeholder, required }) => {
+const CustomInput = ({ type, placeholder, id, keyDownFunc }) => {
   return (
     <input
       type={type}
       required={true}
       placeholder={placeholder}
+      id={id}
+      maxLength={30}
+      onKeyDown={(e) => keyDownFunc && keyDownFunc(e)}
       className="flex flex-1 flex-grow-[0.5] gap-1.5 border-b border-[#E5E5E5] py-2 text-[16px] outline-none hover:border-black focus:border-black"
     />
   );
