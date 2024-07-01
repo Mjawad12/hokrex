@@ -85,6 +85,22 @@ const reducer = (state, action) => {
         price: state.price,
       };
     }
+    case "fileRemover": {
+      let tempItems = state.items;
+      state.items.forEach((it, index) => {
+        if (+index === +action.index) {
+          let tempfiles = tempItems[index].files;
+          tempfiles.splice(action.fileIndex, 1);
+          tempItems[index].files = tempfiles;
+        }
+      });
+      changeitems(tempItems);
+      return {
+        items: tempItems,
+        total: state.total,
+        price: state.price,
+      };
+    }
   }
 };
 

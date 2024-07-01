@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { calender, cart, cross } from "@/Consonats";
+import { calender, cart, cross, redCross } from "@/Consonats";
 import Link from "next/link";
 import { ContextCart } from "@/components/Mainstate(cart)/Mainstatecart";
 import { AnimatePresence, motion } from "framer-motion";
@@ -24,21 +24,23 @@ export default function page() {
     console.log(givenfiles);
   }, [givenfiles]);
 
-  const Tocheckout = async () => {
+  const Tocheckout = async (e) => {
     if (!authToken) {
       router.push("/login");
     } else {
+      e.target.disabled = true;
       if (!givenfiles) {
         SaveSizes();
         cartState.items.forEach((it, index) => {
-          document.querySelector(`#file-link-${index}`).value &&
+          it.files.length < 10 &&
+            document.querySelector(`#file-link-${index}`).value &&
             dispatch({
               type: "fileAdder",
               files: [document.querySelector(`#file-link-${index}`).value],
               index: index,
             });
         });
-        router.push("/checkout");
+        // router.push("/checkout");
       } else {
         let i = 0;
         for (let key in givenfiles) {
@@ -56,6 +58,7 @@ export default function page() {
         }
         router.push("/checkout");
       }
+      e.target.disabled = false;
     }
   };
 
@@ -132,6 +135,7 @@ export default function page() {
                     customized={it.customized}
                     setgivenfiles={setgivenfiles}
                     givenfiles={givenfiles}
+                    dispatch={dispatch}
                   />
                 ))}
               </div>
@@ -252,6 +256,7 @@ const CartItem = ({
   customized,
   setgivenfiles,
   givenfiles,
+  dispatch,
 }) => {
   const fileRef = useRef(null);
   const nfs = useRef(null);
@@ -465,9 +470,12 @@ const CartItem = ({
                 className="hidden"
                 multiple
                 onInput={(e) => {
+                  console.log(
+                    document.querySelectorAll(`#fil-sp-${index}>span`),
+                  );
                   if (
                     e.target.files.length > 0 &&
-                    document.querySelectorAll(`#fil-sp-${index} span`).length <
+                    document.querySelectorAll(`#fil-sp-${index}>span`).length <
                       10
                   ) {
                     let tempFiles = [];
@@ -501,9 +509,25 @@ const CartItem = ({
               </button>
               <div id={`fil-sp-${index}`} className="flex flex-col">
                 {files.length > 0 ? (
-                  files.map((it, index) => (
-                    <span key={index} className="text-[14px] font-[500]">
-                      {it.slice(it.lastIndexOf("/") + 1)}
+                  files.map((it, ind) => (
+                    <span
+                      key={ind}
+                      className="relative text-[14px] font-[500] [&_#crs-del]:hover:flex"
+                    >
+                      <span
+                        id="crs-del"
+                        className="absolute -right-4 -top-1 hidden h-4 w-4 cursor-pointer items-center justify-center [&_svg]:overflow-visible"
+                        onClick={() => {
+                          dispatch({
+                            type: "fileRemover",
+                            index: index,
+                            fileIndex: ind,
+                          });
+                        }}
+                      >
+                        {redCross}
+                      </span>
+                      {it.slice(it.lastIndexOf("/") + 1, 30)}
                     </span>
                   ))
                 ) : (
@@ -516,9 +540,28 @@ const CartItem = ({
                   </p>
                 )}
                 {givenfiles &&
-                  givenfiles[index]?.map((it) => (
-                    <span key={index} className="text-[14px] font-[500]">
-                      {it.name.slice(it.name.lastIndexOf("/") + 1)}
+                  givenfiles[index]?.map((it, ind) => (
+                    <span
+                      key={index}
+                      className="relative w-max text-[14px] font-[500] [&_#crs-del]:hover:flex"
+                    >
+                      <span
+                        id="crs-del"
+                        onClick={() => {
+                          setgivenfiles((e) => {
+                            let tempProd = e[index];
+                            tempProd.splice(ind, 1);
+                            return {
+                              ...e,
+                              [index]: tempProd,
+                            };
+                          });
+                        }}
+                        className="absolute -right-4 -top-1 hidden h-4 w-4 cursor-pointer items-center justify-center [&_svg]:overflow-visible"
+                      >
+                        {redCross}
+                      </span>
+                      {it.name.slice(it.name.lastIndexOf("/") + 1, 30)}
                     </span>
                   ))}
               </div>
