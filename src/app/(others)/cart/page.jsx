@@ -40,7 +40,7 @@ export default function page() {
               index: index,
             });
         });
-        // router.push("/checkout");
+        router.push("/checkout");
       } else {
         let i = 0;
         for (let key in givenfiles) {
